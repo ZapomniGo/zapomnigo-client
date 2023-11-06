@@ -1,1 +1,1 @@
-web: npm i && npm run preview
+web:  npm i && npm run serve-heroku
