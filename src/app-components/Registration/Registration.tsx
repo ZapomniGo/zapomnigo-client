@@ -1,175 +1,209 @@
-import { useState } from "react";
-import { useFormik } from "formik";
-import { UserData } from "./types";
-import { initialFormValues, validationSchema } from "./utils";
+import { useEffect, useState } from "react";
+
+type UserData = {
+  name: string;
+  username: string;
+  password: string;
+  repeatPassword: string;
+  organisation: string;
+  gender: string;
+  age: number;
+  email: string;
+};
 
 export const Registration = () => {
-  const [screenIndex, setScreenIndex] = useState<number>(0);
-  const [isCurrentScreenValid, setIsCurrentScreenValid] =
-    useState<boolean>(false);
-
-  const formik = useFormik<UserData>({
-    initialValues: initialFormValues,
-    validationSchema: validationSchema,
-    validateOnMount: true,
-    onSubmit: (values) => {
-      if (screenIndex < 2) {
-        setScreenIndex(screenIndex + 1);
-        setIsCurrentScreenValid(false);
-      } else {
-        // Handle form submission
-        console.log("Form submitted:", values);
-      }
-    },
+  const [screenIndex, setScreenIndex] = useState<number>(1);
+  const [errors, setErrors] = useState({
+    name: false,
+    username: false,
+    password: false,
+    repeatPassword: false,
+    organisation: false,
+    gender: false,
+    age: false,
+    email: false,
+  });
+  const [userData, setUserData] = useState<UserData>({
+    name: "",
+    username: "",
+    password: "",
+    repeatPassword: "",
+    organisation: "",
+    gender: "",
+    age: "",
+    email: "",
   });
 
-  const nextButtonClick = () => {
-    if (screenIndex < 2) {
-      const isSectionValid = formik.validateForm().then((errors) => {
-        setIsCurrentScreenValid(Object.keys(errors).length === 0);
-        return Object.keys(errors).length === 0;
-      });
+  const formHandler = (event: { target: HTMLFormElement | undefined; preventDefault: () => void; }) => {
+    console.log(event.target.value)
+    event.preventDefault();
+   setUserData((prev) => ({
+    ...prev,
+    [event.target.name]: event.target.value,
+  }));
 
-      isSectionValid.then((isValid) => {
-        if (isValid) {
-          setScreenIndex(screenIndex + 1);
-          setIsCurrentScreenValid(true);
-        }
-      });
+    console.log(userData);
+  };
+
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
+  const validateData = (data: UserData) => {};
+  const nextScreen = () => {
+    let newErrors = { ...errors }
+    let errorsExist = false
+    
+    if (screenIndex === 1) {
+      if (userData.name.length < 2 || userData.name.length > 40) {
+        newErrors.name =  "The name field should be 2-40 characters long";
+        errorsExist = true;
+      } else {
+        newErrors.name = false;
+      }
+      
+      if (userData.age < 5 || userData.age > 99) {
+        newErrors.age = "The age field should be 5-99";
+        errorsExist = true;
+      } else {
+        newErrors.age = false;
+      }
     }
+  
+    if (screenIndex === 2) {
+      if (userData.username.length < 2 || userData.username.length > 40) {
+        newErrors.username = "The username field should be 2-40 characters long";
+        errorsExist = true;
+      } else {
+        newErrors.username = false;
+      }
+      
+      if (userData.password.length < 8 || userData.password.length > 40) {
+        newErrors.password = "The password field should be 8-40 characters long";
+        errorsExist = true;
+      } else {
+        newErrors.password = false;
+      }
+  
+      if (userData.password !== userData.repeatPassword) {
+        newErrors.repeatPassword = "The passwords don't match";
+        errorsExist = true;
+      } else {
+        newErrors.repeatPassword = false;
+      }
+      if (userData.email.length < 2 || userData.email.length > 40 || !validateEmail(userData.email))  {
+        newErrors.email = "The email field should be 2-40 characters long";
+        errorsExist = true;
+      } else {
+        newErrors.email = false;
+      }
+      
+    }
+  
+    if (screenIndex === 3) {
+      if (userData.organisation.length < 2 || userData.organisation.length > 40) {
+        newErrors.organisation = "The organisation field should be 2-40 characters long";
+        errorsExist = true;
+      } else {
+        newErrors.organisation = false;
+      }
+    }
+    
+    setErrors(newErrors);
+    
+    if (!errorsExist) {
+      setScreenIndex((prev) => prev + 1);
+    }
+  }
+  const prevScreen = () => {
+    setScreenIndex((prev) => prev - 1);
   };
 
   return (
     <>
-      <form onSubmit={formik.handleSubmit}>
-        {screenIndex === 0 ? (
+      <form onClick={e=>e.preventDefault()} onChange={formHandler} >
+        {screenIndex == 1 ? (
           <section>
-            <h2>Panel 1: Personal Information</h2>
             <input
               type="text"
               name="name"
               placeholder="Name"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.name}
+              minLength={2}
+              maxLength={40}
+              value={userData.name}
             />
-            {formik.touched.name && formik.errors.name && (
-              <p className="error">{formik.errors.name}</p>
-            )}
+            <p>{errors.name ? errors.name : ""}</p>
             <input
               type="number"
               name="age"
+              min={5}
+              max={99}
               placeholder="Age"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.age}
+              value={userData.age}
             />
-            {formik.touched.age && formik.errors.age && (
-              <p className="error">{formik.errors.age}</p>
-            )}
-            <select
-              name="gender"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.gender}
-            >
-              <option value="" disabled>
-                Select Gender
-              </option>
-              <option value="M">Male</option>
-              <option value="F">Female</option>
-              <option value="O">Prefer not to say</option>
+            <p>{errors.age ? errors.age : ""}</p>
+            <select defaultValue={userData.gender} name="gender">
+              <option value="" disabled />
+              <option value={"M"}>Male</option>
+              <option value={"F"}>Female</option>
+              <option value={"O"}>Prefer not to say</option>
             </select>
           </section>
-        ) : screenIndex === 1 ? (
+        ) : (
+          ""
+        )}
+        {screenIndex == 2 ? (
           <section>
-            <h2>Panel 2: Account Information</h2>
             <input
               type="text"
-              name="username"
               placeholder="Username"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.username}
+              name="username"
+              minLength={2}
+              maxLength={40}
+              value={userData.username}
             />
-            {formik.touched.username && formik.errors.username && (
-              <p className="error">{formik.errors.username}</p>
-            )}
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-            />
-            {formik.touched.email && formik.errors.email && (
-              <p className="error">{formik.errors.email}</p>
-            )}
+            <p>{errors.username ? errors.username : ""}</p>
+            <input value={userData.email} type="email" placeholder="Email" name="email" />
+            <p>{errors.email ? errors.email : ""}</p>
             <input
               type="password"
-              name="password"
               placeholder="Password"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.password}
+              name="password"
+              minLength={8}
+              maxLength={40}
+              value={userData.password}
             />
-            {formik.touched.password && formik.errors.password && (
-              <p className="error">{formik.errors.password}</p>
-            )}
+            <p>{errors.password ? errors.password : ""}</p>
             <input
               type="password"
-              name="repeatPassword"
               placeholder="Repeat Password"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.repeatPassword}
+              name="repeatPassword"
+              minLength={8}
+              maxLength={40}
+              value={userData.repeatPassword}
             />
-            {formik.touched.repeatPassword && formik.errors.repeatPassword && (
-              <p className="error">{formik.errors.repeatPassword}</p>
-            )}
-          </section>
-        ) : screenIndex === 2 ? (
-          <section>
-            <h2>Panel 3: Additional Information</h2>
-            <input
-              type="text"
-              name="organisation"
-              placeholder="Organisation"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.organisation}
-            />
+            <p>{errors.repeatPassword ? errors.repeatPassword : ""}</p>
           </section>
         ) : (
-          <></>
+          ""
+        )}
+        {screenIndex == 3 ? (
+          <section>
+            <input type="text" name="organisation" placeholder="Organisation" value={userData.organisation}/>
+          </section>
+        ) : (
+          ""
         )}
         <div>
-          {screenIndex >= 0 ? (
-            <>
-              <button
-                onClick={() =>
-                  screenIndex > 0
-                    ? setScreenIndex(screenIndex - 1)
-                    : setScreenIndex(0)
-                }
-              >
-                Previous
-              </button>
-              {screenIndex !== 2 ? (
-                <button
-                  type="button"
-                  onClick={nextButtonClick}
-                  disabled={!isCurrentScreenValid}
-                >
-                  Next
-                </button>
-              ) : (
-                <input type="submit" value="Submit" />
-              )}
-            </>
+          <button onClick={prevScreen}>Previous</button>
+          {screenIndex !== 3 ? (
+            <button onClick={nextScreen}>Next</button>
           ) : (
-            ""
+            <input type="submit" value={"Submit"} />
           )}
         </div>
       </form>
