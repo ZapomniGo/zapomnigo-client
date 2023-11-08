@@ -124,8 +124,10 @@ export const Registration = () => {
   };
 
   return (
-    <>
+    <div id="background">
+    <div id="wrapper">
       <form onClick={e=>e.preventDefault()} onChange={formHandler} >
+    <center>  <h1>Registration</h1> </center>
         {screenIndex == 1 ? (
           <section>
             <input
@@ -198,7 +200,7 @@ export const Registration = () => {
         ) : (
           ""
         )}
-        <div>
+        <div id="buttonWrapper">
           <button onClick={prevScreen}>Previous</button>
           {screenIndex !== 3 ? (
             <button onClick={nextScreen}>Next</button>
@@ -207,6 +209,7 @@ export const Registration = () => {
           )}
         </div>
       </form>
-    </>
+    </div>
+    </div>
   );
 };
