@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Stepper } from 'react-form-stepper';
+
 
 type UserData = {
   name: string;
@@ -127,6 +129,10 @@ export const Registration = () => {
     <div id="background">
     <div id="wrapper">
       <form onClick={e=>e.preventDefault()} onChange={formHandler} >
+      <Stepper
+        steps={[{}, {}, {}]}
+        activeStep={screenIndex}
+      />
     <center>  <h1>Registration</h1> </center>
         {screenIndex == 1 ? (
           <section>
