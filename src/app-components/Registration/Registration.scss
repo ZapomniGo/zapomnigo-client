@@ -41,6 +41,11 @@
       }
     }
 
+    .error{
+      border: 2px solid red;
+
+    }
+
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
       -webkit-appearance: none;
@@ -65,10 +70,8 @@
       }
     }
 
-    select .disabled-option {
-      color: red; /* Change the color to a muted or gray tone */
-      font-style: italic; /* Make it italic, for example */
-      /* Add any other styles you want for disabled options */
+    .disabled {
+      color: gray; /* Add any styling for the disabled option */
     }
 
     #buttonWrapper button {

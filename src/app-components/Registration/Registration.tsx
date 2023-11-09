@@ -125,6 +125,13 @@ export const Registration = () => {
     setScreenIndex((prev) => prev - 1);
   };
 
+  const [selectedValue, setSelectedValue] = useState('');
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+
   return (
     <div id="background">
     <div id="wrapper">
@@ -143,6 +150,7 @@ export const Registration = () => {
               minLength={2}
               maxLength={40}
               value={userData.name}
+              className={errors.name ? "error" : ""}
             />
             <p>{errors.name ? errors.name : ""}</p>
             <input
@@ -152,14 +160,20 @@ export const Registration = () => {
               max={99}
               placeholder="Age"
               value={userData.age}
+              className={errors.name ? "error" : ""}
+
             />
             <p>{errors.age ? errors.age : ""}</p>
-            <select defaultValue={userData.gender} name="gender">
-              <option value="" disabled color="red"> Select Gender</option>
-              <option value={"M"}>Male</option>
-              <option value={"F"}>Female</option>
-              <option value={"O"}>Prefer not to say</option>
-            </select>
+            <select
+                value={selectedValue}
+                onChange={handleChange}
+                className={selectedValue === '' ? 'disabled' : ''}
+              >
+                <option value="" disabled>Select Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O">Prefer not to say</option>
+              </select>
           </section>
         ) : (
           ""
