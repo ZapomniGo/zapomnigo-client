@@ -3,6 +3,7 @@
   height: 100vh;
   background-color: #f1f1f1;
 }
+
 #wrapper {
   height: 100vh;
   width: 100vw;
@@ -25,9 +26,10 @@
         align-items: center;
       }
     }
+
     input {
       width: 100%;
-      height: 5vmax;
+      height: 4vmax;
       margin: 1vmax 0;
       padding: 0 1vmax;
       border: 1px solid #ccc;
@@ -38,6 +40,17 @@
         border: 1px solid orange;
       }
     }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+
     select {
       width: 100%;
       height: 5vmax;
@@ -51,19 +64,20 @@
         border: 1px solid orange;
       }
     }
-    // button {
-    //   height: 3vmax;
-    //   margin: 1vmax 0;
-    //   padding: 0 1vmax;
-    //   border: 1px solid #ccc;
-    //   border-radius: 3px;
-    //   font-size: 1.5vmax;
-    //   background-color: orange;
-    //   color: white;
-    //   &:focus {
-    //     outline: none;
-    //     border: 1px solid orange;
-    //   }
-    // }
+
+    #buttonWrapper button {
+      height: 3vmax;
+      margin: 1vmax 0;
+      padding: 0 1vmax;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 1.5vmax;
+      background-color: orange;
+      color: white;
+      &:focus {
+        outline: none;
+        border: 1px solid orange;
+      }
+    }
   }
 }
