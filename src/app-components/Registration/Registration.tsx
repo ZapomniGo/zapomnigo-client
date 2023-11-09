@@ -161,15 +161,15 @@ export const Registration = () => {
         <div className="title">
             <p>Registration</p>
         </div>
-        
-          <Stepper
-            steps={[{}, {}, {}]}
-            activeStep={screenIndex-1}
-          />
 
+        <div className="stepper">
+          <Stepper
+              steps={[{}, {}, {}]}
+              activeStep={screenIndex-1}
+            />
+        </div>
           {screenIndex == 1 ? (
             <section>
-              <center> <p className="step-title">User information</p> </center>
               <input
                 type="text"
                 name="name"
@@ -207,7 +207,6 @@ export const Registration = () => {
           )}
           {screenIndex == 2 ? (
             <section>
-              <center>  <p className="step-title">Other information</p> </center>
               <input
                 type="text"
                 placeholder="Username"
@@ -243,7 +242,6 @@ export const Registration = () => {
           )}
           {screenIndex == 3 ? (
             <section>
-              <center>  <p className="step-title">Institution information</p> </center>
               <input type="text" name="organisation" placeholder="Organisation" value={userData.organisation}/>
             </section>
           ) : (

@@ -170,9 +170,15 @@
     .disabled {
       color: gray; /* Add any styling for the disabled option */
     }
-     button .completed{
-      background-color: white !important;
-     }
+
+    .stepper .active{
+      background-color: #ec9f05;
+    }
+
+    .stepper .completed{
+      background-color: #ec9f05;
+    }
+
     #buttonWrapper button {
       height: 3vmax;
       cursor: pointer;
