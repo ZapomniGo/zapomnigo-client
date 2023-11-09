@@ -11,9 +11,9 @@
   justify-content: center;
   align-items: center;
   form {
-    min-width: 30vw;
+    min-width: 27.5vw;
     background-color: white;
-    border-radius: 3%;
+    border-radius: 4%;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     padding: 1vmax;
     #buttonWrapper {
@@ -29,7 +29,7 @@
 
     input {
       width: 100%;
-      height: 4vmax;
+      height: 3.5vmax;
       margin: 1vmax 0;
       padding: 0 1vmax;
       border: 1px solid #ccc;
@@ -53,7 +53,7 @@
 
     select {
       width: 100%;
-      height: 5vmax;
+      height: 3.5vmax;
       margin: 1vmax 0;
       padding: 0 1vmax;
       border: 1px solid #ccc;
@@ -63,6 +63,12 @@
         outline: none;
         border: 1px solid orange;
       }
+    }
+
+    select .disabled-option {
+      color: red; /* Change the color to a muted or gray tone */
+      font-style: italic; /* Make it italic, for example */
+      /* Add any other styles you want for disabled options */
     }
 
     #buttonWrapper button {

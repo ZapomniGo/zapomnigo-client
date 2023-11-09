@@ -131,7 +131,7 @@ export const Registration = () => {
       <form onClick={e=>e.preventDefault()} onChange={formHandler} >
       <Stepper
         steps={[{}, {}, {}]}
-        activeStep={screenIndex}
+        activeStep={screenIndex-1}
       />
     <center>  <h1>Registration</h1> </center>
         {screenIndex == 1 ? (
@@ -155,7 +155,7 @@ export const Registration = () => {
             />
             <p>{errors.age ? errors.age : ""}</p>
             <select defaultValue={userData.gender} name="gender">
-              <option value="" disabled />
+              <option value="" disabled color="red"> Select Gender</option>
               <option value={"M"}>Male</option>
               <option value={"F"}>Female</option>
               <option value={"O"}>Prefer not to say</option>
@@ -207,7 +207,11 @@ export const Registration = () => {
           ""
         )}
         <div id="buttonWrapper">
-          <button onClick={prevScreen}>Previous</button>
+          {screenIndex !== 1 ? (
+            <button onClick={prevScreen}>Previous</button>
+          ) : (
+              ''
+          )}
           {screenIndex !== 3 ? (
             <button onClick={nextScreen}>Next</button>
           ) : (
