@@ -67,9 +67,9 @@ export const Login = () => {
 
       <div id="wrapper">
         <form onSubmit={handleSubmit}>
-          <center>
-            <h1>Login</h1>
-          </center>
+          <div className="title">
+              <p>Registration</p>
+          </div>
           <section>
             <input
               type="text"
@@ -79,16 +79,19 @@ export const Login = () => {
               maxLength={40}
               value={userData.username}
               onChange={formHandler}
+              className={errors.username ? "error" : ""}
             />
-            <p>{errors.username}</p>
+            <p>{errors.username ? errors.username : ""}</p>
+
             <input
               type="password"
               name="password"
               placeholder="Password"
               value={userData.password}
               onChange={formHandler}
+              className={errors.password ? "error" : ""}
             />
-            <p>{errors.password}</p>
+            <p>{errors.password ? errors.password : ""}</p>
           </section>
           <div id="buttonWrapper">
             <input type="submit" value={"Submit"} />

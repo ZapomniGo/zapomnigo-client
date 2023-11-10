@@ -5,8 +5,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { App } from "./App";
 import "./index.scss";
 import { homeRoute, loginRoute, registerRoute } from "./app-utils/AppRoutes";
-import { Registration } from "./app-components/Registration/Registration";
-import { Login } from "./app-components/Login/Login";
+import { Registration } from "./app-components/Forms/Registration/Registration";
+import { Login } from "./app-components/Forms/Login/Login";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
