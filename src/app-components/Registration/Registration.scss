@@ -177,6 +177,10 @@
       color: gray; /* Add any styling for the disabled option */
     }
 
+    .stepper button{
+      cursor: initial;
+    }
+
     .stepper .active{
       background-color: #ec9f05;
     }

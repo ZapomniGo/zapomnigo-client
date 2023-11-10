@@ -214,9 +214,16 @@ export const Registration = () => {
                 minLength={2}
                 maxLength={40}
                 value={userData.username}
+                className={errors.username ? "error" : ""}
               />
               <p>{errors.username ? errors.username : ""}</p>
-              <input value={userData.email} type="email" placeholder="Email" name="email" />
+              <input 
+                value={userData.email} 
+                type="email" 
+                placeholder="Email" 
+                name="email" 
+                className={errors.email ? "error" : ""}
+              />
               <p>{errors.email ? errors.email : ""}</p>
               <input
                 type="password"
@@ -225,6 +232,7 @@ export const Registration = () => {
                 minLength={8}
                 maxLength={40}
                 value={userData.password}
+                className={errors.password ? "error" : ""}
               />
               <p>{errors.password ? errors.password : ""}</p>
               <input
@@ -234,6 +242,8 @@ export const Registration = () => {
                 minLength={8}
                 maxLength={40}
                 value={userData.repeatPassword}
+                className={errors.repeatPassword ? "error" : ""}
+
               />
               <p>{errors.repeatPassword ? errors.repeatPassword : ""}</p>
             </section>
