@@ -5,6 +5,10 @@ export const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   username: Yup.string().required("Username is required"),
   password: Yup.string()
+    .matches(/^(?=.*[!@#$%^&*()_+}{"':;?/>,.<|\[\]~`])/, 'Password must contain at least one special symbol')
+    .matches(/^(?=.*[0-9])/, 'Password must contain at least one number')
+    .matches(/^(?=.*[A-Z])/, 'Password must contain at least one capital letter')
+    .matches(/^(?=.*[a-z])/, 'Password must contain at least one non-capital letter')
     .min(8, "Password must be at least 8 characters")
     .required("Password is required"),
   repeatPassword: Yup.string()
@@ -19,6 +23,7 @@ export const validationSchema = Yup.object().shape({
     .required("Email is required")
     .email("Invalid email format"),
 });
+
 
 export const initialFormValues: UserData = {
   name: "",

@@ -85,7 +85,19 @@ export const Registration = () => {
       }
       
       if (userData.password.length < 8 || userData.password.length > 40) {
-        newErrors.password = "The password field should be 8-40 characters long";
+        newErrors.password = "The password field should be 8 - 40 characters long";
+        errorsExist = true;
+      } else if (!/[A-Z]/.test(userData.password)) {
+        newErrors.password = "Password must contain at least one capital letter";
+        errorsExist = true;
+      } else if (!/[a-z]/.test(userData.password)) {
+        newErrors.password = "Password must contain at least one lowercase letter";
+        errorsExist = true;
+      } else if (!/\d/.test(userData.password)) {
+        newErrors.password = "Password must contain at least one number";
+        errorsExist = true;
+      } else if (!/[\W_]/.test(userData.password)) {
+        newErrors.password = "Password must contain at least one special symbol";
         errorsExist = true;
       } else {
         newErrors.password = false;
