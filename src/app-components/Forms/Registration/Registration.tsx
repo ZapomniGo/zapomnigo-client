@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { Stepper } from 'react-form-stepper';
 
 
@@ -14,7 +14,7 @@ type UserData = {
   repeatPassword: string;
   organisation: string;
   gender: string;
-  age: number;
+  age: number | null;
   email: string;
 };
 
@@ -39,7 +39,7 @@ export const Registration = () => {
       repeatPassword: '',
       organisation: '',
       gender: '',
-      age: 0,
+      age: null,
       email: '',
   });
 
@@ -133,13 +133,17 @@ export const Registration = () => {
         } else {
             newErrors.name = { hasError: false, message: '' };
         }
-
-        if (userData.age < 5 || userData.age > 99) {
+        
+        if (userData.age !== null) {
+          if (userData.age < 5 || userData.age > 99) {
             newErrors.age = { hasError: true, message: 'The age field should be 5-99' };
             errorsExist = true;
         } else {
             newErrors.age = { hasError: false, message: '' };
         }
+        }
+
+
     }
 
     if (screenIndex === 2) {
@@ -205,7 +209,7 @@ export const Registration = () => {
 
   const [selectedValue, setSelectedValue] = useState('');
 
-  const handleChange = (event) => {
+  const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSelectedValue(event.target.value);
   };
 
@@ -260,28 +264,26 @@ export const Registration = () => {
               />
               <p className="errorText">{errors.name.hasError ? errors.name.message : ''}</p>
               <input
-                type="number"
-                name="age"
-                min={5}
-                max={99}
-                placeholder="Age"
-                value={userData.age}
-                className={errors.age.hasError ? "error" : ""}
-                onChange={(e)=>validateField('age', e.target.value)}
-
+                  type="number"
+                  name="age"
+                  min={5}
+                  max={99}
+                  placeholder="Age"
+                  value={userData.age !== null ? userData.age : ''}
+                  className={errors.age.hasError ? 'error' : ''}
+                  onChange={(e) => validateField('age', e.target.value)}
               />
               <p className="errorText">{errors.age.hasError ? errors.age.message : ''}</p>
               <select
-                  value={selectedValue}
-                  onChange={handleChange}
-                  className={selectedValue === '' ? 'disabled' : ''}
-
-                >
-                  <option defaultValue={true} disabled>Gender</option>
-                  <option value="M">Male</option>
-                  <option value="F">Female</option>
-                  <option value="O">Prefer not to say</option>
-                </select>
+                value={selectedValue}
+                onChange={handleChange}
+                className={selectedValue === '' ? 'disabled' : ''}
+              >
+                <option value="" disabled>Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O">Prefer not to say</option>
+              </select>
             </section>
           ) : (
             ""
