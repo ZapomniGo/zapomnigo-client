@@ -85,7 +85,12 @@ export const Registration = () => {
                   errorInfo = { hasError: true, message: 'Password must contain at least one capital letter' };
               } else if (typeof value === 'string' && !/[a-z]/.test(value)) {
                   errorInfo = { hasError: true, message: 'Password must contain at least one lowercase letter' };
-              } //... continue with other conditions for password
+              } else if (typeof value === 'string' && !/\d/.test(value)){
+                errorInfo = { hasError: true, message: 'Password must contain at least one number' };
+              } else if (typeof value === 'string' && !/[\W_]/.test(value)){
+                errorInfo = { hasError: true, message: 'Password must contain at least one special symbol' };
+              }
+              
               break;
           case 'repeatPassword':
               if (typeof value === 'string' && value !== userData.password) {
