@@ -68,7 +68,7 @@ export const Login = () => {
       <div id="wrapperForm">
         <form onSubmit={handleSubmit}>
           <div className="title">
-              <p>Registration</p>
+              <p>Login</p>
           </div>
           <section>
             <input

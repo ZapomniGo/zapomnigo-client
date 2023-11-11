@@ -37,14 +37,11 @@ export const Registration = () => {
   });
 
   const formHandler = (event: { target: HTMLFormElement | undefined; preventDefault: () => void; }) => {
-    console.log(event.target.value)
     event.preventDefault();
    setUserData((prev) => ({
     ...prev,
     [event.target.name]: event.target.value,
   }));
-
-    console.log(userData);
   };
 
   const validateEmail = (email) => {
@@ -55,7 +52,62 @@ export const Registration = () => {
       );
   };
 
-  const validateData = (data: UserData) => {};
+const validateField = (field, value) => {
+  if (!value) {
+    return;
+  }
+  let error = false;
+  switch (field) {
+    case "name":
+      if (value.length < 2 || value.length > 40) {
+        error = "The name field should be 2-40 characters long";
+      }
+      break;
+    case "age":
+      if (value < 5 || value > 99) {
+        error = "The age field should be 5-99";
+      }
+      break;
+    case "username":
+      if (value.length < 2 || value.length > 40) {
+        error = "The username field should be 2-40 characters long";
+      }
+      break;
+    case "password":
+      if (value.length < 8 || value.length > 40) {
+        error = "The password field should be 8 - 40 characters long";
+      } else if (!/[A-Z]/.test(value)) {
+        error = "Password must contain at least one capital letter";
+      } else if (!/[a-z]/.test(value)) {
+        error = "Password must contain at least one lowercase letter";
+      } else if (!/\d/.test(value)) {
+        error = "Password must contain at least one number";
+      } else if (!/[\W_]/.test(value)) {
+        error = "Password must contain at least one special symbol";
+      }
+      break;
+    case "repeatPassword":
+      if (value !== userData.password) {
+        error = "The passwords don't match";
+      }
+      break;
+    case "email":
+      if (value.length < 2 || value.length > 40 || !validateEmail(value)) {
+        error = "The email field should be 2-40 characters long";
+      }
+      break;
+    case "organisation":
+      if (value.length < 2 || value.length > 40) {
+        error = "The organisation field should be 2-40 characters long";
+      }
+      break;
+  }
+  setErrors((prev) => ({
+    ...prev,
+    [field]: error,
+  }));
+}
+
   const nextScreen = () => {
     let newErrors = { ...errors }
     let errorsExist = false
@@ -190,6 +242,7 @@ export const Registration = () => {
                 maxLength={40}
                 value={userData.name}
                 className={errors.name ? "error" : ""}
+                onChange={(e)=>validateField('name', e.target.value)}
               />
               <p className="errorText">{errors.name ? errors.name : ""}</p>
               <input
@@ -200,6 +253,7 @@ export const Registration = () => {
                 placeholder="Age"
                 value={userData.age}
                 className={errors.name ? "error" : ""}
+                onChange={(e)=>validateField('age', e.target.value)}
 
               />
               <p className="errorText">{errors.age ? errors.age : ""}</p>
@@ -207,8 +261,9 @@ export const Registration = () => {
                   value={selectedValue}
                   onChange={handleChange}
                   className={selectedValue === '' ? 'disabled' : ''}
+
                 >
-                  <option value="" disabled>Gender</option>
+                  <option defaultValue={true} disabled>Gender</option>
                   <option value="M">Male</option>
                   <option value="F">Female</option>
                   <option value="O">Prefer not to say</option>
@@ -235,6 +290,7 @@ export const Registration = () => {
                 placeholder="Email" 
                 name="email" 
                 className={errors.email ? "error" : ""}
+                onChange={(e)=>validateField('email', e.target.value)}
               />
               <p className="errorText">{errors.email ? errors.email : ""}</p>
               <input
@@ -245,6 +301,8 @@ export const Registration = () => {
                 maxLength={40}
                 value={userData.password}
                 className={errors.password ? "error" : ""}
+                onChange={e=>validateField('password', e.target.value)}
+
               />
               <p className="errorText">{errors.password ? errors.password : ""}</p>
               <input
@@ -255,7 +313,7 @@ export const Registration = () => {
                 maxLength={40}
                 value={userData.repeatPassword}
                 className={errors.repeatPassword ? "error" : ""}
-
+                onChange={e=>validateField('repeatPassword', e.target.value)}
               />
               <p className="errorText">{errors.repeatPassword ? errors.repeatPassword : ""}</p>
             </section>
@@ -264,6 +322,7 @@ export const Registration = () => {
           )}
           {screenIndex == 3 ? (
             <section>
+              <p>If you are part of a school/university/language center or other, enter its name below</p>
               <input type="text" name="organisation" placeholder="Organisation" value={userData.organisation}/>
             </section>
           ) : (
