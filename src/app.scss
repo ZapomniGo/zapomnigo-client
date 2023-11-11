@@ -5,14 +5,19 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+::selection{
+  background-color: #ec9f05;
+  color: white;
+}
 input {
   width: 100%;
   height: 3vmax;
   margin: 1vmax 0;
   padding: 0 1vmax;
-  font-size: 1.5vmax;
+  font-size: 1.4vmax;
   border: 0;
   border-bottom: 1px solid orange;
+  font-weight:500;
 
   &:focus {
     outline: none;
@@ -31,6 +36,7 @@ input[type="number"] {
 }
 
 select {
+  font-weight:500;
   width: 100%;
   height: 3vmax;
   margin: 1vmax 0;
@@ -166,6 +172,7 @@ button:hover, input[type="submit"]:hover {
   align-items: center;
 
   .title {
+    margin-bottom:.5vmax;
     text-align: center;
     font-size: 3vmax;
     color: #ec9f05;
@@ -189,6 +196,9 @@ button:hover, input[type="submit"]:hover {
     }
     .stepper button {
       cursor: initial;
+      &:hover {
+        box-shadow: none;
+      }
     }
 
     .stepper .active {

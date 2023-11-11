@@ -208,7 +208,7 @@ export const Registration = () => {
                   onChange={handleChange}
                   className={selectedValue === '' ? 'disabled' : ''}
                 >
-                  <option value="" disabled>Select Gender</option>
+                  <option value="" disabled>Gender</option>
                   <option value="M">Male</option>
                   <option value="F">Female</option>
                   <option value="O">Prefer not to say</option>
