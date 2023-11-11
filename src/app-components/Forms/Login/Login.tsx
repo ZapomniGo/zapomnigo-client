@@ -43,7 +43,7 @@ export const Login = () => {
   };
 
   return (
-    <div id="background">
+    <div id="backgroundForm">
 
       <div className="spacer top-left-1">
         <svg id="visual" viewBox="0 0 900 600" width="900" height="600" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1"><g transform="translate(9.62908843583125 -5.201989181921277)"><path d="M202.7 -204C259.7 -145.7 300.8 -72.8 299.2 -1.6C297.5 69.5 253.1 139.1 196.1 201.6C139.1 264.1 69.5 319.5 1.6 317.9C-66.3 316.3 -132.6 257.6 -194.4 195.1C-256.3 132.6 -313.6 66.3 -318.2 -4.6C-322.8 -75.4 -274.5 -150.8 -212.7 -209.2C-150.8 -267.5 -75.4 -308.8 -1.3 -307.5C72.8 -306.2 145.7 -262.3 202.7 -204" fill="#ff4e00"></path></g></svg>
@@ -65,7 +65,7 @@ export const Login = () => {
         <svg id="visual" viewBox="0 0 900 600" width="900" height="600" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1"><g transform="translate(892.3250066099987 586.5662612244475)"><path d="M136.6 -140.6C177.9 -95.2 212.9 -47.6 211.2 -1.7C209.5 44.2 171.1 88.4 129.7 138.4C88.4 188.4 44.2 244.2 -10.8 255C-65.8 265.8 -131.5 231.5 -165 181.5C-198.5 131.5 -199.8 65.8 -191.9 7.9C-184 -50 -166.9 -99.9 -133.4 -145.3C-99.9 -190.6 -50 -231.3 -1.2 -230.1C47.6 -228.9 95.2 -185.9 136.6 -140.6" fill="#ec9f05"></path></g></svg>
       </div>
 
-      <div id="wrapper">
+      <div id="wrapperForm">
         <form onSubmit={handleSubmit}>
           <div className="title">
               <p>Registration</p>
