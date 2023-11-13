@@ -6,13 +6,13 @@
     --toggle-color: #DDD;
     --text-color: #707070;
 
-    --tran-03: all 0.2s ease;
+    --tran-02: all 0.2s ease;
     --tran-03: all 0.3s ease;
     --tran-04: all 0.4s ease;
     --tran-05: all 0.5s ease;
 
 }
-
+//reusable code
 body{
     height: 100vh;
     background: var(--body-color);
@@ -32,6 +32,7 @@ body{
 
 
 
+//sidebar
 
 .sidebar{
     position: fixed;
@@ -41,6 +42,32 @@ body{
     width: 250px;
     padding: 10px 14px ;
     background: var(--sidebar-color);
+}
+
+.sidebar header{
+    position: relative;
+}
+
+.sidebar li .icon svg{
+    font-size: 20px;
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar li .icon svg,
+.sidebar li .text{
+    color: var(--text-color);
+    transition: var(--tran-02) !important;
+}
+
+.sidebar li{
+    height: 50px;
+    margin-top: 10px;
+    list-style: none;
+    display: flex;
+    align-items: center;
 }
 
 .sidebar .image-text img{
@@ -64,4 +91,74 @@ header .image-text .header-text{
 
 .header-text .profession{
     margin-top: -2px;
+}
+
+.sidebar header .toggle{ 
+    position: absolute;
+    top: 50%;
+    right: -25px;
+    transform: translateY(-50%);
+    height: 25px;   
+    width: 25px;
+    background: var(--primary-color );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--sidebar-color);
+    font-size: 22px;
+}
+
+.sidebar .search-box{
+    background: var(--primary-color-light);
+}
+
+.search-box input{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    background: var(--primary-color-light);
+}
+
+.sidebar li a {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: var(--tran-04) !important;
+}
+
+.sidebar li a:hover{
+    background:  var(--primary-color);
+}
+
+.sidebar li a:hover .icon svg,
+.sidebar li a:hover .text{
+    color: var(--sidebar-color);
+}  
+
+.sidebar .menu-bar{
+    height: calc(100% - 50px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between ;
+}
+
+.menu-bar .mode{
+    background: var(--primary-color-light);
+}
+
+.menu-bar .mode .moon-sun{
+    height: 50px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.menu-bar .mode i{
+    position: absolute;
 }
