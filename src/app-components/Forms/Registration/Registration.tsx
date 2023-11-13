@@ -263,7 +263,7 @@ const validateField = (field, value) => {
                   className={selectedValue === '' ? 'disabled' : ''}
 
                 >
-                  <option defaultValue={true} disabled>Gender</option>
+                  <option value="" defaultValue={true} disabled>Gender</option>
                   <option value="M">Male</option>
                   <option value="F">Female</option>
                   <option value="O">Prefer not to say</option>

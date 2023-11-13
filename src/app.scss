@@ -5,10 +5,10 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
-body{
+body {
   animation: fadein 1s;
 }
-::selection{
+::selection {
   background-color: #ec9f05;
   color: white;
 }
@@ -20,12 +20,15 @@ input {
   font-size: 1.4vmax;
   border: 0;
   border-bottom: 1px solid orange;
-  font-weight:500;
+  font-weight: 500;
 
   &:focus {
     outline: none;
     border-bottom: 1px solid orange;
   }
+}
+input[type="submit"] {
+  width: auto;
 }
 
 input::-webkit-outer-spin-button,
@@ -39,7 +42,7 @@ input[type="number"] {
 }
 
 select {
-  font-weight:500;
+  font-weight: 500;
   width: 100%;
   height: 3vmax;
   margin: 1vmax 0;
@@ -59,13 +62,14 @@ select {
 .disabled {
   color: gray;
 }
-button, input[type="submit"] {
+button,
+input[type="submit"] {
   transition: 0.2s;
   height: 3vmax;
   cursor: pointer;
   margin: 0.5vmax;
   padding: 0 1vmax;
-  border-radius: .2em;
+  border-radius: 0.2em;
   font-size: 1.5vmax;
   background-color: #ec9f05;
   color: #fff;
@@ -76,7 +80,8 @@ button, input[type="submit"] {
   }
 }
 
-button:hover, input[type="submit"]:hover {
+button:hover,
+input[type="submit"]:hover {
   box-shadow: 0 0 5px 2px orange; /* Adjust the alpha value for transparency */
 }
 
@@ -212,40 +217,69 @@ button:hover, input[type="submit"]:hover {
     }
   }
 }
-.errorText{
-  color:red;
+.errorText {
+  color: red;
+  font-weight: 300;
 }
 
+@media screen and (orientation: portrait) {
+  #wrapperForm {
+    .title {
+      padding: 2vmax;
+      font-size: 4vmax;
+    }
+    input {
+      font-size: 2.5vmax;
+      height: 10vh;
+    }
+    select {
+      font-size: 2.5vmax;
+      height: 10vh;
+    }
+    form {
+      padding: 2.5vmax;
+      width: 90vw;
+    }
+    #buttonWrapper > button{
+      width:100%;
+      font-size: 2.5vmax;
+      height: 10vh;
+    }
+  }
+}
 
 @keyframes fadein {
   from {
-      opacity:0;
+    opacity: 0;
   }
   to {
-      opacity:1;
+    opacity: 1;
   }
 }
-@-moz-keyframes fadein { /* Firefox */
+@-moz-keyframes fadein {
+  /* Firefox */
   from {
-      opacity:0;
+    opacity: 0;
   }
   to {
-      opacity:1;
+    opacity: 1;
   }
 }
-@-webkit-keyframes fadein { /* Safari and Chrome */
+@-webkit-keyframes fadein {
+  /* Safari and Chrome */
   from {
-      opacity:0;
+    opacity: 0;
   }
   to {
-      opacity:1;
+    opacity: 1;
   }
 }
-@-o-keyframes fadein { /* Opera */
+@-o-keyframes fadein {
+  /* Opera */
   from {
-      opacity:0;
+    opacity: 0;
   }
   to {
-      opacity: 1;
+    opacity: 1;
   }
 }
