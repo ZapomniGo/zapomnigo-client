@@ -1,10 +1,17 @@
 import { BiChevronRight, BiHomeAlt, BiSearch, BiLogOut, BiMoon, BiSun } from "react-icons/bi";
-
+import { useState } from "react";
 
 export const Navigation = () => {
+
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    const toggleSidebar = () => {
+      setSidebarOpen(!sidebarOpen);
+    };
+
     return(
         <div className="navigation_bar">
-            <nav className="sidebar">
+            <nav className={`sidebar ${sidebarOpen ? "" : "close"}`}>
                 <header>
                     <div className="image-text">
                         <span className="image">
@@ -16,7 +23,7 @@ export const Navigation = () => {
                             <span className="profession">Web Developer</span>
                         </div>
                     </div>
-                    <i className="toggle">
+                    <i className="toggle" onClick={toggleSidebar}>
                         <BiChevronRight />
                     </i>
                 </header>
