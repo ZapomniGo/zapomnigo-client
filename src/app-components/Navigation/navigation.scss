@@ -230,6 +230,9 @@ header .image-text .header-text{
     background: var(--sidebar-color);
 }
 
+.close_mobile{
+    display: none;
+}
 
 
 //DASHBOARD
@@ -252,4 +255,32 @@ header .image-text .header-text{
 .sidebar.close ~ .home{
     left: 88px;
     width: calc(100% - 88px);
+}
+
+@media only screen and (max-width: 900px){
+    .home{
+        position: initial;
+    }
+
+    .sidebar{
+        width: 100vw;
+    }
+
+    .sidebar header {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar.close{
+        display: none;
+    }
+    .close_mobile{
+        display: flex;
+        font-size: 30px;
+        align-self: flex-end;
+    }
+
+    .sidebar .menu-bar{
+        height: calc(100% - 75px);
+    }
 }

@@ -1,23 +1,12 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { BiChevronRight, BiHomeAlt, BiSearch, BiLogOut, BiMoon, BiSun } from "react-icons/bi";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { BiChevronRight, BiHomeAlt, BiSearch, BiLogOut} from "react-icons/bi";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { IoMdClose } from "react-icons/io";
+
+
 import { useState } from "react";
 
 export const Navigation = () => {
-
-    // const [sidebarOpen, setSidebarOpen] = useState(false);
-
-    // // const toggleSidebar = () => {
-    // //     setSidebarOpen(!sidebarOpen);
-    // // };
-
-    // const handleMouseEnter = () => {
-    //     setSidebarOpen(true);
-    // };
-
-    // const handleMouseLeave = () => {
-    //     setSidebarOpen(false);
-    // };
-
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
     let timeoutId: number;
@@ -33,15 +22,27 @@ export const Navigation = () => {
         setSidebarOpen(false);
     };
 
+    const handleHamburgerClick = () => {
+        setSidebarOpen(true); 
+    };
+
+    const handleCloseClick = () => {
+        setSidebarOpen(false);
+    }
+
     
     return(
         <div className="navigation_bar" >
+            <RxHamburgerMenu onClick={handleHamburgerClick} />
+
             <nav
                 className={`sidebar ${sidebarOpen ? "" : "close"}`}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >                
                 <header>
+                    <IoMdClose className="close_mobile" onClick={handleCloseClick}/>
+
                     <div className="image-text">
                         <span className="image">
                             <img src="src/app-components/Navigation/logo.png" alt="logo"></img>
@@ -52,9 +53,9 @@ export const Navigation = () => {
                             <span className="profession">Web Developer</span>
                         </div>
                     </div>
-                    <i className="toggle" >
+                    {/* <i className="toggle" >
                         <BiChevronRight />
-                    </i>
+                    </i> */}
                 </header>
 
                 <div className="menu-bar">
