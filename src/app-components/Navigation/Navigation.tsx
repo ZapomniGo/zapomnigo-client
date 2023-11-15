@@ -4,23 +4,43 @@ import { useState } from "react";
 
 export const Navigation = () => {
 
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    // const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    // const toggleSidebar = () => {
-    //     setSidebarOpen(!sidebarOpen);
+    // // const toggleSidebar = () => {
+    // //     setSidebarOpen(!sidebarOpen);
+    // // };
+
+    // const handleMouseEnter = () => {
+    //     setSidebarOpen(true);
     // };
 
+    // const handleMouseLeave = () => {
+    //     setSidebarOpen(false);
+    // };
+
+
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    let timeoutId: number;
+
     const handleMouseEnter = () => {
-        setSidebarOpen(true);
+        timeoutId = setTimeout(() => {
+            setSidebarOpen(true);
+        }, 150);
     };
 
     const handleMouseLeave = () => {
+        clearTimeout(timeoutId);
         setSidebarOpen(false);
     };
 
+    
     return(
         <div className="navigation_bar" >
-            <nav className={`sidebar ${sidebarOpen ? "" : "close"}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <nav
+                className={`sidebar ${sidebarOpen ? "" : "close"}`}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >                
                 <header>
                     <div className="image-text">
                         <span className="image">
