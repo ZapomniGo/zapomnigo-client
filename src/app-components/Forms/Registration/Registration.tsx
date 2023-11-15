@@ -51,70 +51,64 @@ export const Registration = () => {
           );
   };
 
+
   const validateField = (field: keyof UserData, value: string | number) => {
-      if (!value) {
-          setErrors(prev => ({
-              ...prev,
-              [field]: { hasError: false, message: '' },
-          }));
-          return;
-      }
+    if (!value) {
+        setErrors(prev => ({
+            ...prev,
+            [field]: { hasError: false, message: '' },
+        }));
+        return;
+    }
 
-      let errorInfo: ErrorInfo = { hasError: false, message: '' };
+    let errorInfo: ErrorInfo = { hasError: false, message: '' };
 
-      switch (field) {
-          case 'name':
-              if (typeof value === 'string' && (value.length < 2 || value.length > 40)) {
-                  errorInfo = { hasError: true, message: 'The name field should be 2-40 characters long' };
-              }
-              break;
-          case 'age':
-              if (typeof value === 'number' && (value < 5 || value > 99)) {
-                  errorInfo = { hasError: true, message: 'The age field should be 5-99' };
-              }
-              break;
-          case 'username':
-              if (typeof value === 'string' && (value.length < 2 || value.length > 40)) {
-                  errorInfo = { hasError: true, message: 'The username field should be 2-40 characters long' };
-              }
-              break;
-          case 'password':
-              if (typeof value === 'string' && (value.length < 8 || value.length > 40)) {
-                  errorInfo = { hasError: true, message: 'The password field should be 8 - 40 characters long' };
-              } else if (typeof value === 'string' && !/[A-Z]/.test(value)) {
-                  errorInfo = { hasError: true, message: 'Password must contain at least one capital letter' };
-              } else if (typeof value === 'string' && !/[a-z]/.test(value)) {
-                  errorInfo = { hasError: true, message: 'Password must contain at least one lowercase letter' };
-              } else if (typeof value === 'string' && !/\d/.test(value)){
-                errorInfo = { hasError: true, message: 'Password must contain at least one number' };
-              } else if (typeof value === 'string' && !/[\W_]/.test(value)){
-                errorInfo = { hasError: true, message: 'Password must contain at least one special symbol' };
-              }  
-              break;
-          case 'repeatPassword':
-              if (typeof value === 'string' && value !== userData.password) {
-                  errorInfo = { hasError: true, message: 'The passwords don\'t match' };
-              }
-              break;
-          case 'email':
-              if (typeof value === 'string' && (value.length < 2 || value.length > 40 || !validateEmail(value))) {
-                  errorInfo = { hasError: true, message: 'The email field should be a valid email' };
-              }
-              break;
-          case 'organisation':
-              if (typeof value === 'string' && (value.length < 2 || value.length > 40)) {
-                  errorInfo = { hasError: true, message: 'The organisation field should be 2-40 characters long' };
-              }
-              break;
-          default:
-              break;
-      }
+    switch (field) {
+        case 'name':
+        case 'username':
+        case 'organisation':
+            if (typeof value === 'string' && (value.length < 2 || value.length > 40)) {
+                errorInfo = { hasError: true, message: `The ${field} field should be 2-40 characters long` };
+            }
+            break;
+        case 'age':
+            if (typeof value === 'number' && (value < 5 || value > 99)) {
+                errorInfo = { hasError: true, message: 'The age field should be 5-99' };
+            }
+            break;
+        case 'password':
+        if (typeof value === 'string' && (value.length < 8 || value.length > 40)) {
+            errorInfo = { hasError: true, message: 'The password field should be 8 - 40 characters long' };
+        } else if (typeof value === 'string' && !/[A-Z]/.test(value)) {
+            errorInfo = { hasError: true, message: 'Password must contain at least one capital letter' };
+        } else if (typeof value === 'string' && !/[a-z]/.test(value)) {
+            errorInfo = { hasError: true, message: 'Password must contain at least one lowercase letter' };
+        } else if (typeof value === 'string' && !/\d/.test(value)){
+          errorInfo = { hasError: true, message: 'Password must contain at least one number' };
+        } else if (typeof value === 'string' && !/[\W_]/.test(value)){
+          errorInfo = { hasError: true, message: 'Password must contain at least one special symbol' };
+            }  
+            break;
+        case 'repeatPassword':
+            if (typeof value === 'string' && value !== userData.password) {
+                errorInfo = { hasError: true, message: 'The passwords don\'t match' };
+            }
+            break;
+        case 'email':
+            if (typeof value === 'string' && (value.length < 2 || value.length > 40 || !validateEmail(value))) {
+                errorInfo = { hasError: true, message: 'The email field should be 2-40 characters long' };
+            }
+            break;
+        default:
+            break;
+    }
 
-      setErrors(prev => ({
-          ...prev,
-          [field]: errorInfo,
-      }));
-  };
+    setErrors(prev => ({
+        ...prev,
+        [field]: errorInfo,
+    }));
+};
+
 
   const formHandler = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -138,14 +132,14 @@ export const Registration = () => {
             newErrors.name = { hasError: false, message: '' };
         }
         
-        if (userData.age !== null) {
-          if (userData.age < 5 || userData.age > 99) {
+        
+          if (userData.age == null || userData.age < 5 || userData.age > 99) {
             newErrors.age = { hasError: true, message: 'The age field should be 5-99' };
             errorsExist = true;
         } else {
             newErrors.age = { hasError: false, message: '' };
         }
-        }
+        
 
 
     }
@@ -180,7 +174,9 @@ export const Registration = () => {
         if (userData.password !== userData.repeatPassword) {
             newErrors.repeatPassword = { hasError: true, message: "The passwords don't match" };
             errorsExist = true;
-        } else {
+        } else if (userData.password.length == 0){
+            newErrors.repeatPassword={hasError: true, message: "The password field should be 8 - 40 characters long"}
+        }else {
             newErrors.repeatPassword = { hasError: false, message: '' };
         }
 
@@ -266,7 +262,7 @@ export const Registration = () => {
                   className={selectedValue === '' ? 'disabled' : ''}
 
                 >
-                  <option defaultValue={true} disabled>Gender</option>
+                  <option value="" disabled>Gender</option>
                   <option value="M">Male</option>
                   <option value="F">Female</option>
                   <option value="O">Prefer not to say</option>
