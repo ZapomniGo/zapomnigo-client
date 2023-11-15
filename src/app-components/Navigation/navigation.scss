@@ -231,8 +231,13 @@ header .image-text .header-text{
 //DASHBOARD
 .home{
     position: relative;
-    left: 88px;
+    left: 250px;
     height: 100vh;
+    width: calc(100% - 250px);
+    background: var(--body-color);
+}
+
+.sidebar.close ~ .home{
+    left: 88px;
     width: calc(100% - 88px);
-    background: red;
 }
