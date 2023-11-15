@@ -12,9 +12,11 @@ export const Navigation = () => {
     let timeoutId: number;
 
     const handleMouseEnter = () => {
-        timeoutId = setTimeout(() => {
-            setSidebarOpen(true);
-        }, 150);
+        if (window.innerWidth > 900) {
+            timeoutId = setTimeout(() => {
+                setSidebarOpen(true);
+            }, 150);
+        }
     };
 
     const handleMouseLeave = () => {
@@ -30,7 +32,7 @@ export const Navigation = () => {
         setSidebarOpen(false);
     }
 
-    
+
     return(
         <div className="navigation_bar" >
             <RxHamburgerMenu onClick={handleHamburgerClick} />
