@@ -30,7 +30,8 @@ body{
 .sidebar .image{
     min-width: 60px;
     display: flex;
-    align-items: center ;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -127,6 +128,7 @@ header .image-text .header-text{
 .sidebar .search-box{
     background: var(--primary-color-light);
     border-radius: 6px;
+    transition: var(--tran-05);
 }
 
 .sidebar.close header .toggle{
@@ -136,6 +138,8 @@ header .image-text .header-text{
 .search-box input{
     height: 100%;
     width: 100%;
+    font-size: 16px;
+    font-weight: 500;
     outline: none;
     border: none;
     border-radius: 6px;
@@ -235,6 +239,14 @@ header .image-text .header-text{
     height: 100vh;
     width: calc(100% - 250px);
     background: var(--body-color);
+    transition: var(--tran-05);
+}
+
+.home .text {
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--text-color);
+    padding: 8px 40px;
 }
 
 .sidebar.close ~ .home{

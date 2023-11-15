@@ -6,13 +6,21 @@ export const Navigation = () => {
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    const toggleSidebar = () => {
-      setSidebarOpen(!sidebarOpen);
+    // const toggleSidebar = () => {
+    //     setSidebarOpen(!sidebarOpen);
+    // };
+
+    const handleMouseEnter = () => {
+        setSidebarOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+        setSidebarOpen(false);
     };
 
     return(
-        <div className="navigation_bar">
-            <nav className={`sidebar ${sidebarOpen ? "" : "close"}`}>
+        <div className="navigation_bar" >
+            <nav className={`sidebar ${sidebarOpen ? "" : "close"}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 <header>
                     <div className="image-text">
                         <span className="image">
@@ -24,7 +32,7 @@ export const Navigation = () => {
                             <span className="profession">Web Developer</span>
                         </div>
                     </div>
-                    <i className="toggle" onClick={toggleSidebar}>
+                    <i className="toggle" >
                         <BiChevronRight />
                     </i>
                 </header>
