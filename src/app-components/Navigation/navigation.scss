@@ -46,6 +46,7 @@ body{
     padding: 10px 14px ;
     background: var(--sidebar-color);
     transition: var(--tran-05);
+    z-index: 100;
 }
 
 .sidebar header{
@@ -201,6 +202,8 @@ header .image-text .header-text{
     justify-content: center;
     cursor: pointer;
     background: var(--primary-color-light);
+    border-radius: 6px;
+    background: var(--primary-color-light);
 }
 
 .toggle-switch .switch{
@@ -221,4 +224,15 @@ header .image-text .header-text{
     left: 5px;
     transform: translateY(-50%);
     background: var(--sidebar-color);
+}
+
+
+
+//DASHBOARD
+.home{
+    position: relative;
+    left: 88px;
+    height: 100vh;
+    width: calc(100% - 88px);
+    background: red;
 }

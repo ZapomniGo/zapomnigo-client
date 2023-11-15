@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { BiChevronRight, BiHomeAlt, BiSearch, BiLogOut, BiMoon, BiSun } from "react-icons/bi";
 import { useState } from "react";
 
@@ -90,7 +91,7 @@ export const Navigation = () => {
                             </a>
                         </li>
 
-                        <li className="mode">
+                        {/* <li className="mode">
                             <div className="moon-sun">
                                 <i className="moon">
                                     <BiMoon/>
@@ -103,10 +104,16 @@ export const Navigation = () => {
                             <div className="toggle-switch">
                                 <span className="switch"></span>
                             </div>
-                        </li>
+                        </li> */}
                     </div>
                 </div>
             </nav>
+
+            <section className="home">
+                <div className="text">
+                    Dashboard
+                </div>
+            </section>
         </div>
     )
     
