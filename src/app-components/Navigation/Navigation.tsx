@@ -35,8 +35,8 @@ export const Navigation = () => {
 
     return(
         <div className="navigation_bar" >
-            <RxHamburgerMenu onClick={handleHamburgerClick} />
-
+            <RxHamburgerMenu className = "menu-mobile" onClick={handleHamburgerClick} />
+            <div className="fix">
             <nav
                 className={`sidebar ${sidebarOpen ? "" : "close"}`}
                 onMouseEnter={handleMouseEnter}
@@ -55,9 +55,6 @@ export const Navigation = () => {
                             <span className="profession">Web Developer</span>
                         </div>
                     </div>
-                    {/* <i className="toggle" >
-                        <BiChevronRight />
-                    </i> */}
                 </header>
 
                 <div className="menu-bar">
@@ -139,12 +136,13 @@ export const Navigation = () => {
                     </div>
                 </div>
             </nav>
+            </div>
 
-            <section className="home">
+            {/* <section className="home">
                 <div className="text">
                     Dashboard
                 </div>
-            </section>
+            </section> */}
         </div>
     )
     
