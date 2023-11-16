@@ -4,8 +4,9 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { App } from "./App";
 import "./index.scss";
-import { homeRoute, registerRoute } from "./app-utils/AppRoutes";
+import { homeRoute, registerRoute, verifyEmail } from "./app-utils/AppRoutes";
 import { Registration } from "./app-components/Registration/Registration";
+import { VerifyEmail } from "./app-components/VerifyEmail/VerifyEmail";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: registerRoute,
     element: <Registration />,
+  },
+  {
+    path: verifyEmail,
+    element: <VerifyEmail />,
   },
 ]);
 

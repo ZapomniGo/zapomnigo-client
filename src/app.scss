@@ -19,6 +19,18 @@ body {
   --tran-04: all 0.4s ease;
   --tran-05: all 0.5s ease;
 }
+@mixin centerContainer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 1vmax;
+  border-radius: 0.2em;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  
+}
 @mixin orangeBackground {
   background: linear-gradient(234deg, #ff4e00, #ec9f05);
   background-size: 400% 400%;
