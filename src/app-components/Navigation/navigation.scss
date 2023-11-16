@@ -1,17 +1,4 @@
-:root{
-    --body-color: #E4E9F7;
-    --sidebar-color: #fff;
-    --primary-color: #695CFE;
-    --primary-color-light: #F6F5FF;
-    --toggle-color: #DDD;
-    --text-color: #707070;
 
-    --tran-02: all 0.2s ease;
-    --tran-03: all 0.3s ease;
-    --tran-04: all 0.4s ease;
-    --tran-05: all 0.5s ease;
-
-}
 //reusable code
 body{
     height: 100vh;
@@ -238,26 +225,15 @@ header .image-text .header-text{
 
 
 //DASHBOARD
-.home{
-    position: relative;
-    left: 250px;
-    height: 100vh;
-    width: calc(100% - 250px);
-    background: var(--body-color);
-    transition: var(--tran-05);
-}
 
-.home .text {
-    font-size: 30px;
-    font-weight: 500;
-    color: var(--text-color);
-    padding: 8px 40px;
-}
 
-.sidebar.close ~ .home{
-    left: 88px;
-    width: calc(100% - 88px);
-}
+// .sidebar.close ~ .home{
+//     left: 88px;
+//     width: calc(100% - 88px);
+// }
+
+
+
 .menu-mobile {
     display: none;
 }

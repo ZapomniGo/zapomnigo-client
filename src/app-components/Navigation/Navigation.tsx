@@ -36,7 +36,6 @@ export const Navigation = () => {
     return(
         <div className="navigation_bar" >
             <RxHamburgerMenu className = "menu-mobile" onClick={handleHamburgerClick} />
-            <div className="fix">
             <nav
                 className={`sidebar ${sidebarOpen ? "" : "close"}`}
                 onMouseEnter={handleMouseEnter}
@@ -118,31 +117,9 @@ export const Navigation = () => {
                                 <span className="text nav-text">Logout</span>
                             </a>
                         </li>
-
-                        {/* <li className="mode">
-                            <div className="moon-sun">
-                                <i className="moon">
-                                    <BiMoon/>
-                                </i>
-                                <i className="sun">
-                                    <BiSun/>
-                                </i>
-                            </div>
-                            <span className="mode-text text"> Dark Mode</span>
-                            <div className="toggle-switch">
-                                <span className="switch"></span>
-                            </div>
-                        </li> */}
                     </div>
                 </div>
             </nav>
-            </div>
-
-            {/* <section className="home">
-                <div className="text">
-                    Dashboard
-                </div>
-            </section> */}
         </div>
     )
     
