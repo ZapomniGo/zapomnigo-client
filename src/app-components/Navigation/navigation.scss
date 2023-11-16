@@ -9,9 +9,9 @@ body{
     font-size: 16px;
     font-weight: 500;
     color: var(--text-color);
-    // transition: var(--tran-05);
+    transition: var(--tran-02);
     white-space: nowrap;
-    opacity: 1;
+    // opacity: 1;
 }
 
 .sidebar .image{
@@ -56,8 +56,7 @@ body{
 }
 
 .sidebar.close .text{
-    display: none;
-}
+opacity: 0;}
 
 .sidebar li .icon svg,
 .sidebar li .text{
@@ -110,13 +109,13 @@ header .image-text .header-text{
     border-radius: 50%;
     color: var(--sidebar-color);
     font-size: 22px;
-    // transition: var(--tran-03);
+    transition: var(--tran-03);
 }
 
 .sidebar .search-box{
     background: var(--primary-color-light);
     border-radius: 6px;
-    // transition: var(--tran-02);
+    transition: var(--tran-02);
     margin-top: 15px;
 }
 
