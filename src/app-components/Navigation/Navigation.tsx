@@ -6,7 +6,7 @@ import { IoMdClose } from "react-icons/io";
 
 import { useState } from "react";
 
-export const Navigation = () => {
+export const Navigation = ({ onSidebarToggle }) => {
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
     let timeoutId: number;
@@ -15,6 +15,8 @@ export const Navigation = () => {
         if (window.innerWidth > 900) {
             timeoutId = setTimeout(() => {
                 setSidebarOpen(true);
+                onSidebarToggle(true); // Notify the parent component about the sidebar state change
+
             }, 150);
         }
     };
@@ -22,14 +24,20 @@ export const Navigation = () => {
     const handleMouseLeave = () => {
         clearTimeout(timeoutId);
         setSidebarOpen(false);
+        onSidebarToggle(false); // Notify the parent component about the sidebar state change
+
     };
 
     const handleHamburgerClick = () => {
         setSidebarOpen(true); 
+        onSidebarToggle(true); // Notify the parent component about the sidebar state change
+
     };
 
     const handleCloseClick = () => {
         setSidebarOpen(false);
+        onSidebarToggle(false); // Notify the parent component about the sidebar state change
+
     }
 
 
