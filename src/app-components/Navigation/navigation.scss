@@ -9,7 +9,7 @@ body{
     font-size: 16px;
     font-weight: 500;
     color: var(--text-color);
-    transition: var(--tran-05);
+    // transition: var(--tran-05);
     white-space: nowrap;
     opacity: 1;
 }
@@ -35,7 +35,7 @@ body{
     background: var(--sidebar-color);
     transition: var(--tran-05);
     z-index: 100;
-    border-radius: 0 10px 10px 0;
+    border-radius: 0 1em 1em 0;
 }
 
 .sidebar header{
@@ -56,7 +56,7 @@ body{
 }
 
 .sidebar.close .text{
-    opacity: 0;
+    display: none;
 }
 
 .sidebar li .icon svg,
@@ -110,13 +110,13 @@ header .image-text .header-text{
     border-radius: 50%;
     color: var(--sidebar-color);
     font-size: 22px;
-    transition: var(--tran-03);
+    // transition: var(--tran-03);
 }
 
 .sidebar .search-box{
     background: var(--primary-color-light);
     border-radius: 6px;
-    transition: var(--tran-05);
+    // transition: var(--tran-02);
     margin-top: 15px;
 }
 
@@ -142,7 +142,7 @@ header .image-text .header-text{
     align-items: center;
     text-decoration: none;
     border-radius: 6px;
-    transition: var(--tran-04) !important;
+    transition: var(--tran-02) !important;
 }
 
 .sidebar li a:hover{
