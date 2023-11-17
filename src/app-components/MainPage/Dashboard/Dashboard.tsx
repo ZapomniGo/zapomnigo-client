@@ -6,6 +6,8 @@ interface SetCardData {
   title: string;
   description: string;
   institution: string;
+  image: string;
+  creator_name: string;
 }
 
 // Mock data for testing purposes
@@ -14,13 +16,65 @@ const mockSetCards: SetCardData[] = [
     id: "card1",
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
-    institution: "American University in Bulgaria"
+    institution: "American University in Bulgaria",
+    image: "src/app-components/MainPage/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
   },
   {
     id: "card2",
-    title: "Another Set",
-    description: "Description of another set of cards",
-    institution: "Some Institution"
+    title: "COS2001 C++",
+    description: "Description of this set of cards and it informs us about fds course",
+    institution: "American University in Bulgaria",
+    image: "src/app-components/MainPage/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
+  },
+  {
+    id: "card3",
+    title: "COS2001 C++",
+    description: "Description of this set of cards and it informs us about fds course",
+    institution: "American University in Bulgaria",
+    image: "src/app-components/MainPage/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
+  },
+  {
+    id: "card4",
+    title: "COS2001 C++",
+    description: "Description of this set of cards and it informs us about fds course",
+    institution: "American University in Bulgaria",
+    image: "src/app-components/MainPage/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
+  },
+  {
+    id: "card5",
+    title: "COS2001 C++",
+    description: "Description of this set of cards and it informs us about fds course",
+    institution: "American University in Bulgaria",
+    image: "src/app-components/MainPage/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
+  },
+  {
+    id: "card6",
+    title: "COS2001 C++",
+    description: "Description of this set of cards and it informs us about fds course",
+    institution: "American University in Bulgaria",
+    image: "src/app-components/MainPage/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
+  },
+  {
+    id: "card7",
+    title: "COS2001 C++",
+    description: "Description of this set of cards and it informs us about fds course",
+    institution: "American University in Bulgaria",
+    image: "src/app-components/MainPage/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
+  },
+  {
+    id: "card8",
+    title: "COS2001 C++",
+    description: "Description of this set of cards and it informs us about fds course",
+    institution: "American University in Bulgaria",
+    image: "src/app-components/MainPage/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
   },
 ];
 
@@ -66,6 +120,8 @@ export const Dashboard: React.FC<{ sidebarOpen: boolean }> = ({ sidebarOpen }) =
               title={card.title}
               description={card.description}
               institution={card.institution}
+              image={card.image}
+              creator_name={card.creator_name}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               isSelected={selectSet === card.id}

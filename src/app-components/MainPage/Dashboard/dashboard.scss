@@ -42,10 +42,22 @@
             font-size: 0.8rem;
             .closed{
                 opacity: 0;
+                transition: var(--tran-03);
+
                 overflow: hidden;
             }
-            .opened{
+            .open{
+                transition: var(--tran-03);
+
                 opacity: 1;
+            }
+            .title-options{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .more-options{
+                    padding-right: 0.8vmax;
+                }
             }
             .set-title{
                 font-size: 0.9rem;
@@ -62,7 +74,7 @@
                     align-items: center;
 
                     img{
-                        width: 2vmax;
+                        width: 1.75vmax;
                         border-radius: 6px;
                     }
                 }
