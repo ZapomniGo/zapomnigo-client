@@ -2,6 +2,8 @@
     position: relative;
     align-self: center;
     width: calc(100% - 88px);
+    left: 88px;
+    
     background: var(--body-color);
     transition: var(--tran-05);
     display: flex;
@@ -14,8 +16,10 @@
     .recent{
         flex-wrap: wrap;
         display: flex;
-        align-self: center;
+        align-self: flex-start;
         flex-direction: column;
+        margin-left: 1.5vmax;
+        margin-top: 1vmax;
         .recent-title{
             margin-left: 10px;
         }
@@ -26,17 +30,44 @@
 
         }
         .set-card{
+            cursor: pointer;
             display: flex;
             flex-direction: column;
             background-color: white;
             width: 18rem;
             margin: 10px;
             border-radius: 8px;
+            padding: 10px;
+            padding-left: 15px;
+            font-size: 0.8rem;
             .closed{
                 opacity: 0;
                 overflow: hidden;
             }
-            
+            .set-title{
+                font-size: 0.9rem;
+                margin-bottom: 0.5vmin;
+            }
+            .set-creator{
+                display: flex;
+                align-items: center;
+                .image{
+                    min-width: 2.5vmax;
+                    display: flex;
+                    align-items: center;
+
+                    img{
+                        width: 2vmax;
+                        border-radius: 6px;
+                    }
+                }
+                .creator-name{
+                    font-weight: 500;
+                    color: var(--text-color);
+                    transition: var(--tran-02);
+                    white-space: nowrap;
+                }
+            }            
         }
     }
 
