@@ -1,10 +1,3 @@
-export type UserData = {
-  name: string;
-  username: string;
-  password: string;
-  repeatPassword: string;
-  organisation: string;
-  gender: string;
-  age: number;
-  email: string;
-};
+import { DataError, UserData } from "../../../app-common/types";
+
+export type RegisterErrorRecord = Record<keyof UserData, DataError>;

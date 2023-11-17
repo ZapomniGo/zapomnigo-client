@@ -1,20 +1,7 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Background } from "../FormsBackground/Background";
-
-type LoginData = {
-  username: string;
-  password: string;
-};
-
-interface ErrorInfo {
-  hasError: boolean;
-  message: string;
-}
-
-const initialErrors: Record<keyof LoginData, ErrorInfo> = {
-  username: { hasError: false, message: '' },
-  password: { hasError: false, message: '' },
-};
+import { LoginData, LoginErrorRecord } from "./types";
+import { initialErrors } from "./utils";
 
 export const Login = () => {
   // const [errors, setErrors] = useState({
@@ -22,7 +9,7 @@ export const Login = () => {
   //   password: "",
   // });
 
-  const [errors, setErrors] = useState<Record<keyof LoginData, ErrorInfo>>(initialErrors);
+  const [errors, setErrors] = useState<LoginErrorRecord>(initialErrors);
 
   const [userData, setUserData] = useState<LoginData>({
     username: "",
@@ -37,7 +24,7 @@ export const Login = () => {
     }));
   };
   useEffect(() => {
-    const newErrors: any = { ...errors };
+    const newErrors: { username: string; password: string } = { ...errors }; // TODO(): What is this newErrors? Why does it set the username to something? FIX
     if (userData.username.length < 2) {
       newErrors.username = "Please enter a valid username";
     } else {
@@ -58,16 +45,23 @@ export const Login = () => {
 
     const newErrors = { ...errors };
     if (userData.username.length < 2) {
-      newErrors.username = { hasError: true, message: 'Please enter valid username' };
-    } 
+      newErrors.username = {
+        hasError: true,
+        message: "Please enter valid username",
+      };
+    }
 
     if (userData.password.length === 0) {
-      newErrors.password = { hasError: true, message: 'Please enter valid password' };
-    } 
+      newErrors.password = {
+        hasError: true,
+        message: "Please enter valid password",
+      };
+    }
 
     setErrors(newErrors);
   };
 
+  // TODO(): Extract to different components
   return (
     <div id="backgroundForm">
       <Background />
@@ -88,7 +82,9 @@ export const Login = () => {
               onChange={formHandler}
               className={errors.username.hasError ? "error" : ""}
             />
-<p className="errorText">{errors.username.hasError ? errors.username.message : ""}</p>
+            <p className="errorText">
+              {errors.username.hasError ? errors.username.message : ""}
+            </p>
 
             <input
               type="password"
@@ -98,7 +94,9 @@ export const Login = () => {
               onChange={formHandler}
               className={errors.password.hasError ? "error" : ""}
             />
-<p className="errorText">{errors.password.hasError ? errors.password.message : ""}</p>
+            <p className="errorText">
+              {errors.password.hasError ? errors.password.message : ""}
+            </p>
           </section>
           <div id="buttonWrapper">
             <input type="submit" value={"Submit"} />
