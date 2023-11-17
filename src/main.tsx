@@ -2,17 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { App } from "./App";
+// import { App } from "./App";
 import "./index.scss";
 import { homeRoute, registerRoute, verifyEmail } from "./app-utils/AppRoutes";
 import { Registration } from "./app-components/Registration/Registration";
 import { VerifyEmail } from "./app-components/VerifyEmail/VerifyEmail";
+import { MainPage } from "./app-components/MainPage/MainPage";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: homeRoute,
-    element: <App />,
+    element: <MainPage />,
   },
   {
     path: registerRoute,

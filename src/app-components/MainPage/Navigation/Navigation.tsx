@@ -53,7 +53,7 @@ export const Navigation = ({ onSidebarToggle }) => {
 
                     <div className="image-text">
                         <span className="image">
-                            <img src="src/app-components/Navigation/logo.png" alt="logo"></img>
+                            <img src="src/app-components/MainPage/Navigation/logo.png" alt="logo"></img>
                         </span>
 
                         <div className="text header-text">
