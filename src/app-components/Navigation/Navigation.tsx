@@ -15,7 +15,7 @@ export const Navigation = ({ onSidebarToggle }) => {
         if (window.innerWidth > 900) {
             timeoutId = setTimeout(() => {
                 setSidebarOpen(true);
-                onSidebarToggle(true); // Notify the parent component about the sidebar state change
+                onSidebarToggle(true);
 
             }, 150);
         }
@@ -24,19 +24,19 @@ export const Navigation = ({ onSidebarToggle }) => {
     const handleMouseLeave = () => {
         clearTimeout(timeoutId);
         setSidebarOpen(false);
-        onSidebarToggle(false); // Notify the parent component about the sidebar state change
+        onSidebarToggle(false); 
 
     };
 
     const handleHamburgerClick = () => {
         setSidebarOpen(true); 
-        onSidebarToggle(true); // Notify the parent component about the sidebar state change
+        onSidebarToggle(true);
 
     };
 
     const handleCloseClick = () => {
         setSidebarOpen(false);
-        onSidebarToggle(false); // Notify the parent component about the sidebar state change
+        onSidebarToggle(false);
 
     }
 

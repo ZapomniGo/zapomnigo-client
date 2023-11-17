@@ -1,19 +1,45 @@
 .home{
+    position: relative;
     left: 88px;
     height: 100vh;
-    width: 100vw;
+    width: calc(100% - 88px);
     background: var(--body-color);
     transition: var(--tran-05);
+    display: flex;
+    justify-content: center;
+
+    .open{
+        filter: blur(2px);
+    }
+
+    .recent{
+        display: flex;
+    }
+
+    .text{
+        font-size: 2vmax;
+        font-weight: 500;
+        color: var(--text-color);
+        padding: 1vmax 2vmax;
+    }
+
+    .set-card{
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        width: 18rem;
+        margin: 10px;
+    }
 }
 
 .home.open{
-    filter: blur(2px);
 }
 
 .home .text {
-    font-size: 2vmax;
-    font-weight: 500;
-    color: var(--text-color);
-    padding: 1vmax 2vmax;
+    
+}
+
+.set-card{
+    
 }
 
