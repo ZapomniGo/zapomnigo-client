@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { BiChevronRight, BiHomeAlt, BiSearch, BiLogOut} from "react-icons/bi";
+import { BiHomeAlt, BiSearch, BiLogOut} from "react-icons/bi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 

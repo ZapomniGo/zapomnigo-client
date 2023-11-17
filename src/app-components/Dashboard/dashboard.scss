@@ -44,13 +44,18 @@
                 opacity: 0;
                 overflow: hidden;
             }
+            .opened{
+                opacity: 1;
+            }
             .set-title{
                 font-size: 0.9rem;
+                margin-top: 0.1vmax;
                 margin-bottom: 0.5vmin;
             }
             .set-creator{
                 display: flex;
                 align-items: center;
+                margin-bottom: 0.5vmin;
                 .image{
                     min-width: 2.5vmax;
                     display: flex;
