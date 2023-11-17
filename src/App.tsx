@@ -7,7 +7,6 @@ export const App = () => {
 
   const handleSidebarToggle = (isOpen) => {
     setSidebarOpen(isOpen);
-    console.log(sidebarOpen)
   };
 
   return (
