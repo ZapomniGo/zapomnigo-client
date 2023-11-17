@@ -10,11 +10,11 @@ export const MainPage = () => {
     const handleSidebarToggle = (isOpen) => {
     setSidebarOpen(isOpen);
     };
-    
+
     return (
-        <>
+        <div className="main-page">
           <Navigation onSidebarToggle={handleSidebarToggle} />
           <Dashboard sidebarOpen={sidebarOpen} />
-        </>
+        </div>
       );
 }
