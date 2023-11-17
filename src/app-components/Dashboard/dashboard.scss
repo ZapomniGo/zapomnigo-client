@@ -8,9 +8,6 @@
     display: flex;
     justify-content: center;
 
-    .open{
-        filter: blur(2px);
-    }
 
     .recent{
         display: flex;
@@ -33,13 +30,5 @@
 }
 
 .home.open{
+    filter: blur(2px);
 }
-
-.home .text {
-    
-}
-
-.set-card{
-    
-}
-
