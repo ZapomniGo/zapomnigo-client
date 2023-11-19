@@ -1,15 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;500;700;900&display=swap");
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: $primary-font, sans-serif;
 }
 body {
   animation: fadein 1s;
 }
 ::selection {
-  background-color: #ec9f05;
+  background-color: $secondary-color;
   color: white;
 }
 input {
@@ -19,12 +18,12 @@ input {
   padding: 0 1vmax;
   font-size: 1.4vmax;
   border: 0;
-  border-bottom: 1px solid orange;
+  border-bottom: 1px solid $secondary-color;
   font-weight: 500;
 
   &:focus {
     outline: none;
-    border-bottom: 1px solid orange;
+    border-bottom: 1px solid $secondary-color;
   }
 }
 input[type="submit"] {
@@ -52,10 +51,10 @@ select {
   border: 0;
   border-radius: 0;
   background-color: white;
-  border-bottom: 1px solid orange;
+  border-bottom: 1px solid $secondary-color;
   &:focus {
     outline: none;
-    border-bottom: 1px solid orange;
+    border-bottom: 1px solid $secondary-color;
   }
 }
 
@@ -71,18 +70,18 @@ input[type="submit"] {
   padding: 0 1vmax;
   border-radius: 0.2em;
   font-size: 1.5vmax;
-  background-color: #ec9f05;
+  background-color: $secondary-color;
   color: #fff;
   border: none;
   &:focus {
     outline: none;
-    border: 1px solid #ec9f05;
+    border: 1px solid $secondary-color;
   }
 }
 
 button:hover,
 input[type="submit"]:hover {
-  box-shadow: 0 0 5px 2px orange; /* Adjust the alpha value for transparency */
+  box-shadow: 0 0 5px 2px $secondary-color;
 }
 
 #backgroundForm {
@@ -103,8 +102,8 @@ input[type="submit"]:hover {
   .top-left-1 {
     width: 100%;
     position: absolute;
-    left: -25%; /* Adjust this value based on your design */
-    margin-top: 0; /* Reset margin-top */
+    left: -25%;
+    margin-top: 0;
     z-index: 1;
   }
 
@@ -132,8 +131,8 @@ input[type="submit"]:hover {
   .top-left-2 {
     width: 100%;
     position: absolute;
-    left: -10%; /* Adjust this value based on your design */
-    margin-top: 0; /* Reset margin-top */
+    left: -10%;
+    margin-top: 0;
     z-index: 0;
   }
 
@@ -148,7 +147,7 @@ input[type="submit"]:hover {
     position: absolute;
     top: 0;
     right: 0;
-    margin-bottom: 0px !important;
+    margin-bottom: 0px;
   }
 
   .top-right svg {
@@ -162,7 +161,7 @@ input[type="submit"]:hover {
     position: absolute;
     bottom: 0;
     right: 0;
-    margin-bottom: 0px !important; /* Adjust this value based on your design */
+    margin-bottom: 0px;
   }
 
   .bottom-right svg {
@@ -182,7 +181,7 @@ input[type="submit"]:hover {
   .title {
     text-align: center;
     font-size: 3vmax;
-    color: #ec9f05;
+    color: $secondary-color;
     font-weight: 700;
   }
 
@@ -195,8 +194,8 @@ input[type="submit"]:hover {
     z-index: 1;
 
     .error {
-      border-bottom: 2px solid red;
-      color: red;
+      border-bottom: 2px solid $primary-color;
+      color: $primary-color;
     }
     .step-title {
       font-size: 20px;
@@ -209,11 +208,11 @@ input[type="submit"]:hover {
     }
 
     .stepper .active {
-      background-color: #ec9f05;
+      background-color: $secondary-color;
     }
 
     .stepper .completed {
-      background-color: #ec9f05;
+      background-color: $secondary-color;
     }
   }
 }
@@ -240,8 +239,8 @@ input[type="submit"]:hover {
       padding: 2.5vmax;
       width: 90vw;
     }
-    #buttonWrapper > button{
-      width:100%;
+    #buttonWrapper > button {
+      width: 100%;
       font-size: 2.5vmax;
       height: 6vh;
     }
@@ -257,7 +256,6 @@ input[type="submit"]:hover {
   }
 }
 @-moz-keyframes fadein {
-  /* Firefox */
   from {
     opacity: 0;
   }
@@ -266,7 +264,6 @@ input[type="submit"]:hover {
   }
 }
 @-webkit-keyframes fadein {
-  /* Safari and Chrome */
   from {
     opacity: 0;
   }
@@ -275,7 +272,6 @@ input[type="submit"]:hover {
   }
 }
 @-o-keyframes fadein {
-  /* Opera */
   from {
     opacity: 0;
   }
