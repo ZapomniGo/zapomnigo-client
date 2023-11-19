@@ -158,7 +158,15 @@ header .image-text .header-text{
     @include orangeBackground;
 }
 
-.sidebar li a:hover .icon svg,
+.sidebar li .active{
+    @include orangeBackground;
+}
+.sidebar li .active svg,
+.sidebar li .active .text{
+    color: $sidebar-color;
+}
+
+.sidebar li a:hover .icon svg,  
 .sidebar li a:hover .text{
     color: $sidebar-color;
 }  

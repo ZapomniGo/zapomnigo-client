@@ -1,16 +1,19 @@
-import React, { Children } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-// import { App } from "./App";
-import "./index.scss";
-import { homeRoute, registerRoute, verifyEmail } from "./app-utils/AppRoutes";
+import { homeRoute, registerRoute, verifyEmail, setsRoute, foldersRoute, createRoute, settingsRoute } from "./app-utils/AppRoutes";
 import { Registration } from "./app-components/Registration/Registration";
 import { VerifyEmail } from "./app-components/VerifyEmail/VerifyEmail";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Dashboard } from "./app-components/Dashboard/Dashboard";
 import { Provider } from "react-redux";
+import { Sets } from "./app-components/Sets/Sets";
 import { store } from "./app-context/store";
+import { Folders } from "./app-components/Folders/Folders";
+import "./index.scss";
+import { Create } from "./app-components/Create/Create";
+import { Settings } from "./app-components/Settings/Settings";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -23,6 +26,22 @@ const router = createBrowserRouter([
       path: homeRoute,
       element: <Dashboard/>
     },
+    {
+      path: setsRoute,
+      element: <Sets/>  
+    },
+    {
+      path: foldersRoute,
+      element: <Folders/>
+    },
+    {
+      path: createRoute,
+      element: <Create/>
+    },
+    {
+      path: settingsRoute,
+      element: <Settings/>
+    }
 
   ]},
   {
