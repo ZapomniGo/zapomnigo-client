@@ -1,8 +1,8 @@
 import { BiHomeAlt, BiSearch, BiLogOut} from "react-icons/bi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
-import { useAppDispatch, useAppSelector } from "../../../app-context/store";
-import { navReducer } from "../../../app-context/navigationSlice";
+import { useAppDispatch, useAppSelector } from "../../app-context/store";
+import { navReducer } from "../../app-context/navigationSlice";
 import { TbCards } from "react-icons/tb";
 import { FaRegFolderOpen } from "react-icons/fa";
 import { GoPencil } from "react-icons/go";
@@ -54,7 +54,7 @@ export const Navigation = (props) => {
 
                         <div className="image-text">
                             <span className="image">
-                                <img src="src/app-components/MainPage/Navigation/logo.png" alt="logo"></img>
+                                <img src="src/app-components/Navigation/logo.png" alt="logo"></img>
                             </span>
 
                             <div className="text header-text">

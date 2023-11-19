@@ -7,8 +7,8 @@ import "./index.scss";
 import { homeRoute, registerRoute, verifyEmail } from "./app-utils/AppRoutes";
 import { Registration } from "./app-components/Registration/Registration";
 import { VerifyEmail } from "./app-components/VerifyEmail/VerifyEmail";
-import { Navigation } from "./app-components/MainPage/Navigation/Navigation";
-import { Dashboard } from "./app-components/MainPage/Dashboard/Dashboard";
+import { Navigation } from "./app-components/Navigation/Navigation";
+import { Dashboard } from "./app-components/Dashboard/Dashboard";
 import { Provider } from "react-redux";
 import { store } from "./app-context/store";
 
@@ -20,9 +20,10 @@ const router = createBrowserRouter([
   ,
   children: [
     {
-      path: "/test",
+      path: homeRoute,
       element: <Dashboard/>
-    }
+    },
+
   ]},
   {
     path: registerRoute,

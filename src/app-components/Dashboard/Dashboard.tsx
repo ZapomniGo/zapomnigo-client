@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SetCard from "./SetCard";
-import { useAppSelector } from "../../../app-context/store";
+import { useAppSelector } from "../../app-context/store";
 
 interface SetCardData {
   id: string;
@@ -12,13 +12,14 @@ interface SetCardData {
 }
 
 // Mock data for testing purposes
+// To do:create 5 pictures and randomly assign them to newly created users
 const mockSetCards: SetCardData[] = [
   {
     id: "card1",
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
     institution: "AUBG",
-    image: "src/app-components/MainPage/Navigation/logo.png",
+    image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
   {
@@ -26,7 +27,7 @@ const mockSetCards: SetCardData[] = [
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
     institution: "AUBG",
-    image: "src/app-components/MainPage/Navigation/logo.png",
+    image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
   {
@@ -34,7 +35,7 @@ const mockSetCards: SetCardData[] = [
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
     institution: "AUBG",
-    image: "src/app-components/MainPage/Navigation/logo.png",
+    image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
   {
@@ -42,7 +43,7 @@ const mockSetCards: SetCardData[] = [
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
     institution: "AUBG",
-    image: "src/app-components/MainPage/Navigation/logo.png",
+    image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
   {
@@ -50,7 +51,7 @@ const mockSetCards: SetCardData[] = [
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
     institution: "AUBG",
-    image: "src/app-components/MainPage/Navigation/logo.png",
+    image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
   {
@@ -58,7 +59,7 @@ const mockSetCards: SetCardData[] = [
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
     institution: "AUBG",
-    image: "src/app-components/MainPage/Navigation/logo.png",
+    image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
   {
@@ -66,7 +67,7 @@ const mockSetCards: SetCardData[] = [
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
     institution: "AUBG",
-    image: "src/app-components/MainPage/Navigation/logo.png",
+    image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
   {
@@ -74,7 +75,7 @@ const mockSetCards: SetCardData[] = [
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
     institution: "AUBG",
-    image: "src/app-components/MainPage/Navigation/logo.png",
+    image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
 ];

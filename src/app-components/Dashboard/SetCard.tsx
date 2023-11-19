@@ -1,5 +1,4 @@
 import React from "react";
-import { SlOptionsVertical } from "react-icons/sl";
 
 interface SetCardProps {
   id: string;
