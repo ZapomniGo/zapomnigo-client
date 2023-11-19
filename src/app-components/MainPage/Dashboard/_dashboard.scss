@@ -104,7 +104,14 @@
         }
         .set-institution {
           text-align: right;
-          width: 50%;
+          width: 55%;
+          p{
+            display: inline-block;
+            background: $primary-color-light;
+            padding: 5px;
+            color:$text-color;
+            border-radius: 5px;
+          }
         }
       }
     }
@@ -115,6 +122,5 @@
 }
 
 .home.open {
-//   filter: blur(10px);
     filter: blur(10px);
 }
