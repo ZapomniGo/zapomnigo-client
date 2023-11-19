@@ -20,7 +20,7 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
       onMouseEnter={() => onMouseEnter(id)}
       onMouseLeave={onMouseLeave}
     >
-      <div className="title-options">
+      <div className={`title-options ${isSelected ? "active" : ""}`}>
         <div className={`set-title ${isSelected ? "active" : ""}`}>{title}</div>
         {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
           <SlOptionsVertical />

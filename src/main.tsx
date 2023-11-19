@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -7,14 +7,21 @@ import "./index.scss";
 import { homeRoute, registerRoute, verifyEmail } from "./app-utils/AppRoutes";
 import { Registration } from "./app-components/Registration/Registration";
 import { VerifyEmail } from "./app-components/VerifyEmail/VerifyEmail";
-import { MainPage } from "./app-components/MainPage/MainPage";
+import { Navigation } from "./app-components/MainPage/Navigation/Navigation";
+import { Dashboard } from "./app-components/MainPage/Dashboard/Dashboard";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: homeRoute,
-    element: <MainPage />,
-  },
+    element: <Navigation/>
+  ,
+  children: [
+    {
+      path: "/test",
+      element: <Dashboard/>
+    }
+  ]},
   {
     path: registerRoute,
     element: <Registration />,

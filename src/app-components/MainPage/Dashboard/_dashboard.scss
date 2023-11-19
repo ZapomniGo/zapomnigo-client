@@ -1,8 +1,8 @@
 .home {
   position: relative;
   align-self: center;
-  width: calc(100% - 88px);
-  left: 88px;
+  width: 100%;
+  // filter: brightness(20%);
 
   background: $body-color;
   transition: $tran-05;
@@ -10,7 +10,12 @@
   justify-content: center;
   flex-direction: column;
   justify-content: center;
-
+  .category{
+    display: flex;
+    width: calc(100% - 88px);
+    align-self: flex-end;
+    min-height: 100vh;
+  }
   .recent {
     flex-wrap: wrap;
     display: flex;
@@ -27,6 +32,9 @@
       flex-wrap: wrap;
     }
     .set-card {
+      transition: 0.3s;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+        rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
@@ -37,6 +45,7 @@
       padding: 10px;
       padding-left: 15px;
       font-size: 0.8rem;
+      height: 165px;
       .closed {
         opacity: 0;
         transition: $tran-03;
@@ -51,37 +60,40 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 40%;
+        height: 30%;
         .more-options {
           padding-right: 0.8vmax;
         }
       }
       .set-title {
         font-size: 1.5rem;
-        margin-top: 0.1vmax;
-        margin-bottom: 0.5vmin;
         transition: $tran-02;
       }
 
       .set-title.active {
         transition: $tran-02;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
       }
       .set-description {
+        display: flex;
+        align-items: flex-start;
         height: 50%;
       }
       .set-creator {
+        height: 20%;
         display: flex;
         align-items: center;
         margin-bottom: 0.5vmin;
         .image {
-          min-width: 2.5vmax;
+          width: 10%;
           display: flex;
           align-items: center;
+          margin-right: 0.5rem;
 
           img {
-            width: 1.75vmax;
-            border-radius: 6px;
+            border-radius: 5px;
+            min-width: 100%;
+            min-height: 100%;
           }
         }
         .creator-name {
@@ -97,16 +109,12 @@
       }
     }
   }
-  .set-card {
-    transition: 0.3s;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
-      rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
-  }
   .set-card.active {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   }
 }
 
 .home.open {
-  filter: blur(2px);
+//   filter: blur(10px);
+    filter: brightness(20%);
 }

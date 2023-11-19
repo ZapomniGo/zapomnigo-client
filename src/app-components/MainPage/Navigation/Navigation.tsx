@@ -4,8 +4,9 @@ import { IoMdClose } from "react-icons/io";
 
 
 import { useState } from "react";
+import { Outlet } from "react-router";
 
-export const Navigation = ({ onSidebarToggle }) => {
+export const Navigation = (props: any) => {
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
     let timeoutId: number;
@@ -14,7 +15,7 @@ export const Navigation = ({ onSidebarToggle }) => {
         if (window.innerWidth > 900) {
             timeoutId = setTimeout(() => {
                 setSidebarOpen(true);
-                onSidebarToggle(true);
+                // onSidebarToggle(true);
 
             }, 150);
         }
@@ -23,110 +24,114 @@ export const Navigation = ({ onSidebarToggle }) => {
     const handleMouseLeave = () => {
         clearTimeout(timeoutId);
         setSidebarOpen(false);
-        onSidebarToggle(false); 
+        // onSidebarToggle(false); 
 
     };
 
     const handleHamburgerClick = () => {
         setSidebarOpen(true); 
-        onSidebarToggle(true);
+        // onSidebarToggle(true);
 
     };
 
     const handleCloseClick = () => {
         setSidebarOpen(false);
-        onSidebarToggle(false);
+        // onSidebarToggle(false);
 
     }
 
 
     return(
-        <div className="navigation_bar" >
-            <RxHamburgerMenu className = "menu-mobile" onClick={handleHamburgerClick} />
-            <nav
-                className={`sidebar ${sidebarOpen ? "" : "close"}`}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-            >                
-                <header>
-                    <IoMdClose className="close_mobile" onClick={handleCloseClick}/>
+        <div className="wrapper">
+            <div className="navigation_bar" >
+                <RxHamburgerMenu className = "menu-mobile" onClick={handleHamburgerClick} />
+                <nav
+                    className={`sidebar ${sidebarOpen ? "" : "close"}`}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >                
+                    <header>
+                        <IoMdClose className="close_mobile" onClick={handleCloseClick}/>
 
-                    <div className="image-text">
-                        <span className="image">
-                            <img src="src/app-components/MainPage/Navigation/logo.png" alt="logo"></img>
-                        </span>
+                        <div className="image-text">
+                            <span className="image">
+                                <img src="src/app-components/MainPage/Navigation/logo.png" alt="logo"></img>
+                            </span>
 
-                        <div className="text header-text">
-                            <span className="name">Aleks Ivan</span>
-                            <span className="profession">Web Developer</span>
+                            <div className="text header-text">
+                                <span className="name">Aleks Ivan</span>
+                                <span className="profession">Web Developer</span>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div className="menu-bar">
+                        <div className="menu">
+                            <li className="search-box">
+                                <i className="icon">
+                                    <BiSearch/>
+                                </i>
+                                <input type="search" placeholder="Search..." />
+                            </li>
+                            <ul className="menu-links">
+                                <li className="nav-link">
+                                    <a href="#">
+                                        <i className="icon">
+                                            <BiHomeAlt/>
+                                        </i>
+                                        <span className="text nav-text">Dashboard</span>
+                                    </a>
+                                </li>
+                                <li className="nav-link">
+                                    <a href="#">
+                                        <i className="icon">
+                                            <BiHomeAlt/>
+                                        </i>
+                                        <span className="text nav-text">Dashboard</span>
+                                    </a>
+                                </li>
+                                <li className="nav-link">
+                                    <a href="#">
+                                        <i className="icon">
+                                            <BiHomeAlt/>
+                                        </i>
+                                        <span className="text nav-text">Dashboard</span>
+                                    </a>
+                                </li>
+                                <li className="nav-link">
+                                    <a href="#">
+                                        <i className="icon">
+                                            <BiHomeAlt/>
+                                        </i>
+                                        <span className="text nav-text">Dashboard</span>
+                                    </a>
+                                </li>
+                                <li className="nav-link">
+                                    <a href="#">
+                                        <i className="icon">
+                                            <BiHomeAlt/>
+                                        </i>
+                                        <span className="text nav-text">Dashboard</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div className="bottom-content">
+                            <li className="">
+                                <a href="#">
+                                    <i className="icon">
+                                        <BiLogOut/>
+                                    </i>
+                                    <span className="text nav-text">Logout</span>
+                                </a>
+                            </li>
                         </div>
                     </div>
-                </header>
-
-                <div className="menu-bar">
-                    <div className="menu">
-                        <li className="search-box">
-                            <i className="icon">
-                                <BiSearch/>
-                            </i>
-                            <input type="search" placeholder="Search..." />
-                        </li>
-                        <ul className="menu-links">
-                            <li className="nav-link">
-                                <a href="#">
-                                    <i className="icon">
-                                        <BiHomeAlt/>
-                                    </i>
-                                    <span className="text nav-text">Dashboard</span>
-                                </a>
-                            </li>
-                            <li className="nav-link">
-                                <a href="#">
-                                    <i className="icon">
-                                        <BiHomeAlt/>
-                                    </i>
-                                    <span className="text nav-text">Dashboard</span>
-                                </a>
-                            </li>
-                            <li className="nav-link">
-                                <a href="#">
-                                    <i className="icon">
-                                        <BiHomeAlt/>
-                                    </i>
-                                    <span className="text nav-text">Dashboard</span>
-                                </a>
-                            </li>
-                            <li className="nav-link">
-                                <a href="#">
-                                    <i className="icon">
-                                        <BiHomeAlt/>
-                                    </i>
-                                    <span className="text nav-text">Dashboard</span>
-                                </a>
-                            </li>
-                            <li className="nav-link">
-                                <a href="#">
-                                    <i className="icon">
-                                        <BiHomeAlt/>
-                                    </i>
-                                    <span className="text nav-text">Dashboard</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div className="bottom-content">
-                        <li className="">
-                            <a href="#">
-                                <i className="icon">
-                                    <BiLogOut/>
-                                </i>
-                                <span className="text nav-text">Logout</span>
-                            </a>
-                        </li>
-                    </div>
-                </div>
-            </nav>
+                </nav>
+            </div>
+            {props.children}
+            <Outlet />
         </div>
     )
     
