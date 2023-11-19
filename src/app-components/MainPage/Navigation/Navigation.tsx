@@ -3,6 +3,12 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { useAppDispatch, useAppSelector } from "../../../app-context/store";
 import { navReducer } from "../../../app-context/navigationSlice";
+import { TbCards } from "react-icons/tb";
+import { FaRegFolderOpen } from "react-icons/fa";
+import { GoPencil } from "react-icons/go";
+import { TbSettings } from "react-icons/tb";
+
+
 
 import { Outlet } from "react-router";
 
@@ -69,7 +75,7 @@ export const Navigation = (props) => {
                             <ul className="menu-links">
                                 <li className="nav-link">
                                     <a href="#">
-                                        <i className="icon">
+                                        <i className="icon" style={{'transform': "scale(1.3)"}}>
                                             <BiHomeAlt/>
                                         </i>
                                         <span className="text nav-text">Dashboard</span>
@@ -77,34 +83,35 @@ export const Navigation = (props) => {
                                 </li>
                                 <li className="nav-link">
                                     <a href="#">
-                                        <i className="icon">
-                                            <BiHomeAlt/>
+                                        <i className="icon" style={{'transform': "scale(1.2)"}}>
+                                            <TbCards />
                                         </i>
-                                        <span className="text nav-text">Dashboard</span>
+                                        <span className="text nav-text" >My Sets</span>
                                     </a>
                                 </li>
                                 <li className="nav-link">
                                     <a href="#">
                                         <i className="icon">
-                                            <BiHomeAlt/>
+                                            <FaRegFolderOpen />
+
                                         </i>
-                                        <span className="text nav-text">Dashboard</span>
+                                        <span className="text nav-text">My Folders</span>
                                     </a>
                                 </li>
                                 <li className="nav-link">
                                     <a href="#">
-                                        <i className="icon">
-                                            <BiHomeAlt/>
+                                        <i className="icon" style={{'transform': "scale(1.3)"}}>
+                                            <GoPencil/>
                                         </i>
-                                        <span className="text nav-text">Dashboard</span>
+                                        <span className="text nav-text">Create</span>
                                     </a>
                                 </li>
                                 <li className="nav-link">
                                     <a href="#">
-                                        <i className="icon">
-                                            <BiHomeAlt/>
+                                        <i className="icon" style={{'transform': "scale(1.2)"}}>
+                                            <TbSettings/>
                                         </i>
-                                        <span className="text nav-text">Dashboard</span>
+                                        <span className="text nav-text">Settings</span>
                                     </a>
                                 </li>
                             </ul>

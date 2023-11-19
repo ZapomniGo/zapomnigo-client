@@ -115,9 +115,34 @@ export const Dashboard = () => {
 
   return (
     <section className={`home ${navigationSliceManager.open ? "open" : "closed"}`}>
+      {/* To do: talk about new section and decisde if we need it and if yes develop pictures*/}
+     {/* <div className="news">
+        <div className="test"></div>
+        <div className="test"></div>
+        <div className="test"></div>
+      </div> */}
       <div className="category">
         <div className="recent">
           <h2 className="recent-title">Recent</h2>
+          <div className="recent-sets">
+            {setCards.map((card) => (
+              <SetCard
+                key={card.id}
+                id={card.id}
+                title={card.title}
+                description={card.description}
+                institution={card.institution}
+                image={card.image}
+                creator_name={card.creator_name}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                isSelected={selectSet === card.id}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="recent">
+          <h2 className="recent-title">Explore</h2>
           <div className="recent-sets">
             {setCards.map((card) => (
               <SetCard

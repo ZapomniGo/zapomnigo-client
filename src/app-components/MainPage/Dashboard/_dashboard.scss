@@ -15,6 +15,7 @@
     width: calc(100% - 88px);
     align-self: flex-end;
     min-height: 100vh;
+    flex-direction: column;
   }
   .recent {
     flex-wrap: wrap;
@@ -22,6 +23,8 @@
     align-self: flex-start;
     flex-direction: column;
     margin-left: 1.5vmax;
+    color: $text-color;
+    font-size: 1.75rem;
     margin-top: 1vmax;
     .recent-title {
       margin-left: 10px;
@@ -125,3 +128,20 @@
 .home.open {
     filter: blur(10px);
 }
+
+
+.news{
+  display: flex;
+  align-self: flex-end;
+  width: calc(100% - 88px);
+  justify-content: center;
+  .test{
+    @include orangeBackground;
+    // background: red;
+    height: 200px;
+    width: 450px;
+    margin: 40px;
+    border-radius: 10px;
+  }
+}
+
