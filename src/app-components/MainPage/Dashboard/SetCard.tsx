@@ -16,7 +16,7 @@ interface SetCardProps {
 const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, image, creator_name, onMouseEnter, onMouseLeave, isSelected }) => {
   return (
     <div
-      className="set-card"
+      className={"set-card"+(isSelected ? " active" : "")}
       onMouseEnter={() => onMouseEnter(id)}
       onMouseLeave={onMouseLeave}
     >
