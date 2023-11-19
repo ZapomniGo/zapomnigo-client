@@ -89,13 +89,21 @@ export const Registration = () => {
       case "email":
         if (
           typeof value === "string" &&
-          (value.length < 2 || value.length > 40 || !emailPattern.test(value))
+          (value.length < 2 || value.length > 40)
         ) {
           errorInfo = {
             hasError: true,
             message: "The email field should be 2-40 characters long",
           };
-        }
+        } else if (
+          typeof value === "string" &&
+          (!emailPattern.test(value))
+        ) {
+          errorInfo = {
+            hasError: true,
+            message: "Enter valid email",
+          };
+        } 
         break;
       default:
         break;
