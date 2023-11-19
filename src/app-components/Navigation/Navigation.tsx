@@ -1,7 +1,7 @@
-import React from "react";
+import React, { ReactNode } from "react";
+import { NavLink as RRNavLink, NavLinkProps } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
-import { NavLink } from "react-router-dom";
 import { BiHomeAlt, BiSearch, BiLogOut } from "react-icons/bi";
 import { TbCards } from "react-icons/tb";
 import { FaRegFolderOpen } from "react-icons/fa";
@@ -11,7 +11,19 @@ import { useAppDispatch, useAppSelector } from "../../app-context/store";
 import { navReducer } from "../../app-context/navigationSlice";
 import { Outlet } from "react-router-dom";
 
-export const Navigation = (props) => {
+interface CustomNavLinkProps extends NavLinkProps {
+  activeClassName?: string;
+}
+
+interface NavigationProps {
+  children?: ReactNode;
+}
+
+const CustomNavLink: React.FC<CustomNavLinkProps> = (props) => (
+  <RRNavLink {...props} />
+);
+
+export const Navigation: React.FC<NavigationProps> = (props) => {
   const navigationSliceManager = useAppSelector((state) => state.navigationReducer);
   const dispatch = useAppDispatch();
 
@@ -67,44 +79,44 @@ export const Navigation = (props) => {
               </li>
               <ul className="menu-links">
                 <li className="nav-link">
-                  <NavLink to="/" activeClassName="active">
+                  <CustomNavLink to="/" activeClassName="active">
                     <i className="icon" style={{ transform: "scale(1.3)" }}>
                       <BiHomeAlt />
                     </i>
                     <span className="text nav-text">Dashboard</span>
-                  </NavLink>
+                  </CustomNavLink>
                 </li>
                 <li className="nav-link">
-                  <NavLink to="/sets" activeClassName="active">
+                  <CustomNavLink to="/sets" activeClassName="active">
                     <i className="icon" style={{ transform: "scale(1.2)" }}>
                       <TbCards />
                     </i>
                     <span className="text nav-text">My Sets</span>
-                  </NavLink>
+                  </CustomNavLink>
                 </li>
                 <li className="nav-link">
-                  <NavLink to="/folders" activeClassName="active">
+                  <CustomNavLink to="/folders" activeClassName="active">
                     <i className="icon">
                       <FaRegFolderOpen />
                     </i>
                     <span className="text nav-text">My Folders</span>
-                  </NavLink>
+                  </CustomNavLink>
                 </li>
                 <li className="nav-link">
-                  <NavLink to="/create" activeClassName="active">
+                  <CustomNavLink to="/create" activeClassName="active">
                     <i className="icon" style={{ transform: "scale(1.3)" }}>
                       <GoPencil />
                     </i>
                     <span className="text nav-text">Create</span>
-                  </NavLink>
+                  </CustomNavLink>
                 </li>
                 <li className="nav-link">
-                  <NavLink to="/settings" activeClassName="active">
+                  <CustomNavLink to="/settings" activeClassName="active">
                     <i className="icon" style={{ transform: "scale(1.2)" }}>
                       <TbSettings />
                     </i>
                     <span className="text nav-text">Settings</span>
-                  </NavLink>
+                  </CustomNavLink>
                 </li>
               </ul>
             </div>
