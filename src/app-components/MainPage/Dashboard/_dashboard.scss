@@ -105,7 +105,8 @@
         .set-institution {
           text-align: right;
           width: 55%;
-          p{
+          a{
+            text-decoration: none;
             display: inline-block;
             background: $primary-color-light;
             padding: 5px;
