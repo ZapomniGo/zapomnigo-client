@@ -1,6 +1,6 @@
 export const Background = () => {
   return (
-    <div>
+    <>
       <div className="spacer top-left-1">
         <svg
           id="visual"
@@ -95,6 +95,6 @@ export const Background = () => {
           </g>
         </svg>
       </div>
-    </div>
+    </>
   );
 };

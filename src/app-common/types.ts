@@ -1,9 +1,9 @@
-export type DataError = {
+type DataError = {
   hasError: boolean;
   message: string;
 };
 
-export type UserData = {
+type UserData = {
   name: string;
   username: string;
   password: string;
@@ -13,3 +13,5 @@ export type UserData = {
   age: number | null;
   email: string;
 };
+
+export type { DataError, UserData };

@@ -1,8 +1,10 @@
 import { DataError } from "../../../app-common/types";
 
-export type LoginData = {
+type LoginData = {
   username: string;
   password: string;
 };
 
-export type LoginErrorRecord = Record<keyof LoginData, DataError>;
+type LoginErrorRecord = Record<keyof LoginData, DataError>;
+
+export type { LoginData, LoginErrorRecord };

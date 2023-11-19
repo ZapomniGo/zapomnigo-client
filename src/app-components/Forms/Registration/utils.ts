@@ -1,6 +1,6 @@
 import { UserData, DataError } from "../../../app-common/types";
 
-export const initialErrors: Record<keyof UserData, DataError> = {
+const initialErrors: Record<keyof UserData, DataError> = {
   name: { hasError: false, message: "" },
   username: { hasError: false, message: "" },
   password: { hasError: false, message: "" },
@@ -11,7 +11,7 @@ export const initialErrors: Record<keyof UserData, DataError> = {
   email: { hasError: false, message: "" },
 };
 
-export const initialUserState: UserData = {
+const initialUserState: UserData = {
   name: "",
   username: "",
   password: "",
@@ -21,5 +21,7 @@ export const initialUserState: UserData = {
   age: null,
   email: "",
 };
-export const emailPattern: RegExp =
+const emailPattern: RegExp =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+export { initialErrors, initialUserState, emailPattern };
