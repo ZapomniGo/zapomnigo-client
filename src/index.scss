@@ -1,11 +1,4 @@
+@import "./app-common/variables";
 @import "./app.scss";
-@import "./app-components/Forms/Login/Login.scss";
-@import "./app-components/Forms/Registration/Registration.scss";
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;500;700;900&display=swap");
-
-// Colors
-$primary-color: #ff4e00;
-$secondary-color: #ec9f05;
-
-// Fonts
-$primary-font: "Poppins";
+@import "./app-common/common-styles";
+@import "./app-components/Forms/forms";
