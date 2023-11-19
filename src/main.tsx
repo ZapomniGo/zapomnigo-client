@@ -9,6 +9,8 @@ import { Registration } from "./app-components/Registration/Registration";
 import { VerifyEmail } from "./app-components/VerifyEmail/VerifyEmail";
 import { Navigation } from "./app-components/MainPage/Navigation/Navigation";
 import { Dashboard } from "./app-components/MainPage/Dashboard/Dashboard";
+import { Provider } from "react-redux";
+import { store } from "./app-context/store";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -33,9 +35,11 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
+  <Provider store={store}>
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>
   </React.StrictMode>
+  </Provider>
 );

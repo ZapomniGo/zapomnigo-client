@@ -1,43 +1,36 @@
 import { BiHomeAlt, BiSearch, BiLogOut} from "react-icons/bi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
+import { useAppDispatch, useAppSelector } from "../../../app-context/store";
+import { navReducer } from "../../../app-context/navigationSlice";
 
-
-import { useState } from "react";
 import { Outlet } from "react-router";
 
-export const Navigation = (props: any) => {
+export const Navigation = (props) => {
 
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const navigationSliceManager = useAppSelector((state) => state.navigationReducer);
+    const dispatch = useAppDispatch();
     let timeoutId: number;
 
     const handleMouseEnter = () => {
         if (window.innerWidth > 900) {
             timeoutId = setTimeout(() => {
-                setSidebarOpen(true);
-                // onSidebarToggle(true);
-
+                dispatch(navReducer({open: true}));
             }, 150);
         }
     };
 
     const handleMouseLeave = () => {
         clearTimeout(timeoutId);
-        setSidebarOpen(false);
-        // onSidebarToggle(false); 
-
+        dispatch(navReducer({open: false}));
     };
 
     const handleHamburgerClick = () => {
-        setSidebarOpen(true); 
-        // onSidebarToggle(true);
-
+        dispatch(navReducer({open: true}));
     };
 
     const handleCloseClick = () => {
-        setSidebarOpen(false);
-        // onSidebarToggle(false);
-
+        dispatch(navReducer({open: false}));
     }
 
 
@@ -46,7 +39,7 @@ export const Navigation = (props: any) => {
             <div className="navigation_bar" >
                 <RxHamburgerMenu className = "menu-mobile" onClick={handleHamburgerClick} />
                 <nav
-                    className={`sidebar ${sidebarOpen ? "" : "close"}`}
+                    className={`sidebar ${navigationSliceManager.open ? "" : "close"}`}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                 >                
@@ -130,6 +123,7 @@ export const Navigation = (props: any) => {
                     </div>
                 </nav>
             </div>
+            {navigationSliceManager.open}
             {props.children}
             <Outlet />
         </div>

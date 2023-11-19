@@ -40,7 +40,9 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
             </p>
         </div>
         <div className={`set-institution ${isSelected ? "open" : "closed"}`}>
-              {institution}
+              <p>
+                {institution}
+              </p>
         </div>
       </div>
     </div>

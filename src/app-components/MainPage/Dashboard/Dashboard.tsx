@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SetCard from "./SetCard";
+import { useAppSelector } from "../../../app-context/store";
 
 interface SetCardData {
   id: string;
@@ -87,11 +88,12 @@ const fetchSetCards = (): Promise<SetCardData[]> => {
 };
 
 
-export const Dashboard = ({ sidebarOpen }) => {
+export const Dashboard = () => {
   const [selectSet, setSelectSet] = useState<string | null>(null);
   const [setCards, setSetCards] = useState<SetCardData[]>([]);
+  const navigationSliceManager = useAppSelector((state) => state.navigationReducer);
 
-  console.log(sidebarOpen)
+  // console.log(sidebarOpen)
 
   useEffect(() => {
     fetchSetCards()
@@ -112,7 +114,7 @@ export const Dashboard = ({ sidebarOpen }) => {
   };
 
   return (
-    <section className={`home ${sidebarOpen ? "open" : "closed"}`}>
+    <section className={`home ${navigationSliceManager.open ? "open" : "closed"}`}>
       <div className="category">
         <div className="recent">
           <h2 className="recent-title">Recent</h2>
