@@ -2,14 +2,14 @@
 //reusable code
 body{
     height: 100vh;
-    background: var(--body-color);
+    background: $body-color;
 }
 
 .sidebar .text{
     font-size: 16px;
     font-weight: 500;
-    color: var(--text-color);
-    transition: var(--tran-02);
+    color: $text-color;
+    transition: $tran-02;
     white-space: nowrap;
     opacity: 1;
 }
@@ -32,8 +32,8 @@ body{
     height: 98%;
     width: 250px;
     padding: 10px 14px ;
-    background: var(--sidebar-color);
-    transition: var(--tran-05);
+    background: $sidebar-color;
+    transition: $tran-05;
     z-index: 100;
     border-radius: 0 1em 1em 0;
     overflow: hidden;
@@ -63,8 +63,8 @@ body{
 
 .sidebar li .icon svg,
 .sidebar li .text{
-    color: var(--text-color);
-    transition: var(--tran-02) !important;
+    color: $text-color;
+    transition: $tran-02 !important;
 }
 
 .sidebar li{
@@ -105,20 +105,20 @@ header .image-text .header-text{
     transform: translateY(-50%) rotate(180deg);
     height: 25px;   
     width: 25px;
-    background: var(--primary-color );
+    background: $primary-color;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    color: var(--sidebar-color);
+    color: $sidebar-color;
     font-size: 22px;
-    transition: var(--tran-03);
+    transition: $tran-03;
 }
 
 .sidebar .search-box{
-    background: var(--primary-color-light);
+    background: $primary-color-light;
     border-radius: 6px;
-    transition: var(--tran-02);
+    transition: $tran-02;
     margin-top: 15px;
 }
 
@@ -134,7 +134,7 @@ header .image-text .header-text{
     outline: none;
     border: none;
     border-radius: 6px;
-    background: var(--primary-color-light);
+    background: $primary-color-light;
    
 }
 
@@ -145,7 +145,7 @@ header .image-text .header-text{
     align-items: center;
     text-decoration: none;
     border-radius: 6px;
-    transition: var(--tran-02) !important;
+    transition: $tran-02 !important;
 }
 
 .sidebar li a:hover{
@@ -154,7 +154,7 @@ header .image-text .header-text{
 
 .sidebar li a:hover .icon svg,
 .sidebar li a:hover .text{
-    color: var(--sidebar-color);
+    color: $sidebar-color;
 }  
 
 .sidebar .menu-bar{
@@ -167,7 +167,7 @@ header .image-text .header-text{
 .menu-bar .mode{
     position: relative;
     border-radius: 6px;
-    background: var(--primary-color-light);
+    background: $primary-color-light;
 
 }
 
@@ -197,9 +197,9 @@ header .image-text .header-text{
     min-width: 60px;
     justify-content: center;
     cursor: pointer;
-    background: var(--primary-color-light);
+    background: $primary-color-light;
     border-radius: 6px;
-    background: var(--primary-color-light);
+    background: $primary-color-light;
 }
 
 .toggle-switch .switch{
@@ -207,7 +207,7 @@ header .image-text .header-text{
     height: 22px;
     width: 44px;
     border-radius: 25px;
-    background: var(--toggle-color);
+    background: $toggle-color;
 }
 
 .switch::before{
@@ -219,7 +219,7 @@ header .image-text .header-text{
     top: 50%;
     left: 5px;
     transform: translateY(-50%);
-    background: var(--sidebar-color);
+    background: $sidebar-color;
 }
 
 .close_mobile{

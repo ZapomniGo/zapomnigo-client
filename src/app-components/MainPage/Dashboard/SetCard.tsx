@@ -21,7 +21,7 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
       onMouseLeave={onMouseLeave}
     >
       <div className="title-options">
-        <div className="set-title">{title}</div>
+        <div className={`set-title ${isSelected ? "active" : ""}`}>{title}</div>
         {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
           <SlOptionsVertical />
         </div> */}
@@ -29,9 +29,6 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
       
       <div className={`set-description ${isSelected ? "open" : "closed"}`}>
         {description}
-      </div>
-      <div className={`set-institution ${isSelected ? "open" : "closed"}`}>
-        {institution}
       </div>
       <div className="set-creator">
         <div className="image">
@@ -41,6 +38,9 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
             <p>
               {creator_name}
             </p>
+        </div>
+        <div className={`set-institution ${isSelected ? "open" : "closed"}`}>
+              {institution}
         </div>
       </div>
     </div>

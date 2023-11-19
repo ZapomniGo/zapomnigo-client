@@ -4,8 +4,8 @@
     width: calc(100% - 88px);
     left: 88px;
     
-    background: var(--body-color);
-    transition: var(--tran-05);
+    background: $body-color;
+    transition: $tran-05;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -42,12 +42,12 @@
             font-size: 0.8rem;
             .closed{
                 opacity: 0;
-                transition: var(--tran-03);
+                transition: $tran-03;
 
                 overflow: hidden;
             }
             .open{
-                transition: var(--tran-03);
+                transition: $tran-03;
 
                 opacity: 1;
             }
@@ -55,14 +55,24 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                height: 40%;
                 .more-options{
                     padding-right: 0.8vmax;
                 }
             }
             .set-title{
-                font-size: 0.9rem;
+                font-size: 1.5rem;
                 margin-top: 0.1vmax;
                 margin-bottom: 0.5vmin;
+                transition: $tran-02;
+            }
+
+            .set-title.active{
+                transition: $tran-02;
+                font-size: 1.1rem;
+            }
+            .set-description{
+                height: 50% ;
             }
             .set-creator{
                 display: flex;
@@ -80,10 +90,14 @@
                 }
                 .creator-name{
                     font-weight: 500;
-                    color: var(--text-color);
-                    transition: var(--tran-02);
+                    color: $text-color;
+                    transition: $tran-02;
                     white-space: nowrap;
                 }
+                .set-institution{
+                text-align: right;
+                width: 50%;
+            }
             }            
         }
     }

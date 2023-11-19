@@ -16,7 +16,7 @@ const mockSetCards: SetCardData[] = [
     id: "card1",
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
-    institution: "American University in Bulgaria",
+    institution: "AUBG",
     image: "src/app-components/MainPage/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
@@ -24,7 +24,7 @@ const mockSetCards: SetCardData[] = [
     id: "card2",
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
-    institution: "American University in Bulgaria",
+    institution: "AUBG",
     image: "src/app-components/MainPage/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
@@ -32,7 +32,7 @@ const mockSetCards: SetCardData[] = [
     id: "card3",
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
-    institution: "American University in Bulgaria",
+    institution: "AUBG",
     image: "src/app-components/MainPage/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
@@ -40,7 +40,7 @@ const mockSetCards: SetCardData[] = [
     id: "card4",
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
-    institution: "American University in Bulgaria",
+    institution: "AUBG",
     image: "src/app-components/MainPage/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
@@ -48,7 +48,7 @@ const mockSetCards: SetCardData[] = [
     id: "card5",
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
-    institution: "American University in Bulgaria",
+    institution: "AUBG",
     image: "src/app-components/MainPage/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
@@ -56,7 +56,7 @@ const mockSetCards: SetCardData[] = [
     id: "card6",
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
-    institution: "American University in Bulgaria",
+    institution: "AUBG",
     image: "src/app-components/MainPage/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
@@ -64,7 +64,7 @@ const mockSetCards: SetCardData[] = [
     id: "card7",
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
-    institution: "American University in Bulgaria",
+    institution: "AUBG",
     image: "src/app-components/MainPage/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
@@ -72,7 +72,7 @@ const mockSetCards: SetCardData[] = [
     id: "card8",
     title: "COS2001 C++",
     description: "Description of this set of cards and it informs us about fds course",
-    institution: "American University in Bulgaria",
+    institution: "AUBG",
     image: "src/app-components/MainPage/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
