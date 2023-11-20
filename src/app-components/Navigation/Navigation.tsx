@@ -47,7 +47,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 
   return (
     <div className="wrapper">
-      <div className="navigation_bar">
+      <div className="navigation-bar">
         <RxHamburgerMenu className="menu-mobile" onClick={handleHamburgerClick} />
         <nav
           className={`sidebar ${navigationSliceManager.open ? "" : "close"}`}
@@ -55,7 +55,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
           onMouseLeave={handleMouseLeave}
         >
           <header>
-            <IoMdClose className="close_mobile" onClick={handleCloseClick} />
+            <IoMdClose className="close-mobile" onClick={handleCloseClick} />
 
             <div className="image-text">
               <span className="image">
