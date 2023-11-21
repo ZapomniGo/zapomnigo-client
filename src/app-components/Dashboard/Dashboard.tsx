@@ -78,6 +78,54 @@ const mockSetCards: SetCardData[] = [
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov"
   },
+  {
+    id: "card1",
+    title: "COS2001 C++",
+    description: "Description of this set of cards and it informs us about fds course",
+    institution: "AUBG",
+    image: "src/app-components/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
+  },
+  {
+    id: "card1",
+    title: "COS2001 C++",
+    description: "Description of this set of cards and it informs us about fds course",
+    institution: "AUBG",
+    image: "src/app-components/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
+  },
+  {
+    id: "card1",
+    title: "COS2001 C++",
+    description: "Description of this set of cards and it informs us about fds course",
+    institution: "AUBG",
+    image: "src/app-components/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
+  },
+  {
+    id: "card1",
+    title: "COS2001 C++",
+    description: "Description of this set of cards and it informs us about fds course",
+    institution: "AUBG",
+    image: "src/app-components/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
+  },
+  {
+    id: "card1",
+    title: "COS2001 C++",
+    description: "Description of this set of cards and it informs us about fds course",
+    institution: "AUBG",
+    image: "src/app-components/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
+  },
+  {
+    id: "card1",
+    title: "COS2001 C++",
+    description: "Description of this set of cards and it informs us about fds course",
+    institution: "AUBG",
+    image: "src/app-components/Navigation/logo.png",
+    creator_name: "Aleks Ivanov"
+  },
 ];
 
 const fetchSetCards = (): Promise<SetCardData[]> => {
@@ -115,7 +163,7 @@ export const Dashboard = () => {
   };
 
   return (
-    <section className={`home ${navigationSliceManager.open ? "open" : "closed"}`}>
+    <section className={`home ${navigationSliceManager.open ? "open" : "close"}`}>
       {/* To do: talk about new section and decisde if we need it and if yes develop pictures*/}
      {/* <div className="news">
         <div className="test"></div>
@@ -124,8 +172,8 @@ export const Dashboard = () => {
       </div> */}
       <div className="category">
         <div className="recent">
-          <h2 className="recent-title">Recent</h2>
-          <div className="recent-sets">
+          <h2 className="category-title">Recent</h2>
+          <div className="sets">
             {setCards.map((card) => (
               <SetCard
                 key={card.id}
@@ -143,8 +191,8 @@ export const Dashboard = () => {
           </div>
         </div>
         <div className="recent">
-          <h2 className="recent-title">Explore</h2>
-          <div className="recent-sets">
+          <h2 className="category-title">Explore</h2>
+          <div className="sets">
             {setCards.map((card) => (
               <SetCard
                 key={card.id}

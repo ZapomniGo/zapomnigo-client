@@ -154,14 +154,17 @@ body{
         }
     }
 
-
-
+    .close-mobile{
+        display: none;
+    }
+    
+    
+    .menu-mobile {
+        display: none;
+    }
 
     @media only screen and (max-width: 900px){
-        .home{
-            position: initial;
-        }
-
+        
         .sidebar{
             width: 100vw;
         }
@@ -187,16 +190,9 @@ body{
         .sidebar .menu-bar{
             height: calc(100% - 75px);
         }
-    }
-    .close-mobile{
-        display: none;
-    }
-    
-    
-    .menu-mobile {
-        display: none;
-    }
+        
 
+    }
 }
 
 
