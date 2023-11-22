@@ -89,7 +89,7 @@ const mockSetCards: SetCardData[] = [
   {
     id: "card1",
     title: "COS2001 C++",
-    description: "Description of this set of cards and it informs us about fds course",
+    description: "set of cards and it informs us about fds courseset of cards and it informs us about fds courseset of cards and it",
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov"

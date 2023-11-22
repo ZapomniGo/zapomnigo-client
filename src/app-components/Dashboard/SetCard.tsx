@@ -13,6 +13,17 @@ interface SetCardProps {
 }
 
 const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, image, creator_name, onMouseEnter, onMouseLeave, isSelected }) => {
+  const displayDescription = () => {
+    let n = 110;
+    if (description.length > n) {
+        while (description[n] != ' ') {
+            n -= 1;
+        }
+        return <p>{description.slice(0, n)}...</p>;
+    }
+    return <p>{description}</p>;
+};
+  
   return (
     <div
       className={"set-card"+(isSelected ? " active" : "")}
@@ -27,7 +38,7 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
       </div>
       
       <div className={`set-description ${isSelected ? "open" : "close"}`}>
-        {description}
+        {displayDescription()}
       </div>
       <div className="set-creator">
         <div className="image">

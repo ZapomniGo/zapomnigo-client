@@ -63,7 +63,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 30%;
+        height: 27.5%;
         opacity: 1 !important;
 
         .more-options {
@@ -82,7 +82,7 @@
       .set-description {
         display: flex;
         align-items: flex-start;
-        height: 50%;
+        height: 52.5%;
       }
       .set-creator {
         height: 20%;
@@ -151,6 +151,9 @@
     .open {
       transition: $tran-03;
       opacity: 1;
+    }
+    .set-title {
+      font-size: 1.2rem !important;
     }
     .set-title.active {
       transition: $tran-02;
