@@ -142,7 +142,7 @@ export const Dashboard = () => {
   const [setCards, setSetCards] = useState<SetCardData[]>([]);
   const navigationSliceManager = useAppSelector((state) => state.navigationReducer);
 
-  // console.log(sidebarOpen)
+  console.log(navigationSliceManager.open)
 
   useEffect(() => {
     fetchSetCards()
@@ -154,6 +154,21 @@ export const Dashboard = () => {
       });
   }, []);
 
+
+  useEffect(() => {
+    // Add/remove 'no-scroll' class to the body based on navigationSliceManager.open
+    if (navigationSliceManager.open) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+
+    // Clean up the effect
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [navigationSliceManager.open]);
+
   const handleMouseEnter = (id: string) => {
     setSelectSet(id);
   };
@@ -164,7 +179,7 @@ export const Dashboard = () => {
 
   return (
     <section className={`home ${navigationSliceManager.open ? "open" : "close"}`}>
-      {/* To do: talk about new section and decisde if we need it and if yes develop pictures*/}
+      {/* To do: talk about new section and decide if we need it and if yes develop pictures*/}
      {/* <div className="news">
         <div className="test"></div>
         <div className="test"></div>
