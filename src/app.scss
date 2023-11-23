@@ -24,6 +24,7 @@ $tran-05: all 0.5s ease;
 .container{
   display: flex;
   justify-content: flex-end;
+  transition: $tran-03;
   .content{
     width: calc(100% - 88px);
     
@@ -31,6 +32,7 @@ $tran-05: all 0.5s ease;
 }
 .container.open{
   filter: blur(4px);
+  transition: $tran-03;
 }
 @mixin centerContainer {
   position: absolute;
