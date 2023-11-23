@@ -163,9 +163,10 @@ body{
     }
     
     
-    .menu-mobile {
+    .nav-mobile {
         display: none;
     }
+
 
     @media only screen and (max-width: 900px){
 
@@ -182,8 +183,47 @@ body{
             flex-direction: column;
         }
 
-        .menu-mobile {
-            display: initial !important;
+        .nav-mobile {
+            margin-top: 5px;
+            min-width: 100%;
+            display: flex !important;
+            align-items: center;
+            height: 5vh;
+            .menu-mobile{
+                display: flex;
+                width: 20%;
+                height: 100%;
+                // margin-left: 2vw;
+                justify-content: center;
+                svg{
+                    transform: scale(2);
+                }
+            }
+            .search-box{
+                display: flex;
+                flex-direction: row;
+                background-color: $primary-color-light;
+                border-radius: 5px;
+                height: 90%;
+                i{
+                    align-self: center;
+                    display: flex;
+                    padding: 10px 15px;
+                    color: $text-color;
+
+                }
+                width: 60%;
+                input{
+                    height: 100%;
+                    width: 100%;
+                    font-size: 16px;
+                    font-weight: 500;
+                    outline: none;
+                    border: none;
+                    border-radius: 6px;
+                    background: $primary-color-light;
+                }
+            } 
         }
 
         .sidebar.close{

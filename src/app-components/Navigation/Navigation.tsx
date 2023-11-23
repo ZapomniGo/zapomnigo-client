@@ -48,7 +48,20 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
   return (
     <div className="wrapper">
       <div className="navigation-bar">
-        <RxHamburgerMenu className="menu-mobile" onClick={handleHamburgerClick} />
+        <div className="nav-mobile">
+          <div className="menu-mobile">
+            <RxHamburgerMenu className="menu-mobile" onClick={handleHamburgerClick} />
+          </div>
+          <div className="search-box">
+            <i className="icon">
+              <BiSearch />
+            </i>
+            <input type="search" placeholder="Search..." />
+          </div>
+          <div className="menu-mobile">
+            <RxHamburgerMenu className="menu-mobile" onClick={handleHamburgerClick} />
+          </div>
+        </div>
         <nav
           className={`sidebar ${navigationSliceManager.open ? "" : "close"}`}
           onMouseEnter={handleMouseEnter}

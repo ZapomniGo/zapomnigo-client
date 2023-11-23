@@ -2,7 +2,6 @@
   position: relative;
   align-self: center;
   width: 100%;
-  // filter: brightness(20%);
 
   background: $body-color;
   transition: $tran-05;
@@ -128,7 +127,7 @@
 }
 
 .home.open {
-    filter: blur(10px);
+    filter: blur(4px);
 }
 
 @media only screen and (max-width: 900px){
@@ -147,6 +146,9 @@
           justify-content: center;
         }
       }
+    }
+    .set-card{
+      width: 15rem !important;
     }
     .open {
       transition: $tran-03;
