@@ -1,4 +1,4 @@
-.home {
+.explore {
   position: relative;
   align-self: center;
   width: 100%;
@@ -9,13 +9,7 @@
   justify-content: center;
   flex-direction: column;
   justify-content: center;
-  .category{
-    display: flex;
-    width: calc(100% - 88px);
-    align-self: flex-end;
-    min-height: 100vh;
-    flex-direction: column;
-  }
+ 
   .recent {
     flex-wrap: wrap;
     display: flex;
@@ -126,13 +120,9 @@
   }
 }
 
-.home.open {
-    filter: blur(4px);
-}
-
 @media only screen and (max-width: 900px){
       
-  .home{
+  .explore{
     position: initial;
     .category{
       width: 100%;

@@ -21,7 +21,17 @@ $tran-03: all 0.3s ease;
 $tran-04: all 0.4s ease;
 $tran-05: all 0.5s ease;
 
-
+.container{
+  display: flex;
+  justify-content: flex-end;
+  .content{
+    width: calc(100% - 88px);
+    
+  }
+}
+.container.open{
+  filter: blur(4px);
+}
 @mixin centerContainer {
   position: absolute;
   left: 50%;

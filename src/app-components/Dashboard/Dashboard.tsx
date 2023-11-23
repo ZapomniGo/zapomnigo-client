@@ -142,8 +142,6 @@ export const Dashboard = () => {
   const [setCards, setSetCards] = useState<SetCardData[]>([]);
   const navigationSliceManager = useAppSelector((state) => state.navigationReducer);
 
-  console.log(navigationSliceManager.open)
-
   useEffect(() => {
     fetchSetCards()
       .then((data) => {
@@ -156,14 +154,12 @@ export const Dashboard = () => {
 
 
   useEffect(() => {
-    // Add/remove 'no-scroll' class to the body based on navigationSliceManager.open
     if (navigationSliceManager.open) {
       document.body.classList.add("no-scroll");
     } else {
       document.body.classList.remove("no-scroll");
     }
 
-    // Clean up the effect
     return () => {
       document.body.classList.remove("no-scroll");
     };
@@ -178,53 +174,59 @@ export const Dashboard = () => {
   };
 
   return (
-    <section className={`home ${navigationSliceManager.open ? "open" : "close"}`}>
-      {/* To do: talk about new section and decide if we need it and if yes develop pictures*/}
-     {/* <div className="news">
-        <div className="test"></div>
-        <div className="test"></div>
-        <div className="test"></div>
-      </div> */}
-      <div className="category">
-        <div className="recent">
-          <h2 className="category-title">Recent</h2>
-          <div className="sets">
-            {setCards.map((card) => (
-              <SetCard
-                key={card.id}
-                id={card.id}
-                title={card.title}
-                description={card.description}
-                institution={card.institution}
-                image={card.image}
-                creator_name={card.creator_name}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                isSelected={selectSet === card.id}
-              />
-            ))}
+    <div className={`container ${navigationSliceManager.open ? "open" : "close"}`}>
+      <div className="content">
+        <section className="explore">
+        {/* To do: talk about new section and decide if we need it and if yes develop pictures*/}
+        {/* <div className="news">
+            <div className="test"></div>
+            <div className="test"></div>
+            <div className="test"></div>
+          </div> */}
+          
+          <div className="category">
+            <div className="recent">
+              <h2 className="category-title">Recent</h2>
+              <div className="sets">
+                {setCards.map((card) => (
+                  <SetCard
+                    key={card.id}
+                    id={card.id}
+                    title={card.title}
+                    description={card.description}
+                    institution={card.institution}
+                    image={card.image}
+                    creator_name={card.creator_name}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    isSelected={selectSet === card.id}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="recent">
+              <h2 className="category-title">Explore</h2>
+              <div className="sets">
+                {setCards.map((card) => (
+                  <SetCard
+                    key={card.id}
+                    id={card.id}
+                    title={card.title}
+                    description={card.description}
+                    institution={card.institution}
+                    image={card.image}
+                    creator_name={card.creator_name}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    isSelected={selectSet === card.id}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="recent">
-          <h2 className="category-title">Explore</h2>
-          <div className="sets">
-            {setCards.map((card) => (
-              <SetCard
-                key={card.id}
-                id={card.id}
-                title={card.title}
-                description={card.description}
-                institution={card.institution}
-                image={card.image}
-                creator_name={card.creator_name}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                isSelected={selectSet === card.id}
-              />
-            ))}
-          </div>
-        </div>
+        </section>
       </div>
-    </section>
+    </div>
+    
   );
 };
