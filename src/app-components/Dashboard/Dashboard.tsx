@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SetCard from "./SetCard";
 import { useAppSelector } from "../../app-context/store";
+import ContainerComponent from "../PageContainer/PageContainer";
 
 interface SetCardData {
   id: string;
@@ -174,8 +175,9 @@ export const Dashboard = () => {
   };
 
   return (
-    <div className={`container ${navigationSliceManager.open ? "open" : "close"}`}>
-      <div className="content">
+    <ContainerComponent open={navigationSliceManager.open}>
+
+
         <section className="explore">
         {/* To do: talk about new section and decide if we need it and if yes develop pictures*/}
         {/* <div className="news">
@@ -225,8 +227,7 @@ export const Dashboard = () => {
             </div>
           </div>
         </section>
-      </div>
-    </div>
-    
+
+    </ContainerComponent>
   );
 };
