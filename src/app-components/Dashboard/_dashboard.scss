@@ -22,6 +22,7 @@
   
     .category-title {
       margin-left: 10px;
+      margin-bottom: 10px;
     }
 
     .sets {
@@ -37,6 +38,7 @@
       flex-direction: column;
       background-color: white;
       width: 18rem;
+      // width: 18.5%;
       margin: 10px;
       border-radius: 8px;
       padding: 10px;
@@ -115,8 +117,16 @@
         }
       }
     }
-    .load-more-btn{
-      
+    .load-more{
+      display: flex;
+      justify-content: center;
+      .load-more-btn{
+        border: 2px solid $text-color;
+        border-radius: 50%;
+        padding: 5px;
+        display: flex;
+        cursor: pointer;
+      }
     }
   }
   .set-card.open {

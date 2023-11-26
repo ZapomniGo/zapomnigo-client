@@ -198,25 +198,27 @@ export const Dashboard = () => {
           <div className="category">
             <div className="recent">
               <h2 className="category-title">Recent</h2>
-              <div className="sets">
-                {setCards.slice(0, visibleCards).map((card) => (
-                  <SetCard
-                    key={card.id}
-                    id={card.id}
-                    title={card.title}
-                    description={card.description}
-                    institution={card.institution}
-                    image={card.image}
-                    creator_name={card.creator_name}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                    isSelected={selectSet === card.id}
-                  />
-                ))}
+                <div className="sets">
+                  {setCards.slice(0, visibleCards).map((card) => (
+                    <SetCard
+                      key={card.id}
+                      id={card.id}
+                      title={card.title}
+                      description={card.description}
+                      institution={card.institution}
+                      image={card.image}
+                      creator_name={card.creator_name}
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
+                      isSelected={selectSet === card.id}
+                    />
+                  ))}
               </div>
-              {visibleCards < setCards.length && (
-                <div onClick={handleLoadMore} className="load-more-btn"><FaArrowDown /></div>
-            )}
+              <div className="load-more">
+                  {visibleCards < setCards.length && (
+                    <div onClick={handleLoadMore} className="load-more-btn"><FaArrowDown /></div>
+                  )}
+                </div>
             </div>
             <div className="recent">
               <h2 className="category-title">Explore</h2>
