@@ -31,8 +31,17 @@ $tran-05: all 0.5s ease;
   }
 }
 .container.open{
-  filter: blur(4px);
+  // filter: blur(1px);
   transition: $tran-03;
+}
+
+@media only screen and (max-width: 900px){
+  .container{
+    justify-content: center;
+    .content{
+      width: 100%;
+    }
+  }
 }
 @mixin centerContainer {
   position: absolute;

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import SetCard from "./SetCard";
 import { useAppSelector } from "../../app-context/store";
 import ContainerComponent from "../PageContainer/PageContainer";
+import { FaArrowDown } from "react-icons/fa6";
+
 
 interface SetCardData {
   id: string;
@@ -141,7 +143,10 @@ const fetchSetCards = (): Promise<SetCardData[]> => {
 export const Dashboard = () => {
   const [selectSet, setSelectSet] = useState<string | null>(null);
   const [setCards, setSetCards] = useState<SetCardData[]>([]);
+  const [visibleCards, setVisibleCards] = useState(10);
+
   const navigationSliceManager = useAppSelector((state) => state.navigationReducer);
+
 
   useEffect(() => {
     fetchSetCards()
@@ -174,6 +179,10 @@ export const Dashboard = () => {
     setSelectSet(null);
   };
 
+  const handleLoadMore = () => {
+    setVisibleCards((prevVisibleCards) => prevVisibleCards + 10);
+  };
+
   return (
     <ContainerComponent open={navigationSliceManager.open}>
 
@@ -190,7 +199,7 @@ export const Dashboard = () => {
             <div className="recent">
               <h2 className="category-title">Recent</h2>
               <div className="sets">
-                {setCards.map((card) => (
+                {setCards.slice(0, visibleCards).map((card) => (
                   <SetCard
                     key={card.id}
                     id={card.id}
@@ -205,6 +214,9 @@ export const Dashboard = () => {
                   />
                 ))}
               </div>
+              {visibleCards < setCards.length && (
+                <div onClick={handleLoadMore} className="load-more-btn"><FaArrowDown /></div>
+            )}
             </div>
             <div className="recent">
               <h2 className="category-title">Explore</h2>

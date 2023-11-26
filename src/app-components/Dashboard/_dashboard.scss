@@ -19,6 +19,7 @@
     color: $text-color;
     font-size: 1.75rem;
     margin-top: 1vmax;
+  
     .category-title {
       margin-left: 10px;
     }
@@ -113,6 +114,9 @@
           }
         }
       }
+    }
+    .load-more-btn{
+      
     }
   }
   .set-card.open {
