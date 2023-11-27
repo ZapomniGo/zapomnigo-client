@@ -14,7 +14,7 @@ interface SetCardProps {
 
 const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, image, creator_name, onMouseEnter, onMouseLeave, isSelected }) => {
   const displayDescription = () => {
-    let n = 110;
+    let n = 120;
     if (description.length > n) {
         while (description[n] != ' ') {
             n -= 1;

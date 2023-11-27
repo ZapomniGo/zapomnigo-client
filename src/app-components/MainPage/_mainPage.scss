@@ -1,0 +1,33 @@
+.set-wrapper {
+    flex-wrap: wrap;
+    display: flex;
+    align-self: flex-start;
+    flex-direction: column;
+    margin-left: 1.5vmax;
+    color: $text-color;
+    font-size: 1.75rem;
+    margin-top: 1vmax;
+  
+    .category-title {
+      margin-left: 10px;
+      margin-bottom: 10px;
+    }
+
+    .sets {
+      display: flex;
+      flex-wrap: wrap;
+    }
+}
+
+@media only screen and (max-width: 900px){
+    .set-wrapper{
+        margin-left: 0 !important;
+        .category-title{
+          text-align: center;
+          margin-left: 0 !important;
+        }
+        .sets{
+          justify-content: center;
+        }
+      }
+}

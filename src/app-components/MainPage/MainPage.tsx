@@ -71,7 +71,7 @@ const mockSetCards: SetCardData[] = [
   {
     id: "card1",
     title: "New Set 1",
-    description: "Description of a new set",
+    description: "Description of a new set ihadsbgiabsiuo nbasign iuasbfiua sfiuba sioaiug hijb ijh bouh jbaousbgoas dfas fas fas fas fas f ff asfsas ",
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
