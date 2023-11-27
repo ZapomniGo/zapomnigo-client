@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SetCard from "./SetCard";
+import SetCard from "../SetCard/SetCard";
 import { useAppSelector } from "../../app-context/store";
 import ContainerComponent from "../PageContainer/PageContainer";
 import { MoreBtn } from "../MoreBtn/MoreBtn";

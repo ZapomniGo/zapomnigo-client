@@ -1,7 +1,7 @@
 // YourMainPage.tsx
 import React, { useEffect, useState } from 'react';
 import { Dashboard } from '../Dashboard/Dashboard';
-import SetCard from '../Dashboard/SetCard';
+import SetCard from '../SetCard/SetCard';
 import { MoreBtn } from '../MoreBtn/MoreBtn';
 
 interface SetCardData {
