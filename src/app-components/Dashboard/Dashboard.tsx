@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SetCard from "./SetCard";
 import { useAppSelector } from "../../app-context/store";
 import ContainerComponent from "../PageContainer/PageContainer";
-import { MoreBtn } from "./MoreBtn";
+import { MoreBtn } from "../MoreBtn/MoreBtn";
 interface SetCardData {
   id: string;
   title: string;
@@ -192,7 +192,7 @@ export const Dashboard = () => {
     <ContainerComponent open={navigationSliceManager.open}>
 
 
-        <section className="explore">
+        <section className="card-section">
         {/* To do: talk about new section and decide if we need it and if yes develop pictures*/}
         {/* <div className="news">
             <div className="test"></div>
@@ -203,57 +203,47 @@ export const Dashboard = () => {
           <div className="category">
             <div className="recent">
               <h2 className="category-title">Recent</h2>
-                <div className="test">
-                  <div className="sets">
-                    {setCards.slice(0, recentCards).map((card) => (
-                      <SetCard
-                        key={card.id}
-                        id={card.id}
-                        title={card.title}
-                        description={card.description}
-                        institution={card.institution}
-                        image={card.image}
-                        creator_name={card.creator_name}
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
-                        isSelected={selectSet === card.id}
-                      />
-                    ))}
-                  </div>
-                  <div className="load-more">
-                  {recentCards < setCards.length && (
-                    <MoreBtn onClick={handleLoadRecent} />
-                  )}
-                </div>
+              <div className="sets">
+                {setCards.slice(0, recentCards).map((card) => (
+                  <SetCard
+                    key={card.id}
+                    id={card.id}
+                    title={card.title}
+                    description={card.description}
+                    institution={card.institution}
+                    image={card.image}
+                    creator_name={card.creator_name}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    isSelected={selectSet === card.id}
+                  />
+                ))}
               </div>
-              
+              {recentCards < setCards.length && (
+                <MoreBtn onClick={handleLoadRecent} />
+              )}              
             </div>
             <div className="recent">
               <h2 className="category-title">Explore</h2>
-              <div className="test">
-                <div className="sets">
-                  {setCards.slice(0, exloreCards).map((card) => (
-                    <SetCard
-                      key={card.id}
-                      id={card.id}
-                      title={card.title}
-                      description={card.description}
-                      institution={card.institution}
-                      image={card.image}
-                      creator_name={card.creator_name}
-                      onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
-                      isSelected={selectSet === card.id}
-                    />
-                  ))}
-                </div>
-                <div className="load-more">
-                  {exloreCards < setCards.length && (
-                    <MoreBtn onClick={handleLoadExplore} />
-                  )}
-                </div>
+              <div className="sets">
+                {setCards.slice(0, exloreCards).map((card) => (
+                  <SetCard
+                    key={card.id}
+                    id={card.id}
+                    title={card.title}
+                    description={card.description}
+                    institution={card.institution}
+                    image={card.image}
+                    creator_name={card.creator_name}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    isSelected={selectSet === card.id}
+                  />
+                ))}
               </div>
-              
+              {exloreCards < setCards.length && (
+                <MoreBtn onClick={handleLoadExplore} />
+              )}
             </div>
           </div>
         </section>
