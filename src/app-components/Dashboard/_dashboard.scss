@@ -139,7 +139,6 @@
 
   .load-more{
     width: 77rem !important;
-
   }
 
 }
@@ -205,17 +204,17 @@
 }
 
 
-.news{
-  display: flex;
-  align-self: flex-end;
-  width: calc(100% - 88px);
-  justify-content: center;
-  .test{
-    @include orangeBackground;
-    height: 200px;
-    width: 450px;
-    margin: 40px;
-    border-radius: 10px;  
-  }
-}
+// .news{
+//   display: flex;
+//   align-self: flex-end;
+//   width: calc(100% - 88px);
+//   justify-content: center;
+//   .test{
+//     @include orangeBackground;
+//     height: 200px;
+//     width: 450px;
+//     margin: 40px;
+//     border-radius: 10px;  
+//   }
+// }
 
