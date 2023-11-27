@@ -1,5 +1,6 @@
+
 export default class FetchInstance {
-    basePath: string = '/api'; // Default base path
+    basePath: string = process.env.API_BASE_PATH || '';
   
     fetchInstance(
       path: string,
