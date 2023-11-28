@@ -29,29 +29,26 @@ export const Login = () => {
   const formHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    // Update the specific field in userData
     setUserData((prev) => ({
       ...prev,
       [name]: value,
     }));
 
-    // Validate the form for the specific field
     const newErrors = validateForm({
       ...userData,
       [name]: value,
     });
 
-    // Update the specific field in errors
+    
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: newErrors[name as ErrorFieldName], // Use type assertion
+      [name]: newErrors[name as ErrorFieldName],
     }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Your form submission logic here
-    // Validate the entire form on submit
+
     const newErrors = validateForm(userData);
     setErrors(newErrors);
   };
