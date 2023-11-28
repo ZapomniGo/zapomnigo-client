@@ -6,8 +6,8 @@
     display: flex;
     flex-direction: column;
     background-color: white;
-    width: 18rem;
-    // width: 18.5%;
+    // width: 18rem;
+    width: 18.5%;
     margin: 10px;
     border-radius: 8px;
     padding: 10px;
@@ -91,16 +91,27 @@
       }
 }
 
-@media only screen and (max-width: 900px){
+@media only screen and (max-width: 1550px){
+    .set-card{
+        width: 23%;
+    }
+}
+  
+@media only screen and (max-width: 1350px){
+    .set-card{
+        width: 30%;
+    }
+}
+  
+
+
+@media only screen and (max-width: 1000px){
     .set-card{
         height: 11rem;
         width: 16rem ;
         .category-title{
             text-align: center;
             margin-left: 0;
-        }
-        .sets{
-            justify-content: center;
         }
         .open {
             transition: $tran-03;
