@@ -1,2 +1,4 @@
+@import "./app-common/variables";
 @import "./app.scss";
-@import "./app-components/Registration/Registration.scss";
+@import "./app-common/common-styles";
+@import "./app-components/Forms/forms";
