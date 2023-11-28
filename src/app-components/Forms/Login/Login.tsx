@@ -4,13 +4,7 @@ import { LoginData, LoginErrorRecord } from "./types";
 import { initialErrors } from "./utils";
 
 export const Login = () => {
-  // const [errors, setErrors] = useState({
-  //   username: "",
-  //   password: "",
-  // });
-
   const [errors, setErrors] = useState<LoginErrorRecord>(initialErrors);
-
   const [userData, setUserData] = useState<LoginData>({
     username: "",
     password: "",
@@ -23,42 +17,20 @@ export const Login = () => {
       [name]: value,
     }));
   };
+
   useEffect(() => {
-    const newErrors: { username: string; password: string } = { ...errors }; // TODO(): What is this newErrors? Why does it set the username to something? FIX
-    if (userData.username.length < 2) {
-      newErrors.username = "Please enter a valid username";
-    } else {
-      newErrors.username = "";
+    if (Object.values(errors).some(error => error.message !== "")) {
+      console.log("Form submitted");
     }
-
-    if (userData.password.length === 0) {
-      newErrors.password = "Please enter a valid password";
-    } else {
-      newErrors.password = "";
-    }
-
-    setErrors(newErrors);
-  }, [userData]);
+  }, [errors]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newErrors = { ...errors };
-    if (userData.username.length < 2) {
-      newErrors.username = {
-        hasError: true,
-        message: "Please enter valid username",
-      };
-    }
-
-    if (userData.password.length === 0) {
-      newErrors.password = {
-        hasError: true,
-        message: "Please enter valid password",
-      };
-    }
-
-    setErrors(newErrors);
+    setErrors({
+      username: userData.username.length < 2 ? { hasError: true, message: "Please enter a valid username" } : { hasError: false, message: "" },
+      password: userData.password.length === 0 ? { hasError: true, message: "Please enter a valid password" } : { hasError: false, message: "" },
+    });
   };
 
   // TODO(): Extract to different components
