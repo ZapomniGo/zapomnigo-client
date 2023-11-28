@@ -1,7 +1,7 @@
 .load-more{
     display: flex;
     justify-content: center;
-    width: 95rem;
+    width: 100%;
     margin-top: 1rem;
     .load-more-btn{
       border: 2px solid $text-color;
@@ -11,37 +11,4 @@
       cursor: pointer;
     }
 }
-
-
-@media only screen and (max-width: 1562px){
-
-    .load-more{
-      width: 77rem !important;
-    }
-  
-}
-  
-@media only screen and (max-width: 1340px){
-  
-    .load-more{
-      width: 59rem !important;
-  
-    }
-  
-}
-  
-@media only screen and (max-width: 1029px){
-  
-    .load-more{
-      width: 38.5rem !important;
-    }
-  
-}
-
-@media only screen and (max-width: 900px){
-    .load-more{
-        width: 100% !important;
-    }
-}
-
 
