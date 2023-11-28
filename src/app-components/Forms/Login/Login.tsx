@@ -1,43 +1,64 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Background } from "../FormsBackground/Background";
 import { LoginData, LoginErrorRecord } from "./types";
 import { initialErrors } from "./utils";
 
+type ErrorFieldName = keyof LoginErrorRecord;
+
+const validateForm = (data: LoginData): LoginErrorRecord => {
+  return {
+    username: {
+      hasError: data.username.length < 2,
+      message: data.username.length < 2 ? "Please enter a valid username" : "",
+    },
+    password: {
+      hasError: data.password.length === 0,
+      message:
+        data.password.length === 0 ? "Please enter a valid password" : "",
+    },
+  };
+};
+
 export const Login = () => {
-  const [errors, setErrors] = useState<LoginErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<LoginData>({
     username: "",
     password: "",
   });
+  const [errors, setErrors] = useState<LoginErrorRecord>(initialErrors);
 
   const formHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
+    // Update the specific field in userData
     setUserData((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
 
-  useEffect(() => {
-    if (Object.values(errors).some(error => error.message !== "")) {
-      console.log("Form submitted");
-    }
-  }, [errors]);
+    // Validate the form for the specific field
+    const newErrors = validateForm({
+      ...userData,
+      [name]: value,
+    });
+
+    // Update the specific field in errors
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: newErrors[name as ErrorFieldName], // Use type assertion
+    }));
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    setErrors({
-      username: userData.username.length < 2 ? { hasError: true, message: "Please enter a valid username" } : { hasError: false, message: "" },
-      password: userData.password.length === 0 ? { hasError: true, message: "Please enter a valid password" } : { hasError: false, message: "" },
-    });
+    // Your form submission logic here
+    // Validate the entire form on submit
+    const newErrors = validateForm(userData);
+    setErrors(newErrors);
   };
 
-  // TODO(): Extract to different components
   return (
     <div id="backgroundForm">
       <Background />
-
       <div id="wrapperForm">
         <form onSubmit={handleSubmit}>
           <div className="title">
