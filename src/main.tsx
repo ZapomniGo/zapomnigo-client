@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path:registerRoute,
+    path: registerRoute,
     element: <Registration />,
   },
   {
