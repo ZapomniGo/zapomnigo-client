@@ -11,8 +11,27 @@ import { Background } from "../FormsBackground/Background";
 import { emailPattern, initialErrors, initialUserState } from "./utils";
 import { RegisterErrorRecord } from "./types";
 import { DataError, UserData } from "../../../app-common/types";
-
+import axios from "axios";
+import { url } from "../../../Global";
+  
 export const Registration = () => {
+
+
+
+
+  const register = async () => {
+    try {
+      // Log the user data before sending it
+      console.log("User Data:", userData);
+
+      // Make a POST request to the server with user data
+      const response = await axios.post(`${url}/v1/register`, userData);
+      console.log("Server Response:", response.data); // Assuming the server returns some data
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
+  };
+
   const [screenIndex, setScreenIndex] = useState(1);
   const [errors, setErrors] = useState<RegisterErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<UserData>(initialUserState);
@@ -307,6 +326,7 @@ export const Registration = () => {
                 value={selectedValue}
                 onChange={handleChange}
                 className={selectedValue === "" ? "disabled" : ""}
+                name="gender"
               >
                 <option value="" disabled>
                   Gender
@@ -403,7 +423,7 @@ export const Registration = () => {
             {screenIndex !== 3 ? (
               <button onClick={nextScreen}>Next</button>
             ) : (
-              <input type="submit" value={"Submit"} />
+              <input type="submit" value={"Submit"} onClick={register} />
             )}
           </div>
         </form>
