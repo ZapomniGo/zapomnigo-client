@@ -349,6 +349,8 @@ export const Registration = () => {
                 maxLength={40}
                 value={userData.username}
                 className={errors.username.hasError ? "error" : ""}
+                onChange={(e) => validateField("username", e.target.value)}
+
               />
               <p className="errorText">
                 {errors.username.hasError ? errors.username.message : ""}
