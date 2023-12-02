@@ -6,6 +6,7 @@ import { App } from "./App";
 import "./index.scss";
 import { homeRoute, registerRoute } from "./app-utils/AppRoutes";
 import { Registration } from "./app-components/Registration/Registration";
+import { RTEditor } from "./app-components/RTEditor/RTEditor";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: registerRoute,
     element: <Registration />,
+  },
+  {
+    path: "test",
+    element: <RTEditor />,
   },
 ]);
 
