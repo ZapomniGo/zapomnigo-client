@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import FetchInstance from "../../app-utils/fetchInstance";
 
 type UserData = {
   name: string;
@@ -33,14 +34,34 @@ export const Registration = () => {
     age: "",
     email: "",
   });
+ 
 
-  const formHandler = (event: { target: HTMLFormElement | undefined; preventDefault: () => void; }) => {
-    console.log(event.target.value)
+  const myFetchInstance = new FetchInstance();
+
+  // Make a POST request to google.com
+  const path = '/login';
+  const body = {"email_or_username":"zapomnigo.com@test.com","password": "N@sko3NPC"}
+
+  myFetchInstance.fetchInstance(path, true, body, 'POST')
+    .then((response) => {
+      console.log('Response:', response);
+      // Handle the response here
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      // Handle the error here
+    });
+
+  const formHandler = (event: {
+    target: HTMLFormElement | undefined;
+    preventDefault: () => void;
+  }) => {
+    console.log(event.target.value);
     event.preventDefault();
-   setUserData((prev) => ({
-    ...prev,
-    [event.target.name]: event.target.value,
-  }));
+    setUserData((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
 
     console.log(userData);
   };
@@ -55,17 +76,17 @@ export const Registration = () => {
 
   const validateData = (data: UserData) => {};
   const nextScreen = () => {
-    let newErrors = { ...errors }
-    let errorsExist = false
-    
+    let newErrors = { ...errors };
+    let errorsExist = false;
+
     if (screenIndex === 1) {
       if (userData.name.length < 2 || userData.name.length > 40) {
-        newErrors.name =  "The name field should be 2-40 characters long";
+        newErrors.name = "The name field should be 2-40 characters long";
         errorsExist = true;
       } else {
         newErrors.name = false;
       }
-      
+
       if (userData.age < 5 || userData.age > 99) {
         newErrors.age = "The age field should be 5-99";
         errorsExist = true;
@@ -73,143 +94,165 @@ export const Registration = () => {
         newErrors.age = false;
       }
     }
-  
+
     if (screenIndex === 2) {
       if (userData.username.length < 2 || userData.username.length > 40) {
-        newErrors.username = "The username field should be 2-40 characters long";
+        newErrors.username =
+          "The username field should be 2-40 characters long";
         errorsExist = true;
       } else {
         newErrors.username = false;
       }
-      
+
       if (userData.password.length < 8 || userData.password.length > 40) {
-        newErrors.password = "The password field should be 8-40 characters long";
+        newErrors.password =
+          "The password field should be 8-40 characters long";
         errorsExist = true;
       } else {
         newErrors.password = false;
       }
-  
+
       if (userData.password !== userData.repeatPassword) {
         newErrors.repeatPassword = "The passwords don't match";
         errorsExist = true;
       } else {
         newErrors.repeatPassword = false;
       }
-      if (userData.email.length < 2 || userData.email.length > 40 || !validateEmail(userData.email))  {
+      if (
+        userData.email.length < 2 ||
+        userData.email.length > 40 ||
+        !validateEmail(userData.email)
+      ) {
         newErrors.email = "The email field should be 2-40 characters long";
         errorsExist = true;
       } else {
         newErrors.email = false;
       }
-      
     }
-  
+
     if (screenIndex === 3) {
-      if (userData.organisation.length < 2 || userData.organisation.length > 40) {
-        newErrors.organisation = "The organisation field should be 2-40 characters long";
+      if (
+        userData.organisation.length < 2 ||
+        userData.organisation.length > 40
+      ) {
+        newErrors.organisation =
+          "The organisation field should be 2-40 characters long";
         errorsExist = true;
       } else {
         newErrors.organisation = false;
       }
     }
-    
+
     setErrors(newErrors);
-    
+
     if (!errorsExist) {
       setScreenIndex((prev) => prev + 1);
     }
-  }
+  };
   const prevScreen = () => {
     setScreenIndex((prev) => prev - 1);
   };
 
   return (
     <div id="background">
-    <div id="wrapper">
-      <form onClick={e=>e.preventDefault()} onChange={formHandler} >
-    <center>  <h1>Registration</h1> </center>
-        {screenIndex == 1 ? (
-          <section>
-            <input
-              type="text"
-              name="name"
-              placeholder="Name"
-              minLength={2}
-              maxLength={40}
-              value={userData.name}
-            />
-            <p>{errors.name ? errors.name : ""}</p>
-            <input
-              type="number"
-              name="age"
-              min={5}
-              max={99}
-              placeholder="Age"
-              value={userData.age}
-            />
-            <p>{errors.age ? errors.age : ""}</p>
-            <select defaultValue={userData.gender} name="gender">
-              <option value="" disabled />
-              <option value={"M"}>Male</option>
-              <option value={"F"}>Female</option>
-              <option value={"O"}>Prefer not to say</option>
-            </select>
-          </section>
-        ) : (
-          ""
-        )}
-        {screenIndex == 2 ? (
-          <section>
-            <input
-              type="text"
-              placeholder="Username"
-              name="username"
-              minLength={2}
-              maxLength={40}
-              value={userData.username}
-            />
-            <p>{errors.username ? errors.username : ""}</p>
-            <input value={userData.email} type="email" placeholder="Email" name="email" />
-            <p>{errors.email ? errors.email : ""}</p>
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              minLength={8}
-              maxLength={40}
-              value={userData.password}
-            />
-            <p>{errors.password ? errors.password : ""}</p>
-            <input
-              type="password"
-              placeholder="Repeat Password"
-              name="repeatPassword"
-              minLength={8}
-              maxLength={40}
-              value={userData.repeatPassword}
-            />
-            <p>{errors.repeatPassword ? errors.repeatPassword : ""}</p>
-          </section>
-        ) : (
-          ""
-        )}
-        {screenIndex == 3 ? (
-          <section>
-            <input type="text" name="organisation" placeholder="Organisation" value={userData.organisation}/>
-          </section>
-        ) : (
-          ""
-        )}
-        <div id="buttonWrapper">
-          <button onClick={prevScreen}>Previous</button>
-          {screenIndex !== 3 ? (
-            <button onClick={nextScreen}>Next</button>
+      <div id="wrapper">
+        <form onClick={(e) => e.preventDefault()} onChange={formHandler}>
+          <center>
+            {" "}
+            <h1>Registration</h1>{" "}
+          </center>
+          {screenIndex == 1 ? (
+            <section>
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                minLength={2}
+                maxLength={40}
+                value={userData.name}
+              />
+              <p>{errors.name ? errors.name : ""}</p>
+              <input
+                type="number"
+                name="age"
+                min={5}
+                max={99}
+                placeholder="Age"
+                value={userData.age}
+              />
+              <p>{errors.age ? errors.age : ""}</p>
+              <select defaultValue={userData.gender} name="gender">
+                <option value="" disabled />
+                <option value={"M"}>Male</option>
+                <option value={"F"}>Female</option>
+                <option value={"O"}>Prefer not to say</option>
+              </select>
+            </section>
           ) : (
-            <input type="submit" value={"Submit"} />
+            ""
           )}
-        </div>
-      </form>
-    </div>
+          {screenIndex == 2 ? (
+            <section>
+              <input
+                type="text"
+                placeholder="Username"
+                name="username"
+                minLength={2}
+                maxLength={40}
+                value={userData.username}
+              />
+              <p>{errors.username ? errors.username : ""}</p>
+              <input
+                value={userData.email}
+                type="email"
+                placeholder="Email"
+                name="email"
+              />
+              <p>{errors.email ? errors.email : ""}</p>
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                minLength={8}
+                maxLength={40}
+                value={userData.password}
+              />
+              <p>{errors.password ? errors.password : ""}</p>
+              <input
+                type="password"
+                placeholder="Repeat Password"
+                name="repeatPassword"
+                minLength={8}
+                maxLength={40}
+                value={userData.repeatPassword}
+              />
+              <p>{errors.repeatPassword ? errors.repeatPassword : ""}</p>
+            </section>
+          ) : (
+            ""
+          )}
+          {screenIndex == 3 ? (
+            <section>
+              <input
+                type="text"
+                name="organisation"
+                placeholder="Organisation"
+                value={userData.organisation}
+              />
+            </section>
+          ) : (
+            ""
+          )}
+          <div id="buttonWrapper">
+            <button onClick={prevScreen}>Previous</button>
+            {screenIndex !== 3 ? (
+              <button onClick={nextScreen}>Next</button>
+            ) : (
+              <input type="submit" value={"Submit"} />
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 
 export default class FetchInstance {
-    basePath: string = process.env.API_BASE_PATH || '';
+    basePath: string = "https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1/"
   
     fetchInstance(
       path: string,
