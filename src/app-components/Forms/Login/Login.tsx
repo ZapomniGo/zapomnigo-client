@@ -1,71 +1,61 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Background } from "../FormsBackground/Background";
 import { LoginData, LoginErrorRecord } from "./types";
 import { initialErrors } from "./utils";
 
+type ErrorFieldName = keyof LoginErrorRecord;
+
+const validateForm = (data: LoginData): LoginErrorRecord => {
+  return {
+    username: {
+      hasError: data.username.length < 2,
+      message: data.username.length < 2 ? "Please enter a valid username" : "",
+    },
+    password: {
+      hasError: data.password.length === 0,
+      message:
+        data.password.length === 0 ? "Please enter a valid password" : "",
+    },
+  };
+};
+
 export const Login = () => {
-  // const [errors, setErrors] = useState({
-  //   username: "",
-  //   password: "",
-  // });
-
-  const [errors, setErrors] = useState<LoginErrorRecord>(initialErrors);
-
   const [userData, setUserData] = useState<LoginData>({
     username: "",
     password: "",
   });
+  const [errors, setErrors] = useState<LoginErrorRecord>(initialErrors);
 
   const formHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
     setUserData((prev) => ({
       ...prev,
       [name]: value,
     }));
+
+    const newErrors = validateForm({
+      ...userData,
+      [name]: value,
+    });
+
+    
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: newErrors[name as ErrorFieldName],
+    }));
   };
-  useEffect(() => {
-    const newErrors: { username: string; password: string } = { ...errors }; // TODO(): What is this newErrors? Why does it set the username to something? FIX
-    if (userData.username.length < 2) {
-      newErrors.username = "Please enter a valid username";
-    } else {
-      newErrors.username = "";
-    }
-
-    if (userData.password.length === 0) {
-      newErrors.password = "Please enter a valid password";
-    } else {
-      newErrors.password = "";
-    }
-
-    setErrors(newErrors);
-  }, [userData]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newErrors = { ...errors };
-    if (userData.username.length < 2) {
-      newErrors.username = {
-        hasError: true,
-        message: "Please enter valid username",
-      };
-    }
-
-    if (userData.password.length === 0) {
-      newErrors.password = {
-        hasError: true,
-        message: "Please enter valid password",
-      };
-    }
-
+    const newErrors = validateForm(userData);
     setErrors(newErrors);
   };
 
-  // TODO(): Extract to different components
   return (
     <div id="backgroundForm">
       <Background />
-
       <div id="wrapperForm">
         <form onSubmit={handleSubmit}>
           <div className="title">
