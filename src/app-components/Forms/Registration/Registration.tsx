@@ -17,30 +17,47 @@ import { url } from "../../../Global";
 export const Registration = () => {
 
   const [termsError, setTermsError] = useState<DataError>({ hasError: false, message: "" });
+  const [policyError, setPolicyError] = useState<DataError>({ hasError: false, message: "" });
 
 
   const register = async () => {
     try {
+      let hasError = false;
+  
       if (!userData.terms_and_conditions) {
         setTermsError({
           hasError: true,
           message: "Please accept the terms and conditions.",
         });
-        return;
+        hasError = true;
+      } else {
+        setTermsError({ hasError: false, message: "" });
       }
-
-      setTermsError({ hasError: false, message: "" });
-
+  
+      if (!userData.privacy_policy) {
+        setPolicyError({
+          hasError: true,
+          message: "Please accept privacy and policy.",
+        });
+        hasError = true;
+      } else {
+        setPolicyError({ hasError: false, message: "" });
+      }
+  
+      if (hasError) {
+        return; // Stop registration if there is an error
+      }
+  
       console.log("User Data:", userData);
       const response = await axios.post(`${url}/v1/register`, userData);
-      console.log(response)
-
+      console.log(response);
+  
     } catch (error) {
       console.error("Error during registration:", error);
     }
   };
 
-  const [screenIndex, setScreenIndex] = useState(3);
+  const [screenIndex, setScreenIndex] = useState(1);
   const [errors, setErrors] = useState<RegisterErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<UserData>(initialUserState);
 
@@ -54,6 +71,10 @@ export const Registration = () => {
     // Update the error state for terms_and_conditions
     if (checkboxName === 'terms_and_conditions' && termsError.hasError) {
       setTermsError({ hasError: false, message: "" });
+    }
+
+    if (checkboxName === 'privacy_policy' && termsError.hasError) {
+      setPolicyError({ hasError: false, message: "" });
     }
   };
 
@@ -439,13 +460,18 @@ export const Registration = () => {
               />
 
 
-
-<input type="checkbox" name="privacy_policy" onChange={() => handleCheckboxChange('privacy_policy')} />
-<input type="checkbox" name="terms_and_conditions" onChange={() => handleCheckboxChange('terms_and_conditions')} />
-<div className="errorText">
-          {termsError.message}
-        </div>
-<input type="checkbox" name="marketing_consent" onChange={() => handleCheckboxChange('marketing_consent')} />
+              <label>Privacy Policy</label>
+              <input type="checkbox" name="privacy_policy" onChange={() => handleCheckboxChange('privacy_policy')} />
+              <div className="errorText">
+                {policyError.message}
+              </div>
+              <label> Terms and conditions</label>
+              <input type="checkbox" name="terms_and_conditions" onChange={() => handleCheckboxChange('terms_and_conditions')} />
+              <div className="errorText">
+                {termsError.message}
+              </div>  
+              <label>Marketing Consent</label>
+              <input type="checkbox" name="marketing_consent" onChange={() => handleCheckboxChange('marketing_consent')} />
 
             </section>
           ) : (
