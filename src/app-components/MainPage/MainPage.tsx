@@ -1,8 +1,8 @@
 // YourMainPage.tsx
-import React, { useEffect, useState } from 'react';
-import { Dashboard } from '../Dashboard/Dashboard';
-import SetCard from '../SetCard/SetCard';
-import { MoreBtn } from '../MoreBtn/MoreBtn';
+import React, { useEffect, useState } from "react";
+import { Dashboard } from "../Dashboard/Dashboard";
+import SetCard from "../SetCard/SetCard";
+import { MoreBtn } from "../MoreBtn/MoreBtn";
 
 interface SetCardData {
   id: string;
@@ -21,7 +21,7 @@ const mockSetCards: SetCardData[] = [
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "explore", 
+    category: "explore",
   },
   {
     id: "card1",
@@ -30,7 +30,7 @@ const mockSetCards: SetCardData[] = [
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "recent", 
+    category: "recent",
   },
   {
     id: "card1",
@@ -39,7 +39,7 @@ const mockSetCards: SetCardData[] = [
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "recent", 
+    category: "recent",
   },
   {
     id: "card1",
@@ -48,7 +48,7 @@ const mockSetCards: SetCardData[] = [
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "recent", 
+    category: "recent",
   },
   {
     id: "card1",
@@ -57,7 +57,7 @@ const mockSetCards: SetCardData[] = [
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "recent", 
+    category: "recent",
   },
   {
     id: "card1",
@@ -66,25 +66,17 @@ const mockSetCards: SetCardData[] = [
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "recent", 
+    category: "recent",
   },
   {
     id: "card1",
     title: "New Set 1",
-    description: "Description of a new set ihadsbgiabsiuo nbasign iuasbfiua sfiuba sioaiug hijb ijh bouh jbaousbgoas dfas fas fas fas fas f ff asfsas ",
+    description:
+      "Description of a new set ihadsbgiabsiuo nbasign iuasbfiua sfiuba sioaiug hijb ijh bouh jbaousbgoas dfas fas fas fas fas f ff asfsas ",
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "recent", 
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent", 
+    category: "recent",
   },
   {
     id: "card1",
@@ -93,7 +85,7 @@ const mockSetCards: SetCardData[] = [
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "recent", 
+    category: "recent",
   },
   {
     id: "card1",
@@ -102,7 +94,7 @@ const mockSetCards: SetCardData[] = [
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "recent", 
+    category: "recent",
   },
   {
     id: "card1",
@@ -111,7 +103,7 @@ const mockSetCards: SetCardData[] = [
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "recent", 
+    category: "recent",
   },
   {
     id: "card1",
@@ -120,7 +112,7 @@ const mockSetCards: SetCardData[] = [
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "recent", 
+    category: "recent",
   },
   {
     id: "card1",
@@ -129,7 +121,7 @@ const mockSetCards: SetCardData[] = [
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "recent", 
+    category: "recent",
   },
   {
     id: "card1",
@@ -138,7 +130,7 @@ const mockSetCards: SetCardData[] = [
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "recent", 
+    category: "recent",
   },
   {
     id: "card1",
@@ -147,11 +139,18 @@ const mockSetCards: SetCardData[] = [
     institution: "AUBG",
     image: "src/app-components/Navigation/logo.png",
     creator_name: "Aleks Ivanov",
-    category: "recent", 
+    category: "recent",
   },
-  
+  {
+    id: "card1",
+    title: "New Set 1",
+    description: "Description of a new set",
+    institution: "AUBG",
+    image: "src/app-components/Navigation/logo.png",
+    creator_name: "Aleks Ivanov",
+    category: "recent",
+  },
 ];
-
 
 const fetchSetCards = (): Promise<SetCardData[]> => {
   return new Promise((resolve) => {
@@ -161,9 +160,7 @@ const fetchSetCards = (): Promise<SetCardData[]> => {
   });
 };
 
-
 export const MainPage: React.FC = () => {
-  
   const [setCards, setSetCards] = useState<SetCardData[]>([]);
   const [recentCards, setRecentCards] = useState(10);
   const [exploreCards, setExploreCards] = useState(10);
@@ -197,11 +194,11 @@ export const MainPage: React.FC = () => {
 
   return (
     <Dashboard>
-    <div className="set-wrapper">
+      <div className="set-wrapper">
         <h2 className="category-title">Recent</h2>
         <div className="sets">
           {setCards
-            .filter((card) => card.category === 'recent')
+            .filter((card) => card.category === "recent")
             .slice(0, recentCards)
             .map((card) => (
               <SetCard
@@ -218,7 +215,8 @@ export const MainPage: React.FC = () => {
               />
             ))}
         </div>
-        {recentCards < setCards.filter((card) => card.category === 'recent').length && (
+        {recentCards <
+          setCards.filter((card) => card.category === "recent").length && (
           <MoreBtn onClick={handleLoadRecent} />
         )}
       </div>
@@ -227,8 +225,8 @@ export const MainPage: React.FC = () => {
         <h2 className="category-title">Explore</h2>
         <div className="sets">
           {setCards
-            .filter((card) => card.category === 'explore') 
-            .slice(0, exploreCards) 
+            .filter((card) => card.category === "explore")
+            .slice(0, exploreCards)
             .map((card) => (
               <SetCard
                 key={card.id}
@@ -244,11 +242,11 @@ export const MainPage: React.FC = () => {
               />
             ))}
         </div>
-        {exploreCards < setCards.filter((card) => card.category === 'explore').length && (
+        {exploreCards <
+          setCards.filter((card) => card.category === "explore").length && (
           <MoreBtn onClick={handleLoadExplore} />
         )}
       </div>
-  </Dashboard>
+    </Dashboard>
   );
 };
-
