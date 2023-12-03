@@ -12,6 +12,9 @@ type UserData = {
   gender: string;
   age: number | null;
   email: string;
+  privacy_policy: boolean;
+  marketing_consent: boolean;
+  terms_and_conditions: boolean;
 };
 
 export type { DataError, UserData };

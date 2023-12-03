@@ -3,5 +3,5 @@ const hasPort = url => {
     return portRegex.test(url);
 };
 
-export const url = !hasPort(origin) ? origin : origin.replace(/(^[^:]*:[^:]*):.*$/, '$1') + ':6969';
+export const url = !hasPort(origin) ? origin : origin.replace(/(^[^:]*:[^:]*):.*$/, '$1') + ':3884';
 

@@ -1,3 +1,4 @@
+// import { boolean } from "yup";
 import { UserData, DataError } from "../../../app-common/types";
 
 const initialErrors: Record<keyof UserData, DataError> = {
@@ -9,6 +10,14 @@ const initialErrors: Record<keyof UserData, DataError> = {
   gender: { hasError: false, message: "" },
   age: { hasError: false, message: "" },
   email: { hasError: false, message: "" },
+  privacy_policy: { hasError: false, message: "" },
+  terms_and_conditions: {hasError: false, message: "" },
+  marketing_consent: { hasError: false, message: "" },
+
+
+
+
+
 };
 
 const initialUserState: UserData = {
@@ -20,6 +29,9 @@ const initialUserState: UserData = {
   gender: "",
   age: null,
   email: "",
+  privacy_policy: false,
+  terms_and_conditions: false,
+  marketing_consent: false,
 };
 const emailPattern: RegExp =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

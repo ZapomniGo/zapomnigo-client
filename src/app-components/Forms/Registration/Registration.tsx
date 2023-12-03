@@ -16,9 +16,6 @@ import { url } from "../../../Global";
   
 export const Registration = () => {
 
-
-
-
   const register = async () => {
     try {
       // Log the user data before sending it
@@ -32,7 +29,8 @@ export const Registration = () => {
     }
   };
 
-  const [screenIndex, setScreenIndex] = useState(1);
+  const [checked, setChecked] = useState(false);
+  const [screenIndex, setScreenIndex] = useState(3);
   const [errors, setErrors] = useState<RegisterErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<UserData>(initialUserState);
 
@@ -280,6 +278,7 @@ export const Registration = () => {
   }) => {
     setSelectedValue(event.target.value);
   };
+  
 
   return (
     <div id="backgroundForm">
@@ -406,12 +405,49 @@ export const Registration = () => {
                 If you are part of a school/university/language center or other,
                 enter its name below
               </p>
-              <input
+              {/* <input
                 type="text"
                 name="organisation"
                 placeholder="Organisation"
                 value={userData.organisation}
+              /> */}
+
+              <label>
+              <input
+                // name="privacy_policy"
+                type="checkbox"
+                // value={checkedPolicies.toString()}
+                onClick={()=>{setChecked((e) => !e)}}
+                defaultChecked={checked}
+                // checked={checked}
               />
+              Checkbox 1
+            </label>
+
+            {/* <label>
+              <input
+                type="checkbox"
+                checked={userData.terms_and_conditions || false}
+                onChange={() => {
+                  userData.terms_and_conditions = !userData.terms_and_conditions
+                  ;
+                  handleChange; // Assuming formHandler is responsible for updating the state
+                }}
+              />
+              Checkbox 5
+            </label>
+
+            <label>
+              <input
+                type="checkbox"
+                checked={userData.marketing_consent || false}
+                onChange={() => {
+                  userData.marketing_consent = !userData.marketing_consent;
+                  handleChange; // Assuming formHandler is responsible for updating the state
+                }}
+              />
+              Checkbox 3
+            </label> */}
             </section>
           ) : (
             ""
