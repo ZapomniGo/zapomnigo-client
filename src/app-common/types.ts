@@ -8,7 +8,7 @@ type UserData = {
   username: string;
   password: string;
   repeatPassword: string;
-  organisation: string;
+  organization: string;
   gender: string;
   age: number | null;
   email: string;

@@ -29,10 +29,16 @@ export const Registration = () => {
     }
   };
 
-  const [checked, setChecked] = useState(false);
-  const [screenIndex, setScreenIndex] = useState(3);
+  const [screenIndex, setScreenIndex] = useState(1);
   const [errors, setErrors] = useState<RegisterErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<UserData>(initialUserState);
+
+  const handleCheckboxChange = (checkboxName: keyof UserData) => {
+    setUserData((prevUserData) => {
+      const updatedValue = !prevUserData[checkboxName];
+      return { ...prevUserData, [checkboxName]: updatedValue };
+    });
+  };
 
   const validateField = (field: keyof UserData, value: string | number) => {
     if (!value) {
@@ -48,7 +54,7 @@ export const Registration = () => {
     switch (field) {
       case "name":
       case "username":
-      case "organisation":
+      case "organization":
         if (
           typeof value === "string" &&
           (value.length < 2 || value.length > 40)
@@ -133,16 +139,20 @@ export const Registration = () => {
   };
 
   const formHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const { name, value } = event.target as HTMLInputElement;
-    setUserData((prev) => ({
-      ...prev,
-      [name]: name === "age" ? parseInt(value, 10) : value,
-    }));
-    validateField(
-      name as keyof UserData,
-      name === "age" ? parseInt(value, 10) : value
-    );
+    const { name, value, type, checked } = event.target as HTMLInputElement;
+  
+    // For checkboxes, handle their checked state
+    if (type === 'checkbox') {
+      console.log(checked)
+      setUserData((prev) => ({ ...prev, [name]: checked }));
+    } else {
+      // For other input types, update the state based on the input value
+      setUserData((prev) => ({
+        ...prev,
+        [name]: name === 'age' ? parseInt(value, 10) : value,
+      }));
+      validateField(name as keyof UserData, name === 'age' ? parseInt(value, 10) : value);
+    }
   };
 
   const nextScreen = () => {
@@ -248,16 +258,16 @@ export const Registration = () => {
 
     if (screenIndex === 3) {
       if (
-        userData.organisation.length < 2 ||
-        userData.organisation.length > 40
+        userData.organization.length < 2 ||
+        userData.organization.length > 40
       ) {
-        newErrors.organisation = {
+        newErrors.organization = {
           hasError: true,
-          message: "The organisation field should be 2-40 characters long",
+          message: "The organization field should be 2-40 characters long",
         };
         errorsExist = true;
       } else {
-        newErrors.organisation = { hasError: false, message: "" };
+        newErrors.organization = { hasError: false, message: "" };
       }
     }
 
@@ -285,7 +295,7 @@ export const Registration = () => {
       <Background />
 
       <div id="wrapperForm">
-        <form onClick={(e) => e.preventDefault()} onChange={formHandler}>
+        <form onSubmit={(e) => e.preventDefault()} onChange={formHandler}>
           <div className="title">
             <p>Registration</p>
           </div>
@@ -405,49 +415,19 @@ export const Registration = () => {
                 If you are part of a school/university/language center or other,
                 enter its name below
               </p>
-              {/* <input
+              <input
                 type="text"
-                name="organisation"
-                placeholder="Organisation"
-                value={userData.organisation}
-              /> */}
-
-              <label>
-              <input
-                // name="privacy_policy"
-                type="checkbox"
-                // value={checkedPolicies.toString()}
-                onClick={()=>{setChecked((e) => !e)}}
-                defaultChecked={checked}
-                // checked={checked}
+                name="organization"
+                placeholder="organization"
+                value={userData.organization}
               />
-              Checkbox 1
-            </label>
 
-            {/* <label>
-              <input
-                type="checkbox"
-                checked={userData.terms_and_conditions || false}
-                onChange={() => {
-                  userData.terms_and_conditions = !userData.terms_and_conditions
-                  ;
-                  handleChange; // Assuming formHandler is responsible for updating the state
-                }}
-              />
-              Checkbox 5
-            </label>
 
-            <label>
-              <input
-                type="checkbox"
-                checked={userData.marketing_consent || false}
-                onChange={() => {
-                  userData.marketing_consent = !userData.marketing_consent;
-                  handleChange; // Assuming formHandler is responsible for updating the state
-                }}
-              />
-              Checkbox 3
-            </label> */}
+
+<input type="checkbox" name="privacy_policy" onChange={() => handleCheckboxChange('privacy_policy')} />
+<input type="checkbox" name="terms_and_conditions" onChange={() => handleCheckboxChange('terms_and_conditions')} />
+<input type="checkbox" name="marketing_consent" onChange={() => handleCheckboxChange('marketing_consent')} />
+
             </section>
           ) : (
             ""
