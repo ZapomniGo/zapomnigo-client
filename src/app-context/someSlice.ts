@@ -25,14 +25,9 @@ const someSliceSlice = createSlice({
       } else {
         state.someProp1 = true;
       }
-    }
+    },
   },
 });
 
 export const { reducer1, reducer2 } = someSliceSlice.actions;
 export default someSliceSlice.reducer;
-
-
-//declare state
-//reducer: state logic
-//store

@@ -1,12 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import someSlice from "./someSlice";
-import navigationSlice from "./navigationSlice";
 
 const store = configureStore({
   reducer: {
     someSliceReducer: someSlice,
-    navigationReducer: navigationSlice
   },
 });
 
@@ -17,4 +15,3 @@ const useAppDispatch: () => AppDispatch = useDispatch;
 const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export { store, useAppDispatch, useAppSelector };
-//global api from which we call the slice
