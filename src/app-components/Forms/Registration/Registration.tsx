@@ -16,28 +16,45 @@ import { url } from "../../../Global";
   
 export const Registration = () => {
 
+  const [termsError, setTermsError] = useState<DataError>({ hasError: false, message: "" });
+
+
   const register = async () => {
     try {
-      // Log the user data before sending it
-      console.log("User Data:", userData);
+      if (!userData.terms_and_conditions) {
+        setTermsError({
+          hasError: true,
+          message: "Please accept the terms and conditions.",
+        });
+        return;
+      }
 
-      // Make a POST request to the server with user data
+      setTermsError({ hasError: false, message: "" });
+
+      console.log("User Data:", userData);
       const response = await axios.post(`${url}/v1/register`, userData);
-      console.log("Server Response:", response.data); // Assuming the server returns some data
+      console.log(response)
+
     } catch (error) {
       console.error("Error during registration:", error);
     }
   };
 
-  const [screenIndex, setScreenIndex] = useState(1);
+  const [screenIndex, setScreenIndex] = useState(3);
   const [errors, setErrors] = useState<RegisterErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<UserData>(initialUserState);
+
 
   const handleCheckboxChange = (checkboxName: keyof UserData) => {
     setUserData((prevUserData) => {
       const updatedValue = !prevUserData[checkboxName];
       return { ...prevUserData, [checkboxName]: updatedValue };
     });
+
+    // Update the error state for terms_and_conditions
+    if (checkboxName === 'terms_and_conditions' && termsError.hasError) {
+      setTermsError({ hasError: false, message: "" });
+    }
   };
 
   const validateField = (field: keyof UserData, value: string | number) => {
@@ -143,7 +160,6 @@ export const Registration = () => {
   
     // For checkboxes, handle their checked state
     if (type === 'checkbox') {
-      console.log(checked)
       setUserData((prev) => ({ ...prev, [name]: checked }));
     } else {
       // For other input types, update the state based on the input value
@@ -426,6 +442,9 @@ export const Registration = () => {
 
 <input type="checkbox" name="privacy_policy" onChange={() => handleCheckboxChange('privacy_policy')} />
 <input type="checkbox" name="terms_and_conditions" onChange={() => handleCheckboxChange('terms_and_conditions')} />
+<div className="errorText">
+          {termsError.message}
+        </div>
 <input type="checkbox" name="marketing_consent" onChange={() => handleCheckboxChange('marketing_consent')} />
 
             </section>
