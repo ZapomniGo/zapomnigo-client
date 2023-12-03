@@ -1,40 +1,43 @@
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
-import { $getRoot, $getSelection } from "lexical";
-import { EditorState } from "lexical";
-import { useEffect } from "react";
-
-const theme = {};
-
-const onError = (error: Error): void => {
-  console.error(error);
-};
+import { AutoFocusPlugin } from "./custom-plugins/AutoFocusPlugin";
+import { initialTheme } from "./theme";
+import ToolbarPlugin from "./custom-plugins/ToolbarPlugin";
 
 export const RTEditor = () => {
   const initalConfig = {
     namespace: "RTEditor",
-    theme,
-    onError,
+    theme: initialTheme,
+    onError: (error: Error) => {
+      console.error(error);
+    },
   };
 
   return (
     <LexicalComposer initialConfig={initalConfig}>
-      <PlainTextPlugin
-        contentEditable={<ContentEditable />}
-        placeholder={<>Enter some text...</>}
-        ErrorBoundary={LexicalErrorBoundary}
-      />
-      <OnChangePlugin
-        onChange={(editorState) => {
-          console.log(editorState);
-        }}
-      />
-      <HistoryPlugin />
+      <div className="editor">
+        <ToolbarPlugin />
+        <div className="editor__inner">
+          <RichTextPlugin
+            contentEditable={<ContentEditable className="editor__input" />}
+            placeholder={
+              <div className="editor__placeholder">Enter some text...</div>
+            }
+            ErrorBoundary={LexicalErrorBoundary}
+          />
+          <OnChangePlugin
+            onChange={(editorState) => {
+              console.log(editorState);
+            }}
+          />
+          <HistoryPlugin />
+          <AutoFocusPlugin />
+        </div>
+      </div>
     </LexicalComposer>
   );
 };
