@@ -93,7 +93,17 @@ export const Registration = () => {
     switch (field) {
       case "name":
       case "username":
-        case "organization":
+        if (
+          typeof value === "string" &&
+          (value.length < 2 || value.length > 40)
+        ) {
+          errorInfo = {
+            hasError: true,
+            message: `The ${field} field should be 2-40 characters long`,
+          };
+        }
+        break
+      case "organization":
           if (
             typeof value === "string" &&
             (value.length !== 8)
