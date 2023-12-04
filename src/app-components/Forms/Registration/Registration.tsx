@@ -45,7 +45,7 @@ export const Registration = () => {
       }
   
       if (hasError) {
-        return; // Stop registration if there is an error
+        return; 
       }
   
       console.log("User Data:", userData);
@@ -57,7 +57,7 @@ export const Registration = () => {
     }
   };
 
-  const [screenIndex, setScreenIndex] = useState(1);
+  const [screenIndex, setScreenIndex] = useState(3);
   const [errors, setErrors] = useState<RegisterErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<UserData>(initialUserState);
 
@@ -68,7 +68,6 @@ export const Registration = () => {
       return { ...prevUserData, [checkboxName]: updatedValue };
     });
 
-    // Update the error state for terms_and_conditions
     if (checkboxName === 'terms_and_conditions' && termsError.hasError) {
       setTermsError({ hasError: false, message: "" });
     }
@@ -79,6 +78,8 @@ export const Registration = () => {
   };
 
   const validateField = (field: keyof UserData, value: string | number) => {
+    console.log(`Validating field: ${field}`);
+
     if (!value) {
       setErrors((prev) => ({
         ...prev,
@@ -92,17 +93,17 @@ export const Registration = () => {
     switch (field) {
       case "name":
       case "username":
-      case "organization":
-        if (
-          typeof value === "string" &&
-          (value.length < 2 || value.length > 40)
-        ) {
-          errorInfo = {
-            hasError: true,
-            message: `The ${field} field should be 2-40 characters long`,
-          };
-        }
-        break;
+        case "organization":
+          if (
+            typeof value === "string" &&
+            (value.length !== 8)
+          ) {
+            errorInfo = {
+              hasError: true,
+              message: `The ${field} field should be 8 characters long`,
+            };
+          }
+          break;
       case "age":
         if (typeof value === "number" && (value < 5 || value > 99)) {
           errorInfo = {
@@ -166,6 +167,14 @@ export const Registration = () => {
           };
         } 
         break;
+      // case "organization":
+      //   if(typeof value === "string" && value.length > 8){
+      //     errorInfo = {
+      //       hasError: true,
+      //       message: "Please enter valid institution code"
+      //     };
+      //   }
+      //   break;
       default:
         break;
     }
@@ -294,17 +303,17 @@ export const Registration = () => {
     }
 
     if (screenIndex === 3) {
+      console.log(userData.organization)
       if (
-        userData.organization.length < 2 ||
-        userData.organization.length > 40
+        (userData.organization.length > 8)
       ) {
         newErrors.organization = {
           hasError: true,
-          message: "The organization field should be 2-40 characters long",
+          message: `The organization code should be 8 characters long`,
         };
         errorsExist = true;
-      } else {
-        newErrors.organization = { hasError: false, message: "" };
+      } else{
+        newErrors.organization  = {hasError: false, message: ""};
       }
     }
 
@@ -449,15 +458,22 @@ export const Registration = () => {
           {screenIndex == 3 ? (
             <section>
               <p>
-                If you are part of a school/university/language center or other,
-                enter its name below
+                Do you want to register for an organization?
               </p>
               <input
                 type="text"
                 name="organization"
                 placeholder="organization"
                 value={userData.organization}
+                onChange={(e) =>
+                  validateField("organization", e.target.value)
+                }
               />
+              <p className="errorText">
+                {errors.organization.hasError
+                  ? errors.organization.message
+                  : ""}
+              </p>
 
 
               <label>Privacy Policy</label>
