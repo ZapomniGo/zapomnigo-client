@@ -1,3 +1,18 @@
-h1{
-    text-align: center;
+#settings{
+    margin-left: 2vmax;
+    margin-right: 1.5vmax;
+    margin-top: 1vmax;
+    ul{
+        li{
+            list-style-type: none;
+
+        }
+        button{
+            margin-left: 0;
+        }
+        input{
+            border-bottom: none;
+            border-radius: 4px;
+        }
+    }
 }

@@ -1,15 +1,5 @@
 @import "./app-common/variables";
 @import "./app.scss";
-<<<<<<< HEAD
-@import "./app-components/Registration/Registration.scss";
-@import "./app-components/Navigation/navigation";
-@import "./app-components/Dashboard/dashboard";
-@import "./app-components/VerifyEmail/verifyEmail.scss";
-@import "./app-components/Sets/sets";
-@import "./app-components/Folders/folders";
-@import "./app-components/Create/create";
-@import "./app-components/Settings/settings"
-=======
 @import "./app-components/Forms/forms";
 @import "./app-components/Navigation/navigation";
 @import "./app-components/Dashboard/dashboard";
@@ -22,4 +12,4 @@
 @import "./app-components/MainPage/mainPage";
 @import "./app-common/common-styles";
 @import "./app-components/Forms/forms";
->>>>>>> main
+@import "./app-components/VerifyEmail/verifyEmail.scss";

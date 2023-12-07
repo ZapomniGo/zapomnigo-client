@@ -1,24 +1,24 @@
+import Dashboard from "../Dashboard/Dashboard";
+
 export const Settings = () => {
   return (
-    <div id="settings">
+    <Dashboard>
+      <div id="settings">
       <h1>Settings</h1>
       <section>
         <h2>Account</h2>
         <ul>
           <li>Log out</li>
           <div>
-            <p></p>
             <button>Log out</button>
           </div>
           <li>Change username</li>
           <div>
-            <p></p>
             <input type="text" placeholder="New username" />
             <button>Change username</button>
           </div>
           <li>Change email:</li>
           <div>
-            <p></p>
             <p>Your current email is: someemail@gmail.com</p>
             <input type="text" placeholder="New email" />
             <button>Change email</button>
@@ -115,5 +115,6 @@ export const Settings = () => {
         </ul>
       </section>
     </div>
+    </Dashboard>
   );
 };
