@@ -6,3 +6,4 @@ export const setsRoute = "/sets";
 export const foldersRoute = "/folders";
 export const createRoute = "/create";
 export const settingsRoute = "/settings";
+export const setPage = "/setpage"
