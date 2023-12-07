@@ -1,4 +1,4 @@
-.home {
+.card-section {
   position: relative;
   align-self: center;
   width: 100%;
@@ -9,14 +9,8 @@
   justify-content: center;
   flex-direction: column;
   justify-content: center;
-  .category{
-    display: flex;
-    width: calc(100% - 88px);
-    align-self: flex-end;
-    min-height: 100vh;
-    flex-direction: column;
-  }
-  .recent {
+ 
+  .set-wrapper {
     flex-wrap: wrap;
     display: flex;
     align-self: flex-start;
@@ -25,130 +19,40 @@
     color: $text-color;
     font-size: 1.75rem;
     margin-top: 1vmax;
+  
     .category-title {
       margin-left: 10px;
+      margin-bottom: 10px;
     }
 
     .sets {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: wrap;    
     }
-    .set-card {
-      transition: 0.3s;
-      box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
-        rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      background-color: white;
-      width: 18rem;
-      margin: 10px;
-      border-radius: 8px;
-      padding: 10px;
-      padding-left: 15px;
-      font-size: 0.8rem;
-      height: 9.5rem;
-      .set-description.close,
-      .set-institution.close {
-        opacity: 0;
-        transition: $tran-03;
-        overflow: hidden;
-      }
-      .open {
-        transition: $tran-03;
-        opacity: 1;
-      }
-      .title-options {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 27.5%;
-        opacity: 1 !important;
 
-        .more-options {
-          padding-right: 0.8vmax;
-        }
-      }
-      .set-title {
-        font-size: 1.5rem;
-        transition: $tran-02;
-      }
-
-      .set-title.open {
-        transition: $tran-02;
-        font-size: 1.2rem;
-      }
-      .set-description {
-        display: flex;
-        align-items: flex-start;
-        height: 52.5%;
-      }
-      .set-creator {
-        height: 20%;
-        display: flex;
-        align-items: center;
-        margin-bottom: 0.5vmin;
-        .image {
-          width: 10%;
-          display: flex;
-          align-items: center;
-          margin-right: 0.5rem;
-
-          img {
-            border-radius: 5px;
-            min-width: 100%;
-            min-height: 100%;
-          }
-        }
-        .creator-name {
-          font-weight: 500;
-          color: $text-color;
-          transition: $tran-02;
-          white-space: nowrap;
-        }
-        .set-institution {
-          text-align: right;
-          width: 55%;
-          a{
-            text-decoration: none;
-            display: inline-block;
-            background: $primary-color-light;
-            padding: 5px;
-            color:$text-color;
-            border-radius: 5px;
-          }
-        }
-      }
-    }
   }
   .set-card.open {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   }
 }
 
-.home.open {
-    filter: blur(4px);
-}
 
-@media only screen and (max-width: 900px){
+
+@media only screen and (max-width: 1000px){
       
-  .home{
+
+  .sets{
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .explore{
     position: initial;
     .category{
       width: 100%;
-      .recent{
-        margin-left: 0;
-        .category-title{
-          text-align: center;
-          margin-left: 0;
-        }
-        .sets{
-          justify-content: center;
-        }
-      }
+
     }
     .set-card{
-      width: 15rem !important;
+      // width: 15rem !important;
     }
     .open {
       transition: $tran-03;
@@ -168,17 +72,17 @@
 }
 
 
-.news{
-  display: flex;
-  align-self: flex-end;
-  width: calc(100% - 88px);
-  justify-content: center;
-  .test{
-    @include orangeBackground;
-    height: 200px;
-    width: 450px;
-    margin: 40px;
-    border-radius: 10px;  
-  }
-}
+// .news{
+//   display: flex;
+//   align-self: flex-end;
+//   width: calc(100% - 88px);
+//   justify-content: center;
+//   .test{
+//     @include orangeBackground;
+//     height: 200px;
+//     width: 450px;
+//     margin: 40px;
+//     border-radius: 10px;  
+//   }
+// }
 

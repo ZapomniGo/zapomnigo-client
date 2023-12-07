@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+// To-Do: Make Login/Register Button 
+// Fix logo
+
+>>>>>>> main
 import React, { ReactNode } from "react";
 import { NavLink as RRNavLink, NavLinkProps } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";

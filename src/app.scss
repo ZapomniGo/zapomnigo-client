@@ -1,3 +1,4 @@
+@use "./app-common/variables";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;500;700;900&display=swap");
 
 * {
@@ -21,7 +22,32 @@ $tran-03: all 0.3s ease;
 $tran-04: all 0.4s ease;
 $tran-05: all 0.5s ease;
 
+body {
+  animation: fadein 1s;
+}
 
+.container{
+  display: flex;
+  justify-content: flex-end;
+  transition: $tran-03;
+  .content{
+    width: calc(100% - 88px);
+    
+  }
+}
+.container.open{
+  // filter: blur();
+  transition: $tran-03;
+}
+
+@media only screen and (max-width: 1000px){
+  .container{
+    justify-content: center;
+    .content{
+      width: 100%;
+    }
+  }
+}
 @mixin centerContainer {
   position: absolute;
   left: 50%;
@@ -74,5 +100,279 @@ $tran-05: all 0.5s ease;
     100% {
       background-position: 0% 79%;
     }
+  }
+}
+
+
+::selection {
+  background-color: $secondary-color;
+  color: white;
+}
+input {
+  width: 100%;
+  height: 3vmax;
+  margin: 1vmax 0;
+  padding: 0 1vmax;
+  font-size: 1.4vmax;
+  border: 0;
+  border-bottom: 1px solid $secondary-color;
+  font-weight: 500;
+
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid $secondary-color;
+  }
+}
+input[type="submit"] {
+  width: auto;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+select {
+  font-weight: 500;
+  width: 100%;
+  height: 3vmax;
+  margin: 1vmax 0;
+  padding: 0 1vmax;
+  border-radius: 3px;
+  font-size: 1.5vmax;
+  border: 0;
+  border-radius: 0;
+  background-color: white;
+  border-bottom: 1px solid $secondary-color;
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid $secondary-color;
+  }
+}
+
+.disabled {
+  color: gray;
+}
+button,
+input[type="submit"] {
+  transition: 0.2s;
+  height: 3vmax;
+  cursor: pointer;
+  margin: 0.5vmax;
+  padding: 0 1vmax;
+  border-radius: 0.2em;
+  font-size: 1.5vmax;
+  background-color: $secondary-color;
+  color: #fff;
+  border: none;
+  &:focus {
+    outline: none;
+    border: 1px solid $secondary-color;
+  }
+}
+
+button:hover,
+input[type="submit"]:hover {
+  box-shadow: 0 0 5px 2px $secondary-color;
+}
+
+#backgroundForm {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f1f1f1;
+  position: relative;
+  overflow-x: hidden;
+
+  .spacer {
+    position: absolute;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    aspect-ratio: 960/300;
+  }
+
+  .top-left-1 {
+    width: 100%;
+    position: absolute;
+    left: -25%;
+    margin-top: 0;
+    z-index: 1;
+  }
+
+  .top-left-1 svg {
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .bottom-left {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: -20%;
+  }
+
+  .bottom-left svg {
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .top-left-2 {
+    width: 100%;
+    position: absolute;
+    left: -10%;
+    margin-top: 0;
+    z-index: 0;
+  }
+
+  .top-left-2 svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .top-right {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-bottom: 0px;
+  }
+
+  .top-right svg {
+    display: block;
+    width: 150%;
+    height: 100%;
+  }
+
+  .bottom-right {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 0px;
+  }
+
+  .bottom-right svg {
+    display: block;
+    width: 150%;
+    height: 100%;
+  }
+}
+#wrapperForm {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  .title {
+    text-align: center;
+    font-size: 3vmax;
+    color: $secondary-color;
+    font-weight: 700;
+  }
+
+  form {
+    min-width: 27.5vw;
+    background-color: white;
+    border-radius: 4%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    padding: 1vmax;
+    z-index: 1;
+
+    .error {
+      border-bottom: 2px solid $primary-color;
+      color: $primary-color;
+    }
+    .step-title {
+      font-size: 20px;
+    }
+    .stepper button {
+      cursor: initial;
+      &:hover {
+        box-shadow: none;
+      }
+    }
+
+    .stepper .active {
+      background-color: $secondary-color;
+    }
+
+    .stepper .completed {
+      background-color: $secondary-color;
+    }
+  }
+}
+.errorText {
+  color: red;
+  font-weight: 300;
+}
+
+@media screen and (orientation: portrait) {
+  #wrapperForm {
+    .title {
+      padding: 2vmax;
+      font-size: 4vmax;
+    }
+    input {
+      font-size: 2.5vmax;
+      height: 7vh;
+    }
+    select {
+      font-size: 2.5vmax;
+      height: 10vh;
+    }
+    form {
+      padding: 2.5vmax;
+      width: 90vw;
+    }
+    #buttonWrapper > button {
+      width: 100%;
+      font-size: 2.5vmax;
+      height: 6vh;
+    }
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-o-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
