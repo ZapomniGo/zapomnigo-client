@@ -52,6 +52,10 @@ const router = createBrowserRouter([
         path: settingsRoute,
         element: <Settings />,
       },
+      {
+        path: setPage,
+        element: <SetPage />
+      }
     ],
   },
   {
@@ -61,10 +65,6 @@ const router = createBrowserRouter([
   {
     path: loginRoute,
     element: <Login />,
-  },
-  {
-    path: setPage,
-    element: <SetPage />
   }
 ]);
 
