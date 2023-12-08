@@ -1,6 +1,14 @@
 import Dashboard from "../Dashboard/Dashboard";
 import { Flashcard } from "./Flashcard";
 import { useState, useEffect } from "react";
+import { MdContentCopy } from "react-icons/md";
+import { FaRegLightbulb } from "react-icons/fa";
+import { RiPencilLine } from "react-icons/ri";
+import { FiShare2 } from "react-icons/fi";
+import { PiExport } from "react-icons/pi";
+
+
+
 
 interface FlashcardSet {
     id: string;
@@ -71,9 +79,9 @@ export const SetPage = () => {
 
 
         <Dashboard>
-            <div id="set-page">
+            <>
                 {setFlashcards ? (
-                <>
+                <div id="set-page">
                     <div className="set-info">
                       <div className="set-title">
                         <h1>{setFlashcards.title}</h1>
@@ -83,13 +91,42 @@ export const SetPage = () => {
                       </div>
                       <p className="description">{setFlashcards.description}</p>
                       <p className="category">{setFlashcards.category}</p>
-                      <p className="creator">{setFlashcards.creator_name}</p>
+                      <div className="actions">
+                        <a href="#" className="rotate">
+                          <MdContentCopy />
+                          Review
+                        </a>
+                        <a href="#">
+                          <FaRegLightbulb />
+                          Learn
+                        </a>
+                        <a href="#">
+                          <RiPencilLine />
+                          Edit
+                        </a>
+                        <a href="#">
+                          <FiShare2 />
+                          Share
+                        </a>
+                        <a href="#">
+                          <PiExport />
+                          Export
+                        </a>
+                      </div>
+                      <p className="creator">Created by {setFlashcards.creator_name}</p>
                     </div>
-                </>
+                    <div className="cards-info">
+                      <h2>Terms in this set ({setFlashcards.flashcards.length})</h2>
+                      {setFlashcards.flashcards.map((flashcard) => (
+                  <Flashcard key={flashcard.id} flashcard={flashcard} />
+                ))}
+                    </div>
+
+                </div>
                 ) : (
                 <p>Loading...</p>
                 )}
-            </div>
+            </>
         </Dashboard>
     )
 }
