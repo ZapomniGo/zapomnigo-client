@@ -29,7 +29,7 @@
             .institution{
                 display: flex;
                 align-items: center;
-                background: $primary-color-light;
+                background: yellow;
                 justify-self: center;
                 border-radius: 5px;
                 padding: 5px;
@@ -88,7 +88,6 @@
         }
     }
     .cards-info{
-        width: 80%;
-        
+        width: 60%;
     }
 }

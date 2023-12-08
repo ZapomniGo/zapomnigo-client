@@ -24,7 +24,7 @@ interface FlashcardSet {
     id: string;
     term: string;
     description: string;
-    image: string;
+    image?: string;
   }
 
 const myFlashcardSet: FlashcardSet = {
@@ -38,8 +38,7 @@ const myFlashcardSet: FlashcardSet = {
     {
       id: "1",
       term: "Term 1",
-      description: "Description 1",
-      image: "image_url_1",
+      description: "Description 1kj hbaoihans ino;is afhao;s hgnfakljgbhkjshkjaddkhshbkjs dhou hiu hgasiuhba iks",
     },
     {
       id: "2",

@@ -1,0 +1,28 @@
+#flashcard {
+    background-color: red;
+    display: flex;
+    padding: 25px 10px;
+    margin: 7.5px 0;
+    align-items: center;
+    border-radius: 5px;
+  
+    .term {
+      width: 30%;
+    }
+  
+    .vert-line {
+      height: 100%;
+      width: 1px;
+      background-color: #000;
+      margin: 0 10px;
+    }
+  
+    .description {
+      min-width: 40%;
+      max-width: 70%;
+    }
+  
+    .image {
+      width: 30%;
+    }
+  }
