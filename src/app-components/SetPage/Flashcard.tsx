@@ -21,6 +21,7 @@ export const Flashcard: React.FC<FlashcardProps> = ({ flashcard }) => {
         </div>
       {flashcard.image && 
         <div className='image'>
+
             <img src={flashcard.image} alt={flashcard.term} />
         </div>
       }

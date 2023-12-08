@@ -5,24 +5,32 @@
     margin: 7.5px 0;
     align-items: center;
     border-radius: 5px;
+    position: relative;
   
     .term {
-      width: 30%;
+      flex: 1;
     }
   
-    .vert-line {
-      height: 100%;
-      width: 1px;
-      background-color: #000;
-      margin: 0 10px;
-    }
+    .description::before {
+        content: '';
+        height: 80%;
+        width: 1px;
+        background-color: #000;
+        margin: 0 28%; /* Adjust this value for spacing */
+        position: absolute;
+        top: 50%; /* Center vertically */
+        bottom: 0;
+        left: 0; /* Center horizontally */
+        transform: translate(-50%, -50%);
+      }
   
     .description {
-      min-width: 40%;
-      max-width: 70%;
+        min-width: 40%;
+        max-width: 70%;
     }
   
     .image {
       width: 30%;
     }
   }
+  
