@@ -11,7 +11,7 @@ interface FlashcardProps {
 
 export const Flashcard: React.FC<FlashcardProps> = ({ flashcard }) => {
   return (
-    <div id="flashcard">
+    <div id="flashcard" className={!flashcard.image ? 'no-image' : ''}>
         <div className="term">
             <h3>{flashcard.term}</h3>
         </div>

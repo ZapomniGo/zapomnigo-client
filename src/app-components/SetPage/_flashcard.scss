@@ -6,9 +6,12 @@
     align-items: center;
     border-radius: 5px;
     position: relative;
+    justify-content: space-between;
   
     .term {
-      flex: 1;
+      display: flex;
+      width: 27%;
+      justify-content: center;
     }
   
     .description::before {
@@ -16,21 +19,30 @@
         height: 80%;
         width: 1px;
         background-color: #000;
-        margin: 0 28%; /* Adjust this value for spacing */
+        margin: 0 28%;
         position: absolute;
-        top: 50%; /* Center vertically */
+        top: 50%;
         bottom: 0;
-        left: 0; /* Center horizontally */
+        left: 0; 
         transform: translate(-50%, -50%);
       }
   
-    .description {
-        min-width: 40%;
-        max-width: 70%;
-    }
-  
-    .image {
-      width: 30%;
-    }
+      .description {
+        display: flex;
+        justify-content: flex-start;
+        width: 41.5%; // Default width
+        margin-left: 35px;
+    
+
+      }
+    
+      .image {
+        width: 30%;
+      }
   }
-  
+
+#flashcard.no-image{
+    .description{
+      width: 72% !important;
+    } 
+}

@@ -46,6 +46,11 @@ const myFlashcardSet: FlashcardSet = {
       description: "Description 2",
       image: "image_url_2",
     },
+    {
+      id: "2",
+      term: "Term 2",
+      description: "Description 2",
+    },
   ],
 };
 
