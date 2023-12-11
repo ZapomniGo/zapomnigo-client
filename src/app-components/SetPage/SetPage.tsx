@@ -43,8 +43,8 @@ const myFlashcardSet: FlashcardSet = {
     {
       id: "2",
       term: "Term 2",
-      description: "Description 2",
-      image: "image_url_2",
+      description: "Description 2 loremkjlasnf ljasfnb lorem fijasbk alskhd ans;ld ;kjbjkasb ",
+      image: "src/app-components/SetPage/test.jpg",
     },
     {
       id: "2",
