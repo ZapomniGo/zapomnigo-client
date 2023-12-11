@@ -1,5 +1,5 @@
 #flashcard {
-    background-color: red;
+    background-color: $sidebar-color;
     display: flex;
     padding: 25px 10px;
     margin: 7.5px 0;
@@ -7,6 +7,8 @@
     border-radius: 5px;
     position: relative;
     justify-content: space-between;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
   
     .term {
       display: flex;
@@ -32,10 +34,18 @@
         justify-content: flex-start;
         width: 41.5%; // Default width
         margin-left: 35px;
+        margin-right: 10px;
       }
     
       .image {
         width: 30%;
+        display: flex;
+        margin-right: 15px;
+        img{
+            width: 100%;
+            height: 100%;
+            border-radius: 3px;
+        }
       }
   }
 

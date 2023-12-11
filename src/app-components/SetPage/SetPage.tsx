@@ -51,6 +51,12 @@ const myFlashcardSet: FlashcardSet = {
       term: "Term 2",
       description: "Description 2",
     },
+    {
+      id: "2",
+      term: "Term 2",
+      description: "Description 2 loremkjlasnf ljasfnb lorem fijasbk alskhd ans;ld ;kjbjkasb ",
+      image: "src/app-components/SetPage/test2.jpg",
+    },
   ],
 };
 
