@@ -30,7 +30,7 @@ interface FlashcardSet {
 const myFlashcardSet: FlashcardSet = {
   id: "123",
   title: "My Flashcard Set",
-  description: "A set of flashcards for learning purposes",
+  description: "A set of flashcards for learning purposeskjadgh ljb kjasbfkjb fjkasb fkjbakjfbkj basfbasf earning purposeskjadgh ljb kjasbfkjb fjkasb fkjbakjfbkj basfbasf ujb kjas",
   creator_name: "John Doe",
   institution: "AUBG",
   category: "Science",

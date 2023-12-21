@@ -2,12 +2,13 @@
     background-color: $sidebar-color;
     display: flex;
     padding: 25px 10px;
-    margin: 7.5px 0;
+    // margin: 7.5px 0;
+    margin-top:1.5vmax;
     align-items: center;
     border-radius: 5px;
     position: relative;
     justify-content: space-between;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
   
     .term {
@@ -20,7 +21,7 @@
         content: '';
         height: 80%;
         width: 1px;
-        background-color: #000;
+        background-color: gray;
         margin: 0 28%;
         position: absolute;
         top: 50%;
