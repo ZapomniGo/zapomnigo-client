@@ -415,7 +415,7 @@ function BlockOptionsDropdownList({
   );
 }
 
-export default function ToolbarPlugin() {
+export const ToolbarPlugin = () => {
   const [editor] = useLexicalComposerContext();
   const toolbarRef = useRef(null);
   const [canUndo, setCanUndo] = useState(false);
@@ -693,4 +693,4 @@ export default function ToolbarPlugin() {
       )}
     </div>
   );
-}
+};
