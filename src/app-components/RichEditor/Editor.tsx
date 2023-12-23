@@ -6,67 +6,27 @@ import katex from "katex";
 import "katex/dist/katex.min.css";
 window.katex = katex;
 import Quill from "quill";
-
+import EditorToolbar from './EditorToolbar'
+import { modules, formats } from "./EditorToolbar";
 
 const Editor = () => {
     Quill.register("modules/imageResize", ImageResize);
     Quill.register("modules/imageCompress", ImageCompress);
-const [description, setDescription] = useState('')
+const [value, setValue] = useState('');
   return (
+   
+    <div className="text-editor">
+    <EditorToolbar />
     <ReactQuill
-    className="sm"
-    onChange={(value) => setDescription(value)}
-    value={description}
-    modules={{
-        imageResize: {
-            parchment: Quill.import("parchment"),
-            modules: ["Resize", "DisplaySize"],
-        },
-        imageCompress: {
-            quality: 0.7, // default
-            maxWidth: 1000, // default
-            maxHeight: 1000, // default
-            imageType: "image/jpeg", // default
-            debug: true, // default
-        },
-
-      toolbar: [
-        [{ header: "1" }, { header: "2" }, { font: [] }],
-        [{ size: [] }],
-        [
-          "bold",
-          "italic",
-          "underline",
-        ],[
-          "size",
-          "font",
-          "blockquote",
-          "color",
-          "strike",
-          "script",
-            "background",
-            "code-block",
-            "direction",
-            "align",
-            "formula",
-            "video"
-
-        ],
-        [
-          { list: "ordered" },
-          { list: "bullet" },
-          { indent: "-1" },
-          { indent: "+1" },
-
-        ],
-        ["link"],
-        ["image"],
-                
-        ["clean"],
-      ],
-      
-    }}
-  />  )
+      theme="snow"
+      value={value}
+      onChange={е => setValue(е)}
+      placeholder={"Write something awesome..."}
+      modules={modules}
+      formats={formats}
+    />
+  </div>
+    )
 }
 
 export default Editor
