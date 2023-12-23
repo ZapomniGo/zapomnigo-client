@@ -10,8 +10,6 @@ import EditorToolbar from './EditorToolbar'
 import { modules, formats } from "./EditorToolbar";
 
 const Editor = () => {
-    Quill.register("modules/imageResize", ImageResize);
-    Quill.register("modules/imageCompress", ImageCompress);
 const [value, setValue] = useState('');
   return (
    
