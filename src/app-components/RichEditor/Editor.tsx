@@ -10,21 +10,24 @@ import EditorToolbar from './EditorToolbar'
 import { modules, formats } from "./EditorToolbar";
 
 const Editor = () => {
+  const [value, setValue] = useState('');
+  const [id, setId] = useState(`toolbar-${Date.now()}`);
+
   
-const [value, setValue] = useState('');
   return (
     <div className="text-editor">
-    <EditorToolbar />
-    <ReactQuill
-      theme="snow"
-      value={value}
-      onChange={е => setValue(е)}
-      placeholder={"Write something awesome..."}
-      modules={modules}
-      formats={formats}
-    />
-  </div>
-    );
+      <EditorToolbar id={id} />
+      <ReactQuill
+        theme="snow"
+        value={value}
+        onChange={setValue}
+        placeholder={"Write something awesome..."}
+        modules={modules(id)}
+        formats={formats}
+      />
+    </div>
+  );
 }
+
 
 export default Editor

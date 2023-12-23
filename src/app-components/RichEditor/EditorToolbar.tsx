@@ -63,58 +63,59 @@ Font.whitelist = [
 Quill.register(Font, true);
 
 // Modules object for setting up the Quill editor
-export const modules = {
-  toolbar: {
-    container: "#toolbar",
-    handlers: {
-      undo: undoChange,
-      redo: redoChange
-    }
-  },
-  history: {
-    delay: 500,
-    maxStack: 100,
-    userOnly: true
-  },
-    imageResize: {
-        displaySize: true,
-        modules: [ 'Resize', 'DisplaySize', 'Toolbar' ],
-        handleStyles: {
-            backgroundColor: 'black',
-            border: 'none',
-            color: 'white',
-            width: '16px',
-            height: '16px',
-            display: 'block',
-            opacity: 0.5,
-            boxSizing: 'border-box',
-            transition: '',
-            'border-radius': '0px',
-            'box-shadow': '0 0 2px black'
-        },
-        toolbarStyles: {
-            backgroundColor: 'black',
-            border: 'none',
-            color: 'white',
-            width: '24px',
-            height: '24px',
-            display: 'block',
-            opacity: 0.5,
-            boxSizing: 'border-box',
-            transition: '',
-            'border-radius': '0px',
-            'box-shadow': '0 0 2px black'
-        }
-
+export const modules = (id) =>(
+  {
+    toolbar: {
+      container: "#" + id,
+      handlers: {
+        undo: undoChange,
+        redo: redoChange
+      }
     },
-    imageCompress: {
-        quality: 0.5, // default
-        maxWidth: 800, // default
-        maxHeight: 800, // default
-        imageType: 'image/jpeg', // default
-        debug: false 
+    history: {
+      delay: 500,
+      maxStack: 100,
+      userOnly: true
     },
-};
+      imageResize: {
+          displaySize: true,
+          modules: [ 'Resize', 'DisplaySize', 'Toolbar' ],
+          handleStyles: {
+              backgroundColor: 'black',
+              border: 'none',
+              color: 'white',
+              width: '16px',
+              height: '16px',
+              display: 'block',
+              opacity: 0.5,
+              boxSizing: 'border-box',
+              transition: '',
+              'border-radius': '0px',
+              'box-shadow': '0 0 2px black'
+          },
+          toolbarStyles: {
+              backgroundColor: 'black',
+              border: 'none',
+              color: 'white',
+              width: '24px',
+              height: '24px',
+              display: 'block',
+              opacity: 0.5,
+              boxSizing: 'border-box',
+              transition: '',
+              'border-radius': '0px',
+              'box-shadow': '0 0 2px black'
+          }
+  
+      },
+      imageCompress: {
+          quality: 0.5, // default
+          maxWidth: 800, // default
+          maxHeight: 800, // default
+          imageType: 'image/jpeg', // default
+          debug: false 
+      },
+  }) 
 
 // Formats objects for setting up the Quill editor
 export const formats = [
@@ -144,8 +145,8 @@ export const formats = [
 ];
 
 // Quill Toolbar component
-export const QuillToolbar = () => (
-  <div id="toolbar">
+export const QuillToolbar = ({id}) => (
+  <div id={id}>
     <span className="ql-formats">
       <select className="ql-font" defaultValue="arial">
         <option value="arial">Arial</option>
