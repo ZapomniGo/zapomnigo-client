@@ -3,9 +3,12 @@ import ImageResize from "quill-image-resize-module-react";
 import ImageCompress from "quill-image-compress";
 import katex from "katex";
 import "katex/dist/katex.min.css";
+import Editor from "./Editor";
 window.katex = katex;
+
 Quill.register("modules/imageResize", ImageResize);
 Quill.register("modules/imageCompress", ImageCompress);
+
 
 const CustomUndo = () => (
   <svg viewBox="0 0 18 18">
@@ -105,9 +108,9 @@ export const modules = {
 
     },
     imageCompress: {
-        quality: 0.7, // default
-        maxWidth: 1000, // default
-        maxHeight: 1000, // default
+        quality: 0.5, // default
+        maxWidth: 800, // default
+        maxHeight: 800, // default
         imageType: 'image/jpeg', // default
         debug: false 
     },
@@ -132,7 +135,12 @@ export const formats = [
   "link",
   "image",
   "color",
-  "code-block"
+  "code-block",
+    "formula",
+    "video",
+    "code-block",
+    "imageResize",
+    "imageCompress"
 ];
 
 // Quill Toolbar component
@@ -154,10 +162,9 @@ export const QuillToolbar = () => (
         <option value="sans-serif">Sans Serif</option>
       </select>
       <select className="ql-size" defaultValue="medium">
-        <option value="extra-small">Size 1</option>
-        <option value="small">Size 2</option>
-        <option value="medium">Size 3</option>
-        <option value="large">Size 4</option>
+        <option value="small">Small</option>
+        <option value="medium">Normal</option>
+        <option value="large">Large</option>
       </select>
       <select className="ql-header" defaultValue="3">
         <option value="1">Heading</option>
