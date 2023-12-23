@@ -29,7 +29,7 @@ const [description, setDescription] = useState('')
             imageType: "image/jpeg", // default
             debug: true, // default
         },
-        
+
       toolbar: [
         [{ header: "1" }, { header: "2" }, { font: [] }],
         [{ size: [] }],
@@ -37,6 +37,7 @@ const [description, setDescription] = useState('')
           "bold",
           "italic",
           "underline",
+        ],[
           "size",
           "font",
           "blockquote",
@@ -48,6 +49,7 @@ const [description, setDescription] = useState('')
             "direction",
             "align",
             "formula",
+            "video"
 
         ],
         [
