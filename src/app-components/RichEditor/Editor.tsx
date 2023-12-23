@@ -9,18 +9,16 @@ import Quill from "quill";
 import EditorToolbar from './EditorToolbar'
 import { modules, formats } from "./EditorToolbar";
 
-const Editor = () => {
-  const [value, setValue] = useState('');
+const Editor = ({ value, onChange }) => {
   const [id, setId] = useState(`toolbar-${Date.now()}`);
 
-  
   return (
     <div className="text-editor">
       <EditorToolbar id={id} />
       <ReactQuill
         theme="snow"
         value={value}
-        onChange={setValue}
+        onChange={onChange}
         placeholder={"Write something awesome..."}
         modules={modules(id)}
         formats={formats}

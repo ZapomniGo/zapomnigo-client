@@ -4,10 +4,14 @@ import Editor from "../RichEditor/Editor"
 export const CreateSet = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [flashcards, setFlashcards] = useState([{ term: '', description: '' }, { term: '', description: '' }]);
+  const [flashcards, setFlashcards] = useState([{ term: '', description: '' }]);
 
   const handleEditorChange = (index, field, value) => {
     setFlashcards(flashcards.map((flashcard, i) => i === index ? { ...flashcard, [field]: value } : flashcard));
+  };
+
+  const addFlashcard = () => {
+    setFlashcards([...flashcards, { term: '', description: '' }]);
   };
 
   const handleSubmit = () => {
@@ -29,6 +33,7 @@ export const CreateSet = () => {
           <Editor value={flashcard.description} onChange={value => handleEditorChange(index, 'description', value)} />
         </div>
       ))}
+      <button onClick={addFlashcard}>Add Flashcard</button>
       <button onClick={handleSubmit}>Submit</button>
     </div>
   )
