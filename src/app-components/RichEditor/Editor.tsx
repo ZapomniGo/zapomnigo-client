@@ -10,9 +10,9 @@ import EditorToolbar from './EditorToolbar'
 import { modules, formats } from "./EditorToolbar";
 
 const Editor = () => {
+  
 const [value, setValue] = useState('');
   return (
-   
     <div className="text-editor">
     <EditorToolbar />
     <ReactQuill
@@ -24,7 +24,7 @@ const [value, setValue] = useState('');
       formats={formats}
     />
   </div>
-    )
+    );
 }
 
 export default Editor

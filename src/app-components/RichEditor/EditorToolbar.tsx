@@ -74,7 +74,35 @@ export const modules = {
     userOnly: true
   },
     imageResize: {
-        displaySize: true
+        displaySize: true,
+        modules: [ 'Resize', 'DisplaySize', 'Toolbar' ],
+        handleStyles: {
+            backgroundColor: 'black',
+            border: 'none',
+            color: 'white',
+            width: '16px',
+            height: '16px',
+            display: 'block',
+            opacity: 0.5,
+            boxSizing: 'border-box',
+            transition: '',
+            'border-radius': '0px',
+            'box-shadow': '0 0 2px black'
+        },
+        toolbarStyles: {
+            backgroundColor: 'black',
+            border: 'none',
+            color: 'white',
+            width: '24px',
+            height: '24px',
+            display: 'block',
+            opacity: 0.5,
+            boxSizing: 'border-box',
+            transition: '',
+            'border-radius': '0px',
+            'box-shadow': '0 0 2px black'
+        }
+
     },
     imageCompress: {
         quality: 0.7, // default
