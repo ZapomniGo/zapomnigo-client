@@ -58,8 +58,6 @@ Font.whitelist = [
     "sans-serif"
 ];
 Quill.register(Font, true);
-Quill.register("modules/table", Table);
-
 
 // Modules object for setting up the Quill editor
 export const modules = {
@@ -120,6 +118,12 @@ export const QuillToolbar = () => (
         <option value="georgia">Georgia</option>
         <option value="helvetica">Helvetica</option>
         <option value="lucida">Lucida</option>
+        <option value="roboto">Roboto</option>
+        <option value="times-new-roman">Times New Roman</option>
+        <option value="trebuchet">Trebuchet</option>
+        <option value="ubuntu">Ubuntu</option>
+        <option value="verdana">Verdana</option>
+        <option value="sans-serif">Sans Serif</option>
       </select>
       <select className="ql-size" defaultValue="medium">
         <option value="extra-small">Size 1</option>
