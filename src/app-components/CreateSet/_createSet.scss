@@ -1,2 +1,40 @@
-.create-set-wrapper{
-    background-color: black;}
+.category{
+    display: flex;
+    justify-content: center;
+    .create-set-wrapper{
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: skyblue;
+        width: 90%;
+        h1{
+        display: flex;
+        justify-content: left;
+        font-weight: 600;
+        }
+        input{
+            border-radius: 4px;
+        }
+        .title{
+        display: flex;
+        width: 100%;
+        }
+
+        .other-info{
+            display: flex;
+            .description{
+                width: 50%;
+                height: 174px;
+                margin-right: 5px;
+            }
+            .tags{
+                margin-left: 5px;
+                width: 50%;
+                input{
+                    height: 75px;
+                }
+            }
+        }
+    }
+}

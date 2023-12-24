@@ -22,7 +22,6 @@ import { Create } from "./app-components/Create/Create";
 import { Settings } from "./app-components/Settings/Settings";
 import { MainPage } from "./app-components/MainPage/MainPage";
 import "./index.scss";
-import Editor  from "./app-components/RichEditor/Editor";
 import { Registration } from "./app-components/Forms/Registration/Registration";
 import { Login } from "./app-components/Forms/Login/Login";
 import { CreateSet } from "./app-components/CreateSet/CreateSet";
