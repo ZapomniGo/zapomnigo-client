@@ -9,7 +9,7 @@ import Quill from "quill";
 import EditorToolbar from './EditorToolbar'
 import { modules, formats } from "./EditorToolbar";
 
-const Editor = ({ value, onChange }) => {
+const Editor = ({ value, onChange, placeholder }) => {
   const [id, setId] = useState(`toolbar-${Date.now()}`);
 
   return (
@@ -19,7 +19,7 @@ const Editor = ({ value, onChange }) => {
         theme="snow"
         value={value}
         onChange={onChange}
-        placeholder={"Write something awesome..."}
+        placeholder={placeholder ? placeholder : "Напиши нещо яко!"}
         modules={modules(id)}
         formats={formats}
       />

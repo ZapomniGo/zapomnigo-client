@@ -1,4 +1,17 @@
-.ql-snow .ql-editor img {
+.ql-editor img {
   min-width: 5%;
   max-width: 30%;
+}
+.ql-tooltip.ql-editing a.ql-action::after {
+  content: "Запази" !important;
+  color: #f90 !important;
+}
+.ql-tooltip[data-mode="video"]::before {
+  content: "Видео линк:" !important;
+}
+.ql-tooltip[data-mode="link"]::before {
+  content: "Линк:" !important;
+}
+.ql-tooltip[data-mode="formula"]::before {
+  content: "Формула:" !important;
 }

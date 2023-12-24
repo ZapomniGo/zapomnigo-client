@@ -163,14 +163,14 @@ export const QuillToolbar = ({id}) => (
         <option value="sans-serif">Sans Serif</option>
       </select>
       <select className="ql-size" defaultValue="medium">
-        <option value="small">Small</option>
-        <option value="medium">Normal</option>
-        <option value="large">Large</option>
+        <option value="small">Малък</option>
+        <option value="medium">Среден</option>
+        <option value="large">Голям</option>
       </select>
       <select className="ql-header" defaultValue="3">
-        <option value="1">Heading</option>
-        <option value="2">Subheading</option>
-        <option value="3">Normal</option>
+        <option value="1">Заглавие</option>
+        <option value="2">Подзаглавие</option>
+        <option value="3">Нормален</option>
       </select>
     </span>
     <span className="ql-formats">
