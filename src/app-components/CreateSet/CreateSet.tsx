@@ -66,7 +66,7 @@ export const CreateSet = () => {
         <h1>Create a new set</h1>
         <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Enter a title"  className='title'/>
         <div className='other-info'>
-          <input type="text" value={description} onChange={e => setDescription(e.target.value)} placeholder="Description" className='description' />
+          <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Description" className='description' />
           <div className='tags'>
             <ReactTags
               tags={tags}
