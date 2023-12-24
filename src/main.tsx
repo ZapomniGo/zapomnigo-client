@@ -64,10 +64,6 @@ const router = createBrowserRouter([
     element: <Registration />,
   },
   {
-    path: "test",
-    element: <Editor />,
-  },
-  {
     path: loginRoute,
     element: <Login />,
   },
