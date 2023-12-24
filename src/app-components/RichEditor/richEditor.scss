@@ -6,12 +6,28 @@
   content: "Запази" !important;
   color: #f90 !important;
 }
-.ql-tooltip[data-mode="video"]::before {
-  content: "Видео линк:" !important;
-}
-.ql-tooltip[data-mode="link"]::before {
+.ql-tooltip::before {
   content: "Линк:" !important;
 }
 .ql-tooltip[data-mode="formula"]::before {
   content: "Формула:" !important;
+}
+//if mobile
+@media (max-width: 768px) {
+  .ql-formats {
+    display: flex !important;
+    justify-content: space-between !important;
+    flex-wrap:wrap;
+    margin:0;
+    padding:0;
+    width:100%;
+    button {
+      transform: scale(1.3);
+    }
+  }
+  .ql-tooltip{
+    width: 100%;
+  display: flex;
+  justify-content: center;
+  }
 }
