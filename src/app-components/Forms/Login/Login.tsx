@@ -26,7 +26,9 @@ export const Login = () => {
   const login = async () => {
     try{
         console.log(userData);
-        const response = await axios.post(`${url}/v1/login`, userData)
+        const response = await axios.post(`${url}/v1/login`, userData, {
+      withCredentials: true,
+    })
         console.log(response);
       }
       catch(error){
