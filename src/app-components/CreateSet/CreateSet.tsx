@@ -8,6 +8,7 @@ export const CreateSet = () => {
   const [description, setDescription] = useState('');
   const [flashcards, setFlashcards] = useState([{ term: '', description: '' }]);
   const [tags, setTags] = useState([]);
+  const [inputValue, setInputValue] = useState(''); // Add this line
 
   const suggestions = [
     { id: 'Math', text: 'Math' },
@@ -22,9 +23,14 @@ export const CreateSet = () => {
   const handleAddition = (tag) => {
     if (suggestions.find(suggestion => suggestion.id === tag.id)) {
       setTags([tag]);
+      setInputValue(tag.text); // Keep the input value after selecting a tag
     }
   };
-  
+
+  const handleInputChange = (value) => {
+    setInputValue(value); // Add this line
+  };
+
   const handleInstitutionDelete = (i) => {
     setInstitutions(institutions.filter((institution, index) => index !== i));
   };
@@ -87,13 +93,13 @@ export const CreateSet = () => {
           </div>
         </div>
         {flashcards.map((flashcard, index) => (
-          <div key={index}>
+          <div key={index} className='flashcard'>
             <Editor value={flashcard.term} onChange={value => handleEditorChange(index, 'term', value)} placeholder={undefined} />
             <Editor value={flashcard.description} onChange={value => handleEditorChange(index, 'description', value)} placeholder={undefined} />
           </div>
         ))}
-        <button onClick={addFlashcard}>Add Flashcard</button>
-        <button onClick={handleSubmit}>Submit</button>
+        <button onClick={addFlashcard} className='add-card'>Add card</button>
+        <button onClick={handleSubmit} className='submit'>Submit</button>
         {tags.map((tag, index) => (
           <span key={index} className='tag'>
             {tag.text}

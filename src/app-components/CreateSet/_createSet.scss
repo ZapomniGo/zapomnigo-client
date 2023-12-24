@@ -1,7 +1,9 @@
 .category{
     display: flex;
     justify-content: center;
+    // fix this
     .create-set-wrapper{
+        margin-top: 20px;
         align-self: center;
         display: flex;
         flex-direction: column;
@@ -31,8 +33,6 @@
             display: flex;
             align-items: center;
             
-            
-
             .description{
                 height: 6.4vmax;
                 margin-right: 6px;
@@ -41,6 +41,7 @@
                 justify-content: center;
                 background-color: #fff;
                 border-radius: 5px;
+                border-bottom: 1px solid red;
             }
             textarea{
                 align-self: center;
@@ -62,6 +63,35 @@
                     height: 2.8vmax;
                 }
             }
+        }
+        .flashcard{
+            margin-top: 20px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            border-radius: 5px;
+            .text-editor{
+                border-radius: 5px;
+                width: 95%;
+                margin-bottom: 5px;
+                margin-top: 5px;
+            }
+        }
+        .add-card{
+            margin: 15px 0 !important;
+            height: 75px;
+        }
+        .submit{
+            margin: 15px 0 !important; 
+            width: 15%;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: flex-end;
         }
     }
     .ReactTags__suggestions {
