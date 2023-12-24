@@ -15,6 +15,8 @@
         }
         input{
             border-radius: 4px;
+            margin: 0.5vmax 0 !important;
+
         }
         .title{
         display: flex;
@@ -23,18 +25,52 @@
 
         .other-info{
             display: flex;
+            align-items: center;
             .description{
                 width: 50%;
-                height: 174px;
+                height: 168px;
                 margin-right: 5px;
             }
             .tags{
                 margin-left: 5px;
                 width: 50%;
+                
                 input{
+                    margin: 10px 0;
                     height: 75px;
                 }
             }
         }
     }
+    .ReactTags__suggestions {
+        position: absolute;
+        width: 10%;
+        height: auto;
+        z-index: 1;
+        background-color: #d9d9d9 !important;
+        cursor: pointer;
+        border-radius: 5px;
+        ul{
+            list-style: none;
+           li{
+            padding: 10px;
+           }
+           li:hover{
+            background-color: #bfbfbf;
+            border-radius: 5px;
+           }
+
+        }
+    } 
 }
+
+.react-tags {
+    position: relative !important;
+  
+
+  }
+
+// position: absolute !important;
+// width: 100% !important;
+// z-index: 1 !important;
+// 
