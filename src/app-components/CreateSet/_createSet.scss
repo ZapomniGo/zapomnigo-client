@@ -8,6 +8,9 @@
         justify-content: center;
         // background-color: skyblue;
         width: 60%;
+        ::placeholder{
+            font-size: 1.2rem;
+        }
         h1{
         display: flex;
         justify-content: left;
@@ -27,18 +30,29 @@
         .other-info{
             display: flex;
             align-items: center;
-            textarea{
-                resize: none;
-                width: 50%;
-                border-radius: 5px;
-                outline: none;
-                border: none;
-                border-bottom: 1px solid red;
-            }
+            
+            
+
             .description{
                 height: 6.4vmax;
                 margin-right: 6px;
+                width: 50%;
+                display: flex;
+                justify-content: center;
+                background-color: #fff;
+                border-radius: 5px;
             }
+            textarea{
+                align-self: center;
+                background-color: transparent;
+                resize: none;
+                width: 93%;
+                height: 80%;
+                border-radius: 5px;
+                outline: none;
+                border: none;
+            }
+            
             .tags{
                 margin-left: 6px;
                 width: 50%;
@@ -52,11 +66,13 @@
     }
     .ReactTags__suggestions {
         position: absolute;
-        width: 10%;
+        min-width: 10%;
+        width: auto;
         height: auto;
         z-index: 1;
         background-color: #d9d9d9 !important;
         cursor: pointer;
+        border: 1px solid #c5c5c5;
         border-radius: 5px;
         ul{
             list-style: none;
@@ -72,11 +88,7 @@
     } 
 }
 
-.react-tags {
-    position: relative !important;
-  
 
-  }
 
 // position: absolute !important;
 // width: 100% !important;

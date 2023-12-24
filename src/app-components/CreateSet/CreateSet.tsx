@@ -56,7 +56,7 @@ export const CreateSet = () => {
   const [institutions, setInstitutions] = useState([]);
 
   const institutionSuggestions = [
-    { id: 'Institution1', text: 'Institution1' },
+    { id: 'Institution1Institution1Institution1', text: 'Institution1Institution1Institution1' },
     { id: 'Institution2', text: 'Institution2' },
   ];
 
@@ -66,7 +66,9 @@ export const CreateSet = () => {
         <h1>Create a new set</h1>
         <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Enter a title"  className='title'/>
         <div className='other-info'>
-          <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Description" className='description' />
+          <div className='description'>
+            <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Description"  />
+          </div>
           <div className='tags'>
             <ReactTags
               tags={tags}
