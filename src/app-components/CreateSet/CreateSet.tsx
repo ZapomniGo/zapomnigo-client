@@ -94,6 +94,18 @@ export const CreateSet = () => {
         ))}
         <button onClick={addFlashcard}>Add Flashcard</button>
         <button onClick={handleSubmit}>Submit</button>
+        {tags.map((tag, index) => (
+          <span key={index} className='tag'>
+            {tag.text}
+            <button onClick={() => handleDelete(index)}>X</button>
+          </span>
+        ))}
+        {institutions.map((institution, index) => (
+          <span key={index} className='institution'>
+            {institution.text}
+            <button onClick={() => handleInstitutionDelete(index)}>Delete</button>
+          </span>
+        ))}
       </div>
     </Dashboard>
   )
