@@ -69,7 +69,7 @@ export const CreateSet = () => {
   return (
     <Dashboard>
       <div className='create-set-wrapper'>
-        <h1>Create a new set</h1>
+        <h1>1. Данни за сета</h1>
         <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Enter a title"  className='title'/>
         <div className='other-info'>
           <div className='description'>
@@ -92,10 +92,11 @@ export const CreateSet = () => {
             />
           </div>
         </div>
+        <h1>2. Флашкарти</h1>
         {flashcards.map((flashcard, index) => (
           <div key={index} className='flashcard'>
-            <Editor value={flashcard.term} onChange={value => handleEditorChange(index, 'term', value)} placeholder={undefined} />
-            <Editor value={flashcard.description} onChange={value => handleEditorChange(index, 'description', value)} placeholder={undefined} />
+            <Editor placeholder={"Термин"} value={flashcard.term} onChange={value => handleEditorChange(index, 'term', value)} />
+            <Editor placeholder={"Дефиниция"} value={flashcard.description} onChange={value => handleEditorChange(index, 'description', value)}  />
           </div>
         ))}
         <button onClick={addFlashcard} className='add-card'>Add card</button>
