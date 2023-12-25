@@ -23,12 +23,13 @@
         font-size:2vmax;
         }
         input{
-            border-radius: 4px;
+            border-radius: 5px;
             margin: 0.4vmax 0 !important;
             font-size:2vmax;
             padding:1vmax;
             height:auto;
             box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            border:2px solid orange;
         }
         .title{
         display: flex;
@@ -49,6 +50,7 @@
                 border-radius: 5px;
                 border-bottom: 1px solid orange;
                 box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+                border:2px solid orange;
             }
             textarea{
                 align-self: center;
@@ -93,10 +95,9 @@
             }
         }
         .add-card{
-            width:10vw;
-            font-size:4vmax;
-            height:8vmax;
-            width:8vmax;
+            font-size:3vmax;
+            height:5vmax;
+            width:5vmax;
             margin-top:3vmax;
 
             border-radius:100px;
