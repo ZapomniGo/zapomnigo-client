@@ -8,9 +8,14 @@ window.katex = katex;
 import Quill from "quill";
 import EditorToolbar from './EditorToolbar'
 import { modules, formats } from "./EditorToolbar";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const Editor = ({ value, onChange, placeholder }) => {
-  const [id, setId] = useState(`toolbar-${Date.now()}`);
+  // const [id, setId] = useState(`toolbar-${Date.now()}`);
+  const [id, setId] = useState(`toolbar-${uuidv4()}`);
+
+  console.log(id)
 
   return (
     <div className="text-editor">
