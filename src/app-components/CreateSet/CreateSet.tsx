@@ -69,11 +69,11 @@ export const CreateSet = () => {
   return (
     <Dashboard>
       <div className='create-set-wrapper'>
-        <h1>1. Данни за сета</h1>
-        <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Enter a title"  className='title'/>
+        <h1>Данни за сета</h1>
+        <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Залглавие"  className='title'/>
         <div className='other-info'>
           <div className='description'>
-            <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Description"  />
+            <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Описание"  />
           </div>
           <div className='tags'>
             <ReactTags
@@ -81,36 +81,36 @@ export const CreateSet = () => {
               suggestions={suggestions}
               handleDelete={handleDelete}
               handleAddition={handleAddition}
-              placeholder="Add category"
+              placeholder="Категория"
             />
             <ReactTags
               tags={institutions}
               suggestions={institutionSuggestions}
               handleDelete={handleInstitutionDelete}
               handleAddition={handleInstitutionAddition}
-              placeholder="Add institution"
+              placeholder="Институция"
             />
           </div>
         </div>
-        <h1>2. Флашкарти</h1>
+        <h1>Флашкарти</h1>
         {flashcards.map((flashcard, index) => (
           <div key={index} className='flashcard'>
             <Editor placeholder={"Термин"} value={flashcard.term} onChange={value => handleEditorChange(index, 'term', value)} />
             <Editor placeholder={"Дефиниция"} value={flashcard.description} onChange={value => handleEditorChange(index, 'description', value)}  />
           </div>
         ))}
-        <button onClick={addFlashcard} className='add-card'>Add card</button>
-        <button onClick={handleSubmit} className='submit'>Submit</button>
+       <center><button onClick={addFlashcard} className='add-card'>+</button></center>
+        <button onClick={handleSubmit} className='submit'>Запази</button>
         {tags.map((tag, index) => (
           <span key={index} className='tag'>
             {tag.text}
-            <button onClick={() => handleDelete(index)}>X</button>
+            <button onClick={() => handleDelete(index)}>x</button>
           </span>
         ))}
         {institutions.map((institution, index) => (
           <span key={index} className='institution'>
             {institution.text}
-            <button onClick={() => handleInstitutionDelete(index)}>Delete</button>
+            <button onClick={() => handleInstitutionDelete(index)}>Изтрий</button>
           </span>
         ))}
       </div>
