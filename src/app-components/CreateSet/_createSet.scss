@@ -97,8 +97,10 @@ margin:0;
     }
     .flashcardWrapper {
       margin-top: 3vmax;
-      color: gray;
       font-size: 2vmax;
+    }
+    .buttonWrapper{
+        color:gray;
     }
     .flashcard {
       margin-top: 0vmax;
@@ -107,7 +109,7 @@ margin:0;
       display: flex;
       flex-direction: row;
       justify-content: space-around;
-      align-items: center;
+      align-items: baseline;
       padding-top: 1vmax;
       padding-bottom: 1vmax;
 

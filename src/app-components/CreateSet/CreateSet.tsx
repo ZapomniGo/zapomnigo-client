@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Editor from "../RichEditor/Editor";
 import Dashboard from "../Dashboard/Dashboard";
-import { WithContext as ReactTags } from "react-tag-input";
 import { HiOutlineDuplicate } from "react-icons/hi";
 import { MdDeleteOutline } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
@@ -13,6 +12,19 @@ export const CreateSet = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [flashcards, setFlashcards] = useState([{ term: "", description: "" }]);
+  const [allCategories, setAllCategories] = useState([]); 
+  const [category, setCategory] = useState("");
+  const [allInstitutions, setAllInstitutions] = useState([]);
+  const [institution, setInstitution] = useState("");
+
+useEffect(() => {
+  fetch('https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1/categories')
+    .then(response => response.json())
+    .then(data => setAllCategories(data.categories));
+    fetch("https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1/organizations")
+    .then(response => response.json())
+    .then(data => setAllInstitutions(data.organizations));
+}, []);
 
   const handleInstitutionDelete = (i) => {
     setInstitutions(institutions.filter((institution, index) => index !== i));
@@ -48,7 +60,8 @@ export const CreateSet = () => {
       title,
       description,
       flashcards,
-      tags,
+      category,
+      institution,
     };
     //check if the title is not empty
     if (title.length === 0) {
@@ -100,10 +113,7 @@ export const CreateSet = () => {
       return;
     }
     //check if the tags are not empty
-    if (tags.length === 0) {
-      alert("Моля въведете категория");
-      return;
-    }
+  
 
     console.log(data);
   };
@@ -120,10 +130,10 @@ export const CreateSet = () => {
       flashcards.find((flashcard, index) => flashcard.rnd === rnd),
     ]);
   };
-  const push = (direction, rnd) => {
+  const push = (direction: string, rnd: string) => {
     //push the flashcard up or down
     //we find the index of the flashcard we want to move
-    const index = flashcards.findIndex((flashcard) => flashcard.rnd === rnd);
+    const index = flashcards.findIndex((flashcard: { rnd: string }) => flashcard.rnd === rnd);
     //we create a new array
     const newFlashcards = [...flashcards];
     //we remove the flashcard from the array
@@ -182,15 +192,17 @@ export const CreateSet = () => {
               />
             </div>
             <div className="tags">
-              <select id="categories" name="categories">
-                <option value="category1">Категория 1</option>
-                <option value="category2">Категория 2</option>
-                <option value="category3">Категория 3</option>
+              <select onChange={e=>setCategory(e.target.value)} defaultValue={-1} id="categories" name="categories">
+                <option value="-1">Без категория</option>
+               {allCategories.map((category, index) => (
+                <option key={index} value={category.category_id}>{category.category_name}</option>
+                ))}
               </select>
               <select id="institution" name="institution">
-                <option value="institution1">Институция 1</option>
-                <option value="institution2">Институция 2</option>
-                <option value="institution3">Институция 3</option>
+              <option value="-1">Без категория</option>
+                {allInstitutions.map((institution, index) => (
+                  <option key={index} value={institution.organization_id}>{institution.organization_name}</option>
+                  ))}
               </select>
             </div>
           </div>
