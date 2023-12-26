@@ -10,8 +10,14 @@
     justify-content: center;
     // background-color: skyblue;
     width: 80%;
-    ::placeholder {
-      font-size: 1.2rem;
+    input::placeholder {
+      font-size: 1.5rem;
+    }
+    textarea::placeholder {
+      font-size: 1rem;
+    }
+    textarea{
+        font-size:1rem;
     }
     h1 {
       display: flex;
@@ -37,6 +43,13 @@
       height: auto;
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
       border: 2px solid orange;
+    }
+    .ql-editing > input{
+        box-shadow:none;
+        &::placeholder{
+            color:white;
+            font-size:1vmax;
+        }
     }
     .title {
       display: flex;
