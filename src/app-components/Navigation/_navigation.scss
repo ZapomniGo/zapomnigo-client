@@ -33,6 +33,7 @@ body{
             border: none;
             border-radius: 6px;
             background: $primary-color-light;
+            padding: 0;
         }
 
         .image{
@@ -222,6 +223,8 @@ body{
                     border: none;
                     border-radius: 6px;
                     background: $primary-color-light;
+                    margin:0  !important;
+
                 }
             } 
         }
