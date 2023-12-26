@@ -25,7 +25,6 @@
         font-size:2vmax;
         }
         input{
-            border-radius: 5px;
             margin: 0.4vmax 0 !important;
             font-size:2vmax;
             padding:1vmax;
@@ -36,8 +35,11 @@
         .title{
         display: flex;
         width: 100%;
+        border-radius:1vmax;
         }
-
+.ReactTags__tagInputField{
+    border-radius:1vmax;
+}
         .other-info{
             display: flex;
             align-items: center;
@@ -49,7 +51,7 @@
                 display: flex;
                 justify-content: center;
                 background-color: #fff;
-                border-radius: 5px;
+                border-radius: 1vmax;
                 border-bottom: 1px solid orange;
                 box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
                 border:2px solid orange;
@@ -60,7 +62,7 @@
                 resize: none;
                 width: 93%;
                 height: 80%;
-                border-radius: 5px;
+                border-radius: 1vmax;
                 outline: none;
                 border: none;
             }
@@ -77,18 +79,23 @@
                 }
             }
         }
+        .flashcardWrapper{
+            margin-top:2vmax;
+            color:gray;
+            font-size:2vmax;
+        }
         .flashcard{
+            margin-top:1vmax;
             box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-            margin-top: 20px;
             background-color: #fff;
             display: flex;
             flex-direction: row;
             justify-content: space-around;
             align-items: center;
             padding: 20px 0;
-            border-radius: 5px;
+            border-radius: 1vmax;
             .text-editor{
-                border-radius: 5px;
+                border-radius: 1vmax;
                 width: auto;
                 width: 45%;
                 margin-bottom: 5px;
@@ -124,7 +131,7 @@
     background-color: #d9d9d9 !important;
     cursor: pointer;
     border: 1px solid #c5c5c5;
-    border-radius: 5px;
+    border-radius: 1vmax;
     ul{
         list-style: none;
         li{
@@ -132,7 +139,7 @@
         }
         li:hover{
         background-color: #bfbfbf;
-        border-radius: 5px;
+        border-radius: 1vmax;
         }
     }
 }
