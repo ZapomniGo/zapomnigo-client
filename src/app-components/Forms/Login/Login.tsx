@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { Background } from "../FormsBackground/Background";
 import { LoginData, LoginErrorRecord } from "./types";
 import { initialErrors } from "./utils";
-
+import axios from "axios"
 type ErrorFieldName = keyof LoginErrorRecord;
+import { url } from "../../../Global";
+
 
 const validateForm = (data: LoginData): LoginErrorRecord => {
   return {
-    username: {
-      hasError: data.username.length < 2,
-      message: data.username.length < 2 ? "Please enter a valid username" : "",
+    email_or_username: {
+      hasError: data.email_or_username.length < 2,
+      message: data.email_or_username.length < 2 ? "Please enter a valid username" : "",
     },
     password: {
       hasError: data.password.length === 0,
@@ -20,8 +22,21 @@ const validateForm = (data: LoginData): LoginErrorRecord => {
 };
 
 export const Login = () => {
+
+  const login = async () => {
+    try{
+        console.log(userData);
+        const response = await axios.post(`${url}/v1/login`, userData, {
+      withCredentials: true,
+    })
+        console.log(response);
+      }
+      catch(error){
+        console.log(error)
+      }
+  }
   const [userData, setUserData] = useState<LoginData>({
-    username: "",
+    email_or_username: "",
     password: "",
   });
   const [errors, setErrors] = useState<LoginErrorRecord>(initialErrors);
@@ -64,16 +79,16 @@ export const Login = () => {
           <section>
             <input
               type="text"
-              name="username"
+              name="email_or_username"
               placeholder="Username"
               minLength={2}
               maxLength={40}
-              value={userData.username}
+              value={userData.email_or_username}
               onChange={formHandler}
-              className={errors.username.hasError ? "error" : ""}
+              className={errors.email_or_username.hasError ? "error" : ""}
             />
             <p className="errorText">
-              {errors.username.hasError ? errors.username.message : ""}
+              {errors.email_or_username.hasError ? errors.email_or_username.message : ""}
             </p>
 
             <input
@@ -89,7 +104,7 @@ export const Login = () => {
             </p>
           </section>
           <div id="buttonWrapper">
-            <input type="submit" value={"Submit"} />
+            <input type="submit" value={"Submit"} onClick={login}/>
           </div>
         </form>
       </div>
