@@ -8,7 +8,6 @@ export const CreateSet = () => {
   const [description, setDescription] = useState('');
   const [flashcards, setFlashcards] = useState([{ term: '', description: '' }]);
   const [tags, setTags] = useState([]);
-  const [inputValue, setInputValue] = useState(''); // Add this line
 
   const suggestions = [
     { id: 'Math', text: 'Math' },
@@ -23,12 +22,7 @@ export const CreateSet = () => {
   const handleAddition = (tag) => {
     if (suggestions.find(suggestion => suggestion.id === tag.id)) {
       setTags([tag]);
-      setInputValue(tag.text); // Keep the input value after selecting a tag
     }
-  };
-
-  const handleInputChange = (value) => {
-    setInputValue(value); // Add this line
   };
 
   const handleInstitutionDelete = (i) => {
@@ -69,50 +63,52 @@ export const CreateSet = () => {
   return (
     <Dashboard>
       <div className='create-set-wrapper'>
-        <h1>Данни за сета</h1>
-        <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Залглавие"  className='title'/>
-        <div className='other-info'>
-          <div className='description'>
-            <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Описание"  />
+        <div className='create-set'>
+          <h1>Данни за сета</h1>
+          <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Залглавие"  className='title'/>
+          <div className='other-info'>
+            <div className='description'>
+              <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Описание"  />
+            </div>
+            <div className='tags'>
+              <ReactTags
+                tags={tags}
+                suggestions={suggestions}
+                handleDelete={handleDelete}
+                handleAddition={handleAddition}
+                placeholder="Категория"
+              />
+              <ReactTags
+                tags={institutions}
+                suggestions={institutionSuggestions}
+                handleDelete={handleInstitutionDelete}
+                handleAddition={handleInstitutionAddition}
+                placeholder="Институция"
+              />
+            </div>
           </div>
-          <div className='tags'>
-            <ReactTags
-              tags={tags}
-              suggestions={suggestions}
-              handleDelete={handleDelete}
-              handleAddition={handleAddition}
-              placeholder="Категория"
-            />
-            <ReactTags
-              tags={institutions}
-              suggestions={institutionSuggestions}
-              handleDelete={handleInstitutionDelete}
-              handleAddition={handleInstitutionAddition}
-              placeholder="Институция"
-            />
-          </div>
+          <h1>Флашкарти</h1>
+          {flashcards.map((flashcard, index) => (
+            <div key={index} className='flashcard'>
+              <Editor placeholder={"Термин"} value={flashcard.term} onChange={value => handleEditorChange(index, 'term', value)} />
+              <Editor placeholder={"Дефиниция"} value={flashcard.description} onChange={value => handleEditorChange(index, 'description', value)}  />
+            </div>
+          ))}
+        <center><button onClick={addFlashcard} className='add-card'>+</button></center>
+          <button onClick={handleSubmit} className='submit'>Запази</button>
+          {tags.map((tag, index) => (
+            <span key={index} className='tag'>
+              {tag.text}
+              <button onClick={() => handleDelete(index)}>x</button>
+            </span>
+          ))}
+          {institutions.map((institution, index) => (
+            <span key={index} className='institution'>
+              {institution.text}
+              <button onClick={() => handleInstitutionDelete(index)}>Изтрий</button>
+            </span>
+          ))}
         </div>
-        <h1>Флашкарти</h1>
-        {flashcards.map((flashcard, index) => (
-          <div key={index} className='flashcard'>
-            <Editor placeholder={"Термин"} value={flashcard.term} onChange={value => handleEditorChange(index, 'term', value)} />
-            <Editor placeholder={"Дефиниция"} value={flashcard.description} onChange={value => handleEditorChange(index, 'description', value)}  />
-          </div>
-        ))}
-       <center><button onClick={addFlashcard} className='add-card'>+</button></center>
-        <button onClick={handleSubmit} className='submit'>Запази</button>
-        {tags.map((tag, index) => (
-          <span key={index} className='tag'>
-            {tag.text}
-            <button onClick={() => handleDelete(index)}>x</button>
-          </span>
-        ))}
-        {institutions.map((institution, index) => (
-          <span key={index} className='institution'>
-            {institution.text}
-            <button onClick={() => handleInstitutionDelete(index)}>Изтрий</button>
-          </span>
-        ))}
       </div>
     </Dashboard>
   )
