@@ -74,7 +74,7 @@
 
         .set-institution {
             text-align: right;
-            width: 55%;
+            width: 65%;
             a{
                 text-decoration: none;
                 display: inline-block;
@@ -139,5 +139,17 @@
     }
     .close{
       opacity: 1 !important;
+    }
+}
+
+@media only screen and (max-width: 850px){
+    .set-card{
+        width: 43%;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .set-card{
+        width: 70%;
     }
 }
