@@ -6,7 +6,9 @@ import { HiOutlineDuplicate } from "react-icons/hi";
 import { MdDeleteOutline } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
+import { IoSearch } from "react-icons/io5";
 import { v4 as uuidv4 } from "uuid";
+
 export const CreateSet = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -103,11 +105,15 @@ export const CreateSet = () => {
         newFlashcards.splice(index + 1, 0, flashcards[index]);
       }
     }
-    //we update the state
     setFlashcards(newFlashcards);
   };
 
   const [institutions, setInstitutions] = useState([]);
+
+  const search = (query) => {
+    let url = "http://www.google.com/search?q=" + query;
+    window.open(url, "_blank");
+  };
 
   const institutionSuggestions = [
     {
@@ -121,7 +127,7 @@ export const CreateSet = () => {
     <Dashboard>
       <div className="create-set-wrapper">
         <div className="create-set">
-          <h1>Данни за сета</h1>
+          <h1>Създай сет</h1>
           <input
             type="text"
             value={title}
@@ -154,24 +160,38 @@ export const CreateSet = () => {
               />
             </div>
           </div>
-          <h1>Флашкарти</h1>
           {flashcards.map((flashcard, index) => (
             <div className="flashcardWrapper">
               <div className="buttonWrapper">
-              <MdDeleteOutline onClick={() => deleteFlashcard(flashcard.rnd)} />
-             <div> <HiOutlineDuplicate onClick={() => duplicate(flashcard.rnd)} />
-              {flashcards.length > 1 ? (
-                <>
-                  {" "}
-                  <IoIosArrowUp onClick={() => push("up", flashcard.rnd)} />
-                  <IoIosArrowDown
-                    onClick={() => push("down", flashcard.rnd)}
-                  />{" "}
-                </>
-              ) : (
-                ""
-              )}
-              </div>
+                <MdDeleteOutline
+                  onClick={() => deleteFlashcard(flashcard.rnd)}
+                />
+                <div>
+                  {flashcard.term.replace(/<[^>]+>/g, "").length ||
+                  flashcard.description.replace(/<[^>]+>/g, "").length ? (
+                    <HiOutlineDuplicate
+                      onClick={() => duplicate(flashcard.rnd)}
+                    />
+                  ) : (
+                    ""
+                  )}
+                  {flashcards.length > 1 ? (
+                    <>
+                      {" "}
+                      <IoIosArrowUp onClick={() => push("up", flashcard.rnd)} />
+                      <IoIosArrowDown
+                        onClick={() => push("down", flashcard.rnd)}
+                      />{" "}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                  {flashcard.term.replace(/<[^>]+>/g, "").length ? (
+                     <IoSearch onClick={()=>search(flashcard.term.replace(/<[^>]+>/g, ""))}/>
+                  ) : (
+                    ""
+                  )}
+                </div>
               </div>
               <div key={index} className="flashcard">
                 <Editor
