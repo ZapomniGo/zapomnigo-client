@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import Editor from "../RichEditor/Editor";
 import Dashboard from "../Dashboard/Dashboard";
 import { WithContext as ReactTags } from "react-tag-input";
-import { v4 as uuidv4 } from 'uuid';
+import { HiOutlineDuplicate } from "react-icons/hi";
+import { MdDeleteOutline } from "react-icons/md";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
+import { v4 as uuidv4 } from "uuid";
 export const CreateSet = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -101,7 +105,6 @@ export const CreateSet = () => {
     }
     //we update the state
     setFlashcards(newFlashcards);
-
   };
 
   const [institutions, setInstitutions] = useState([]);
@@ -154,17 +157,22 @@ export const CreateSet = () => {
           <h1>Флашкарти</h1>
           {flashcards.map((flashcard, index) => (
             <div className="flashcardWrapper">
-              <button onClick={() => deleteFlashcard(flashcard.rnd)}>X</button>
-              <button onClick={() => duplicate(flashcard.rnd)}>
-                Дупликирай
-              </button>
-              <button onClick={() => push("up", flashcard.rnd)}>
-                Премести нагоре
-              </button>
-              <button onClick={() => push("down", flashcard.rnd)}>
-                Премести надолу
-              </button>
-              <button>Премести надолу</button>
+              <div className="buttonWrapper">
+              <MdDeleteOutline onClick={() => deleteFlashcard(flashcard.rnd)} />
+             <div> <HiOutlineDuplicate onClick={() => duplicate(flashcard.rnd)} />
+              {flashcards.length > 1 ? (
+                <>
+                  {" "}
+                  <IoIosArrowUp onClick={() => push("up", flashcard.rnd)} />
+                  <IoIosArrowDown
+                    onClick={() => push("down", flashcard.rnd)}
+                  />{" "}
+                </>
+              ) : (
+                ""
+              )}
+              </div>
+              </div>
               <div key={index} className="flashcard">
                 <Editor
                   placeholder={"Термин"}
@@ -186,7 +194,11 @@ export const CreateSet = () => {
               +
             </button>
           </center>
-          <button onClick={handleSubmit} className="submit">
+          <button
+            disabled={!flashcards.length}
+            onClick={handleSubmit}
+            className="submit"
+          >
             Запази
           </button>
           {tags.map((tag, index) => (

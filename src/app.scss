@@ -171,6 +171,14 @@ input[type="submit"] {
     outline: none;
     border: 1px solid $secondary-color;
   }
+ //if disabled
+  &:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+    &:hover {
+      box-shadow: none;
+    }
+  }
 }
 
 button:hover,
