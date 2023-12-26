@@ -13,23 +13,6 @@ export const CreateSet = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [flashcards, setFlashcards] = useState([{ term: "", description: "" }]);
-  const [tags, setTags] = useState([]);
-
-  const suggestions = [
-    { id: "Math", text: "Math" },
-    { id: "Science", text: "Science" },
-    { id: "History", text: "History" },
-  ];
-
-  const handleDelete = (i) => {
-    setTags(tags.filter((tag, index) => index !== i));
-  };
-
-  const handleAddition = (tag) => {
-    if (suggestions.find((suggestion) => suggestion.id === tag.id)) {
-      setTags([tag]);
-    }
-  };
 
   const handleInstitutionDelete = (i) => {
     setInstitutions(institutions.filter((institution, index) => index !== i));
@@ -67,6 +50,61 @@ export const CreateSet = () => {
       flashcards,
       tags,
     };
+    //check if the title is not empty
+    if (title.length === 0) {
+      alert("Моля въведете заглавие");
+      return;
+    }
+    if (title.length > 100) {
+      alert("Заглавието трябва да е под 100 символа");
+      return;
+    }
+    if (description.length > 1000) {
+      alert("Описанието трябва да е под 1000 символа");
+      return;
+    }
+    if (description.length === 0) {
+      alert("Моля въведете описание");
+      return;
+    }
+    //check if the flashcards are not empty
+    if (flashcards.length === 0) {
+      alert("Моля въведете поне една карта");
+      return;
+    }
+    //check if the flashcards are not empty
+    if (flashcards.length > 3000) {
+      alert("Картите трябва да са под 3000");
+      return;
+    }
+    //check if each flashcard has a term and a description
+    if (
+      flashcards.find(
+        (flashcard) =>
+          flashcard.term.replace(/<[^>]+>/g, "").length === 0 ||
+          flashcard.description.replace(/<[^>]+>/g, "").length === 0
+      )
+    ) {
+      alert("Моля попълнете всички карти");
+      return;
+    }
+    //check if any flashcard has more than 2000 characters
+    if (
+      flashcards.find(
+        (flashcard) =>
+          flashcard.term.replace(/<[^>]+>/g, "").length > 2000 ||
+          flashcard.description.replace(/<[^>]+>/g, "").length > 2000
+      )
+    ) {
+      alert("Някоя от картите е с повече от 2000 символа");
+      return;
+    }
+    //check if the tags are not empty
+    if (tags.length === 0) {
+      alert("Моля въведете категория");
+      return;
+    }
+
     console.log(data);
   };
   const deleteFlashcard = (rnd) => {
@@ -132,7 +170,7 @@ export const CreateSet = () => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Залглавие"
+            placeholder="Заглавие"
             className="title"
           />
           <div className="other-info">
@@ -144,26 +182,23 @@ export const CreateSet = () => {
               />
             </div>
             <div className="tags">
-              <ReactTags
-                tags={tags}
-                suggestions={suggestions}
-                handleDelete={handleDelete}
-                handleAddition={handleAddition}
-                placeholder="Категория"
-              />
-              <ReactTags
-                tags={institutions}
-                suggestions={institutionSuggestions}
-                handleDelete={handleInstitutionDelete}
-                handleAddition={handleInstitutionAddition}
-                placeholder="Институция"
-              />
+              <select id="categories" name="categories">
+                <option value="category1">Категория 1</option>
+                <option value="category2">Категория 2</option>
+                <option value="category3">Категория 3</option>
+              </select>
+              <select id="institution" name="institution">
+                <option value="institution1">Институция 1</option>
+                <option value="institution2">Институция 2</option>
+                <option value="institution3">Институция 3</option>
+              </select>
             </div>
           </div>
           {flashcards.map((flashcard, index) => (
             <div className="flashcardWrapper">
               <div className="buttonWrapper">
                 <MdDeleteOutline
+                  style={{ marginBottom: "1vmax" }}
                   onClick={() => deleteFlashcard(flashcard.rnd)}
                 />
                 <div>
@@ -187,7 +222,11 @@ export const CreateSet = () => {
                     ""
                   )}
                   {flashcard.term.replace(/<[^>]+>/g, "").length ? (
-                     <IoSearch onClick={()=>search(flashcard.term.replace(/<[^>]+>/g, ""))}/>
+                    <IoSearch
+                      onClick={() =>
+                        search(flashcard.term.replace(/<[^>]+>/g, ""))
+                      }
+                    />
                   ) : (
                     ""
                   )}
@@ -221,12 +260,6 @@ export const CreateSet = () => {
           >
             Запази
           </button>
-          {tags.map((tag, index) => (
-            <span key={index} className="tag">
-              {tag.text}
-              <button onClick={() => handleDelete(index)}>x</button>
-            </span>
-          ))}
           {institutions.map((institution, index) => (
             <span key={index} className="institution">
               {institution.text}
