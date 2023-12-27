@@ -109,17 +109,6 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
         >
           <header>
             <IoMdClose className="close-mobile" onClick={handleCloseClick} />
-
-            {/* <div className="image-text">
-              <span className="image">
-                <img src="src/app-components/Navigation/logo.png" alt="logo"></img>
-              </span>
-              <div className="text header-text">
-                <span className="name">{username}</span>
-                <span className="institution">{institution}</span>
-              </div>
-            </div> */}
-
             {token ? (
             <div className="image-text">
               <span className="image">
@@ -132,8 +121,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
             </div>
             ) : (
               <>
-                {/* <button onClick={() => window.location.href = '/login'}>Login</button>
-                <button onClick={() => window.location.href = '/register'}>Register</button> */}
+               
               </>
             )}
           </header>

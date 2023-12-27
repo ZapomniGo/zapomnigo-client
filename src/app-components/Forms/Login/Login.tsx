@@ -5,7 +5,7 @@ import { initialErrors } from "./utils";
 import axios from "axios"
 type ErrorFieldName = keyof LoginErrorRecord;
 import { url } from "../../../Global";
-
+import Dashboard from "../../Dashboard/Dashboard";
 
 const validateForm = (data: LoginData): LoginErrorRecord => {
   return {
@@ -75,6 +75,7 @@ export const Login = () => {
     <div id="backgroundForm">
       <Background />
       <div id="wrapperForm">
+
         <form onSubmit={handleSubmit}>
           <div className="title">
             <p>Login</p>
@@ -110,6 +111,7 @@ export const Login = () => {
             <input type="submit" value={"Submit"} onClick={login}/>
           </div>
         </form>
+
       </div>
     </div>
   );
