@@ -1,30 +1,41 @@
-import React, { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Editor from "../RichEditor/Editor";
 import Dashboard from "../Dashboard/Dashboard";
 import { HiOutlineDuplicate } from "react-icons/hi";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdDeleteOutline, MdFlip } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
-import { v4 as uuidv4 } from "uuid";
+import { useFlashcards } from "./utils";
+import { FLASHCARD_DIRECTIONS } from "./types";
 
 export const CreateSet = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [flashcards, setFlashcards] = useState([{ term: "", description: "" }]);
-  const [allCategories, setAllCategories] = useState([]); 
+  const [allCategories, setAllCategories] = useState([]);
   const [category, setCategory] = useState("");
   const [allInstitutions, setAllInstitutions] = useState([]);
   const [institution, setInstitution] = useState("");
+  const {
+    flashcards,
+    handleMoveFlashcard,
+    handleChangeFlashcard,
+    handleAddFlashcard,
+    handleDeleteFlashcard,
+    handleDuplicateFlashcard,
+    handleFlipFlashcard,
+  } = useFlashcards();
 
-useEffect(() => {
-  fetch('https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1/categories')
-    .then(response => response.json())
-    .then(data => setAllCategories(data.categories));
-    fetch("https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1/organizations")
-    .then(response => response.json())
-    .then(data => setAllInstitutions(data.organizations));
-}, []);
+  useEffect(() => {
+    fetch("https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1/categories")
+      .then((response) => response.json())
+      .then((data) => setAllCategories(data.categories));
+    fetch(
+      "https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1/organizations"
+    )
+      .then((response) => response.json())
+      .then((data) => setAllInstitutions(data.organizations));
+  }, []);
 
   const handleInstitutionDelete = (i) => {
     setInstitutions(institutions.filter((institution, index) => index !== i));
@@ -38,21 +49,6 @@ useEffect(() => {
     ) {
       setInstitutions([institution]);
     }
-  };
-
-  const handleEditorChange = (index, field, value) => {
-    setFlashcards(
-      flashcards.map((flashcard, i) =>
-        i === index ? { ...flashcard, [field]: value } : flashcard
-      )
-    );
-  };
-
-  const addFlashcard = () => {
-    setFlashcards([
-      ...flashcards,
-      { term: "", description: "", rnd: uuidv4() },
-    ]);
   };
 
   const handleSubmit = () => {
@@ -113,47 +109,8 @@ useEffect(() => {
       return;
     }
     //check if the tags are not empty
-  
 
     console.log(data);
-  };
-  const deleteFlashcard = (rnd) => {
-    //delete a flaschard. to do that we delete by the rnd which is a key in the flashcard object which is unique and in an array
-    //we filter the array and we return all the flashcards which have a different rnd
-    setFlashcards(
-      flashcards.filter((flashcard, index) => flashcard.rnd !== rnd)
-    );
-  };
-  const duplicate = (rnd) => {
-    setFlashcards([
-      ...flashcards,
-      flashcards.find((flashcard, index) => flashcard.rnd === rnd),
-    ]);
-  };
-  const push = (direction: string, rnd: string) => {
-    //push the flashcard up or down
-    //we find the index of the flashcard we want to move
-    const index = flashcards.findIndex((flashcard: { rnd: string }) => flashcard.rnd === rnd);
-    //we create a new array
-    const newFlashcards = [...flashcards];
-    //we remove the flashcard from the array
-    newFlashcards.splice(index, 1);
-    //we push the flashcard up or down
-    //we account for the fact that the flashcard might be the first or the last
-    if (direction === "up") {
-      if (index === 0) {
-        newFlashcards.push(flashcards[index]);
-      } else {
-        newFlashcards.splice(index - 1, 0, flashcards[index]);
-      }
-    } else {
-      if (index === flashcards.length - 1) {
-        newFlashcards.unshift(flashcards[index]);
-      } else {
-        newFlashcards.splice(index + 1, 0, flashcards[index]);
-      }
-    }
-    setFlashcards(newFlashcards);
   };
 
   const [institutions, setInstitutions] = useState([]);
@@ -192,17 +149,26 @@ useEffect(() => {
               />
             </div>
             <div className="tags">
-              <select onChange={e=>setCategory(e.target.value)} defaultValue={-1} id="categories" name="categories">
+              <select
+                onChange={(e) => setCategory(e.target.value)}
+                defaultValue={-1}
+                id="categories"
+                name="categories"
+              >
                 <option value="-1">Без категория</option>
-               {allCategories.map((category, index) => (
-                <option key={index} value={category.category_id}>{category.category_name}</option>
+                {allCategories.map((category, index) => (
+                  <option key={index} value={category.category_id}>
+                    {category.category_name}
+                  </option>
                 ))}
               </select>
               <select id="institution" name="institution">
-              <option value="-1">Без категория</option>
+                <option value="-1">Без категория</option>
                 {allInstitutions.map((institution, index) => (
-                  <option key={index} value={institution.organization_id}>{institution.organization_name}</option>
-                  ))}
+                  <option key={index} value={institution.organization_id}>
+                    {institution.organization_name}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -211,13 +177,13 @@ useEffect(() => {
               <div className="buttonWrapper">
                 <MdDeleteOutline
                   style={{ marginBottom: "1vmax" }}
-                  onClick={() => deleteFlashcard(flashcard.rnd)}
+                  onClick={() => handleDeleteFlashcard(flashcard.rnd)}
                 />
                 <div>
                   {flashcard.term.replace(/<[^>]+>/g, "").length ||
                   flashcard.description.replace(/<[^>]+>/g, "").length ? (
                     <HiOutlineDuplicate
-                      onClick={() => duplicate(flashcard.rnd)}
+                      onClick={() => handleDuplicateFlashcard(flashcard.rnd)}
                     />
                   ) : (
                     ""
@@ -225,20 +191,31 @@ useEffect(() => {
                   {flashcards.length > 1 ? (
                     <>
                       {" "}
-                      <IoIosArrowUp onClick={() => push("up", flashcard.rnd)} />
+                      <IoIosArrowUp
+                        onClick={() =>
+                          handleMoveFlashcard(index, FLASHCARD_DIRECTIONS.UP)
+                        }
+                      />
                       <IoIosArrowDown
-                        onClick={() => push("down", flashcard.rnd)}
+                        onClick={() =>
+                          handleMoveFlashcard(index, FLASHCARD_DIRECTIONS.DOWN)
+                        }
                       />{" "}
                     </>
                   ) : (
                     ""
                   )}
                   {flashcard.term.replace(/<[^>]+>/g, "").length ? (
-                    <IoSearch
-                      onClick={() =>
-                        search(flashcard.term.replace(/<[^>]+>/g, ""))
-                      }
-                    />
+                    <>
+                      <IoSearch
+                        onClick={() =>
+                          search(flashcard.term.replace(/<[^>]+>/g, ""))
+                        }
+                      />
+                      <MdFlip
+                        onClick={() => handleFlipFlashcard(flashcard.rnd)}
+                      />
+                    </>
                   ) : (
                     ""
                   )}
@@ -248,20 +225,22 @@ useEffect(() => {
                 <Editor
                   placeholder={"Термин"}
                   value={flashcard.term}
-                  onChange={(value) => handleEditorChange(index, "term", value)}
+                  onChange={(value: string) =>
+                    handleChangeFlashcard(index, "term", value)
+                  }
                 />
                 <Editor
                   placeholder={"Дефиниция"}
                   value={flashcard.description}
-                  onChange={(value) =>
-                    handleEditorChange(index, "description", value)
+                  onChange={(value: string) =>
+                    handleChangeFlashcard(index, "description", value)
                   }
                 />
               </div>{" "}
             </div>
           ))}
           <center>
-            <button onClick={addFlashcard} className="add-card">
+            <button onClick={handleAddFlashcard} className="add-card">
               +
             </button>
           </center>
