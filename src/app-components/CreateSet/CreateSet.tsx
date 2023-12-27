@@ -176,7 +176,6 @@ export const CreateSet = () => {
             <div className="flashcardWrapper">
               <div className="buttonWrapper">
                 <MdDeleteOutline
-                  style={{ marginBottom: "1vmax" }}
                   onClick={() => handleDeleteFlashcard(flashcard.rnd)}
                 />
                 <div>

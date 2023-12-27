@@ -16,8 +16,8 @@
     textarea::placeholder {
       font-size: 1rem;
     }
-    textarea{
-        font-size:1rem;
+    textarea {
+      font-size: 1rem;
     }
     h1 {
       display: flex;
@@ -32,8 +32,15 @@
       display: flex;
       justify-content: space-between;
       flex-direction: row-reverse;
-      & > div > * {
-        margin-right: 1vmax;
+      align-items: center;
+      padding-bottom:1vmax;
+      & > div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        & > svg {
+         margin-right:.5vmax;
+        }
       }
     }
     input {
@@ -44,12 +51,12 @@
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
       border: 2px solid orange;
     }
-    .ql-editing > input{
-        box-shadow:none;
-        &::placeholder{
-            color:white;
-            font-size:1vmax;
-        }
+    .ql-editing > input {
+      box-shadow: none;
+      &::placeholder {
+        color: white;
+        font-size: 1vmax;
+      }
     }
     .title {
       display: flex;
@@ -59,17 +66,17 @@
     }
     select {
       border-radius: 1vmax;
-      font-size:1.2vmax !important;
+      font-size: 1.2vmax !important;
       height: 3vmax !important;
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
       border: 2px solid orange;
       font-size: 2vmax;
-margin:0;     
-color:gray;
+      margin: 0;
+      color: gray;
     }
     select:nth-child(2) {
       margin-top: 1vmax;
-    }    
+    }
     .other-info {
       margin-top: 1vmax;
       display: flex;
@@ -113,8 +120,8 @@ color:gray;
       margin-top: 3vmax;
       font-size: 2vmax;
     }
-    .buttonWrapper{
-        color:gray;
+    .buttonWrapper {
+      color: gray;
     }
     .flashcard {
       margin-top: 0vmax;
@@ -160,13 +167,16 @@ color:gray;
 //mobile version
 @media screen and (max-width: 768px) {
   .create-set-wrapper {
-    
     .create-set {
       width: 100%;
       align-items: center;
-.other-info{
-    width:80%;
-}
+      .other-info {
+        width: 80%;
+      }
+      .ql-formats{
+        justify-content: space-between !important;
+        margin-right:0 !important;
+      }
       .title {
         width: 80%;
       }
@@ -177,22 +187,22 @@ color:gray;
         }
         .tags {
           width: 100%;
-          margin-top:1vmax;
-margin-left:0;
+          margin-top: 1vmax;
+          margin-left: 0;
         }
       }
-      select{
-        font-size:1.5vmax !important;
-        height:5vmax !important;
+      select {
+        font-size: 1.5vmax !important;
+        height: 5vmax !important;
       }
       textarea::placeholder {
-        font-size:2vmax;
+        font-size: 2vmax;
       }
-      textarea{
-        font-size:2vmax;
+      textarea {
+        font-size: 2vmax;
       }
-      h1{
-        font-size:4vmax;
+      h1 {
+        font-size: 4vmax;
       }
       .flashcardWrapper {
         width: 80%;
@@ -205,23 +215,34 @@ margin-left:0;
       }
       .submit {
         width: 100%;
-        margin:0 !important;
+        margin: 0 !important;
+        font-size: 2vmax;
+        border-radius: 0;
+        margin-top: 3vmax !important;
+      }
+      .buttonWrapper svg {
+        transform: scale(1.8);
+        margin: 1.5vmax;
+      }
+      .ql-tooltip {
+        opacity: 1 !important;
+        z-index: 999 !important;
+        left:auto !important;
+        top: auto !important;
+        box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+        a {
+          line-height:30px;
+        }
+      }
+      textarea {
+        width: 96% !important;
+        padding: .5vmax;
+      }
+      .ql-editor{
         font-size:2vmax;
-        border-radius:0;
-        margin-top:3vmax !important;
-       
-      }
-      .buttonWrapper svg{
-        transform:scale(1.8);
-        margin:1.5vmax;
-      }
-      .ql-tooltip{
-        opacity:1 !important;
-        z-index:999 !important;
       }
     }
   }
-    
 }
 
 // position: absolute !important;
