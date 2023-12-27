@@ -8,7 +8,9 @@ import { IoIosArrowUp } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 import { useFlashcards } from "./utils";
 import { FLASHCARD_DIRECTIONS } from "./types";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 export const CreateSet = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -37,20 +39,6 @@ export const CreateSet = () => {
       .then((data) => setAllInstitutions(data.organizations));
   }, []);
 
-  const handleInstitutionDelete = (i) => {
-    setInstitutions(institutions.filter((institution, index) => index !== i));
-  };
-
-  const handleInstitutionAddition = (institution) => {
-    if (
-      institutionSuggestions.find(
-        (suggestion) => suggestion.id === institution.id
-      )
-    ) {
-      setInstitutions([institution]);
-    }
-  };
-
   const handleSubmit = () => {
     const data = {
       title,
@@ -61,29 +49,29 @@ export const CreateSet = () => {
     };
     //check if the title is not empty
     if (title.length === 0) {
-      alert("Моля въведете заглавие");
+      toast("Моля въведете заглавие");
       return;
     }
     if (title.length > 100) {
-      alert("Заглавието трябва да е под 100 символа");
+      toast("Заглавието трябва да е под 100 символа");
       return;
     }
     if (description.length > 1000) {
-      alert("Описанието трябва да е под 1000 символа");
+      toast("Описанието трябва да е под 1000 символа");
       return;
     }
     if (description.length === 0) {
-      alert("Моля въведете описание");
+      toast("Моля въведете описание");
       return;
     }
     //check if the flashcards are not empty
     if (flashcards.length === 0) {
-      alert("Моля въведете поне една карта");
+      toast("Моля въведете поне една карта");
       return;
     }
     //check if the flashcards are not empty
     if (flashcards.length > 3000) {
-      alert("Картите трябва да са под 3000");
+      toast("Картите трябва да са под 3000");
       return;
     }
     //check if each flashcard has a term and a description
@@ -94,7 +82,7 @@ export const CreateSet = () => {
           flashcard.description.replace(/<[^>]+>/g, "").length === 0
       )
     ) {
-      alert("Моля попълнете всички карти");
+      toast("Моля попълнете всички карти");
       return;
     }
     //check if any flashcard has more than 2000 characters
@@ -105,31 +93,36 @@ export const CreateSet = () => {
           flashcard.description.replace(/<[^>]+>/g, "").length > 2000
       )
     ) {
-      alert("Някоя от картите е с повече от 2000 символа");
+      toast("Някоя от картите е с повече от 2000 символа");
       return;
     }
     //check if the tags are not empty
-
-    console.log(data);
+    axios
+      .post("https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1/sets", {
+        set_name: title,
+        set_description: description,
+        flashcards: flashcards,
+        set_category: category,
+        set_institution: institution,
+      })
+      .then((response) => {
+        toast("Успешно създадохте сет");
+        window.location.href = "/sets";
+      })
+      .catch((error) => {
+        toast("Възникна грешка");
+        console.log(error);
+      });
   };
-
-  const [institutions, setInstitutions] = useState([]);
 
   const search = (query) => {
     let url = "http://www.google.com/search?q=" + query;
     window.open(url, "_blank");
   };
 
-  const institutionSuggestions = [
-    {
-      id: "Institution1Institution1Institution1",
-      text: "Institution1Institution1Institution1",
-    },
-    { id: "Institution2", text: "Institution2" },
-  ];
-
   return (
     <Dashboard>
+      <ToastContainer />
       <div className="create-set-wrapper">
         <div className="create-set">
           <h1>Създай сет</h1>
@@ -151,19 +144,24 @@ export const CreateSet = () => {
             <div className="tags">
               <select
                 onChange={(e) => setCategory(e.target.value)}
-                defaultValue={-1}
+                defaultValue={""}
                 id="categories"
                 name="categories"
               >
-                <option value="-1">Без категория</option>
+                <option value="">Без категория</option>
                 {allCategories.map((category, index) => (
                   <option key={index} value={category.category_id}>
                     {category.category_name}
                   </option>
                 ))}
               </select>
-              <select id="institution" name="institution">
-                <option value="-1">Без категория</option>
+              <select
+                onChange={(e) => setInstitution(e.target.value)}
+                defaultValue=""
+                id="institution"
+                name="institution"
+              >
+                <option value="">Без институция</option>
                 {allInstitutions.map((institution, index) => (
                   <option key={index} value={institution.organization_id}>
                     {institution.organization_name}
@@ -212,7 +210,7 @@ export const CreateSet = () => {
                   ) : (
                     ""
                   )}
-                    {flashcard.term.replace(/<[^>]+>/g, "").length ? (
+                  {flashcard.term.replace(/<[^>]+>/g, "").length ? (
                     <>
                       <IoSearch
                         onClick={() =>
@@ -255,14 +253,6 @@ export const CreateSet = () => {
           >
             Запази
           </button>
-          {institutions.map((institution, index) => (
-            <span key={index} className="institution">
-              {institution.text}
-              <button onClick={() => handleInstitutionDelete(index)}>
-                Изтрий
-              </button>
-            </span>
-          ))}
         </div>
       </div>
     </Dashboard>

@@ -42,7 +42,7 @@ const useFlashcards = () => {
   const handleAddFlashcard = () => {
     setFlashcards([
       ...flashcards,
-      { term: "", description: "", rnd: uuidv4() },
+      { term: "", definition: "", rnd: uuidv4() },
     ]);
   };
 

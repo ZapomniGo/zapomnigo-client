@@ -5,7 +5,7 @@ enum FLASHCARD_DIRECTIONS {
 
 type Flashcard = {
   term: string;
-  description: string;
+  definition: string;
   rnd: string;
 };
 
