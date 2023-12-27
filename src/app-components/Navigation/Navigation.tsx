@@ -31,13 +31,16 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
   const dispatch = useAppDispatch();
   const [username, setUsername] = useState('');
   const [institution, setInstitution] = useState('');
+  const [token, setToken] = useState<string | null>(null);
+
 
   useEffect(() => {
     const token = document.cookie
       .split('; ')
       .find(row => row.startsWith('access_token'))
       ?.split('=')[1];
-    
+      setToken(token || null);
+
     if (token) {
       const decodedToken = jwtDecode(token);
       setUsername(decodedToken.username);
@@ -53,7 +56,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
       console.log(response)
 
       if (response.status === 200) {  
-        // window.location.href = '/login';
+        window.location.reload();
       } else {
         console.error(`Logout failed with status: ${response.status}`);
       }
@@ -110,10 +113,17 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                 <img src="src/app-components/Navigation/logo.png" alt="logo"></img>
               </span>
 
-              <div className="text header-text">
-                <span className="name">{username}</span>
-                <span className="institution">{institution}</span>
-              </div>
+            {token ? (
+            <div className="text header-text">
+              <span className="name">{username}</span>
+              <span className="institution">{institution}</span>
+            </div>
+            ) : (
+              <>
+                <button onClick={() => window.location.href = '/login'}>Login</button>
+                <button onClick={() => window.location.href = '/register'}>Register</button>
+              </>
+            )}
             </div>
           </header>
 

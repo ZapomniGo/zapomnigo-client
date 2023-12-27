@@ -29,7 +29,10 @@ export const Login = () => {
         const response = await axios.post(`${url}/v1/login`, userData, {
       withCredentials: true,
     })
-        console.log(response);
+    if (response.status === 200) {
+      window.location.href = "/";
+    } 
+      console.log(response);
       }
       catch(error){
         console.log(error)
