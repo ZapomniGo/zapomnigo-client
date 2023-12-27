@@ -61,6 +61,23 @@ const useFlashcards = () => {
     });
   };
 
+  const handleFlipFlashcard = (rnd: string) => {
+    setFlashcards((prevFlashcards) => {
+      const flippedFlashcards = prevFlashcards.map((flashcard) => {
+        if (flashcard.rnd === rnd) {
+          return {
+            term: flashcard.description,
+            description: flashcard.term,
+            rnd: flashcard.rnd,
+          };
+        }
+        return flashcard;
+      });
+
+      return flippedFlashcards;
+    });
+  };
+
   return {
     flashcards,
     handleMoveFlashcard,
@@ -68,6 +85,7 @@ const useFlashcards = () => {
     handleAddFlashcard,
     handleDeleteFlashcard,
     handleDuplicateFlashcard,
+    handleFlipFlashcard,
   };
 };
 

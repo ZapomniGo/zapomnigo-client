@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Editor from "../RichEditor/Editor";
 import Dashboard from "../Dashboard/Dashboard";
 import { HiOutlineDuplicate } from "react-icons/hi";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdDeleteOutline, MdFlip } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
@@ -23,6 +23,7 @@ export const CreateSet = () => {
     handleAddFlashcard,
     handleDeleteFlashcard,
     handleDuplicateFlashcard,
+    handleFlipFlashcard,
   } = useFlashcards();
 
   useEffect(() => {
@@ -205,11 +206,16 @@ export const CreateSet = () => {
                     ""
                   )}
                   {flashcard.term.replace(/<[^>]+>/g, "").length ? (
-                    <IoSearch
-                      onClick={() =>
-                        search(flashcard.term.replace(/<[^>]+>/g, ""))
-                      }
-                    />
+                    <>
+                      <IoSearch
+                        onClick={() =>
+                          search(flashcard.term.replace(/<[^>]+>/g, ""))
+                        }
+                      />
+                      <MdFlip
+                        onClick={() => handleFlipFlashcard(flashcard.rnd)}
+                      />
+                    </>
                   ) : (
                     ""
                   )}
