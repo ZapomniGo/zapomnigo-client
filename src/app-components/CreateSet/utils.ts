@@ -18,28 +18,12 @@ const useFlashcards = () => {
       if (swapIndex < 0 || swapIndex >= prevFlashcards.length)
         return prevFlashcards;
 
-      console.log("--------------------BEFORE--------------------");
-      console.log(
-        "INDEX: ",
-        prevFlashcards[index],
-        "SWAP: ",
-        prevFlashcards[swapIndex]
-      );
+      const newFlashcards = [...prevFlashcards];
 
-      [prevFlashcards[index], prevFlashcards[swapIndex]] = [
-        prevFlashcards[swapIndex],
-        prevFlashcards[index],
-      ];
+      newFlashcards.splice(swapIndex, 0, newFlashcards.splice(index, 1)[0]);
+      setFlashcards(newFlashcards);
 
-      console.log("--------------------AFTER--------------------");
-      console.log(
-        "INDEX: ",
-        prevFlashcards[index],
-        "SWAP: ",
-        prevFlashcards[swapIndex]
-      );
-
-      return [...prevFlashcards];
+      return newFlashcards;
     });
   };
 
