@@ -16,6 +16,8 @@ import { Outlet } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import { url } from "../../Global";
+import { BiLogIn } from "react-icons/bi";
+
 
 
 interface NavigationProps {
@@ -42,7 +44,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
       setToken(token || null);
 
     if (token) {
-      const decodedToken = jwtDecode(token);
+      const decodedToken: { username: string, institution: string } = jwtDecode(token);
       setUsername(decodedToken.username);
       setInstitution(decodedToken.institution)
 
@@ -108,23 +110,32 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
           <header>
             <IoMdClose className="close-mobile" onClick={handleCloseClick} />
 
+            {/* <div className="image-text">
+              <span className="image">
+                <img src="src/app-components/Navigation/logo.png" alt="logo"></img>
+              </span>
+              <div className="text header-text">
+                <span className="name">{username}</span>
+                <span className="institution">{institution}</span>
+              </div>
+            </div> */}
+
+            {token ? (
             <div className="image-text">
               <span className="image">
                 <img src="src/app-components/Navigation/logo.png" alt="logo"></img>
               </span>
-
-            {token ? (
-            <div className="text header-text">
-              <span className="name">{username}</span>
-              <span className="institution">{institution}</span>
+              <div className="text header-text">
+                <span className="name">{username}</span>
+                <span className="institution">{institution}</span>
+              </div>
             </div>
             ) : (
               <>
-                <button onClick={() => window.location.href = '/login'}>Login</button>
-                <button onClick={() => window.location.href = '/register'}>Register</button>
+                {/* <button onClick={() => window.location.href = '/login'}>Login</button>
+                <button onClick={() => window.location.href = '/register'}>Register</button> */}
               </>
             )}
-            </div>
           </header>
 
           <div className="menu-bar">
@@ -144,43 +155,68 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                     <span className="text nav-text">Dashboard</span>
                   </CustomNavLink>
                 </li>
-                <li className="nav-link">
-                  <CustomNavLink to="/sets" activeClassName="active">
-                    <i className="icon" style={{ transform: "scale(1.2)" }}>
-                      <TbCards />
-                    </i>
-                    <span className="text nav-text">My Sets</span>
-                  </CustomNavLink>
-                </li>
-                <li className="nav-link">
-                  <CustomNavLink to="/folders" activeClassName="active">
-                    <i className="icon">
-                      <FaRegFolderOpen />
-                    </i>
-                    <span className="text nav-text">My Folders</span>
-                  </CustomNavLink>
-                </li>
-                <li className="nav-link">
-                  <CustomNavLink to="/create" activeClassName="active">
-                    <i className="icon" style={{ transform: "scale(1.3)" }}>
-                      <GoPencil />
-                    </i>
-                    <span className="text nav-text">Create</span>
-                  </CustomNavLink>
-                </li>
-                <li className="nav-link">
-                  <CustomNavLink to="/settings" activeClassName="active">
-                    <i className="icon" style={{ transform: "scale(1.2)" }}>
-                      <TbSettings />
-                    </i>
-                    <span className="text nav-text">Settings</span>
-                  </CustomNavLink>
-                </li>
+                {token ? (
+                  <>
+                    <li className="nav-link">
+                      <CustomNavLink to="/sets" activeClassName="active">
+                        <i className="icon" style={{ transform: "scale(1.2)" }}>
+                          <TbCards />
+                        </i>
+                        <span className="text nav-text">My Sets</span>
+                      </CustomNavLink>
+                    </li>
+                    <li className="nav-link">
+                      <CustomNavLink to="/folders" activeClassName="active">
+                        <i className="icon">
+                          <FaRegFolderOpen />
+                        </i>
+                        <span className="text nav-text">My Folders</span>
+                      </CustomNavLink>
+                    </li>
+                    <li className="nav-link">
+                      <CustomNavLink to="/create" activeClassName="active">
+                        <i className="icon" style={{ transform: "scale(1.3)" }}>
+                          <GoPencil />
+                        </i>
+                        <span className="text nav-text">Create</span>
+                      </CustomNavLink>
+                    </li>
+                    <li className="nav-link">
+                      <CustomNavLink to="/settings" activeClassName="active">
+                        <i className="icon" style={{ transform: "scale(1.2)" }}>
+                          <TbSettings />
+                        </i>
+                        <span className="text nav-text">Settings</span>
+                      </CustomNavLink>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li className="nav-link">
+                      <CustomNavLink to="/register" activeClassName="active">
+                        <i className="icon" style={{ transform: "scale(1.2)" }}>
+                          <GoPencil />
+                        </i>
+                        <span className="text nav-text">Sign up</span>
+                      </CustomNavLink>
+                    </li>
+                    <li className="nav-link">
+                      <CustomNavLink to="/login" activeClassName="active">
+                        <i className="icon" style={{ transform: "scale(1.2)" }}>
+                          <BiLogIn />
+                        </i>
+                        <span className="text nav-text">Login</span>
+                      </CustomNavLink>
+                    </li>
+                  </>
+                )}
+                
               </ul>
             </div>
 
             <div className="bottom-content">
-              <li className="">
+              {token ? (
+                <li className="">
                 <a onClick={handleLogout}>
                   <i className="icon">
                     <BiLogOut />
@@ -188,6 +224,12 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                   <span className="text nav-text" >Logout</span>
                 </a>
               </li>
+              ) : (
+                <>
+
+                </>
+              )}
+              
             </div>
           </div>
         </nav>

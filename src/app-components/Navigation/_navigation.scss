@@ -4,7 +4,9 @@ body{
     height: 100vh;
     background: $body-color;
 }
-
+.menu{
+    height: 100%;
+}
 .no-scroll {
     overflow: hidden;
   }
