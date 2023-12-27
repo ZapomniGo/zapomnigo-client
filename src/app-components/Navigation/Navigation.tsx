@@ -1,7 +1,7 @@
 // To-Do: Make Login/Register Button 
 // Fix logo
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { NavLink as RRNavLink, NavLinkProps } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
@@ -13,22 +13,54 @@ import { TbSettings } from "react-icons/tb";
 import { useAppDispatch, useAppSelector } from "../../app-context/store";
 import { navReducer } from "../../app-context/navigationSlice";
 import { Outlet } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import axios from 'axios';
+import { url } from "../../Global";
 
-interface CustomNavLinkProps extends NavLinkProps {
-  activeClassName?: string;
-}
 
 interface NavigationProps {
   children?: ReactNode;
 }
 
-const CustomNavLink: React.FC<CustomNavLinkProps> = (props) => (
+const CustomNavLink: React.FC<NavLinkProps> = (props) => (
   <RRNavLink {...props} />
 );
 
 export const Navigation: React.FC<NavigationProps> = (props) => {
   const navigationSliceManager = useAppSelector((state) => state.navigationReducer);
   const dispatch = useAppDispatch();
+  const [username, setUsername] = useState('');
+  const [institution, setInstitution] = useState('');
+
+  useEffect(() => {
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('access_token'))
+      ?.split('=')[1];
+    
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setUsername(decodedToken.username);
+      setInstitution(decodedToken.institution)
+
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(`${url}/v1/logout`, {}, { withCredentials: true });
+
+      console.log(response)
+
+      if (response.status === 200) {  
+        // window.location.href = '/login';
+      } else {
+        console.error(`Logout failed with status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Logout request failed:', error);
+    }
+  };
 
   const handleMouseEnter = () => {
     if (window.innerWidth > 900) {
@@ -79,8 +111,8 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
               </span>
 
               <div className="text header-text">
-                <span className="name">Aleks Ivan</span>
-                <span className="profession">Web Developer</span>
+                <span className="name">{username}</span>
+                <span className="institution">{institution}</span>
               </div>
             </div>
           </header>
@@ -139,11 +171,11 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 
             <div className="bottom-content">
               <li className="">
-                <a href="#">
+                <a onClick={handleLogout}>
                   <i className="icon">
                     <BiLogOut />
                   </i>
-                  <span className="text nav-text">Logout</span>
+                  <span className="text nav-text" >Logout</span>
                 </a>
               </li>
             </div>
