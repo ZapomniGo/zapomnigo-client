@@ -26,7 +26,7 @@
       margin-top: 1vmax;
       margin-bottom: 1vmax;
       color: gray;
-      font-size: 2vmax;
+      font-size: 2.5vmax;
     }
     .buttonWrapper {
       display: flex;
@@ -214,6 +214,10 @@ margin-left:0;
       .buttonWrapper svg{
         transform:scale(1.8);
         margin:1.5vmax;
+      }
+      .ql-tooltip{
+        opacity:1 !important;
+        z-index:999 !important;
       }
     }
   }
