@@ -205,15 +205,20 @@ export const CreateSet = () => {
                   ) : (
                     ""
                   )}
-                  {flashcard.term.replace(/<[^>]+>/g, "").length ? (
+                  {flashcard.term.replace(/<[^>]+>/g, "").length ||
+                  flashcard.description.replace(/<[^>]+>/g, "").length ? (
+                    <MdFlip
+                      onClick={() => handleFlipFlashcard(flashcard.rnd)}
+                    />
+                  ) : (
+                    ""
+                  )}
+                    {flashcard.term.replace(/<[^>]+>/g, "").length ? (
                     <>
                       <IoSearch
                         onClick={() =>
                           search(flashcard.term.replace(/<[^>]+>/g, ""))
                         }
-                      />
-                      <MdFlip
-                        onClick={() => handleFlipFlashcard(flashcard.rnd)}
                       />
                     </>
                   ) : (
