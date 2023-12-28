@@ -69,14 +69,29 @@ const fetchSetFlashcards = (): Promise<FlashcardSet> => {
     });
   };
 
-export const SetPage = () => {
-    const [setFlashcards, setSetFlashcards] = useState<FlashcardSet>();
 
+
+export const SetPage = () => {
+    const [flashcards, setFlashcards] = useState<FlashcardSet>();
+    const [sortingOrder, setSortingOrder] = useState<string>("");
+
+    const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setSortingOrder(event.target.value);
+    };
+
+    const sortedFlashcards = flashcards?.flashcards.slice().sort((a, b) => {
+      if (sortingOrder === "a-z") {
+        return a.term.localeCompare(b.term);
+      } else if (sortingOrder === "z-a") {
+        return b.term.localeCompare(a.term);
+      }
+      return 0;
+    });
 
     useEffect(() => {
         fetchSetFlashcards()
           .then((data) => {
-            setSetFlashcards(data);
+            setFlashcards(data);
           })
           .catch((error) => {
             console.error("Error fetching set cards:", error);
@@ -87,17 +102,17 @@ export const SetPage = () => {
     return(
         <Dashboard>
           <>
-            {setFlashcards ? (
+            {flashcards ? (
             <div id="set-page">
                 <div className="set-info">
                   <div className="set-title">
-                    <h1>{setFlashcards.title}</h1>
+                    <h1>{flashcards.title}</h1>
                     <div className="institution">
-                      <a href="#">{setFlashcards.institution}</a>
+                      <a href="#">{flashcards.institution}</a>
                     </div>
                   </div>
-                  <p className="description">{setFlashcards.description}</p>
-                  <p className="category">{setFlashcards.category}</p>
+                  <p className="description">{flashcards.description}</p>
+                  <p className="category">{flashcards.category}</p>
                   <div className="actions">
                     <a href="#" className="rotate">
                       <MdContentCopy />
@@ -120,13 +135,21 @@ export const SetPage = () => {
                       Export
                     </a>
                   </div>
-                  <p className="creator">Created by {setFlashcards.creator_name}</p>
+                  <p className="creator">Created by {flashcards.creator_name}</p>
                 </div>
                 <div className="cards-info">
-                  <h2>Terms in this set ({setFlashcards.flashcards.length})</h2>
-                  {setFlashcards.flashcards.map((flashcard) => (
-                    <Flashcard key={flashcard.id} flashcard={flashcard} />
-                  ))}
+                  <div className="cards-info-header">
+                    <h2>Terms in this set ({flashcards.flashcards.length})</h2>
+                    <select onChange={handleFilterChange}>
+                      <option value="">All</option>
+                      <option value="a-z">A-Z</option>
+                      <option value="z-a">Z-A</option>
+                    </select>
+                  </div>
+                  
+                  {sortedFlashcards?.map((flashcard) => (
+              <Flashcard key={flashcard.id} flashcard={flashcard} />
+            ))}
                 </div>
 
             </div>

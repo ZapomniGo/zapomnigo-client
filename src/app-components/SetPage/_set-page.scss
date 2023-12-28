@@ -99,6 +99,15 @@
     }
     .cards-info{
         width: 60%;
+        .cards-info-header{
+            display: flex;
+            h2{
+                width: 75%;
+            }
+            select{
+                width: 25%;
+            }
+        }
     }
 }
 
