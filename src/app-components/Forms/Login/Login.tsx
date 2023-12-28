@@ -5,7 +5,6 @@ import { initialErrors } from "./utils";
 import axios from "axios"
 type ErrorFieldName = keyof LoginErrorRecord;
 import { url } from "../../../Global";
-import Dashboard from "../../Dashboard/Dashboard";
 
 const validateForm = (data: LoginData): LoginErrorRecord => {
   return {

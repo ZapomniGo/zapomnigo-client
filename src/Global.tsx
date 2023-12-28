@@ -1,4 +1,4 @@
-const hasPort = url => {
+const hasPort = (url: string) => {
     const portRegex = /:\d+/;
     return portRegex.test(url);
 };
