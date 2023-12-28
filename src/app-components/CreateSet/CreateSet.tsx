@@ -79,7 +79,7 @@ export const CreateSet = () => {
       flashcards.find(
         (flashcard) =>
           flashcard.term.replace(/<[^>]+>/g, "").length === 0 ||
-          flashcard.description.replace(/<[^>]+>/g, "").length === 0
+          flashcard.definition.replace(/<[^>]+>/g, "").length === 0
       )
     ) {
       toast("Моля попълнете всички карти");

@@ -33,13 +33,13 @@
       justify-content: space-between;
       flex-direction: row-reverse;
       align-items: center;
-      padding-bottom:1vmax;
-      & > div{
+      padding-bottom: 1vmax;
+      & > div {
         display: flex;
         align-items: center;
         justify-content: center;
         & > svg {
-         margin-right:.5vmax;
+          margin-right: 0.5vmax;
         }
       }
     }
@@ -99,7 +99,6 @@
         resize: none;
         width: 93%;
         height: 80%;
-        border-radius: 1vmax;
         outline: none;
         border: none;
       }
@@ -173,9 +172,9 @@
       .other-info {
         width: 80%;
       }
-      .ql-formats{
+      .ql-formats {
         justify-content: space-between !important;
-        margin-right:0 !important;
+        margin-right: 0 !important;
       }
       .title {
         width: 80%;
@@ -227,19 +226,20 @@
       .ql-tooltip {
         opacity: 1 !important;
         z-index: 999 !important;
-        left:auto !important;
+        left: auto !important;
         top: auto !important;
-        box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+        box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
+          0 15px 12px rgba(0, 0, 0, 0.22);
         a {
-          line-height:30px;
+          line-height: 30px;
         }
       }
       textarea {
         width: 96% !important;
-        padding: .5vmax;
+        padding: 0.5vmax;
       }
-      .ql-editor{
-        font-size:2vmax;
+      .ql-editor {
+        font-size: 2vmax;
       }
     }
   }
