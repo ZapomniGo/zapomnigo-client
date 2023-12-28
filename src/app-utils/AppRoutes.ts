@@ -7,4 +7,4 @@ export const foldersRoute = "/folders";
 export const createRoute = "/create";
 export const settingsRoute = "/settings";
 export const createSetRoute = "/create-set";
-export const setPage = "/setpage";
+export const setPage = "/set/:id";

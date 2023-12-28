@@ -1,30 +1,23 @@
 import React from 'react';
+import parse from 'html-react-parser';
 
 interface FlashcardProps {
   flashcard: {
     id: string;
     term: string;
-    description: string;
-    image?: string;
+    definition: string;
   };
 }
 
 export const Flashcard: React.FC<FlashcardProps> = ({ flashcard }) => {
   return (
-    <div id="flashcard" className={!flashcard.image ? 'no-image' : ''}>
+    <div id="flashcard" className={"no-image"}>
         <div className="term">
-            <h3>{flashcard.term}</h3>
+            {parse(flashcard.term)}
         </div>
         <div className='description'>
-            <p>{flashcard.description}</p>
+            {parse(flashcard.definition)}
         </div>
-      {flashcard.image && 
-        <div className='image'>
-
-            <img src={flashcard.image} alt={flashcard.term} />
-        </div>
-      }
-
     </div>
   );
 };

@@ -136,6 +136,8 @@ export const CreateSet = () => {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Заглавие"
             className="title"
+            minLength={1}
+            maxLength={100}
           />
           <div className="other-info">
             <div className="description">

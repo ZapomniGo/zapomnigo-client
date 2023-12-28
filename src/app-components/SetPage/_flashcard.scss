@@ -21,7 +21,7 @@
         content: '';
         height: 80%;
         width: 1px;
-        background-color: gray;
+        background-color: rgb(227, 227, 227);
         margin: 0 28%;
         position: absolute;
         top: 50%;
@@ -32,7 +32,7 @@
   
       .description {
         display: flex;
-        justify-content: flex-start;
+        justify-content: center;
         width: 41.5%;
         margin-left: 35px;
         margin-right: 10px;

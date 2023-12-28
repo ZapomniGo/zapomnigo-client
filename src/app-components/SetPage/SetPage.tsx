@@ -6,134 +6,93 @@ import { FaRegLightbulb } from "react-icons/fa";
 import { RiPencilLine } from "react-icons/ri";
 import { FiShare2 } from "react-icons/fi";
 import { PiExport } from "react-icons/pi";
-
-
-//adapted for separate img tags but not used at the moment
-
-interface FlashcardSet {
-    id: string;
-    title: string;
-    description: string;
-    creator_name: string;
-    institution: string;
-    category: string;
-    flashcards: Flashcard[];
-  }
-  
-  interface Flashcard {
-    id: string;
-    term: string;
-    description: string;
-    image?: string;
-  }
-
-const myFlashcardSet: FlashcardSet = {
-  id: "123",
-  title: "My Flashcard Set",
-  description: "A set of flashcards for learning purposeskjadgh ljb kjasbfkjb fjkasb fkjbakjfbkj basfbasf earning purposeskjadgh ljb kjasbfkjb fjkasb fkjbakjfbkj basfbasf ujb kjas",
-  creator_name: "John Doe",
-  institution: "AUBG",
-  category: "Science",
-  flashcards: [
-    {
-      id: "1",
-      term: "Term 1",
-      description: "Description 1kj hbaoihans ino;is afhao;s hgnfakljgbhkjshkjaddkhshbkjs dhou hiu hgasiuhba iks",
-    },
-    {
-      id: "2",
-      term: "Term 2 p;ijn ioasfi oansfoikia slkfna .k,nfa;s nfaslk nfl;kas nflkasn flka nsflkan ",
-      description: "Description 2 loremkjlasnf ljasfnb lorem fijasbk alskhd ans;ld ;kjbjkasb ",
-      // image: "src/app-components/SetPage/test.jpg",
-    },
-    {
-      id: "3",
-      term: "Term 2",
-      description: "Description 2",
-    },
-    {
-      id: "4",
-      term: "Term 2",
-      description: "Description 2 loremkjlasnf ljasfnb lorem fijasbk alskhd ans;ld ;kjbjkasb ",
-      // image: "src/app-components/SetPage/test2.jpg",
-    },
-  ],
-};
-
-
-const fetchSetFlashcards = (): Promise<FlashcardSet> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(myFlashcardSet);
-      }, 10);
-    });
-  };
+//get the id from the url
+import { useParams } from "react-router-dom";
+import instance from "../../app-utils/axios";
 
 export const SetPage = () => {
-    const [setFlashcards, setSetFlashcards] = useState<FlashcardSet>();
+  const [setFlashcards, setSetFlashcards] = useState<FlashcardSet>();
+  const { id } = useParams<{ id: string }>();
+  useEffect(() => {
+    if (id.length === 0 || id.length !== 26 || id.includes(" ")) {
+      setSetFlashcards({
+        set_name: "Хм, този сет не съществува",
+        set_description: "Провери дали си въвел правилния линк",
+        set_category: "",
+        flashcards: [],
+        username: "все още никого :<",
+        organization: "",
+      });
+      return;
+    }
+    instance
+      .get(`/sets/${id}`)
+      .then((response) => {
+        setSetFlashcards(response.data.set);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
 
-
-    useEffect(() => {
-        fetchSetFlashcards()
-          .then((data) => {
-            setSetFlashcards(data);
-          })
-          .catch((error) => {
-            console.error("Error fetching set cards:", error);
-          });
-      }, []);
-
-
-    return(
-        <Dashboard>
-          <>
-            {setFlashcards ? (
-            <div id="set-page">
-                <div className="set-info">
-                  <div className="set-title">
-                    <h1>{setFlashcards.title}</h1>
-                    <div className="institution">
-                      <a href="#">{setFlashcards.institution}</a>
-                    </div>
-                  </div>
-                  <p className="description">{setFlashcards.description}</p>
-                  <p className="category">{setFlashcards.category}</p>
-                  <div className="actions">
-                    <a href="#" className="rotate">
-                      <MdContentCopy />
-                      Review
-                    </a>
-                    <a href="#">
-                      <FaRegLightbulb />
-                      Learn
-                    </a>
-                    <a href="#">
-                      <RiPencilLine />
-                      Edit
-                    </a>
-                    <a href="#">
-                      <FiShare2 />
-                      Share
-                    </a>
-                    <a href="#">
-                      <PiExport />
-                      Export
-                    </a>
-                  </div>
-                  <p className="creator">Created by {setFlashcards.creator_name}</p>
+  return (
+    <Dashboard>
+      <>
+        {setFlashcards ? (
+          <div id="set-page">
+            <div className="set-info">
+              <div className="set-title">
+                <h1>{setFlashcards.set_name}</h1>
+                <div className="institution">
+                  <a href="#">{setFlashcards.organization}</a>
                 </div>
-                <div className="cards-info">
-                  <h2>Terms in this set ({setFlashcards.flashcards.length})</h2>
-                  {setFlashcards.flashcards.map((flashcard) => (
-                    <Flashcard key={flashcard.id} flashcard={flashcard} />
-                  ))}
-                </div>
-
+              </div>
+              <p className="description">{setFlashcards.set_description}</p>
+              <p className="category">{setFlashcards.set_category}</p>
+              <div className="actions">
+              <a href="#">
+                  <FaRegLightbulb />
+                  Учи
+                </a>
+                <a href="#" className="rotate">
+                  <MdContentCopy />
+                  Прегледай
+                </a>
+                <a href="#">
+                  <RiPencilLine />
+                  Редактирай
+                </a>
+                <a href="#">
+                  <FiShare2 />
+                  Сподели
+                </a>
+                <a href="#">
+                  <PiExport /> Експортирай
+                </a>
+              </div>
+              <p className="creator">Създадено от {setFlashcards.username}</p>
             </div>
-            ) : (
-            <p>Loading...</p>
-            )}
-          </>
-        </Dashboard>
-    )
-}
+            <div className="cards-info">
+              <h2>
+                Флашкарти (
+                {setFlashcards
+                  ? setFlashcards.flashcards.length
+                  : "Зареждане..."}
+                )
+              </h2>
+              {setFlashcards.flashcards.map((flashcard) => (
+                <Flashcard key={flashcard.flashcard_id} flashcard={flashcard} />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <center>
+            {" "}
+            <h1>Зареждане...</h1>
+          </center>
+        )}
+      </>
+    </Dashboard>
+  );
+};
