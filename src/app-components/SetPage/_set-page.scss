@@ -101,3 +101,41 @@
         width: 60%;
     }
 }
+
+@media screen and (max-width: 800px) {
+    #set-page{
+        .set-info{
+            .set-title{
+                h1{
+                    font-size: 1.6rem;
+                }
+                a{
+                    font-size: 1.6rem;
+                }
+            }
+            .description{
+                font-size: 1rem;
+            }
+            .category{
+                font-size: 1.1rem;
+            }
+
+            .actions{
+                flex-wrap: wrap;
+                a{
+                    width: 31%;
+                    margin: 3px;
+                    font-size: 0.8rem;
+                }
+                // svg{
+                //     width: 50%;
+                //     height: auto;
+                // }
+            }
+        }
+    }
+    .cards-info{
+        width: 80% !important;
+    }
+
+}
