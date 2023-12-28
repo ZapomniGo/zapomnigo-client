@@ -1,4 +1,5 @@
 import React from 'react';
+import parse from 'html-react-parser';
 
 interface FlashcardProps {
   flashcard: {
@@ -13,17 +14,17 @@ export const Flashcard: React.FC<FlashcardProps> = ({ flashcard }) => {
   return (
     <div id="flashcard" className={!flashcard.image ? 'no-image' : ''}>
         <div className="term">
-            <h3>{flashcard.term}</h3>
+            <h3>{parse(flashcard.term)}</h3>
         </div>
         <div className='description'>
-            <p>{flashcard.description}</p>
+            <p>{parse(flashcard.description)}</p>
         </div>
-      {flashcard.image && 
+      {/* {flashcard.image && 
         <div className='image'>
 
             <img src={flashcard.image} alt={flashcard.term} />
         </div>
-      }
+      } */}
 
     </div>
   );

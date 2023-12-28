@@ -37,24 +37,24 @@ const myFlashcardSet: FlashcardSet = {
   flashcards: [
     {
       id: "1",
-      term: "Term 1",
-      description: "Description 1kj hbaoihans ino;is afhao;s hgnfakljgbhkjshkjaddkhshbkjs dhou hiu hgasiuhba iks",
+      term: "<p>Term 1</p>",
+      description: "<p>Description 1kj hbaoihans ino;is afhao;s hgnfakljgbhkjshkjaddkhshbkjs dhou hiu hgasiuhba iks</p>",
     },
     {
       id: "2",
-      term: "Term 2 p;ijn ioasfi oansfoikia slkfna .k,nfa;s nfaslk nfl;kas nflkasn flka nsflkan ",
-      description: "Description 2 loremkjlasnf ljasfnb lorem fijasbk alskhd ans;ld ;kjbjkasb ",
+      term: "<p>Term 2 p;ijn ioasfi oansfoikia slkfna .k,nfa;s nfaslk nfl;kas nflkasn flka nsflkan </p>",
+      description: "<p>Description 2 loremkjlasnf ljasfnb lorem fijasbk alskhd ans;ld ;kjbjkasb </p>",
       // image: "src/app-components/SetPage/test.jpg",
     },
     {
       id: "3",
-      term: "Term 2",
-      description: "Description 2",
+      term: "<p>Term 2</p>",
+      description: "<p>Description 2</p>",
     },
     {
       id: "4",
-      term: "Term 2",
-      description: "Description 2 loremkjlasnf ljasfnb lorem fijasbk alskhd ans;ld ;kjbjkasb ",
+      term: "<p>Term 2</p>",
+      description: "<p>Description 2 loremkjlasnf ljasfnb lorem fijasbk alskhd ans;ld ;kjbjkasb </p>",
       // image: "src/app-components/SetPage/test2.jpg",
     },
   ],
