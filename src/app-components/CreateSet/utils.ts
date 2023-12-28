@@ -87,6 +87,22 @@ const useFlashcards = () => {
     });
   };
 
+  const handleOnImportFlashcards = (importedData, delimiter) => {
+    const pairs = importedData.split(delimiter);
+
+    const newFlashcards = pairs.map((pair) => {
+      const [term, definition] = pair.split(delimiter);
+
+      return {
+        term: term.trim(),
+        definition: definition.trim(),
+        rnd: uuidv4(),
+      };
+    });
+
+    setFlashcards(newFlashcards);
+  };
+
   return {
     flashcards,
     handleMoveFlashcard,
@@ -96,6 +112,7 @@ const useFlashcards = () => {
     handleDuplicateFlashcard,
     handleFlipFlashcard,
     handleFlipAllFlashcards,
+    handleOnImportFlashcards,
   };
 };
 

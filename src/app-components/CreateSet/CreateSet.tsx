@@ -11,7 +11,9 @@ import { FLASHCARD_DIRECTIONS } from "./types";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import FlashcardImportModal from "../ImportModal/FlashcardImportModal";
 export const CreateSet = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [allCategories, setAllCategories] = useState([]);
@@ -27,6 +29,7 @@ export const CreateSet = () => {
     handleDuplicateFlashcard,
     handleFlipFlashcard,
     handleFlipAllFlashcards,
+    handleOnImportFlashcards,
   } = useFlashcards();
 
   useEffect(() => {
@@ -258,6 +261,15 @@ export const CreateSet = () => {
           </button>
         </div>
       </div>
+      <button onClick={() => setIsModalOpen(!isModalOpen)}>Open modal</button>
+      <FlashcardImportModal
+        onImport={() => handleOnImportFlashcards()}
+        isOpen={isModalOpen}
+        onClose={() => {
+          console.log("closed");
+          setIsModalOpen(false);
+        }}
+      />
     </Dashboard>
   );
 };
