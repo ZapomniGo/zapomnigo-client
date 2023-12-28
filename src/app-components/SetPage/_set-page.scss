@@ -1,0 +1,103 @@
+#set-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    margin-top: 3vh;
+    .set-info{
+        padding:1vmax;
+        display: flex;
+        align-self: center;
+        width: 80%;
+        flex-direction: column;
+        background-color: $sidebar-color;
+        justify-content: center;
+        margin-bottom: 1vh;
+        border-radius: 10px;
+        margin-bottom: 5vh;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+        .set-title{
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: flex-start;
+            margin-bottom: 5px;
+            h1{
+                margin: 10px 15px 2px 15px;
+                font-size: 2.2rem;
+            }
+
+            .institution{
+                display: flex;
+                align-items: center;
+                background: $primary-color-light;
+                justify-self: center;
+                border-radius: 5px;
+                padding: 1vmax;
+                margin-top: 5px;
+                margin-right: 15px;
+                align-self: center;
+                a{
+                    font-size: 1.3rem;
+                    color: black;
+                    text-decoration: none;    
+                    color:gray;
+
+                }
+            }   
+        }
+
+        p{
+            margin: 2.5px 15px;
+
+        }
+        .description{
+            font-size: 1.1rem;
+            color:gray;
+            
+        }
+        
+        .category{
+            font-size: 1.2rem;
+            color:gray;
+
+        }
+
+        .creator{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color:gray;
+
+        }
+
+        .actions{
+            margin: 2px 15px;
+            display: flex;
+            a{
+                display: flex;
+                align-items: center;
+                margin-right: 6px;
+                text-decoration: none;
+                color: #000;
+                background-color: $primary-color-light;
+                padding: 10px;
+                border-radius: 5px;
+                font-size: 1rem;
+                svg{
+                    margin-right: 5px;
+                    font-size: 20px;
+                }
+            }
+            .rotate{
+                svg{
+                    transform: rotate(90deg);
+                }
+            }
+        }
+    }
+    .cards-info{
+        width: 60%;
+    }
+}

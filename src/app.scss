@@ -105,6 +105,8 @@ body {
   background-color: $secondary-color;
   color: white;
 }
+//fix this because it breaks search bar
+//most of this code is for the forms and it is not needed here
 input {
   width: 100%;
   height: 3vmax;
