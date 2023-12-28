@@ -75,6 +75,18 @@ const useFlashcards = () => {
     });
   };
 
+  const handleFlipAllFlashcards = () => {
+    setFlashcards((prevFlashcards) => {
+      return prevFlashcards.map((flashcard) => {
+        return {
+          term: flashcard.definition,
+          definition: flashcard.term,
+          rnd: flashcard.rnd,
+        };
+      });
+    });
+  };
+
   return {
     flashcards,
     handleMoveFlashcard,
@@ -83,6 +95,7 @@ const useFlashcards = () => {
     handleDeleteFlashcard,
     handleDuplicateFlashcard,
     handleFlipFlashcard,
+    handleFlipAllFlashcards,
   };
 };
 

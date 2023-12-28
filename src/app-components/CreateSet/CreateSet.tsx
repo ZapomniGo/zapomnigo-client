@@ -26,6 +26,7 @@ export const CreateSet = () => {
     handleDeleteFlashcard,
     handleDuplicateFlashcard,
     handleFlipFlashcard,
+    handleFlipAllFlashcards,
   } = useFlashcards();
 
   useEffect(() => {
@@ -173,6 +174,8 @@ export const CreateSet = () => {
           {flashcards.map((flashcard, index) => (
             <div className="flashcardWrapper">
               <div className="buttonWrapper">
+                <MdFlip onClick={() => handleFlipAllFlashcards()} />
+                {/* TODO(): Refactor styling for icons */}
                 <MdDeleteOutline
                   onClick={() => handleDeleteFlashcard(flashcard.rnd)}
                 />
