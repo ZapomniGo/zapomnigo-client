@@ -90,7 +90,7 @@ export const CreateSet = () => {
       flashcards.find(
         (flashcard) =>
           flashcard.term.replace(/<[^>]+>/g, "").length > 2000 ||
-          flashcard.description.replace(/<[^>]+>/g, "").length > 2000
+          flashcard.definition.replace(/<[^>]+>/g, "").length > 2000
       )
     ) {
       toast("Някоя от картите е с повече от 2000 символа");
@@ -178,7 +178,7 @@ export const CreateSet = () => {
                 />
                 <div>
                   {flashcard.term.replace(/<[^>]+>/g, "").length ||
-                  flashcard.description.replace(/<[^>]+>/g, "").length ? (
+                  flashcard.definition.replace(/<[^>]+>/g, "").length ? (
                     <HiOutlineDuplicate
                       onClick={() => handleDuplicateFlashcard(flashcard.rnd)}
                     />
@@ -203,7 +203,7 @@ export const CreateSet = () => {
                     ""
                   )}
                   {flashcard.term.replace(/<[^>]+>/g, "").length ||
-                  flashcard.description.replace(/<[^>]+>/g, "").length ? (
+                  flashcard.definition.replace(/<[^>]+>/g, "").length ? (
                     <MdFlip
                       onClick={() => handleFlipFlashcard(flashcard.rnd)}
                     />
@@ -233,9 +233,9 @@ export const CreateSet = () => {
                 />
                 <Editor
                   placeholder={"Дефиниция"}
-                  value={flashcard.description}
+                  value={flashcard.definition}
                   onChange={(value: string) =>
-                    handleChangeFlashcard(index, "description", value)
+                    handleChangeFlashcard(index, "definition", value)
                   }
                 />
               </div>{" "}

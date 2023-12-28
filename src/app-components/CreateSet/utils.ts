@@ -4,7 +4,7 @@ import Flashcard, { FLASHCARD_DIRECTIONS } from "./types";
 
 const useFlashcards = () => {
   const [flashcards, setFlashcards] = useState<Flashcard[]>([
-    { term: "", description: "", rnd: uuidv4() },
+    { term: "", definition: "", rnd: uuidv4() },
   ]);
 
   const handleMoveFlashcard = (
@@ -29,7 +29,7 @@ const useFlashcards = () => {
 
   const handleChangeFlashcard = (
     index: number,
-    field: "term" | "description",
+    field: "term" | "definition",
     value: string
   ) => {
     setFlashcards((prevFlashcards) => {
@@ -40,10 +40,7 @@ const useFlashcards = () => {
   };
 
   const handleAddFlashcard = () => {
-    setFlashcards([
-      ...flashcards,
-      { term: "", definition: "", rnd: uuidv4() },
-    ]);
+    setFlashcards([...flashcards, { term: "", definition: "", rnd: uuidv4() }]);
   };
 
   const handleDeleteFlashcard = (rnd: string) => {
@@ -66,8 +63,8 @@ const useFlashcards = () => {
       const flippedFlashcards = prevFlashcards.map((flashcard) => {
         if (flashcard.rnd === rnd) {
           return {
-            term: flashcard.description,
-            description: flashcard.term,
+            term: flashcard.definition,
+            definition: flashcard.term,
             rnd: flashcard.rnd,
           };
         }
