@@ -15,7 +15,6 @@ export const Flashcard: React.FC<FlashcardProps> = ({ flashcard }) => {
         <div className="term">
             <h3>{flashcard.term}</h3>
         </div>
-        <div className='vert-line'></div>
         <div className='description'>
             <p>{flashcard.description}</p>
         </div>

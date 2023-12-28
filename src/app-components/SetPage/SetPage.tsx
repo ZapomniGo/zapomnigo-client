@@ -8,7 +8,7 @@ import { FiShare2 } from "react-icons/fi";
 import { PiExport } from "react-icons/pi";
 
 
-
+//adapted for separate img tags but not used at the moment
 
 interface FlashcardSet {
     id: string;
@@ -42,20 +42,20 @@ const myFlashcardSet: FlashcardSet = {
     },
     {
       id: "2",
-      term: "Term 2",
+      term: "Term 2 p;ijn ioasfi oansfoikia slkfna .k,nfa;s nfaslk nfl;kas nflkasn flka nsflkan ",
       description: "Description 2 loremkjlasnf ljasfnb lorem fijasbk alskhd ans;ld ;kjbjkasb ",
-      image: "src/app-components/SetPage/test.jpg",
+      // image: "src/app-components/SetPage/test.jpg",
     },
     {
-      id: "2",
+      id: "3",
       term: "Term 2",
       description: "Description 2",
     },
     {
-      id: "2",
+      id: "4",
       term: "Term 2",
       description: "Description 2 loremkjlasnf ljasfnb lorem fijasbk alskhd ans;ld ;kjbjkasb ",
-      image: "src/app-components/SetPage/test2.jpg",
+      // image: "src/app-components/SetPage/test2.jpg",
     },
   ],
 };

@@ -33,7 +33,7 @@
       .description {
         display: flex;
         justify-content: flex-start;
-        width: 41.5%; // Default width
+        width: 41.5%;
         margin-left: 35px;
         margin-right: 10px;
       }
@@ -50,13 +50,42 @@
       }
   }
 
-#flashcard.no-image{
+// #flashcard.no-image{
+//     .description{
+//       width: 72% !important;
+//     } 
+// }
+
+@media only screen and (max-width: 800px){
+
+  #flashcard{
+    flex-direction: column;
+    padding: 10px 5px;
+    align-items: flex-start;
+    .term{
+      align-self: center;
+      width: 90%;
+      padding: 15px 0;
+      border-bottom: 2px solid #000;
+      h3{
+        text-align: center;
+      }
+    }
     .description{
-      width: 72% !important;
-    } 
-}
-
-@media only screen and (max-width: 1000px){
-
-  
+      padding: 15px 0;
+      align-self: center;
+      width: 90% !important;
+      margin: 0;
+    }
+    .description::before {
+      align-self: center;
+      content: '';
+      height: 0%;
+      width: 0%;
+      top: 50px;
+      bottom: 0;
+      left: 22%; 
+      transform: translate(-50%, -50%);
+    }
+  }
 }
