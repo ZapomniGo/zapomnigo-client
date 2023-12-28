@@ -204,7 +204,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 
             <div className="bottom-content">
               {token ? (
-                <li className="">
+              <li className="logout">
                 <a onClick={handleLogout}>
                   <i className="icon">
                     <BiLogOut />
