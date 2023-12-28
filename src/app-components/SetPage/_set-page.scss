@@ -100,12 +100,15 @@
     .cards-info{
         width: 60%;
         .cards-info-header{
+            align-items: center;
             display: flex;
             h2{
                 width: 75%;
             }
             select{
+                border-radius: 5px;
                 width: 25%;
+                font-size: 1.5rem;
             }
         }
     }
@@ -119,7 +122,7 @@
                     font-size: 1.6rem;
                 }
                 a{
-                    font-size: 1.6rem;
+                    font-size: 1.6rem !important;
                 }
             }
             .description{
@@ -145,6 +148,57 @@
     }
     .cards-info{
         width: 80% !important;
+        h2{
+            font-size: 1.1rem;
+        }
     }
 
+}
+
+@media screen and (max-width: 400px) {
+    #set-page{
+        .set-info{
+            width: 90% !important;
+            .set-title{
+                h1{
+                    font-size: 1.1rem;
+                }
+                a{
+                    font-size: 0.9rem !important;
+                }
+            }
+            .description{
+                font-size: 0.9rem;
+            }
+            .category{
+                font-size: 1rem;
+            }
+
+            .actions{
+                flex-wrap: wrap;
+                a{
+                    width: 46%;
+                    margin: 3px;
+                    font-size: 0.8rem;
+                }
+                // svg{
+                //     width: 50%;
+                //     height: auto;
+                // }
+            }
+        }
+        .cards-info{
+            width: 90% !important;
+            h2{
+                font-size: 0.8rem;
+                width: 65% !important;
+            }
+            select{
+                margin: 0;
+                height: 100%;
+                width: 35% !important;
+                padding: 5px 0;
+            }
+        }
+    }
 }

@@ -141,9 +141,9 @@ export const SetPage = () => {
                   <div className="cards-info-header">
                     <h2>Terms in this set ({flashcards.flashcards.length})</h2>
                     <select onChange={handleFilterChange}>
-                      <option value="">All</option>
-                      <option value="a-z">A-Z</option>
-                      <option value="z-a">Z-A</option>
+                      <option value="">Default</option>
+                      <option value="a-z">Alphabetical(A-Z)</option>
+                      <option value="z-a">Alphabetical(Z-A)</option>
                     </select>
                   </div>
                   

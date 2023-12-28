@@ -95,3 +95,18 @@
     }
   }
 }
+
+@media screen and (max-width: 400px) {
+  #flashcard{
+    .term{
+      h3{
+        font-size: 0.9rem;
+      }
+    }
+    .description{
+      p{
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
