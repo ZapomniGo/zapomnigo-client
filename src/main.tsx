@@ -10,6 +10,7 @@ import {
   createRoute,
   settingsRoute,
   loginRoute,
+  createSetRoute,
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Provider } from "react-redux";
@@ -21,8 +22,10 @@ import { Create } from "./app-components/Create/Create";
 import { Settings } from "./app-components/Settings/Settings";
 import { MainPage } from "./app-components/MainPage/MainPage";
 import "./index.scss";
+import Editor  from "./app-components/RichEditor/Editor";
 import { Registration } from "./app-components/Forms/Registration/Registration";
 import { Login } from "./app-components/Forms/Login/Login";
+import { CreateSet } from "./app-components/CreateSet/CreateSet";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -50,11 +53,19 @@ const router = createBrowserRouter([
         path: settingsRoute,
         element: <Settings />,
       },
+      {
+        path: createSetRoute,
+        element: <CreateSet />,
+      },
     ],
   },
   {
     path: registerRoute,
     element: <Registration />,
+  },
+  {
+    path: "test",
+    element: <Editor />,
   },
   {
     path: loginRoute,
