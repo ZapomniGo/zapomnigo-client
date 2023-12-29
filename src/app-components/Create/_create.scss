@@ -23,8 +23,8 @@
             width: 100%;
             // width: calc(100% - 88px);
             justify-content: center;
-            .create-set,
-            .create-folder{
+            .create-set-option,
+            .create-folder-option{
                 flex-direction: column;
                 display: flex;
                 justify-content: center;
@@ -85,8 +85,8 @@
         }
 
     }
-    .create-set,
-    .create-folder{
+    .create-set-option,
+    .create-folder-option{
         width: 35% !important;
     }
 }
@@ -105,8 +105,8 @@
         .create-option{
             height: 60% !important;
             flex-wrap: wrap;
-            .create-set,
-            .create-folder{
+            .create-set-option,
+            .create-folder-option{
                 margin: 10px 0 !important;
                 width: 70% !important;
             }

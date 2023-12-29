@@ -10,7 +10,7 @@ export const Create = () =>{
                     <h1>Какво искаш да създадеш</h1>
                 </div>
                 <div className="create-option">
-                    <a href="/create-set" className="create-set">
+                    <a href="/create-set" className="create-set-option">
                         <div className="option-svg">
                             <TbCards/>
                         </div>
@@ -18,7 +18,7 @@ export const Create = () =>{
                             <h2>Създай сет</h2>
                         </div>
                     </a>
-                    <a href="/create-folder" className="create-folder">
+                    <a href="/create-folder" className="create-folder-option">
                         <div className="option-svg">
                         <FaRegFolderOpen/>
 
