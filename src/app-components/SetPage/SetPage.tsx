@@ -99,9 +99,9 @@ export const SetPage = () => {
                   )
                 </h2>
                 <select onChange={handleFilterChange}>
-                  <option value="">Default</option>
-                  <option value="a-z">Alphabetical(A-Z)</option>
-                  <option value="z-a">Alphabetical(Z-A)</option>
+                  <option value="">По поздразбиране</option>
+                  <option value="a-z">По азбучен ред(А-Я)</option>
+                  <option value="z-a">По азбучен ред(Я-А)</option>
                 </select>
               </div>
               {sortedFlashcards.map((flashcard) => (
@@ -116,6 +116,7 @@ export const SetPage = () => {
           </center>
         )}
       </>
+      <div style={{marginBottom: "5vmax"}}></div>
     </Dashboard>
   );
 };

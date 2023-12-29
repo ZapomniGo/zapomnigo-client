@@ -43,6 +43,23 @@ export const CreateSet = () => {
       .then((data) => setAllInstitutions(data.organizations));
   }, []);
 
+  const isEmpty = (string: string) => {
+    if (string.length === 0) {
+      return true;
+    }
+    if (
+      string.replace(/<[^>]+>/g, "").length === 0 &&
+      !(
+        string.includes("<img") ||
+        string.includes("<video") ||
+        string.includes("<audio") ||
+        string.includes("<iframe")
+      )
+    ) {
+      return true;
+    }
+    return false;
+  };
   const handleSubmit = () => {
     const data = {
       title,
@@ -78,26 +95,24 @@ export const CreateSet = () => {
       toast("Картите трябва да са под 3000");
       return;
     }
-    //check if each flashcard has a term and a description
-    if (
-      flashcards.find(
-        (flashcard) =>
-          flashcard.term.replace(/<[^>]+>/g, "").length === 0 ||
-          flashcard.definition.replace(/<[^>]+>/g, "").length === 0
-      )
-    ) {
-      toast("Моля попълнете всички карти");
+    //check if each flashcard has a term and a description using isEmpty function
+    if (flashcards.find((flashcard) => isEmpty(flashcard.term))) {
+      toast("Някоя от картите няма термин");
+      return;
+    }
+    if (flashcards.find((flashcard) => isEmpty(flashcard.definition))) {
+      toast("Някоя от картите няма дефиниция");
       return;
     }
     //check if any flashcard has more than 2000 characters
     if (
       flashcards.find(
         (flashcard) =>
-          flashcard.term.replace(/<[^>]+>/g, "").length > 2000 ||
-          flashcard.definition.replace(/<[^>]+>/g, "").length > 2000
+          flashcard.term.replace(/<[^>]+>/g, "").length > 10000 ||
+          flashcard.definition.replace(/<[^>]+>/g, "").length > 10000
       )
     ) {
-      toast("Някоя от картите е с повече от 2000 символа");
+      toast("Някоя от картите е с поле с повече от 10000 символа");
       return;
     }
     //check if the tags are not empty
@@ -185,8 +200,8 @@ export const CreateSet = () => {
                   onClick={() => handleDeleteFlashcard(flashcard.rnd)}
                 />
                 <div>
-                  {flashcard.term.replace(/<[^>]+>/g, "").length ||
-                  flashcard.definition.replace(/<[^>]+>/g, "").length ? (
+                  {!isEmpty(flashcard.term) ||
+                  !isEmpty(flashcard.definition) ? (
                     <HiOutlineDuplicate
                       onClick={() => handleDuplicateFlashcard(flashcard.rnd)}
                     />
@@ -210,27 +225,23 @@ export const CreateSet = () => {
                   ) : (
                     ""
                   )}
-                  {flashcard.term.replace(/<[^>]+>/g, "").length ||
-                  flashcard.definition.replace(/<[^>]+>/g, "").length ? (
+                  {!isEmpty(flashcard.term) ||
+                  !isEmpty(flashcard.definition) ? (
                     <MdFlip
                       onClick={() => handleFlipFlashcard(flashcard.rnd)}
                     />
                   ) : (
                     ""
                   )}
-                  {flashcard.term.replace(/<[^>]+>/g, "").length ? (
+                  {!isEmpty(flashcard.term) ? (
                     <>
-                      <IoSearch
-                        onClick={() =>
-                          search(flashcard.term.replace(/<[^>]+>/g, ""))
-                        }
-                      />
+                      <IoSearch onClick={() => search(flashcard.term)} />
                     </>
                   ) : (
                     ""
                   )}
                 </div>
-              </div>
+              </div>{" "}
               <div key={index} className="flashcard">
                 <Editor
                   placeholder={"Термин"}
@@ -246,7 +257,7 @@ export const CreateSet = () => {
                     handleChangeFlashcard(index, "definition", value)
                   }
                 />
-              </div>{" "}
+              </div>
             </div>
           ))}
           <center>
