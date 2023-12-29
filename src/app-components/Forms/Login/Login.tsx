@@ -22,6 +22,8 @@ const validateForm = (data: LoginData): LoginErrorRecord => {
 
 export const Login = () => {
 
+  const [backendError, setBackendError] = useState('');
+
   const login = async () => {
     try{
         console.log(userData);
@@ -31,9 +33,11 @@ export const Login = () => {
     if (response.status === 200) {
       window.location.href = "/";
     } 
-      console.log(response);
       }
       catch(error){
+        if (!navigator.onLine) {
+          setBackendError('You are currently offline.');
+        } else
         console.log(error)
       }
   }
@@ -106,6 +110,9 @@ export const Login = () => {
               {errors.password.hasError ? errors.password.message : ""}
             </p>
           </section>
+          <div className="errorText">
+                {backendError}
+              </div>
           <div id="buttonWrapper">
             <input type="submit" value={"Submit"} onClick={login}/>
           </div>

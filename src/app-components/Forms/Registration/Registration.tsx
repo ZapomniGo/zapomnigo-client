@@ -57,7 +57,9 @@ export const Registration = () => {
       console.log("here")
       console.error("Error during registration:", error);
       console.log(error.response.data.message)
-      if ((error as any).response) {
+      if (!navigator.onLine) {
+        setBackendError('You are currently offline.');
+      } else if ((error as any).response) {
         if(error.response.status === 409){
           if (error.response.data.error.includes('username')) {
             setBackendError('Username already exists');
