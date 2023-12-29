@@ -55,21 +55,16 @@ export const Registration = () => {
     } catch (error) {
       console.error("Error during registration:", error);
       if ((error as any).response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        // console.log(error.response.data.error)
         setBackendError(error.response.data.error);
       } else if (error.request) {
-        // The request was made but no response was received
         setBackendError('No response received from server');
       } else {
-        // Something happened in setting up the request that triggered an Error
         setBackendError('Error in setting up the request');
       }
     }
   };
 
-  const [screenIndex, setScreenIndex] = useState(3);
+  const [screenIndex, setScreenIndex] = useState(1);
   const [errors, setErrors] = useState<RegisterErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<UserData>(initialUserState);
 
@@ -506,7 +501,7 @@ export const Registration = () => {
 
               <div className="checkboxes">
               <div className="privacy-policy">
-                <label>Privacy Policy</label>
+                <a href="#">Privacy Policy</a>
                 <input type="checkbox" checked={userData.privacy_policy} onChange={() => handleCheckboxChange('privacy_policy')} />
               </div>
               <div className="terms-and-conditions">

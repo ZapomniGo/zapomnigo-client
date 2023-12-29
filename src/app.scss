@@ -311,6 +311,7 @@ input[type="submit"]:hover {
     .checkboxes{
       display: flex;
       flex-wrap: wrap;
+justify-content: center;
 
       input{
         width: 7%;
@@ -322,7 +323,10 @@ input[type="submit"]:hover {
       .marketing-consent{
         display: flex;
         align-items: center;
-        width: 100%;
+        width: 90%;
+        label{
+          width: 100%;
+        }
       }
     }
 
