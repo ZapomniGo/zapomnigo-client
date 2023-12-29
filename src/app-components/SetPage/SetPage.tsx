@@ -11,11 +11,25 @@ import { useParams } from "react-router-dom";
 import instance from "../../app-utils/axios";
 
 export const SetPage = () => {
-  const [setFlashcards, setSetFlashcards] = useState<FlashcardSet>();
+  const [flashcards, setFlashcards] = useState<FlashcardSet>();
+  const [sortingOrder, setSortingOrder] = useState<string>("");
+
+  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortingOrder(event.target.value);
+  };
+
+  const sortedFlashcards = flashcards?.flashcards.slice().sort((a, b) => {
+    if (sortingOrder === "a-z") {
+      return a.term.localeCompare(b.term);
+    } else if (sortingOrder === "z-a") {
+      return b.term.localeCompare(a.term);
+    }
+    return 0;
+  });
   const { id } = useParams<{ id: string }>();
   useEffect(() => {
     if (id.length === 0 || id.length !== 26 || id.includes(" ")) {
-      setSetFlashcards({
+      setFlashcards({
         set_name: "Хм, този сет не съществува",
         set_description: "Провери дали си въвел правилния линк",
         set_category: "",
@@ -28,7 +42,7 @@ export const SetPage = () => {
     instance
       .get(`/sets/${id}`)
       .then((response) => {
-        setSetFlashcards(response.data.set);
+        setFlashcards(response.data.set);
         console.log(response.data);
       })
       .catch((error) => {
@@ -39,19 +53,19 @@ export const SetPage = () => {
   return (
     <Dashboard>
       <>
-        {setFlashcards ? (
+        {flashcards ? (
           <div id="set-page">
             <div className="set-info">
               <div className="set-title">
                 <h1>
-                {setFlashcards.set_name}
+                {flashcards.set_name}
                 </h1>
                 <div className="institution">
-                  <a href="#">{setFlashcards.organization}</a>
+                  <a href="#">{flashcards.organization}</a>
                 </div>
               </div>
-              <p className="description">{setFlashcards.set_description}</p>
-              <p className="category">{setFlashcards.set_category}</p>
+              <p className="description">{flashcards.set_description}</p>
+              <p className="category">{flashcards.set_category}</p>
               <div className="actions">
                 <a href="#">
                   <FaRegLightbulb />
@@ -73,17 +87,24 @@ export const SetPage = () => {
                   <PiExport /> Експортирай
                 </a>
               </div>
-              <p className="creator">Създадено от {setFlashcards.username}</p>
+              <p className="creator">Създадено от {flashcards.username}</p>
             </div>
             <div className="cards-info">
-              <h2>
-                Флашкарти (
-                {setFlashcards
-                  ? setFlashcards.flashcards.length
-                  : "Зареждане..."}
-                )
-              </h2>
-              {setFlashcards.flashcards.map((flashcard) => (
+              <div className="cards-info-header">
+                <h2>
+                  Флашкарти (
+                  {flashcards
+                    ? flashcards.flashcards.length
+                    : "Зареждане..."}
+                  )
+                </h2>
+                <select onChange={handleFilterChange}>
+                  <option value="">Default</option>
+                  <option value="a-z">Alphabetical(A-Z)</option>
+                  <option value="z-a">Alphabetical(Z-A)</option>
+                </select>
+              </div>
+              {sortedFlashcards.map((flashcard) => (
                 <Flashcard key={flashcard.flashcard_id} flashcard={flashcard} />
               ))}
             </div>

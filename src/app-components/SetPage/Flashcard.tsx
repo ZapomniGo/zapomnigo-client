@@ -13,11 +13,17 @@ export const Flashcard: React.FC<FlashcardProps> = ({ flashcard }) => {
   return (
     <div id="flashcard" className={"no-image"}>
         <div className="term">
-            {parse(flashcard.term)}
+            <h3>{parse(flashcard.term)}</h3>
         </div>
         <div className='description'>
-            {parse(flashcard.definition)}
+            <p>{parse(flashcard.definition)}</p>
         </div>
+      {/* {flashcard.image && 
+        <div className='image'>
+            <img src={flashcard.image} alt={flashcard.term} />
+        </div>
+      } */}
+
     </div>
   );
 };

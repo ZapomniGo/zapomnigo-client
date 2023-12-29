@@ -15,6 +15,9 @@
       display: flex;
       width: 27%;
       justify-content: center;
+      h3{
+        text-align: center;
+      }
     }
   
     .description::before {
@@ -52,7 +55,7 @@
 
 #flashcard.no-image{
     .description{
-      width: 72% !important;
+      width: 72%;
     } 
 }
 
@@ -67,15 +70,18 @@
       width: 90%;
       padding: 15px 0;
       border-bottom: 2px solid #000;
-      h3{
-        text-align: center;
-      }
+
     }
     .description{
       padding: 15px 0;
       align-self: center;
       width: 90% !important;
+      justify-content: center !important;
+
       margin: 0;
+      p{
+        text-align: center;
+      }
     }
     .description::before {
       align-self: center;
@@ -86,6 +92,21 @@
       bottom: 0;
       left: 22%; 
       transform: translate(-50%, -50%);
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #flashcard{
+    .term{
+      h3{
+        font-size: 0.9rem;
+      }
+    }
+    .description{
+      p{
+        font-size: 0.9rem;
+      }
     }
   }
 }
