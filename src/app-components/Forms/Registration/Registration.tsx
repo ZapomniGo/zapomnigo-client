@@ -18,7 +18,7 @@ export const Registration = () => {
 
   const [termsError, setTermsError] = useState<DataError>({ hasError: false, message: "" });
   const [policyError, setPolicyError] = useState<DataError>({ hasError: false, message: "" });
-
+  const [backendError, setBackendError] = useState('');
 
   const register = async () => {
     try {
@@ -54,10 +54,22 @@ export const Registration = () => {
   
     } catch (error) {
       console.error("Error during registration:", error);
+      if ((error as any).response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        // console.log(error.response.data.error)
+        setBackendError(error.response.data.error);
+      } else if (error.request) {
+        // The request was made but no response was received
+        setBackendError('No response received from server');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        setBackendError('Error in setting up the request');
+      }
     }
   };
 
-  const [screenIndex, setScreenIndex] = useState(1);
+  const [screenIndex, setScreenIndex] = useState(3);
   const [errors, setErrors] = useState<RegisterErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<UserData>(initialUserState);
 
@@ -67,13 +79,17 @@ export const Registration = () => {
       const updatedValue = !prevUserData[checkboxName];
       return { ...prevUserData, [checkboxName]: updatedValue };
     });
-
-    if (checkboxName === 'terms_and_conditions' && termsError.hasError) {
-      setTermsError({ hasError: false, message: "" });
+  
+    setErrors((prevErrors) => {
+      return { ...prevErrors, [checkboxName]: { hasError: !userData[checkboxName], message: "" } };
+    });
+  
+    if (checkboxName === 'terms_and_conditions' && !userData.terms_and_conditions) {
+      setTermsError({ hasError: true, message: "" });
     }
-
-    if (checkboxName === 'privacy_policy' && termsError.hasError) {
-      setPolicyError({ hasError: false, message: "" });
+  
+    if (checkboxName === 'privacy_policy' && !userData.privacy_policy) {
+      setPolicyError({ hasError: true, message: "" });
     }
   };
 
@@ -334,6 +350,9 @@ export const Registration = () => {
     }
   };
   const prevScreen = () => {
+    const prevUserData = { ...userData };
+  
+    setUserData(prevUserData);
     setScreenIndex((prev) => prev - 1);
   };
 
@@ -485,20 +504,29 @@ export const Registration = () => {
                   : ""}
               </p>
 
-
-              <label>Privacy Policy</label>
-              <input type="checkbox" name="privacy_policy" onChange={() => handleCheckboxChange('privacy_policy')} />
+              <div className="checkboxes">
+              <div className="privacy-policy">
+                <label>Privacy Policy</label>
+                <input type="checkbox" checked={userData.privacy_policy} onChange={() => handleCheckboxChange('privacy_policy')} />
+              </div>
+              <div className="terms-and-conditions">
+                <label> Terms and conditions</label>
+                <input type="checkbox" checked={userData.terms_and_conditions} onChange={() => handleCheckboxChange('terms_and_conditions')} />
+              </div>
+              <div className="marketing-consent">
+                <label>Marketing Consent</label>
+                <input type="checkbox" checked={userData.marketing_consent} onChange={() => handleCheckboxChange('marketing_consent')} />
+              </div>
+              </div>
               <div className="errorText">
                 {policyError.message}
               </div>
-              <label> Terms and conditions</label>
-              <input type="checkbox" name="terms_and_conditions" onChange={() => handleCheckboxChange('terms_and_conditions')} />
               <div className="errorText">
                 {termsError.message}
-              </div>  
-              <label>Marketing Consent</label>
-              <input type="checkbox" name="marketing_consent" onChange={() => handleCheckboxChange('marketing_consent')} />
-
+              </div> 
+              <div className="errorText">
+                {backendError}
+              </div>
             </section>
           ) : (
             ""
