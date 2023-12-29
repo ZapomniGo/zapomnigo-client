@@ -21,6 +21,7 @@ export const Registration = () => {
   const [backendError, setBackendError] = useState('');
 
   const register = async () => {
+    setBackendError('');
     try {
       let hasError = false;
   
@@ -53,9 +54,21 @@ export const Registration = () => {
       console.log(response);
   
     } catch (error) {
+      console.log("here")
       console.error("Error during registration:", error);
+      console.log(error.response.data.message)
       if ((error as any).response) {
-        setBackendError(error.response.data.error);
+        if(error.response.status === 409){
+          if (error.response.data.error.includes('username')) {
+            setBackendError('Username already exists');
+          } else if(error.response.data.error.includes('email')){
+            setBackendError('Email already exists');
+          } else {
+            setBackendError(error.response.data.error);
+          }
+        } else if(error.response.status === 404){
+          setBackendError(error.response.data.message);
+        }
       } else if (error.request) {
         setBackendError('No response received from server');
       } else {

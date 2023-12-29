@@ -4,19 +4,11 @@ import { Dashboard } from "../Dashboard/Dashboard";
 import SetCard from "../SetCard/SetCard";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
-interface SetCardData {
-  set_id: string;
-  set_name: string;
-  set_description: string;
-  organization_name: string;
-  username: string;
-  category_name: string;
-}
 
 export const MainPage: React.FC = () => {
-  const [setCards, setSetCards] = useState<SetCardData[]>([]);
+  const [setCards, setSetCards] = useState([]);
   const [recentCards, setRecentCards] = useState(10);
-  const [exploreCards, setExploreCards] = useState(10);
+  // const [exploreCards, setExploreCards] = useState(10);
   const [selectSet, setSelectSet] = useState<string | null>(null);
 
 
@@ -32,9 +24,9 @@ export const MainPage: React.FC = () => {
     setRecentCards((prevRecentCards) => prevRecentCards + 10);
   };
 
-  const handleLoadExplore = () => {
-    setExploreCards((prevExploreCards) => prevExploreCards + 10);
-  };
+  // const handleLoadExplore = () => {
+  //   setExploreCards((prevExploreCards) => prevExploreCards + 10);
+  // };
 
   const handleMouseEnter = (id: string) => {
     setSelectSet(id);
