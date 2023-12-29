@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Editor from "../RichEditor/Editor"
 
 export const CreateSet = () => {
@@ -6,7 +6,7 @@ export const CreateSet = () => {
   const [description, setDescription] = useState('');
   const [flashcards, setFlashcards] = useState([{ term: '', description: '' }]);
 
-  const handleEditorChange = (index, field, value) => {
+  const handleEditorChange = (index: number, field: string, value: string) => {
     setFlashcards(flashcards.map((flashcard, i) => i === index ? { ...flashcard, [field]: value } : flashcard));
   };
 
@@ -29,9 +29,9 @@ export const CreateSet = () => {
       <input type="text" value={description} onChange={e => setDescription(e.target.value)} placeholder="Description" />
       {flashcards.map((flashcard, index) => (
         <div key={index}>
-          <Editor value={flashcard.term} onChange={value => handleEditorChange(index, 'term', value)} />
-          <Editor value={flashcard.description} onChange={value => handleEditorChange(index, 'description', value)} />
-        </div>
+            <Editor value={flashcard.term} onChange={(value: string) => handleEditorChange(index, 'term', value)} />
+            <Editor value={flashcard.description} onChange={(value: string) => handleEditorChange(index, 'description', value)} />
+          </div>
       ))}
       <button onClick={addFlashcard}>Add Flashcard</button>
       <button onClick={handleSubmit}>Submit</button>

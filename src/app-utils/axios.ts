@@ -17,7 +17,7 @@ instance.interceptors.response.use((response) => {
     let config = error.config;
 
     if (error.response && error.response.status === 499) {
-      return axios.post(HEROKU_URL+"/refresh")
+      return axios.post(`${HEROKU_URL}/refresh`)
         .then(() => {
           return instance.request(config)
         }).catch((error) => {
