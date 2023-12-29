@@ -1,112 +1,112 @@
 #flashcard {
-    background-color: $sidebar-color;
-    display: flex;
-    padding: 25px 10px;
-    // margin: 7.5px 0;
-    margin-top:1.5vmax;
-    align-items: center;
-    border-radius: 5px;
-    position: relative;
-    justify-content: space-between;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  background-color: $sidebar-color;
+  display: flex;
+  padding: 25px 10px;
+  // margin: 7.5px 0;
+  margin-top:1.5vmax;
+  align-items: center;
+  border-radius: 5px;
+  position: relative;
+  justify-content: space-between;
+box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
-  
-    .term {
-      display: flex;
-      width: 27%;
-      justify-content: center;
-      h3{
-        text-align: center;
-      }
+
+  .term {
+    display: flex;
+    width: 27%;
+    justify-content: center;
+    h3{
+      text-align: center;
     }
-  
-    .description::before {
-        content: '';
-        height: 80%;
-        width: 1px;
-        background-color: rgb(227, 227, 227);
-        margin: 0 28%;
-        position: absolute;
-        top: 50%;
-        bottom: 0;
-        left: 0; 
-        transform: translate(-50%, -50%);
-      }
-  
-      .description {
-        display: flex;
-        justify-content: center;
-        width: 41.5%;
-        margin-left: 35px;
-        margin-right: 10px;
-      }
-    
-      .image {
-        width: 30%;
-        display: flex;
-        margin-right: 15px;
-        img{
-            width: 100%;
-            height: 100%;
-            border-radius: 3px;
-        }
-      }
   }
 
+  .description::before {
+      content: '';
+      height: 80%;
+      width: 1px;
+      background-color: gray;
+      margin: 0 28%;
+      position: absolute;
+      top: 50%;
+      bottom: 0;
+      left: 0; 
+      transform: translate(-50%, -50%);
+    }
+
+    .description {
+      display: flex;
+      justify-content: flex-start;
+      width: 41.5%;
+      margin-left: 35px;
+      margin-right: 10px;
+    }
+  
+    .image {
+      width: 30%;
+      display: flex;
+      margin-right: 15px;
+      img{
+          width: 100%;
+          height: 100%;
+          border-radius: 3px;
+      }
+    }
+}
+
 #flashcard.no-image{
-    .description{
-      width: 72%;
-    } 
+  .description{
+    width: 72%;
+  } 
 }
 
 @media only screen and (max-width: 800px){
 
-  #flashcard{
-    flex-direction: column;
-    padding: 10px 5px;
-    align-items: flex-start;
-    .term{
-      align-self: center;
-      width: 90%;
-      padding: 15px 0;
-      border-bottom: 2px solid #000;
+#flashcard{
+  flex-direction: column;
+  padding: 10px 5px;
+  align-items: flex-start;
+  .term{
+    align-self: center;
+    width: 90%;
+    padding: 15px 0;
+    border-bottom: 2px solid #000;
 
-    }
-    .description{
-      padding: 15px 0;
-      align-self: center;
-      width: 90% !important;
-      justify-content: center !important;
+  }
+  .description{
+    padding: 15px 0;
+    align-self: center;
+    width: 90% !important;
+    justify-content: center !important;
 
-      margin: 0;
-      p{
-        text-align: center;
-      }
-    }
-    .description::before {
-      align-self: center;
-      content: '';
-      height: 0%;
-      width: 0%;
-      top: 50px;
-      bottom: 0;
-      left: 22%; 
-      transform: translate(-50%, -50%);
+    margin: 0;
+    p{
+      text-align: center;
     }
   }
+  .description::before {
+    align-self: center;
+    content: '';
+    height: 0%;
+    width: 0%;
+    top: 50px;
+    bottom: 0;
+    left: 22%; 
+    transform: translate(-50%, -50%);
+  }
+}
 }
 
 @media screen and (max-width: 400px) {
-  #flashcard{
-    .term{
-      h3{
-        font-size: 0.9rem;
-      }
-    }
-    .description{
-      p{
-        font-size: 0.9rem;
-      }
+#flashcard{
+  .term{
+    h3{
+      font-size: 0.9rem;
     }
   }
+  .description{
+    p{
+      font-size: 0.9rem;
+    }
+  }
+}
 }
