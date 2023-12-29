@@ -38,10 +38,10 @@
                 .option-svg{
                     display: flex;
                     justify-content: center;
-                    height: 70%;
+                    height: 55%;
                     align-items: center;
                     svg{
-                        color: #000;
+                        color: $secondary-color;
                         height: auto;
                         width: 20vw;
                     }  
@@ -50,11 +50,18 @@
                     display: flex;
                     justify-content: center;
                     height: 20%;
-                    color: black;
+                    color: $secondary-color;
                     text-decoration: none;
                     h2{
                         font-size: 3rem;
                     }
+                }
+                .option-description{
+                    height: 25%;
+                    display: flex;
+                    align-self: center;
+                    color: $secondary-color;
+                    width: 80%;
                 }
             }
             // .create-folder{
@@ -111,6 +118,21 @@
                 width: 70% !important;
             }
         }
+        .option-description{
+            height: 50% !important;
+            padding-bottom: 20px;
+            p{
+                font-size: 0.8rem;
+            }
+
+        }
+        .option-svg{
+            height: 40% !important;
+
+        }
+        .option-title{
+            align-items: center;
+        }
     }
 }
 
@@ -119,5 +141,9 @@
         h1{
             font-size: 1.2rem !important;
         }
+        .option-description{
+            height: 64% !important;
+        }
     }
+
 }
