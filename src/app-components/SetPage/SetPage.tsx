@@ -43,7 +43,9 @@ export const SetPage = () => {
           <div id="set-page">
             <div className="set-info">
               <div className="set-title">
-                <h1>{setFlashcards.set_name}</h1>
+                <h1>
+                {setFlashcards.set_name}
+                </h1>
                 <div className="institution">
                   <a href="#">{setFlashcards.organization}</a>
                 </div>
@@ -51,7 +53,7 @@ export const SetPage = () => {
               <p className="description">{setFlashcards.set_description}</p>
               <p className="category">{setFlashcards.set_category}</p>
               <div className="actions">
-              <a href="#">
+                <a href="#">
                   <FaRegLightbulb />
                   Учи
                 </a>
