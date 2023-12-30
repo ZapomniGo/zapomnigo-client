@@ -10,7 +10,7 @@ import { useFlashcards } from "./utils";
 import { FLASHCARD_DIRECTIONS } from "./types";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
+import instance from "../../app-utils/axios";
 import FlashcardImportModal from "../ImportModal/FlashcardImportModal";
 export const CreateSet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,13 +61,6 @@ export const CreateSet = () => {
     return false;
   };
   const handleSubmit = () => {
-    const data = {
-      title,
-      description,
-      flashcards,
-      category,
-      institution,
-    };
     //check if the title is not empty
     if (title.length === 0) {
       toast("Моля въведете заглавие");
@@ -116,7 +109,7 @@ export const CreateSet = () => {
       return;
     }
     //check if the tags are not empty
-    axios
+    instance
       .post("https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1/sets", {
         set_name: title,
         set_description: description,
@@ -126,6 +119,7 @@ export const CreateSet = () => {
       })
       .then((response) => {
         toast("Успешно създадохте сет");
+        console.log(response);
         window.location.href = "/sets";
       })
       .catch((error) => {
@@ -134,8 +128,8 @@ export const CreateSet = () => {
       });
   };
 
-  const search = (query) => {
-    let url = "http://www.google.com/search?q=" + query;
+  const search = (query: string) => {
+    const url = "http://www.google.com/search?q=" + query;
     window.open(url, "_blank");
   };
 
