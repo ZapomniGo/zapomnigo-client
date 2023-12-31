@@ -17,7 +17,7 @@ import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import { url } from "../../Global";
 import { BiLogIn } from "react-icons/bi";
-
+import instance from "../../app-utils/axios";
 
 
 interface NavigationProps {
@@ -53,7 +53,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post(`${url}/v1/logout`, {}, { withCredentials: true });
+      const response = await instance.post(`/logout`, {}, { withCredentials: true });
 
       console.log(response)
 

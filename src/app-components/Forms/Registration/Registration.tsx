@@ -12,6 +12,7 @@ import { emailPattern, initialErrors, initialUserState } from "./utils";
 import { RegisterErrorRecord } from "./types";
 import { DataError, UserData } from "../../../app-common/types";
 import axios from "axios";
+import instance from "../../../app-utils/axios";
 import { url } from "../../../Global";
   
 export const Registration = () => {
@@ -50,7 +51,7 @@ export const Registration = () => {
       }
   
       console.log("User Data:", userData);
-      const response = await axios.post(`${url}/v1/register`, userData);
+      const response = await instance.post(`/register`, userData);
       console.log(response);
   
     } catch (error) {
@@ -145,6 +146,14 @@ export const Registration = () => {
           errorInfo = {
             hasError: true,
             message: "The age field should be 5-99",
+          };
+        }
+        break;
+      case "gender":
+        if (typeof value === "string" && value.length === 0) {
+          errorInfo = {
+            hasError: true,
+            message: "Please select gender",
           };
         }
         break;
@@ -261,6 +270,15 @@ export const Registration = () => {
       } else {
         newErrors.age = { hasError: false, message: "" };
       }
+    }
+      if(userData.gender.length === 0){
+        newErrors.gender = {
+          hasError: true,
+          message: "Please enter gender",
+      }
+      errorsExist = true;
+    } else{
+      newErrors.gender = {hasError: false, message: ""};
     }
 
     if (screenIndex === 2) {
@@ -419,6 +437,7 @@ export const Registration = () => {
               <select
                 value={selectedValue}
                 onChange={handleChange}
+                required
                 className={selectedValue === "" ? "disabled" : ""}
                 name="gender"
               >

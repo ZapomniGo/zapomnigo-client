@@ -4,7 +4,8 @@ import { LoginData, LoginErrorRecord } from "./types";
 import { initialErrors } from "./utils";
 import axios from "axios"
 type ErrorFieldName = keyof LoginErrorRecord;
-import { url } from "../../../Global";
+import { url } from "../../../Global"
+import instance from "../../../app-utils/axios";
 
 const validateForm = (data: LoginData): LoginErrorRecord => {
   return {
@@ -27,7 +28,7 @@ export const Login = () => {
   const login = async () => {
     try{
         console.log(userData);
-        const response = await axios.post(`${url}/v1/login`, userData, {
+        const response = await instance.post(`/login`, userData, {
       withCredentials: true,
     })
     if (response.status === 200) {
