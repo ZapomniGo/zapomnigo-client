@@ -144,7 +144,7 @@ export const formats = [
 // Quill Toolbar component
 export const QuillToolbar = ({ id }) => (
   <div id={id}>
-    {Number(window.innerWidth) < Number(innerHeight) ? (
+    {/* {Number(window.innerWidth) < Number(innerHeight) ? ( */}
       <div className="ql-formats">
         <button className="ql-bold" />
         <button className="ql-italic" />
@@ -154,10 +154,10 @@ export const QuillToolbar = ({ id }) => (
           <button className="ql-image" />
           <button className="ql-video" />
       </div>
-    ) : (
-      <>
+    {/* ) : ( */}
+      {/* <>
         <span className="ql-formats">
-          {/* <select className="ql-font" defaultValue="arial">
+          { <select className="ql-font" defaultValue="arial">
         <option value="arial">Arial</option>
         <option value="comic-sans">Comic Sans</option>
         <option value="courier-new">Courier New</option>
@@ -170,17 +170,17 @@ export const QuillToolbar = ({ id }) => (
         <option value="ubuntu">Ubuntu</option>
         <option value="verdana">Verdana</option>
         <option value="sans-serif">Sans Serif</option>
-      </select> */}
+      </select> }
           <select className="ql-size" defaultValue="medium">
             <option value="small">Малък</option>
             <option value="medium">Среден</option>
             <option value="large">Голям</option>
           </select>
-          {/* <select className="ql-header" defaultValue="3">
+          {<select className="ql-header" defaultValue="3">
         <option value="1">Заглавие</option>
         <option value="2">Подзаглавие</option>
         <option value="3">Нормален</option>
-      </select> */}
+      </select> }
         </span>
         <span className="ql-formats">
           <button className="ql-bold" />
@@ -224,7 +224,7 @@ export const QuillToolbar = ({ id }) => (
           </button>
         </span>
       </>
-    )}
+    )} */}
   </div>
 );
 

@@ -8,8 +8,6 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
-
-
   const navigationSliceManager = useAppSelector((state) => state.navigationReducer);
 
   useEffect(() => {

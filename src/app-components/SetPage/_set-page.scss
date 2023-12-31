@@ -1,0 +1,207 @@
+#set-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  margin-top: 3vh;
+  .set-info {
+    padding: 1vmax;
+    display: flex;
+    align-self: center;
+    width: 80%;
+    flex-direction: column;
+    background-color: $sidebar-color;
+    justify-content: center;
+    margin-bottom: 1vh;
+    border-radius: 10px;
+    margin-bottom: 5vh;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    border: 3px solid orange;
+
+    .set-title {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+      align-items: flex-start;
+      margin-bottom: 5px;
+      h1 {
+        margin: 10px 15px 2px 15px;
+        font-size: 2.2rem;
+        word-break: break-all;
+      }
+
+      .institution {
+        display: flex;
+        align-items: center;
+        background: $primary-color-light;
+        justify-self: center;
+        border-radius: 5px;
+        padding: 0.7vmax;
+        margin-right: 5px;
+        align-self: center;
+        a {
+          font-size: 1.3rem;
+          text-decoration: none;
+          color: gray;
+        }
+      }
+    }
+
+    p {
+      margin: 2.5px 15px;
+      word-break: break-all;
+    }
+    .description {
+      font-size: 1.1rem;
+      color: gray;
+    }
+    .category {
+      font-size: 1.2rem;
+      color: gray;
+    }
+
+    .creator {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      color: gray;
+    }
+
+    .actions {
+      margin: 2px 15px;
+      display: flex;
+      a {
+        display: flex;
+        align-items: center;
+        margin-right: 6px;
+        text-decoration: none;
+        color: white;
+        border: 3px solid orange;
+        background-color: orange;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        svg {
+          margin-right: 5px;
+          font-size: 20px;
+        }
+      }
+      .rotate {
+        svg {
+          transform: rotate(90deg);
+        }
+      }
+    }
+  }
+  .cards-info {
+    width: 60%;
+    .cards-info-header {
+      align-items: center;
+      display: flex;
+      h2 {
+        width: 75%;
+      }
+      select {
+        border-radius: 5px;
+        height: auto !important;
+        width:auto;
+        font-size: 1rem;
+        padding: 0.5vmax;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  #set-page {
+    .set-info {
+      .set-title {
+        h1 {
+          font-size: 1.6rem;
+        }
+        a {
+          font-size: 1.4rem !important;
+        }
+      }
+      .description {
+        font-size: 1rem;
+      }
+      .category {
+        font-size: 1.1rem;
+      }
+
+      .actions {
+        flex-wrap: wrap;
+        a {
+          width: 47%;
+          margin: 3px;
+          font-size: 0.8rem;
+        }
+        // svg{
+        //     width: 50%;
+        //     height: auto;
+        // }
+      }
+    }
+  }
+  .cards-info {
+    width: 80% !important;
+    h2 {
+      width: 65% !important;
+      font-size: 1.1rem;
+    }
+    select {
+      width: 35% !important;
+      font-size: 1.1rem !important;
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #set-page {
+    .set-info {
+      width: 90% !important;
+      .set-title {
+        h1 {
+          font-size: 1.1rem;
+        }
+        a {
+          font-size: 0.9rem !important;
+        }
+      }
+      .description {
+        font-size: 0.9rem;
+      }
+      .category {
+        font-size: 1rem;
+      }
+
+      .actions {
+        flex-wrap: wrap;
+        a {
+          width: 100%;
+          margin: 3px;
+          font-size: 0.8rem;
+        }
+        // svg{
+        //     width: 50%;
+        //     height: auto;
+        // }
+      }
+    }
+    .cards-info {
+      width: 90% !important;
+      h2 {
+        font-size: 0.8rem;
+        width: 65% !important;
+      }
+      select {
+        margin: 0;
+        height: 100%;
+        width: 35% !important;
+        padding: 5px 0;
+        font-size: 0.9rem !important;
+      }
+    }
+  }
+}

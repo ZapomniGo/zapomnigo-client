@@ -1,5 +1,3 @@
-// ContainerComponent.tsx
-
 import React from 'react';
 
 interface ContainerProps {

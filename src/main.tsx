@@ -11,6 +11,7 @@ import {
   settingsRoute,
   loginRoute,
   createSetRoute,
+  setPage,
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Provider } from "react-redux";
@@ -25,6 +26,7 @@ import "./index.scss";
 import { Registration } from "./app-components/Forms/Registration/Registration";
 import { Login } from "./app-components/Forms/Login/Login";
 import { CreateSet } from "./app-components/CreateSet/CreateSet";
+import { SetPage } from "./app-components/SetPage/SetPage";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -64,9 +66,12 @@ const router = createBrowserRouter([
         path: createSetRoute,
         element: <CreateSet />,
       },
+      {
+        path: setPage,
+        element: <SetPage />
+      }
     ],
   },
-
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
