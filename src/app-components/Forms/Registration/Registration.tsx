@@ -11,8 +11,7 @@ import { Background } from "../FormsBackground/Background";
 import { emailPattern, initialErrors, initialUserState } from "./utils";
 import { RegisterErrorRecord } from "./types";
 import { DataError, UserData } from "../../../app-common/types";
-import axios from "axios";
-import { url } from "../../../Global";
+import instance from "../../../app-utils/axios";
   
 export const Registration = () => {
 
@@ -50,13 +49,11 @@ export const Registration = () => {
       }
   
       console.log("User Data:", userData);
-      const response = await axios.post(`${url}/v1/register`, userData);
+      const response = await instance.post(`/register`, userData);
       console.log(response);
   
     } catch (error) {
-      console.log("here")
       console.error("Error during registration:", error);
-      console.log(error.response.data.message)
       if (!navigator.onLine) {
         setBackendError('You are currently offline.');
       } else if ((error as any).response) {
