@@ -56,7 +56,7 @@ export const Registration = () => {
     } catch (error) {
       console.log("here")
       console.error("Error during registration:", error);
-      console.log(error.response.data.message)
+    //  console.log(error.response.data.message)
       if (!navigator.onLine) {
         setBackendError('You are currently offline.');
       } else if ((error as any).response) {
