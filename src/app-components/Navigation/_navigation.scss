@@ -4,7 +4,9 @@ body{
     height: 100vh;
     background: $body-color;
 }
-
+.menu{
+    height: 100%;
+}
 .no-scroll {
     overflow: hidden;
   }
@@ -35,6 +37,7 @@ body{
             border: none;
             border-radius: 6px;
             background: $primary-color-light;
+            padding: 0;
         }
 
         .image{
@@ -75,6 +78,9 @@ body{
                 border-radius: 6px;
                 background: $primary-color-light;
             }
+        }
+        .logout{
+            cursor: pointer;
         }
     }
 
@@ -186,11 +192,16 @@ body{
         }
 
         .nav-mobile {
-            margin-top: 5px;
+            padding: 5px 0;
             min-width: 100%;
             display: flex !important;
             align-items: center;
             height: 5vh;
+            position: fixed;
+            z-index: 100;
+            width: 100%;
+            height: 8vh;
+            background-color: rgba(142, 142, 142, 0.5); // semi-transparent gray
             .menu-mobile{
                 display: flex;
                 width: 20%;
@@ -224,6 +235,8 @@ body{
                     border: none;
                     border-radius: 6px;
                     background: $primary-color-light;
+                    margin:0 !important;
+
                 }
             } 
         }
