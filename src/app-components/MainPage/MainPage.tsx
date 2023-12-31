@@ -3,186 +3,30 @@ import React, { useEffect, useState } from "react";
 import { Dashboard } from "../Dashboard/Dashboard";
 import SetCard from "../SetCard/SetCard";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
-
-interface SetCardData {
-  id: string;
-  title: string;
-  description: string;
-  institution: string;
-  image: string;
-  creator_name: string;
-  category: string;
-}
-const mockSetCards: SetCardData[] = [
-  {
-    id: "card9",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "explore",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description:
-      "Description of a new set ihadsbgiabsiuo nbasign iuasbfiua sfiuba sioaiug hijb ijh bouh jbaousbgoas dfas fas fas fas fas f ff asfsas ",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-  {
-    id: "card1",
-    title: "New Set 1",
-    description: "Description of a new set",
-    institution: "AUBG",
-    image: "src/app-components/Navigation/logo.png",
-    creator_name: "Aleks Ivanov",
-    category: "recent",
-  },
-];
-
-const fetchSetCards = (): Promise<SetCardData[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(mockSetCards);
-    }, 10);
-  });
-};
+import instance from "../../app-utils/axios";
 
 export const MainPage: React.FC = () => {
-  const [setCards, setSetCards] = useState<SetCardData[]>([]);
+  const [setCards, setSetCards] = useState([]);
   const [recentCards, setRecentCards] = useState(10);
-  const [exploreCards, setExploreCards] = useState(10);
+  // const [exploreCards, setExploreCards] = useState(10);
   const [selectSet, setSelectSet] = useState<string | null>(null);
 
+
   useEffect(() => {
-    fetchSetCards()
-      .then((data) => {
-        setSetCards(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching set cards:", error);
-      });
+    instance.get("/sets").then((response) => {
+      console.log(response.data.sets);
+      setSetCards(response.data.sets);
+    });
   }, []);
+
 
   const handleLoadRecent = () => {
     setRecentCards((prevRecentCards) => prevRecentCards + 10);
   };
 
-  const handleLoadExplore = () => {
-    setExploreCards((prevExploreCards) => prevExploreCards + 10);
-  };
+  // const handleLoadExplore = () => {
+  //   setExploreCards((prevExploreCards) => prevExploreCards + 10);
+  // };
 
   const handleMouseEnter = (id: string) => {
     setSelectSet(id);
@@ -195,33 +39,31 @@ export const MainPage: React.FC = () => {
   return (
     <Dashboard>
       <div className="set-wrapper">
-        <h2 className="category-title">Recent</h2>
+        <h2 className="category-title">Explore</h2>
         <div className="sets">
-          {setCards
-            .filter((card) => card.category === "recent")
-            .slice(0, recentCards)
-            .map((card) => (
+          {setCards.map((card) => (
+
               <SetCard
-                key={card.id}
-                id={card.id}
-                title={card.title}
-                description={card.description}
-                institution={card.institution}
-                image={card.image}
-                creator_name={card.creator_name}
+                key={card.set_id}
+                id={card.set_id}
+                title={card.set_name}
+                description={card.set_description}
+                institution={card.organization_name}
+                image={'src/app-components/Navigation/logo.png'}
+                creator_name={card.username}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                isSelected={selectSet === card.id}
+                isSelected={selectSet === card.set_id}
               />
             ))}
         </div>
         {recentCards <
-          setCards.filter((card) => card.category === "recent").length && (
+          setCards.filter((card) => card.category_name === "recent").length && (
           <MoreBtn onClick={handleLoadRecent} />
         )}
       </div>
 
-      <div className="set-wrapper">
+      {/* <div className="set-wrapper">
         <h2 className="category-title">Explore</h2>
         <div className="sets">
           {setCards
@@ -246,7 +88,7 @@ export const MainPage: React.FC = () => {
           setCards.filter((card) => card.category === "explore").length && (
           <MoreBtn onClick={handleLoadExplore} />
         )}
-      </div>
+      </div> */}
     </Dashboard>
   );
 };

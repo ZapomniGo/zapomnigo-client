@@ -1,7 +1,7 @@
 import { DataError } from "../../../app-common/types";
 
 type LoginData = {
-  username: string;
+  email_or_username: string;
   password: string;
 };
 

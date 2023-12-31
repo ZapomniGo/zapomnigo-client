@@ -11,13 +11,101 @@ import { Background } from "../FormsBackground/Background";
 import { emailPattern, initialErrors, initialUserState } from "./utils";
 import { RegisterErrorRecord } from "./types";
 import { DataError, UserData } from "../../../app-common/types";
-
+import axios from "axios";
+import { url } from "../../../Global";
+  
 export const Registration = () => {
+
+  const [termsError, setTermsError] = useState<DataError>({ hasError: false, message: "" });
+  const [policyError, setPolicyError] = useState<DataError>({ hasError: false, message: "" });
+  const [backendError, setBackendError] = useState('');
+
+  const register = async () => {
+    setBackendError('');
+    try {
+      let hasError = false;
+  
+      if (!userData.terms_and_conditions) {
+        setTermsError({
+          hasError: true,
+          message: "Please accept the terms and conditions.",
+        });
+        hasError = true;
+      } else {
+        setTermsError({ hasError: false, message: "" });
+      }
+  
+      if (!userData.privacy_policy) {
+        setPolicyError({
+          hasError: true,
+          message: "Please accept privacy and policy.",
+        });
+        hasError = true;
+      } else {
+        setPolicyError({ hasError: false, message: "" });
+      }
+  
+      if (hasError) {
+        return; 
+      }
+  
+      console.log("User Data:", userData);
+      const response = await axios.post(`${url}/v1/register`, userData);
+      console.log(response);
+  
+    } catch (error) {
+      console.log("here")
+      console.error("Error during registration:", error);
+      console.log(error.response.data.message)
+      if (!navigator.onLine) {
+        setBackendError('You are currently offline.');
+      } else if ((error as any).response) {
+        if(error.response.status === 409){
+          if (error.response.data.error.includes('username')) {
+            setBackendError('Username already exists');
+          } else if(error.response.data.error.includes('email')){
+            setBackendError('Email already exists');
+          } else {
+            setBackendError(error.response.data.error);
+          }
+        } else if(error.response.status === 404){
+          setBackendError(error.response.data.message);
+        }
+      } else if (error.request) {
+        setBackendError('No response received from server');
+      } else {
+        setBackendError('Error in setting up the request');
+      }
+    }
+  };
+
   const [screenIndex, setScreenIndex] = useState(1);
   const [errors, setErrors] = useState<RegisterErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<UserData>(initialUserState);
 
+
+  const handleCheckboxChange = (checkboxName: keyof UserData) => {
+    setUserData((prevUserData) => {
+      const updatedValue = !prevUserData[checkboxName];
+      return { ...prevUserData, [checkboxName]: updatedValue };
+    });
+  
+    setErrors((prevErrors) => {
+      return { ...prevErrors, [checkboxName]: { hasError: !userData[checkboxName], message: "" } };
+    });
+  
+    if (checkboxName === 'terms_and_conditions' && !userData.terms_and_conditions) {
+      setTermsError({ hasError: true, message: "" });
+    }
+  
+    if (checkboxName === 'privacy_policy' && !userData.privacy_policy) {
+      setPolicyError({ hasError: true, message: "" });
+    }
+  };
+
   const validateField = (field: keyof UserData, value: string | number) => {
+    console.log(`Validating field: ${field}`);
+
     if (!value) {
       setErrors((prev) => ({
         ...prev,
@@ -31,7 +119,6 @@ export const Registration = () => {
     switch (field) {
       case "name":
       case "username":
-      case "organisation":
         if (
           typeof value === "string" &&
           (value.length < 2 || value.length > 40)
@@ -41,7 +128,18 @@ export const Registration = () => {
             message: `The ${field} field should be 2-40 characters long`,
           };
         }
-        break;
+        break
+      case "organization":
+          if (
+            typeof value === "string" &&
+            (value.length !== 8)
+          ) {
+            errorInfo = {
+              hasError: true,
+              message: `The ${field} field should be 8 characters long`,
+            };
+          }
+          break;
       case "age":
         if (typeof value === "number" && (value < 5 || value > 99)) {
           errorInfo = {
@@ -105,6 +203,14 @@ export const Registration = () => {
           };
         } 
         break;
+      // case "organization":
+      //   if(typeof value === "string" && value.length > 8){
+      //     errorInfo = {
+      //       hasError: true,
+      //       message: "Please enter valid institution code"
+      //     };
+      //   }
+      //   break;
       default:
         break;
     }
@@ -116,16 +222,19 @@ export const Registration = () => {
   };
 
   const formHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const { name, value } = event.target as HTMLInputElement;
-    setUserData((prev) => ({
-      ...prev,
-      [name]: name === "age" ? parseInt(value, 10) : value,
-    }));
-    validateField(
-      name as keyof UserData,
-      name === "age" ? parseInt(value, 10) : value
-    );
+    const { name, value, type, checked } = event.target as HTMLInputElement;
+  
+    // For checkboxes, handle their checked state
+    if (type === 'checkbox') {
+      setUserData((prev) => ({ ...prev, [name]: checked }));
+    } else {
+      // For other input types, update the state based on the input value
+      setUserData((prev) => ({
+        ...prev,
+        [name]: name === 'age' ? parseInt(value, 10) : value,
+      }));
+      validateField(name as keyof UserData, name === 'age' ? parseInt(value, 10) : value);
+    }
   };
 
   const nextScreen = () => {
@@ -230,17 +339,17 @@ export const Registration = () => {
     }
 
     if (screenIndex === 3) {
+      console.log(userData.organization)
       if (
-        userData.organisation.length < 2 ||
-        userData.organisation.length > 40
+        (userData.organization.length > 8)
       ) {
-        newErrors.organisation = {
+        newErrors.organization = {
           hasError: true,
-          message: "The organisation field should be 2-40 characters long",
+          message: `The organization code should be 8 characters long`,
         };
         errorsExist = true;
-      } else {
-        newErrors.organisation = { hasError: false, message: "" };
+      } else{
+        newErrors.organization  = {hasError: false, message: ""};
       }
     }
 
@@ -251,6 +360,9 @@ export const Registration = () => {
     }
   };
   const prevScreen = () => {
+    const prevUserData = { ...userData };
+  
+    setUserData(prevUserData);
     setScreenIndex((prev) => prev - 1);
   };
 
@@ -261,13 +373,14 @@ export const Registration = () => {
   }) => {
     setSelectedValue(event.target.value);
   };
+  
 
   return (
     <div id="backgroundForm">
       <Background />
 
       <div id="wrapperForm">
-        <form onClick={(e) => e.preventDefault()} onChange={formHandler}>
+        <form onSubmit={(e) => e.preventDefault()} onChange={formHandler}>
           <div className="title">
             <p>Registration</p>
           </div>
@@ -307,6 +420,7 @@ export const Registration = () => {
                 value={selectedValue}
                 onChange={handleChange}
                 className={selectedValue === "" ? "disabled" : ""}
+                name="gender"
               >
                 <option value="" disabled>
                   Gender
@@ -329,6 +443,8 @@ export const Registration = () => {
                 maxLength={40}
                 value={userData.username}
                 className={errors.username.hasError ? "error" : ""}
+                onChange={(e) => validateField("username", e.target.value)}
+
               />
               <p className="errorText">
                 {errors.username.hasError ? errors.username.message : ""}
@@ -381,15 +497,46 @@ export const Registration = () => {
           {screenIndex == 3 ? (
             <section>
               <p>
-                If you are part of a school/university/language center or other,
-                enter its name below
+                Do you want to register for an organization?
               </p>
               <input
                 type="text"
-                name="organisation"
-                placeholder="Organisation"
-                value={userData.organisation}
+                name="organization"
+                placeholder="organization"
+                value={userData.organization}
+                onChange={(e) =>
+                  validateField("organization", e.target.value)
+                }
               />
+              <p className="errorText">
+                {errors.organization.hasError
+                  ? errors.organization.message
+                  : ""}
+              </p>
+
+              <div className="checkboxes">
+              <div className="privacy-policy">
+                <a href="#">Privacy Policy</a>
+                <input type="checkbox" checked={userData.privacy_policy} onChange={() => handleCheckboxChange('privacy_policy')} />
+              </div>
+              <div className="terms-and-conditions">
+                <label> Terms and conditions</label>
+                <input type="checkbox" checked={userData.terms_and_conditions} onChange={() => handleCheckboxChange('terms_and_conditions')} />
+              </div>
+              <div className="marketing-consent">
+                <label>Marketing Consent</label>
+                <input type="checkbox" checked={userData.marketing_consent} onChange={() => handleCheckboxChange('marketing_consent')} />
+              </div>
+              </div>
+              <div className="errorText">
+                {policyError.message}
+              </div>
+              <div className="errorText">
+                {termsError.message}
+              </div> 
+              <div className="errorText">
+                {backendError}
+              </div>
             </section>
           ) : (
             ""
@@ -403,7 +550,7 @@ export const Registration = () => {
             {screenIndex !== 3 ? (
               <button onClick={nextScreen}>Next</button>
             ) : (
-              <input type="submit" value={"Submit"} />
+              <input type="submit" value={"Submit"} onClick={register} />
             )}
           </div>
         </form>

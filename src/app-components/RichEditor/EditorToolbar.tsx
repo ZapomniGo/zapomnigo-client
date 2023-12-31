@@ -62,7 +62,6 @@ Font.whitelist = [
 Quill.register(Font, true);
 
 // Modules object for setting up the Quill editor
-// 
 export const modules = (id) => ({
   toolbar: {
     container: "#" + id,
@@ -116,7 +115,6 @@ export const modules = (id) => ({
 });
 
 // Formats objects for setting up the Quill editor
-// eslint-disable-next-line react-refresh/only-export-components
 export const formats = [
   "header",
   "font",
