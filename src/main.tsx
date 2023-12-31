@@ -27,6 +27,7 @@ import { Registration } from "./app-components/Forms/Registration/Registration";
 import { Login } from "./app-components/Forms/Login/Login";
 import { CreateSet } from "./app-components/CreateSet/CreateSet";
 import { SetPage } from "./app-components/SetPage/SetPage";
+import VerifyEmail from "./app-components/VerifyEmail/VerifyEmail";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
       {
         path: setPage,
         element: <SetPage />
+      },
+      {
+        path: "verify",
+        element: <VerifyEmail />
       }
     ],
   },
