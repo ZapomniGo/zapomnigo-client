@@ -13,16 +13,7 @@ interface SetCardProps {
 }
 
 const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, image, creator_name, onMouseEnter, onMouseLeave, isSelected }) => {
-  const displayDescription = () => {
-    let n = 120;
-    if (description.length > n) {
-        while (description[n] != ' ') {
-            n -= 1;
-        }
-        return <p>{description.slice(0, n)}...</p>;
-    }
-    return <p>{description}</p>;
-};
+
   
   return (
     <div
@@ -31,16 +22,18 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
       onMouseLeave={onMouseLeave}
     >
       <div className={`title-options ${isSelected ? "open" : "close"}`}>
-        <div className={`set-title ${isSelected ? "open" : "close"}`}>{title}</div>
-        {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
+      <div className={`set-title ${isSelected ? "open" : "close"}`}>
+        {title.length > 34 ? title.substring(0, 35) + '...' : title}
+      </div>        
+      {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
           <SlOptionsVertical />
         </div> */}
       </div>
       
       <div className={`set-description ${isSelected ? "open" : "close"}`}>
-        {displayDescription()}
+        {description.length > 99 ? description.substring(0, 102) + '...' : description}
       </div>
-      <div className="set-creator">
+      <div className={`set-creator  ${isSelected ? "open" : "close"}`}>
         <div className="image">
             <img src={image} alt="" />
         </div>
