@@ -4,6 +4,7 @@ import { Dashboard } from "../Dashboard/Dashboard";
 import SetCard from "../SetCard/SetCard";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
+import { Footer } from "../Footer/Footer";
 
 export const MainPage: React.FC = () => {
   const [setCards, setSetCards] = useState([]);
