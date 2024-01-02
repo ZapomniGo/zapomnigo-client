@@ -11,13 +11,13 @@ const validateForm = (data: LoginData): LoginErrorRecord => {
       hasError: data.email_or_username.length < 2,
       message:
         data.email_or_username.length < 2
-          ? "Please enter a valid username"
+          ? "Моля, въведете валидно потребителско име или имейл"
           : "",
     },
     password: {
       hasError: data.password.length === 0,
       message:
-        data.password.length === 0 ? "Please enter a valid password" : "",
+        data.password.length === 0 ? "Моля, въведете валидна парола" : "",
     },
   };
 };
@@ -36,7 +36,7 @@ export const Login = () => {
       }
     } catch (error) {
       if (!navigator.onLine) {
-        setBackendError("You are currently offline.");
+        setBackendError("Нямате интернет връзка.");
       } else if (error.response.status === 404) {
         setBackendError("Хм, грешно потребителско име");
       }else if (error.response.status === 418) {
@@ -44,7 +44,7 @@ export const Login = () => {
       }else if (error.response.status === 401) {
         setBackendError("Грешна парола");
       } else {
-        setBackendError("Something went wrong.");
+        setBackendError("Нещо се обърка.");
       }
     }
   };
@@ -86,13 +86,13 @@ export const Login = () => {
       <div id="wrapperForm">
         <form onSubmit={handleSubmit}>
           <div className="title">
-            <p>Login</p>
+            <p>Вход</p>
           </div>
           <section>
             <input
               type="text"
               name="email_or_username"
-              placeholder="Username"
+              placeholder="Потребителско име или имейл"
               minLength={2}
               maxLength={40}
               value={userData.email_or_username}
@@ -108,7 +108,7 @@ export const Login = () => {
             <input
               type="password"
               name="password"
-              placeholder="Password"
+              placeholder="Парола"
               value={userData.password}
               onChange={formHandler}
               className={errors.password.hasError ? "error" : ""}
@@ -119,7 +119,7 @@ export const Login = () => {
           </section>
           <div className="errorText">{backendError}</div>
           <div id="buttonWrapper">
-            <input type="submit" value={"Submit"} onClick={login} />
+            <input type="submit" value={"Вход"} onClick={login} />
           </div>
         </form>
       </div>
