@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import instance from "../../../app-utils/axios";
 import { emailPattern } from "./../Forms/Registration/utils";
-
+import { useParams } from "react-router-dom";
 const VerifyEmail = () => {
+  const { id } = useParams();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const sendEmail = () => {
@@ -10,7 +11,7 @@ const VerifyEmail = () => {
       setMessage("Невалиден имейл");
       return;
     }
-
+setMessage("Имейлът е изпратен успешно! Проверете пак пощата си.");
     console.log("send email");
   };
   return (
@@ -30,6 +31,7 @@ const VerifyEmail = () => {
         <button onClick={sendEmail} className="button">
           Изпрати отново
         </button>
+        {message.length ? <p className="msg">{message}</p> : ""}
       </div>
     </div>
   );
