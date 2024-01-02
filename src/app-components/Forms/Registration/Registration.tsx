@@ -15,7 +15,6 @@ import instance from "../../../app-utils/axios";
 import { useNavigate } from "react-router-dom";
 
 export const Registration = () => {
-  const navigate = useNavigate();
   const [termsError, setTermsError] = useState<DataError>({
     hasError: false,
     message: "",
@@ -445,7 +444,7 @@ export const Registration = () => {
                 onChange={handleChange}
                 required
                 className={selectedValue === "" ? "disabled" : ""}
-                name="Пол"
+                name="gender"
               >
                 <option value="" disabled>
                   Пол
