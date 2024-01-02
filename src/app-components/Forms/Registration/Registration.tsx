@@ -76,6 +76,8 @@ export const Registration = () => {
             setBackendError("Потребителското име вече съществува");
           } else if (error.response.data.error.includes("email")) {
             setBackendError("Имейлът вече съществува");
+          } else if (error.response.data.error.includes("organization")) {
+            setBackendError("Грешен код на организация");
           } else {
             setBackendError("Имейлът или потребителското име вече са заети");
           }
@@ -281,14 +283,14 @@ export const Registration = () => {
         newErrors.age = { hasError: false, message: "" };
       }
     }
-      if(userData.gender.length === 0){
-        newErrors.gender = {
-          hasError: true,
-          message: "Please enter gender",
-      }
+    if (userData.gender.length === 0) {
+      newErrors.gender = {
+        hasError: true,
+        message: "Please enter gender",
+      };
       errorsExist = true;
-    } else{
-      newErrors.gender = {hasError: false, message: ""};
+    } else {
+      newErrors.gender = { hasError: false, message: "" };
     }
 
     if (screenIndex === 2) {
@@ -551,7 +553,7 @@ export const Registration = () => {
                   />
                 </div>
                 <div className="terms-and-conditions">
-                  <label>Политика за ползване</label>
+                  <a href="/legal/terms-and-conditions">Политика за ползване</a>
                   <input
                     type="checkbox"
                     checked={userData.terms_and_conditions}
@@ -561,7 +563,7 @@ export const Registration = () => {
                   />
                 </div>
                 <div className="marketing-consent">
-                  <label>Маркетингово съгласие</label>
+                  <a href="#">Маркетингово съгласие</a>
                   <input
                     type="checkbox"
                     checked={userData.marketing_consent}
@@ -577,16 +579,19 @@ export const Registration = () => {
             ""
           )}
           <div id="buttonWrapper">
-            {screenIndex !== 1 ? (
-              <button onClick={prevScreen}>Назад</button>
-            ) : (
-              ""
-            )}
-            {screenIndex !== 3 ? (
-              <button onClick={nextScreen}>Напред</button>
-            ) : (
-              <input type="submit" value={"Потвърди"} onClick={register} />
-            )}
+            <a className="link" onClick={() => navigate("/login")}>Имам акаунт</a>
+            <div>
+              {screenIndex !== 1 ? (
+                <button onClick={prevScreen}>Назад</button>
+              ) : (
+                ""
+              )}
+              {screenIndex !== 3 ? (
+                <button onClick={nextScreen}>Напред</button>
+              ) : (
+                <input type="submit" value={"Потвърди"} onClick={register} />
+              )}
+            </div>
           </div>
         </form>
       </div>

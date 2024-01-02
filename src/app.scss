@@ -5,7 +5,6 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-
 }
 
 $body-color: #e4e9f7;
@@ -23,24 +22,23 @@ body {
   animation: fadein 1s;
 }
 
-.container{
+.container {
   display: flex;
   justify-content: flex-end;
   transition: $tran-03;
-  .content{
+  .content {
     width: calc(100% - 88px);
-    
   }
 }
-.container.open{
+.container.open {
   // filter: blur();
   transition: $tran-03;
 }
 
-@media only screen and (max-width: 1000px){
-  .container{
+@media only screen and (max-width: 1000px) {
+  .container {
     justify-content: center;
-    .content{
+    .content {
       width: 100%;
     }
   }
@@ -54,8 +52,7 @@ body {
   background: white;
   padding: 1vmax;
   border-radius: 0.2em;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 @mixin orangeBackground {
   background: linear-gradient(234deg, #ff4e00, #ec9f05);
@@ -99,7 +96,6 @@ body {
     }
   }
 }
-
 
 ::selection {
   background-color: $secondary-color;
@@ -157,13 +153,13 @@ select {
 .disabled {
   color: gray;
 }
-button,
+button:not(#RFS-StepButton),
 input[type="submit"] {
   transition: 0.2s;
-  min-height: 2.5vmax;
   cursor: pointer;
+  min-height:2.5vmax;
   margin: 0.5vmax;
-  padding: 0 .7vmax;
+  padding: 0 0.7vmax;
   border-radius: 0.2em;
   font-size: 1.2vmax;
   background-color: $secondary-color;
@@ -173,7 +169,7 @@ input[type="submit"] {
     outline: none;
     border: 1px solid $secondary-color;
   }
- //if disabled
+  //if disabled
   &:disabled {
     background-color: gray;
     cursor: not-allowed;
@@ -292,14 +288,14 @@ input[type="submit"]:hover {
   form {
     width: 40vw;
     background-color: white;
-    border-radius: 4%;
+    border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    padding: 1vmax;
+    padding: 1.5vmax;
     z-index: 1;
 
     .error {
       border-bottom: 2px solid $secondary-color;
-      color: $secondary-color
+      color: $secondary-color;
     }
     .step-title {
       font-size: 20px;
@@ -318,23 +314,23 @@ input[type="submit"]:hover {
     .stepper .completed {
       background-color: $secondary-color;
     }
-    .checkboxes{
+    .checkboxes {
       display: flex;
       flex-wrap: wrap;
-justify-content: center;
+      justify-content: center;
 
-      input{
+      input {
         width: 7%;
         margin-left: 10px;
         cursor: pointer;
       }
       .privacy-policy,
       .terms-and-conditions,
-      .marketing-consent{
+      .marketing-consent {
         display: flex;
         width: 90%;
         justify-content: space-between;
-        input[type="checkbox"]{
+        input[type="checkbox"] {
           width: 4%;
           accent-color: $secondary-color;
         }
@@ -342,12 +338,11 @@ justify-content: center;
         input[type="checkbox"]:checked:after {
           background-color: white;
         }
-        label{
+        label {
           width: 100%;
         }
       }
     }
-
   }
 }
 .errorText {
@@ -373,11 +368,28 @@ justify-content: center;
       padding: 2.5vmax;
       width: 90vw;
     }
-    #buttonWrapper > button {
-      width: 100%;
-      font-size: 2.5vmax;
-      height: 7vh;
+    #buttonWrapper {
+      button {
+        width: 100%;
+        font-size: 2.5vmax;
+        height: 7vh;
+      }
     }
+  }
+}
+
+.link{
+  background:transparent;
+  color:$secondary-color;
+  border-radius:0;
+  padding:0;
+  margin:0;
+  height: auto;
+  transition:.3s;
+  font-size:1.2vmax;
+  &:hover{
+   cursor:pointer;
+   color:red;
   }
 }
 
@@ -414,10 +426,9 @@ justify-content: center;
   }
 }
 
-
 .ReactTags__suggestions {
   position: absolute;
   width: 100%;
   z-index: 1;
   background-color: red !important;
-} 
+}
