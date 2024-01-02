@@ -76,7 +76,7 @@ export const Registration = () => {
           } else if (error.response.data.error.includes("email")) {
             setBackendError("Имейлът вече съществува");
           } else {
-            setBackendError(error.response.data.error);
+            setBackendError("Имейлът или потребителското име вече са заети");
           }
         } else if (error.response.status === 404) {
           setBackendError(error.response.data.message);
