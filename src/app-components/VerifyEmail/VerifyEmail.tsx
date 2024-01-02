@@ -1,9 +1,13 @@
-import React, { useState } from "react";
-import instance from "../../../app-utils/axios";
+//ToDo: Call resend email endpoint and handle responses
+
+import React, { useEffect, useState } from "react";
+import instance from "../../app-utils/axios";
 import { emailPattern } from "./../Forms/Registration/utils";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const VerifyEmail = () => {
-  const { id } = useParams();
+  const navigate = useNavigate();
+  const { token } = useParams();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const sendEmail = () => {
@@ -11,9 +15,26 @@ const VerifyEmail = () => {
       setMessage("Невалиден имейл");
       return;
     }
-setMessage("Имейлът е изпратен успешно! Проверете пак пощата си.");
+    setMessage("Имейлът е изпратен успешно! Проверете пак пощата си.");
     console.log("send email");
   };
+  useEffect(() => {
+    if (token) {
+      instance
+        .get("veryfy?token=" + token)
+        .then((res) => {
+          if (res.data.message.includes("has been verified")) {
+            setMessage("Успешно потвърдихте имейла си!");
+            navigate("/");
+          } else {
+            setMessage("Грешен код");
+          }
+        })
+        .catch((err) => {
+          setMessage("Нещо се обърка. Поискайте нов код.");
+        });
+    }
+  }, [token]);
   return (
     <div className="verify">
       <div className="verifyContainer">

@@ -12,6 +12,8 @@ import {
   loginRoute,
   createSetRoute,
   setPage,
+  verifyEmail,
+  verifyEmailToken
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Provider } from "react-redux";
@@ -28,6 +30,7 @@ import { Login } from "./app-components/Forms/Login/Login";
 import { CreateSet } from "./app-components/CreateSet/CreateSet";
 import { SetPage } from "./app-components/SetPage/SetPage";
 import VerifyEmail from "./app-components/VerifyEmail/VerifyEmail";
+import VerifyEmailToken from "./app-components/VerifyEmail/VerifyEmail";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -72,9 +75,14 @@ const router = createBrowserRouter([
         element: <SetPage />
       },
       {
-        path: "verify",
+        path: verifyEmail,
         element: <VerifyEmail />
-      }
+      },
+      {
+        path: verifyEmailToken,
+        element: <VerifyEmailToken />
+      },
+      {}
     ],
   },
 ]);

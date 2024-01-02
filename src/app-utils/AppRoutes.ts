@@ -8,3 +8,4 @@ export const settingsRoute = "/settings";
 export const createSetRoute = "/create-set";
 export const setPage = "/set/:id";
 export const verifyEmail = "/verify";
+export const verifyEmailToken = "/verify/:token";

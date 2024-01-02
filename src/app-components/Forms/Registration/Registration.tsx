@@ -579,8 +579,10 @@ export const Registration = () => {
             ""
           )}
           <div id="buttonWrapper">
-            <a className="link" onClick={() => navigate("/login")}>Имам акаунт</a>
-            <div>
+            <a className="link" onClick={() => navigate("/login")}>
+              Имам акаунт
+            </a>
+            <div style={{ display: "flex" }}>
               {screenIndex !== 1 ? (
                 <button onClick={prevScreen}>Назад</button>
               ) : (
