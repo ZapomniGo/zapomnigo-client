@@ -87,20 +87,19 @@ const useFlashcards = () => {
     });
   };
 
-  const handleOnImportFlashcards = (importedData, delimiter) => {
-    const pairs = importedData.split(delimiter);
-
-    const newFlashcards = pairs.map((pair) => {
-      const [term, definition] = pair.split(delimiter);
-
+  const handleOnImportFlashcards = (
+    flashcards: { term: string; definition: string }[]
+  ) => {
+    const newFlashcards = flashcards.map((flashcard) => {
       return {
-        term: term.trim(),
-        definition: definition.trim(),
+        term: flashcard.term,
+        definition: flashcard.definition,
         rnd: uuidv4(),
       };
     });
 
-    setFlashcards(newFlashcards);
+    setFlashcards((prevFlashcards) => [...prevFlashcards, ...newFlashcards]);
+    console.log(flashcards, "HERE", "1");
   };
 
   return {

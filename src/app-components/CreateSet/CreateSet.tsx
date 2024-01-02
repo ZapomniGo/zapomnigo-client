@@ -270,14 +270,15 @@ export const CreateSet = () => {
         </div>
       </div>
       <button onClick={() => setIsModalOpen(!isModalOpen)}>Open modal</button>
-      <FlashcardImportModal
-        onImport={() => handleOnImportFlashcards()}
-        isOpen={isModalOpen}
-        onClose={() => {
-          console.log("closed");
-          setIsModalOpen(false);
-        }}
-      />
+      {isModalOpen && (
+        <FlashcardImportModal
+          onImport={handleOnImportFlashcards}
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+          }}
+        />
+      )}
     </Dashboard>
   );
 };
