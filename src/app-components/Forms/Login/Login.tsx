@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { Background } from "../FormsBackground/Background";
 import { LoginData, LoginErrorRecord } from "./types";
 import { initialErrors } from "./utils";
-import axios from "axios"
+import instance from "../../../app-utils/axios";
 type ErrorFieldName = keyof LoginErrorRecord;
-import { url } from "../../../Global";
 
 const validateForm = (data: LoginData): LoginErrorRecord => {
   return {
     email_or_username: {
       hasError: data.email_or_username.length < 2,
-      message: data.email_or_username.length < 2 ? "Please enter a valid username" : "",
+      message:
+        data.email_or_username.length < 2
+          ? "Please enter a valid username"
+          : "",
     },
     password: {
       hasError: data.password.length === 0,
@@ -21,26 +23,31 @@ const validateForm = (data: LoginData): LoginErrorRecord => {
 };
 
 export const Login = () => {
-
-  const [backendError, setBackendError] = useState('');
+  const [backendError, setBackendError] = useState("");
 
   const login = async () => {
-    try{
-        console.log(userData);
-        const response = await axios.post(`${url}/v1/login`, userData, {
-      withCredentials: true,
-    })
-    if (response.status === 200) {
-      window.location.href = "/";
-    } 
+    try {
+      console.log(userData);
+      const response = await instance.post(`/login`, userData, {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        window.location.href = "/";
       }
-      catch(error){
-        if (!navigator.onLine) {
-          setBackendError('You are currently offline.');
-        } else
-        console.log(error)
+    } catch (error) {
+      if (!navigator.onLine) {
+        setBackendError("You are currently offline.");
+      } else if (error.response.status === 404) {
+        setBackendError("Хм, грешно потребителско име");
+      }else if (error.response.status === 418) {
+        window.location.href = "/verify";
+      }else if (error.response.status === 401) {
+        setBackendError("Грешна парола");
+      } else {
+        setBackendError("Something went wrong.");
       }
-  }
+    }
+  };
   const [userData, setUserData] = useState<LoginData>({
     email_or_username: "",
     password: "",
@@ -60,7 +67,6 @@ export const Login = () => {
       [name]: value,
     });
 
-    
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: newErrors[name as ErrorFieldName],
@@ -78,7 +84,6 @@ export const Login = () => {
     <div id="backgroundForm">
       <Background />
       <div id="wrapperForm">
-
         <form onSubmit={handleSubmit}>
           <div className="title">
             <p>Login</p>
@@ -95,7 +100,9 @@ export const Login = () => {
               className={errors.email_or_username.hasError ? "error" : ""}
             />
             <p className="errorText">
-              {errors.email_or_username.hasError ? errors.email_or_username.message : ""}
+              {errors.email_or_username.hasError
+                ? errors.email_or_username.message
+                : ""}
             </p>
 
             <input
@@ -110,14 +117,11 @@ export const Login = () => {
               {errors.password.hasError ? errors.password.message : ""}
             </p>
           </section>
-          <div className="errorText">
-                {backendError}
-              </div>
+          <div className="errorText">{backendError}</div>
           <div id="buttonWrapper">
-            <input type="submit" value={"Submit"} onClick={login}/>
+            <input type="submit" value={"Submit"} onClick={login} />
           </div>
         </form>
-
       </div>
     </div>
   );
