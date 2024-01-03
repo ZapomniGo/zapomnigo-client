@@ -12,3 +12,4 @@ export const verifyEmailToken = "/verify/:token";
 export const privacyPolicy = "/legal/privacy-policy";
 export const termsOfService = "/legal/terms-of-service";
 export const marketingConsent = "/legal/marketing-consent";
+export const createFolder = "/create-folder";

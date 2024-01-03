@@ -17,6 +17,7 @@ import {
   privacyPolicy,
   termsOfService,
   marketingConsent,
+  createFolder,
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Provider } from "react-redux";
@@ -37,6 +38,7 @@ import VerifyEmailToken from "./app-components/VerifyEmail/VerifyEmail";
 import PrivacyPolicy  from "./app-components/Legal/PrivacyPolicy";
 import  TermsOfService  from "./app-components/Legal/TermsOfService";
 import MarketingConsent  from "./app-components/Legal/MarketingConsent";
+import { CreateFolder } from "./app-components/CreateFolder/CreateFolder";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -99,6 +101,10 @@ const router = createBrowserRouter([
         path: marketingConsent,
         element: <MarketingConsent />,
       },
+      {
+        path: createFolder,
+        element: <CreateFolder />,
+      }
     ],
   },
 ]);
