@@ -1,3 +1,4 @@
+//to do: Fix select deselect set
 import Dashboard from "../Dashboard/Dashboard";
 import instance from "../../app-utils/axios";
 import { useEffect, useState } from "react";
@@ -11,7 +12,7 @@ export const CreateFolder = () => {
     id: number;
   }
 
-  const [folder, setFolder] = useState({ title: '', description: '' });  
+  const [folder, setFolder] = useState<{ title: string; description: string; selectedSets: Set[] }>({ title: '', description: '', selectedSets: [] }); 
   const [setCards, setSetCards] = useState([]);
   const [selectedSets, setSelectedSets] = useState<Set[]>([]);
 
@@ -36,9 +37,7 @@ export const CreateFolder = () => {
         toast("Моля въведете описание");
         return;
       }
-      console.log(folder.title);
-      console.log(folder.description);
-      console.log(selectedSets);
+      console.log(folder);
     }
 
 
@@ -76,8 +75,7 @@ export const CreateFolder = () => {
             institution={card.organization_name}
             image={'src/app-components/Navigation/logo.png'}
             creator_name={card.username}
-            onSelectSet={(card) => setSelectedSets(prevSets => [...prevSets, card])}
-
+            onSelectSet={(set) => setFolder(prevFolder => ({ ...prevFolder, selectedSets: [...prevFolder.selectedSets, set]}))}
           />
         ))}
           <button onClick={handleSubmitFolder}>Създай</button>
