@@ -63,6 +63,30 @@ export const MainPage: React.FC = () => {
           <MoreBtn onClick={handleLoadRecent} />
         )}
       </div>
+      <div className="set-wrapper">
+        <h2 className="category-title">Explore</h2>
+        <div className="sets">
+          {setCards.map((card) => (
+
+              <SetCard
+                key={card.set_id}
+                id={card.set_id}
+                title={card.set_name}
+                description={card.set_description}
+                institution={card.organization_name}
+                image={'src/app-components/Navigation/logo.png'}
+                creator_name={card.username}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                isSelected={selectSet === card.set_id}
+              />
+            ))}
+        </div>
+        {recentCards <
+          setCards.filter((card) => card.category_name === "recent").length && (
+          <MoreBtn onClick={handleLoadRecent} />
+        )}
+      </div>
 
       {/* <div className="set-wrapper">
         <h2 className="category-title">Explore</h2>
