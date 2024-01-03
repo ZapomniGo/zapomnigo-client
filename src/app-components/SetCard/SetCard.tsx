@@ -33,8 +33,10 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
       onClick={() => navigate(`/set/${id}`)}
     >
       <div className={`title-options ${isSelected ? "open" : "close"}`}>
-        <div className={`set-title ${isSelected ? "open" : "close"}`}>{title}</div>
-        {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
+      <div className={`set-title ${isSelected ? "open" : "close"}`}>
+        {title.length > 34 ? title.substring(0, 35) + '...' : title}
+      </div>        
+      {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
           <SlOptionsVertical />
         </div> */}
       </div>
@@ -42,7 +44,7 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
       <div className={`set-description ${isSelected ? "open" : "close"}`}>
         {displayDescription()}
       </div>
-      <div className="set-creator">
+      <div className={`set-creator  ${isSelected ? "open" : "close"}`}>
         <div className="image">
             <img src={image} alt="" />
         </div>
