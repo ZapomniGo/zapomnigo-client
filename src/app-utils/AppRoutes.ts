@@ -11,4 +11,4 @@ export const verifyEmail = "/verify";
 export const verifyEmailToken = "/verify/:token";
 export const privacyPolicy = "/legal/privacy-policy";
 export const termsOfService = "/legal/terms-of-service";
-export const cookiePolicy = "/legal/cookie-policy";
+export const cookieRules = "/legal/cookie-rules";

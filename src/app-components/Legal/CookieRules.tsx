@@ -1,4 +1,4 @@
-const CookiePolicy = () => {
+const CookieRules = () => {
   return (
     <div className="legal">
       {" "}
@@ -16,4 +16,4 @@ const CookiePolicy = () => {
   );
 };
 
-export default CookiePolicy;
+export default CookieRules;

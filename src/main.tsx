@@ -16,7 +16,7 @@ import {
   verifyEmailToken,
   privacyPolicy,
   termsOfService,
-  cookiePolicy,
+  cookieRules,
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Provider } from "react-redux";
@@ -36,7 +36,7 @@ import VerifyEmail from "./app-components/VerifyEmail/VerifyEmail";
 import VerifyEmailToken from "./app-components/VerifyEmail/VerifyEmail";
 import PrivacyPolicy from "./app-components/Legal/PrivacyPolicy";
 import TermsOfService from "./app-components/Legal/TermsOfService";
-import CookiePolicy from "./app-components/Legal/CookiePolicy";
+import CookieRules from "./app-components/Legal/CookieRules";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -96,9 +96,9 @@ const router = createBrowserRouter([
         element: <TermsOfService />,
       },
       {
-        path: cookiePolicy,
-        element: <CookiePolicy />,
-      }
+        path: cookieRules,
+        element: <CookieRules />,
+      },
     ],
   },
 ]);
