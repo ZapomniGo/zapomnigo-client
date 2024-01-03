@@ -42,7 +42,7 @@ export const MainPage: React.FC = () => {
         <h2 className="category-title">Explore</h2>
         <div className="sets">
           {setCards.map((card) => (
-
+              
               <SetCard
                 key={card.set_id}
                 id={card.set_id}
