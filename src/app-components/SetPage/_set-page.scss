@@ -19,6 +19,7 @@
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     border: 3px solid orange;
 
+
     .set-title {
       display: flex;
       justify-content: space-between;
@@ -98,6 +99,7 @@
     .cards-info-header {
       align-items: center;
       display: flex;
+      justify-content: space-between;
       h2 {
         width: 75%;
       }
