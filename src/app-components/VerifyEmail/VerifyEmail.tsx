@@ -34,6 +34,7 @@ const VerifyEmail = () => {
           setMessage("Нещо се обърка. Поискайте нов код.");
         });
     }
+    console.log(token);
   }, [token]);
   return (
     <div className="verify">
