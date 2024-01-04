@@ -3,11 +3,12 @@
 import React, { useEffect, useState } from "react";
 import instance from "../../app-utils/axios";
 import { emailPattern } from "./../Forms/Registration/utils";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 const VerifyEmail = () => {
   const navigate = useNavigate();
-  const { token } = useParams();
+  const query = new URLSearchParams(useLocation().search);
+  const token = query.get('token');
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const sendEmail = () => {
