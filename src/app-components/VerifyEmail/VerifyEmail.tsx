@@ -22,7 +22,7 @@ const VerifyEmail = () => {
   useEffect(() => {
     if (token) {
       instance
-        .get("veryfy?token=" + token)
+        .get("/verify?token=" + token)
         .then((res) => {
           if (res.data.message.includes("has been verified")) {
             setMessage("Успешно потвърдихте имейла си!");
