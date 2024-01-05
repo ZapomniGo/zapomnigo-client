@@ -1,4 +1,10 @@
-export const SelectSet = ({ id, title, description, institution, image, creator_name, onSelectSet}) => {
+import { useState } from "react";
+
+export const SelectSet = ({ id, title, description, institution, image, creator_name, onSelectSet, onDeselectSet}) => {
+    
+    const [isSelected, setIsSelected] = useState(false);
+
+
     return (
         <div className="select-set">
             <div className="select-set-wrapper">
@@ -25,7 +31,12 @@ export const SelectSet = ({ id, title, description, institution, image, creator_
                         </div>
                     ): ''}
                 </div>
-                <button onClick={() => onSelectSet(id)}>Select Set</button>
+                {isSelected ? (
+                    <button onClick={() => { onDeselectSet(id); setIsSelected(false); }}>Deselect Set</button>
+                ) : (
+                    <button onClick={() => {onSelectSet(id); setIsSelected(true)}}>Select Set</button>)
+                }
+                
                 </div>
         </div>
     );

@@ -75,7 +75,14 @@ export const CreateFolder = () => {
             institution={card.organization_name}
             image={'src/app-components/Navigation/logo.png'}
             creator_name={card.username}
-            onSelectSet={(set) => setFolder(prevFolder => ({ ...prevFolder, selectedSets: [...prevFolder.selectedSets, set]}))}
+            onSelectSet={(id) => setFolder(prevFolder => ({ 
+              ...prevFolder, 
+              selectedSets: [...prevFolder.selectedSets, card]
+            }))}
+            onDeselectSet={() => setFolder(prevFolder => ({ 
+              ...prevFolder, 
+              selectedSets: prevFolder.selectedSets.filter(set => set.set_id !== card.set_id)
+            }))}
           />
         ))}
           <button onClick={handleSubmitFolder}>Създай</button>
