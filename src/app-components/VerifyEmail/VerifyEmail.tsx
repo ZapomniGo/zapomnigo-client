@@ -26,7 +26,7 @@ const VerifyEmail = () => {
         .then((res) => {
           if (res.data.message.includes("has been verified")) {
             setMessage("Успешно потвърдихте имейла си!");
-            navigate("/");
+            navigate("/login");
           } else {
             setMessage("Грешен код");
           }
