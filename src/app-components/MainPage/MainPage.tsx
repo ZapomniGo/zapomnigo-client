@@ -39,7 +39,7 @@ export const MainPage: React.FC = () => {
   return (
     <Dashboard>
       <div className="set-wrapper">
-        <h2 className="category-title">Explore</h2>
+        <h2 className="category-title">Разгледай</h2>
         <div className="sets">
           {setCards.map((card) => (
               
@@ -64,7 +64,7 @@ export const MainPage: React.FC = () => {
       </div>
 
       {/* <div className="set-wrapper">
-        <h2 className="category-title">Explore</h2>
+        <h2 className="category-title">Разгледай</h2>
         <div className="sets">
           {setCards
             .filter((card) => card.category === "explore")

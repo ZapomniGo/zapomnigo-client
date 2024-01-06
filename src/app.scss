@@ -183,10 +183,6 @@ button:hover:not(#RFS-StepButton, button[type="button"]),
 input[type="submit"]:hover {
   box-shadow: 0 0 5px 2px $secondary-color;
 }
-svg:hover {
-  cursor: pointer;
-  color: $secondary-color;
-}
 
 #backgroundForm {
   width: 100vw;
@@ -445,5 +441,3 @@ a {
   z-index: 1;
   background-color: red !important;
 }
-
-
