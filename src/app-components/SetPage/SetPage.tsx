@@ -19,6 +19,7 @@ export const SetPage = () => {
   const [creator, setCreator] = useState('');
 
 
+
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortingOrder(event.target.value);
   };
@@ -99,7 +100,7 @@ export const SetPage = () => {
                   Прегледай
                 </a>
                 {creator === username && (
-                  <a href="#">
+                  <a href={`/edit-set/${id}`}>
                     <RiPencilLine />
                     Редактирай
                   </a>
