@@ -5,6 +5,7 @@ import instance from "../../app-utils/axios";
 import { emailPattern } from "./../Forms/Registration/utils";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
 const VerifyEmail = () => {
   const navigate = useNavigate();
   const query = new URLSearchParams(useLocation().search);
@@ -35,7 +36,6 @@ const VerifyEmail = () => {
           setMessage("Нещо се обърка. Поискайте нов код.");
         });
     }
-    console.log(token);
   }, [token]);
   return (
     <div className="verify">
