@@ -14,7 +14,6 @@ export const CreateFolder = () => {
 
   const [folder, setFolder] = useState<{ title: string; description: string; selectedSets: Set[] }>({ title: '', description: '', selectedSets: [] }); 
   const [setCards, setSetCards] = useState([]);
-  const [selectedSets, setSelectedSets] = useState<Set[]>([]);
 
     useEffect(() => {
         instance.get("/sets").then((response) => {
@@ -37,8 +36,17 @@ export const CreateFolder = () => {
         toast("Моля въведете описание");
         return;
       }
-      console.log(folder);
-    }
+    
+      // Map over selectedSets and return an object that only contains the set_id
+      const selectedSetIds = folder.selectedSets.map(set => ({ set_id: set.set_id }));
+    
+      // Use selectedSetIds when making your request
+      const folderToSubmit = { ...folder, selectedSets: selectedSetIds };
+    
+      // Now make your request with folderToSubmit
+      console.log(folderToSubmit)
+
+    };
 
 
 
