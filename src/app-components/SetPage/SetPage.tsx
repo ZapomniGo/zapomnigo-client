@@ -103,7 +103,7 @@ export const SetPage = () => {
                   )
                 </h2>
                 <select onChange={handleFilterChange}>
-                  <option value="">По поздразбиране</option>
+                  <option value="">По подразбиране</option>
                   <option value="a-z">По азбучен ред(А-Я)</option>
                   <option value="z-a">По азбучен ред(Я-А)</option>
                 </select>

@@ -49,19 +49,8 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
   }, []);
 
   const handleLogout = async () => {
-    try {
-      const response = await instance.post(`/logout`, {}, { withCredentials: true });
-
-      console.log(response)
-
-      if (response.status === 200) {  
-        window.location.reload();
-      } else {
-        console.error(`Logout failed with status: ${response.status}`);
-      }
-    } catch (error) {
-      console.error('Logout request failed:', error);
-    }
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
   };
 
   const handleMouseEnter = () => {
@@ -206,7 +195,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                   <i className="icon">
                     <BiLogOut />
                   </i>
-                  <span className="text nav-text" >Logout</span>
+                  <span className="text nav-text" >Излез</span>
                 </a>
               </li>
               ) : (
