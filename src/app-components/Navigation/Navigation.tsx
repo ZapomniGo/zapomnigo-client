@@ -37,11 +37,8 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 
 
   useEffect(() => {
-    const token = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('access_token'))
-      ?.split('=')[1];
-      setToken(token || null);
+    const token = localStorage.getItem('access_token');
+    setToken(token || null);
 
     if (token) {
       const decodedToken: { username: string, institution: string } = jwtDecode(token);
