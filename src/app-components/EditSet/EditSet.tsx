@@ -13,7 +13,6 @@ import "react-toastify/dist/ReactToastify.css";
 import instance from "../../app-utils/axios";
 import FlashcardImportModal from "../ImportModal/FlashcardImportModal";
 import { useParams } from "react-router";
-import { setIn } from "formik";
 
 export const EditSet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,7 +22,7 @@ export const EditSet = () => {
   const [category, setCategory] = useState("");
   const [allInstitutions, setAllInstitutions] = useState([]);
   const [institution, setInstitution] = useState("");
-  const [setFlashcards, setSetFlashcards] = useState([]);
+  const [FlashcardInfo, setFlashcardInfo] = useState([]);
 
   const { id } = useParams<{ id: string }>();
 
@@ -37,6 +36,7 @@ export const EditSet = () => {
     handleFlipFlashcard,
     handleFlipAllFlashcards,
     handleOnImportFlashcards,
+    loadFlashcards
   } = useFlashcards();
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export const EditSet = () => {
     })
       instance.get(`/sets/${id}`)
       .then((response) => {
-        setSetFlashcards(response.data.set.flashcards);
+        loadFlashcards(response.data.set.flashcards);
         setTitle(response.data.set.set_name);
         setDescription(response.data.set.set_description);
         setInstitution(response.data.set.set_institution);
@@ -201,7 +201,7 @@ export const EditSet = () => {
               </select>
             </div>
           </div>
-          {setFlashcards.map((flashcard, index) => (
+          {flashcards.map((flashcard, index) => (
             <div className="flashcardWrapper">
               <div className="buttonWrapper">
                 <MdFlip onClick={() => handleFlipAllFlashcards()} />
@@ -253,21 +253,21 @@ export const EditSet = () => {
                 </div>
               </div>{" "}
               <div key={index} className="flashcard">
-    <Editor
-      placeholder={"Term"}
-      value={flashcard.term}
-      onChange={(value: string) =>
-        handleChangeFlashcard(index, "term", value)
-      }
-    />
-    <Editor
-      placeholder={"Definition"}
-      value={flashcard.definition}
-      onChange={(value: string) =>
-        handleChangeFlashcard(index, "definition", value)
-      }
-    />
-  </div>
+                <Editor
+                placeholder={"Term"}
+                value={flashcard.term}
+                onChange={(value: string) =>
+                    handleChangeFlashcard(index, "term", value)
+                }
+                />
+                <Editor
+                placeholder={"Definition"}
+                value={flashcard.definition}
+                onChange={(value: string) =>
+                    handleChangeFlashcard(index, "definition", value)
+                }
+                />
+            </div>
             </div>
           ))}
           <center>

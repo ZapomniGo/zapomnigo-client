@@ -103,6 +103,10 @@ const useFlashcards = () => {
     setFlashcards(newFlashcards);
   };
 
+  const loadFlashcards = (responseData) => {
+    setFlashcards(responseData)
+  }
+
   return {
     flashcards,
     handleMoveFlashcard,
@@ -113,6 +117,7 @@ const useFlashcards = () => {
     handleFlipFlashcard,
     handleFlipAllFlashcards,
     handleOnImportFlashcards,
+    loadFlashcards,
   };
 };
 
