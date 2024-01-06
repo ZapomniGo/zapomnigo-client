@@ -10,15 +10,20 @@ const ForgetPassword = () => {
   const [message, setMessage] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const query = new URLSearchParams(useLocation().search);
   const token = query.get("token");
-  useEffect(() => {
-    if (!token) {
-      setMessage("Опс, грешен линк. Върнете се назад и си поискайте нов линк");
-    }
-  }, [token]);
   const handleSubmit = () => {
+    if (!token) {
+      if (!emailPattern.test(email)) {
+        setMessage("Моля, въведете валиден имейл адрес");
+        return;
+      }
+      instance.post("/send-email?verification=false", { email: email });
+      setMessage("Изпратихме Ви имейл с линк за промяна на паролата");
+      return;
+    }
     if (password1 !== password2) {
       setMessage("Паролите не съвпадат");
       return;
@@ -55,22 +60,41 @@ const ForgetPassword = () => {
   };
   return (
     <div className="verify">
-      <div className="verifyContainer">
-        <input
-          onChange={(e) => setPassword1(e.target.value)}
-          type="text"
-          placeholder="Парола"
-        />
-        <input
-          onChange={(e) => setPassword2(e.target.value)}
-          type="text"
-          placeholder="Повтори паролата"
-        />
-        <button onClick={handleSubmit} className="button">
-          Промени паролата
-        </button>
-        {message.length ? <p className="msg">{message}</p> : ""}
-      </div>
+      {token ? (
+        <div className="verifyContainer">
+          <input
+            onChange={(e) => setPassword1(e.target.value)}
+            type="password"
+            placeholder="Парола"
+          />
+          <input
+            onChange={(e) => setPassword2(e.target.value)}
+            type="password"
+            placeholder="Повтори паролата"
+          />
+          <button onClick={handleSubmit} className="button">
+            Промени паролата
+          </button>
+          {message.length ? <p className="msg">{message}</p> : ""}
+        </div>
+      ) : (
+        <div className="verifyContainer">
+          <h1>Забравена парола</h1>
+          <p>
+            Въведете имейл адреса, с който сте се регистрирали и ние ще Ви
+            пратим линк по него
+          </p>
+          <input
+            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            placeholder="Имейл"
+          />
+          <button onClick={handleSubmit} className="button">
+            Изпрати
+          </button>
+          {message.length ? <p className="msg">{message}</p> : ""}
+        </div>
+      )}
     </div>
   );
 };

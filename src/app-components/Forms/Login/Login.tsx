@@ -117,6 +117,9 @@ export const Login = () => {
     const newErrors = validateForm(userData);
     setErrors(newErrors);
   };
+  const handleForgotPassword = () => {
+    navigate("/forgot-password");
+  }
 
   return (
     <div id="backgroundForm">
@@ -142,6 +145,7 @@ export const Login = () => {
                 ? errors.email_or_username.message
                 : ""}
             </p>
+            
             <input
               type="password"
               name="password"
@@ -150,10 +154,13 @@ export const Login = () => {
               onChange={formHandler}
               className={errors.password.hasError ? "error" : ""}
             />
+                      <a className="link" onClick={handleForgotPassword}>Забравена парола</a>
+
             <p className="errorText">
               {errors.password.hasError ? errors.password.message : ""}
             </p>
           </section>
+          
           <div className="errorText">{backendError}</div>
           <div id="buttonWrapper">
           <a className="link" onClick={() => navigate("/register")}>Нямам акаунт</a>
