@@ -17,7 +17,16 @@ const VerifyEmail = () => {
       setMessage("Невалиден имейл");
       return;
     }
-    setMessage("Имейлът е изпратен успешно! Проверете пак пощата си.");
+    // console.log(email);
+    instance
+      .post("/send-email?verification=false", { email })
+      .then((res) => {
+        setMessage("Имейлът е изпратен успешно! Проверете пощата си.");
+      })
+      .catch((err) => {
+        setMessage("Нещо се обърка. Поискайте нов код.");
+      });
+    // setMessage("Имейлът е изпратен успешно! Проверете пак пощата си.");
     console.log("send email");
   };
   useEffect(() => {
