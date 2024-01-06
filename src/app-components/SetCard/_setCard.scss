@@ -8,10 +8,9 @@
     background-color: white;
     // width: 18rem;
     width: 18.4%;
-    margin: 10px;
+    margin: 7.5px;
     border-radius: 8px;
-    padding: 10px;
-    padding-left: 15px;
+    padding: 0 10px;
     font-size: 0.8rem;
     height: 9.5rem;
     .set-description.close,
@@ -25,19 +24,27 @@
         opacity: 1;
     }
     .title-options {
+        padding-top: 5px;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
-        height: 27.5%;
+        height: 47%;
         opacity: 1 !important;
+        margin-top: 5px;
+        margin-right: 5px;
 
         .more-options {
         padding-right: 0.8vmax;
         }
     }
+    .title-options.open{
+        height: 45%;
+    }
     .set-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         transition: $tran-02;
+        word-break: break-word;
+        // margin-top: 10px;
     }
 
     .set-title.open {
@@ -45,15 +52,19 @@
         font-size: 1.2rem;
     }
     .set-description {
+        word-break: break-all;
         display: flex;
         align-items: flex-start;
-        height: 52.5%;
+        height: 24%;
     }
     .set-creator {
         height: 20%;
         display: flex;
         align-items: center;
         margin-bottom: 0.5vmin;
+        // margin-top: 20px;
+        // padding-top: 10px;
+        // margin-bottom: 5px;
         .image {
             width: 10%;
             display: flex;
@@ -91,6 +102,13 @@
       }
 }
 
+.set-creator.open{
+    opacity: 0;
+    transition: $tran-03;
+    overflow: hidden;
+    z-index: 111;
+}
+
 @media only screen and (max-width: 1550px){
     .set-card{
         width: 23.3%;
@@ -105,8 +123,15 @@
 
 
 @media only screen and (max-width: 1000px){
+    // .set-creator.close,
+    // .set-creator.open{
+    //     opacity: 0 !important;
+    //     transition: $tran-03;
+    //     overflow: hidden;
+    //     z-index: 111;
+    // }
     .set-card{
-        height: 11rem;
+        height: 12rem;
         // width: 16rem ;
         .category-title{
             text-align: center;
@@ -115,6 +140,9 @@
         .open {
             transition: $tran-03;
             opacity: 1;
+          }
+          .title-options{
+            height: 35%;
           }
           .set-title {
             font-size: 1.2rem !important;
@@ -139,6 +167,9 @@
     }
     .close{
       opacity: 1 !important;
+    }
+    .set-description{
+        height: 40% !important;
     }
 }
 

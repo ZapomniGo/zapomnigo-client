@@ -12,6 +12,11 @@ import {
   loginRoute,
   createSetRoute,
   setPage,
+  verifyEmail,
+  verifyEmailToken,
+  privacyPolicy,
+  termsOfService,
+  marketingConsent,
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Provider } from "react-redux";
@@ -28,7 +33,10 @@ import { Login } from "./app-components/Forms/Login/Login";
 import { CreateSet } from "./app-components/CreateSet/CreateSet";
 import { SetPage } from "./app-components/SetPage/SetPage";
 import VerifyEmail from "./app-components/VerifyEmail/VerifyEmail";
-
+import VerifyEmailToken from "./app-components/VerifyEmail/VerifyEmail";
+import PrivacyPolicy  from "./app-components/Legal/PrivacyPolicy";
+import  TermsOfService  from "./app-components/Legal/TermsOfService";
+import MarketingConsent  from "./app-components/Legal/MarketingConsent";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -69,12 +77,28 @@ const router = createBrowserRouter([
       },
       {
         path: setPage,
-        element: <SetPage />
+        element: <SetPage />,
       },
       {
-        path: "verify",
-        element: <VerifyEmail />
-      }
+        path: verifyEmail,
+        element: <VerifyEmail />,
+      },
+      {
+        path: verifyEmailToken,
+        element: <VerifyEmailToken />,
+      },
+      {
+        path: privacyPolicy,
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: termsOfService,
+        element: <TermsOfService />,
+      },
+      {
+        path: marketingConsent,
+        element: <MarketingConsent />,
+      },
     ],
   },
 ]);

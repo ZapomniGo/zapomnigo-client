@@ -60,9 +60,13 @@ export const SetPage = () => {
                 <h1>
                 {flashcards.set_name}
                 </h1>
-                <div className="institution">
-                  <a href="#">{flashcards.organization}</a>
-                </div>
+                {flashcards && flashcards.organization  ? (
+            <div className={`set-institution ${flashcards.organization ? "open" : "close"}`}>
+              <a href="#">
+                {flashcards.organization}
+              </a>
+            </div>
+          ): ''}
               </div>
               <p className="description">{flashcards.set_description}</p>
               <p className="category">{flashcards.set_category}</p>

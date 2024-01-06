@@ -2,45 +2,92 @@ import React, { useState } from "react";
 import { Background } from "../FormsBackground/Background";
 import { LoginData, LoginErrorRecord } from "./types";
 import { initialErrors } from "./utils";
-import axios from "axios"
+import instance from "../../../app-utils/axios";
+import { useNavigate } from "react-router-dom";
 type ErrorFieldName = keyof LoginErrorRecord;
-import { url } from "../../../Global";
 
 const validateForm = (data: LoginData): LoginErrorRecord => {
   return {
     email_or_username: {
       hasError: data.email_or_username.length < 2,
-      message: data.email_or_username.length < 2 ? "Please enter a valid username" : "",
+      message:
+        data.email_or_username.length < 2
+          ? "Моля, въведете валидно потребителско име"
+          : "",
     },
     password: {
       hasError: data.password.length === 0,
       message:
-        data.password.length === 0 ? "Please enter a valid password" : "",
+        data.password.length === 0 ? "Моля, въведете валидна парола" : "",
     },
   };
 };
 
 export const Login = () => {
-
-  const [backendError, setBackendError] = useState('');
+  const navigate = useNavigate();
+  const [backendError, setBackendError] = useState("");
 
   const login = async () => {
-    try{
-        console.log(userData);
-        const response = await axios.post(`${url}/v1/login`, userData, {
-      withCredentials: true,
-    })
-    if (response.status === 200) {
-      window.location.href = "/";
-    } 
+    if (
+      userData.email_or_username.length < 2 ||
+      userData.email_or_username.length > 40
+    ) {
+      setBackendError("Моля, въведете валидно потребителско име");
+      return;
+    }
+
+    if (
+      typeof userData.password === "string" &&
+      (userData.password.length < 8 || userData.password.length > 40)
+    ) {
+      setBackendError("Грешна парола");
+      return;
+    } else if (
+      typeof userData.password === "string" &&
+      !/[A-Z]/.test(userData.password)
+    ) {
+      setBackendError("Грешна парола");
+      return;
+    } else if (
+      typeof userData.password === "string" &&
+      !/[a-z]/.test(userData.password)
+    ) {
+      setBackendError("Грешна парола");
+      return;
+    } else if (
+      typeof userData.password === "string" &&
+      !/\d/.test(userData.password)
+    ) {
+      setBackendError("Грешна парола");
+      return;
+    } else if (
+      typeof userData.password === "string" &&
+      !/[\W_]/.test(userData.password)
+    ) {
+      setBackendError("Грешна парола");
+      return;
+    }
+    try {
+      const response = await instance.post(`/login`, userData, {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        window.location.href = "/";
       }
-      catch(error){
-        if (!navigator.onLine) {
-          setBackendError('You are currently offline.');
-        } else
-        console.log(error)
+    } catch (error) {
+      if (!navigator.onLine) {
+        setBackendError("Няма интернет връзка");
+      } else if (error.response.status === 404) {
+        setBackendError("Хм, грешно потребителско име");
+      } else if (error.response.status === 418) {
+        window.location.href = "/verify";
+      } else if (error.response.status === 401) {
+        setBackendError("Грешна парола");
+      } else {
+        setBackendError("Нещо се обърка, опитайте отново");
       }
-  }
+    }
+  };
   const [userData, setUserData] = useState<LoginData>({
     email_or_username: "",
     password: "",
@@ -60,7 +107,6 @@ export const Login = () => {
       [name]: value,
     });
 
-    
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: newErrors[name as ErrorFieldName],
@@ -78,16 +124,15 @@ export const Login = () => {
     <div id="backgroundForm">
       <Background />
       <div id="wrapperForm">
-
         <form onSubmit={handleSubmit}>
           <div className="title">
-            <p>Login</p>
+            <p>Влизане</p>
           </div>
           <section>
             <input
               type="text"
               name="email_or_username"
-              placeholder="Username"
+              placeholder="Потребителско име"
               minLength={2}
               maxLength={40}
               value={userData.email_or_username}
@@ -95,13 +140,14 @@ export const Login = () => {
               className={errors.email_or_username.hasError ? "error" : ""}
             />
             <p className="errorText">
-              {errors.email_or_username.hasError ? errors.email_or_username.message : ""}
+              {errors.email_or_username.hasError
+                ? errors.email_or_username.message
+                : ""}
             </p>
-
             <input
               type="password"
               name="password"
-              placeholder="Password"
+              placeholder="Парола"
               value={userData.password}
               onChange={formHandler}
               className={errors.password.hasError ? "error" : ""}
@@ -110,14 +156,12 @@ export const Login = () => {
               {errors.password.hasError ? errors.password.message : ""}
             </p>
           </section>
-          <div className="errorText">
-                {backendError}
-              </div>
+          <div className="errorText">{backendError}</div>
           <div id="buttonWrapper">
-            <input type="submit" value={"Submit"} onClick={login}/>
+          <a className="link" onClick={() => navigate("/register")}>Нямам акаунт</a>
+            <input type="submit" value={"Влезни"} onClick={login} />
           </div>
         </form>
-
       </div>
     </div>
   );
