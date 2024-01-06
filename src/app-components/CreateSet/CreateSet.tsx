@@ -34,16 +34,15 @@ export const CreateSet = () => {
   } = useFlashcards();
 
   useEffect(() => {
-    fetch("https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1/categories")
+    instance.get("/categories")
       .then((response) => response.json())
       .then((data) => setAllCategories(data.categories));
-    fetch(
-      "https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1/organizations"
+    instance.get(
+      "/organizations"
     )
       .then((response) => response.json())
       .then((data) => setAllInstitutions(data.organizations));
   }, []);
-
   const isEmpty = (string: string) => {
     if (string.length === 0) {
       return true;
@@ -111,7 +110,7 @@ export const CreateSet = () => {
     }
     //check if the tags are not empty
     instance
-      .post("https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1/sets", {
+      .post("/sets", {
         set_name: title,
         set_description: description,
         flashcards: flashcards,

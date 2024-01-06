@@ -68,9 +68,7 @@ export const Login = () => {
       return;
     }
     try {
-      const response = await instance.post(`/login`, userData, {
-        withCredentials: true,
-      });
+      const response = await instance.post(`/login`, userData);
       if (response.status === 200) {
         window.location.href = "/";
       }
