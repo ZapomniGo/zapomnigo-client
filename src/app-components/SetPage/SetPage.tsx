@@ -9,10 +9,15 @@ import { PiExport } from "react-icons/pi";
 //get the id from the url
 import { useParams } from "react-router-dom";
 import instance from "../../app-utils/axios";
+import { jwtDecode } from "jwt-decode";
 
 export const SetPage = () => {
+  const [token, setToken] = useState<string | null>(null);
   const [flashcards, setFlashcards] = useState<FlashcardSet>();
   const [sortingOrder, setSortingOrder] = useState<string>("");
+  const [username, setUsername] = useState('');
+  const [creator, setCreator] = useState('');
+
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortingOrder(event.target.value);
@@ -43,12 +48,28 @@ export const SetPage = () => {
       .get(`/sets/${id}`)
       .then((response) => {
         setFlashcards(response.data.set);
+        setUsername(response.data.set.username);
         console.log(response.data);
+        console.log(username);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [id]);
+
+
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    setToken(token || null);
+  
+    if (token) {
+      const decodedToken: { username: string, institution: string } = jwtDecode(token);
+      setCreator(decodedToken.username);
+      console.log(creator);
+    }
+  }, []);
+
+
 
   return (
     <Dashboard>
@@ -79,10 +100,16 @@ export const SetPage = () => {
                   <MdContentCopy />
                   Прегледай
                 </a>
-                <a href="#">
+                {creator === username && (
+                  <a href="#">
+                    <RiPencilLine />
+                    Редактирай
+                  </a>
+                )}
+                {/* <a href="#">
                   <RiPencilLine />
                   Редактирай
-                </a>
+                </a> */}
                 <a href="#">
                   <FiShare2 />
                   Сподели
