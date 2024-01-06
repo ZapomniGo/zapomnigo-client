@@ -49,8 +49,6 @@ export const SetPage = () => {
       .then((response) => {
         setFlashcards(response.data.set);
         setUsername(response.data.set.username);
-        console.log(response.data);
-        console.log(username);
       })
       .catch((error) => {
         console.log(error);
