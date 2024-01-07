@@ -42,21 +42,21 @@ const ForgetPassword = () => {
     } else if (typeof password1 === "string" && !/[\W_]/.test(password1)) {
       setMessage("Паролата трябва да съдържа поне един специален символ");
     }
-    // instance
-    //   .post("/send-email?verification=true", {"email": "test@test.com"})
-    //   .then((res) => {
-    //     setMessage("Успешно променихте паролата си");
-    //     setTimeout(() => {
-    //       navigate("/login");
-    //     }, 2000);
-    //   })
-    //   .catch((err) => {
-    //     if (err.response && err.response.data) {
-    //       setMessage(err.response.data.message);
-    //     } else {
-    //       setMessage("Възникна грешка. Моля опитайте по-късно");
-    //     }
-    //   });
+    instance
+      .post("/forgot-password", { "new_password": password1, token: token })
+      .then((res) => {
+         setMessage("Успешно променихте паролата си! ");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      })
+      .catch((err) => {
+        if (err.response && err.response.data) {
+         setMessage(err.response.data.message);
+        } else {
+          setMessage("Възникна грешка. Моля опитайте по-късно");
+        }
+      });
   };
   return (
     <div className="verify">

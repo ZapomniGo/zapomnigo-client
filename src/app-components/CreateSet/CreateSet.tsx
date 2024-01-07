@@ -12,8 +12,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import instance from "../../app-utils/axios";
 import FlashcardImportModal from "../ImportModal/FlashcardImportModal";
-
+import { useNavigate } from "react-router-dom";
 export const CreateSet = () => {
+const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -21,6 +22,7 @@ export const CreateSet = () => {
   const [category, setCategory] = useState("");
   const [allInstitutions, setAllInstitutions] = useState([]);
   const [institution, setInstitution] = useState("");
+
   const {
     flashcards,
     handleMoveFlashcard,
@@ -119,8 +121,8 @@ export const CreateSet = () => {
       })
       .then((response) => {
         toast("Успешно създадохте сет");
-        console.log(response);
-        window.location.href = "/sets";
+        
+       navigate("/set/" + response.data.set_id);
       })
       .catch((error) => {
         toast("Възникна грешка");
