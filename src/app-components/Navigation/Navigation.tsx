@@ -143,7 +143,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                 {token ? (
                   <>
                     <li className="nav-link">
-                      <CustomNavLink to="/sets" activeClassName="active">
+                      <CustomNavLink to={`/sets/${username}`} activeClassName="active">
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <TbCards />
                         </i>

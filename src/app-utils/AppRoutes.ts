@@ -1,7 +1,7 @@
 export const homeRoute = "/";
 export const registerRoute = "/register";
 export const loginRoute = "/login";
-export const setsRoute = "/sets";
+export const setsRoute = "/sets/:id";
 export const foldersRoute = "/folders";
 export const createRoute = "/create";
 export const settingsRoute = "/settings";

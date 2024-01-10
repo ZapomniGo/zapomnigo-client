@@ -13,7 +13,9 @@ export const MainPage: React.FC = () => {
 
 
   useEffect(() => {
-    instance.get("/sets").then((response) => {
+    // instance.get(`/users/${userID}/sets`).then((response) => {
+
+    instance.get(`/sets`).then((response) => {
       console.log(response.data.sets);
       setSetCards(response.data.sets);
     });
