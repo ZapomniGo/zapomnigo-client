@@ -98,12 +98,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
             </i>
             <input type="search" placeholder="Търси..." />
           </div>
-          <div className="menu-mobile">
-            <RxHamburgerMenu
-              className="menu-mobile"
-              onClick={handleHamburgerClick}
-            />
-          </div>
+
         </div>
         <nav
           className={`sidebar ${navigationSliceManager.open ? "" : "close"}`}
