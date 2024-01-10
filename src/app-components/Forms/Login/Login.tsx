@@ -3,10 +3,7 @@ import { Background } from "../FormsBackground/Background";
 import { LoginData, LoginErrorRecord } from "./types";
 import { initialErrors } from "./utils";
 import instance from "../../../app-utils/axios";
-<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
-=======
->>>>>>> footer
 type ErrorFieldName = keyof LoginErrorRecord;
 
 const validateForm = (data: LoginData): LoginErrorRecord => {
@@ -15,11 +12,7 @@ const validateForm = (data: LoginData): LoginErrorRecord => {
       hasError: data.email_or_username.length < 2,
       message:
         data.email_or_username.length < 2
-<<<<<<< HEAD
           ? "Моля, въведете валидно потребителско име"
-=======
-          ? "Please enter a valid username"
->>>>>>> footer
           : "",
     },
     password: {
@@ -31,7 +24,6 @@ const validateForm = (data: LoginData): LoginErrorRecord => {
 };
 
 export const Login = () => {
-<<<<<<< HEAD
   const navigate = useNavigate();
   const [backendError, setBackendError] = useState("");
 
@@ -77,22 +69,11 @@ export const Login = () => {
     }
     try {
       const response = await instance.post(`/login`, userData);
-=======
-  const [backendError, setBackendError] = useState("");
-
-  const login = async () => {
-    try {
-      console.log(userData);
-      const response = await instance.post(`/login`, userData, {
-        withCredentials: true,
-      });
->>>>>>> footer
       if (response.status === 200) {
         window.location.href = "/";
       }
     } catch (error) {
       if (!navigator.onLine) {
-<<<<<<< HEAD
         setBackendError("Няма интернет връзка");
       } else if (error.response.status === 404) {
         setBackendError("Хм, грешно потребителско име");
@@ -102,17 +83,6 @@ export const Login = () => {
         setBackendError("Грешна парола");
       } else {
         setBackendError("Нещо се обърка, опитайте отново");
-=======
-        setBackendError("You are currently offline.");
-      } else if (error.response.status === 404) {
-        setBackendError("Хм, грешно потребителско име");
-      }else if (error.response.status === 418) {
-        window.location.href = "/verify";
-      }else if (error.response.status === 401) {
-        setBackendError("Грешна парола");
-      } else {
-        setBackendError("Something went wrong.");
->>>>>>> footer
       }
     }
   };

@@ -156,18 +156,11 @@ select {
 button:not(#RFS-StepButton, button[type="button"]),
 input[type="submit"] {
   transition: 0.2s;
-<<<<<<< HEAD
-=======
   min-height: 2.5vmax;
->>>>>>> footer
   cursor: pointer;
   min-height: 2.5vmax;
   margin: 0.5vmax;
-<<<<<<< HEAD
-  padding: 0 0.7vmax;
-=======
   padding: 0 .7vmax;
->>>>>>> footer
   border-radius: 0.2em;
   font-size: 1.2vmax;
   background-color: $secondary-color;
@@ -294,11 +287,7 @@ input[type="submit"]:hover {
   }
 
   form {
-<<<<<<< HEAD
     width: 30vw;
-=======
-    width: 40vw;
->>>>>>> footer
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -342,11 +331,7 @@ input[type="submit"]:hover {
         display: flex;
         width: 90%;
         justify-content: space-between;
-<<<<<<< HEAD
         input[type="checkbox"] {
-=======
-        input[type="checkbox"]{
->>>>>>> footer
           width: 4%;
           accent-color: $secondary-color;
         }
@@ -354,11 +339,7 @@ input[type="submit"]:hover {
         input[type="checkbox"]:checked:after {
           background-color: white;
         }
-<<<<<<< HEAD
-        label {
-=======
         label{
->>>>>>> footer
           width: 100%;
         }
       }
