@@ -48,7 +48,7 @@ export const EditSet = () => {
     .then((response) =>{
         setAllInstitutions(response.data.organizations);
     })
-      instance.get(`/sets/${id}`)
+    instance.get(`/sets/${id}`)
       .then((response) => {
         loadFlashcards(response.data.set.flashcards);
         setTitle(response.data.set.set_name);

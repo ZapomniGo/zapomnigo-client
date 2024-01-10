@@ -36,14 +36,16 @@ const navigate = useNavigate();
   } = useFlashcards();
 
   useEffect(() => {
+
     instance.get("/categories")
-      .then((response) => response.json())
-      .then((data) => setAllCategories(data.categories));
-    instance.get(
-      "/organizations"
-    )
-      .then((response) => response.json())
-      .then((data) => setAllInstitutions(data.organizations));
+    .then((response) => {
+      setAllCategories(response.data.categories);
+    })
+  instance.get("/organizations")
+  .then((response) =>{
+      setAllInstitutions(response.data.organizations);
+  })
+
   }, []);
   const isEmpty = (string: string) => {
     if (string.length === 0) {
