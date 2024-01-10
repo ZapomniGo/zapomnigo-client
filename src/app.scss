@@ -153,7 +153,7 @@ select {
 .disabled {
   color: gray;
 }
-button:not(#RFS-StepButton),
+button:not(#RFS-StepButton, button[type="button"]),
 input[type="submit"] {
   transition: 0.2s;
   cursor: pointer;
@@ -179,7 +179,7 @@ input[type="submit"] {
   }
 }
 
-button:hover,
+button:hover:not(#RFS-StepButton, button[type="button"]),
 input[type="submit"]:hover {
   box-shadow: 0 0 5px 2px $secondary-color;
 }
@@ -382,7 +382,7 @@ input[type="submit"]:hover {
 }
 a {
   color: black;
-  transition:0.3s;
+  transition: 0.3s;
   &:hover {
     color: $secondary-color;
   }

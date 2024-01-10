@@ -13,3 +13,6 @@ export const privacyPolicy = "/legal/privacy-policy";
 export const termsOfService = "/legal/terms-of-service";
 export const cookieRules = "/legal/cookie-rules";
 export const editSet = "/edit-set/:id";
+export const forgotPassword = "/forgot-password?token=:token";
+export const forgotPasswordNoToken = "/forgot-password";
+

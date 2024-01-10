@@ -18,6 +18,8 @@ import {
   termsOfService,
   cookieRules,
   editSet,
+  forgotPassword,
+  forgotPasswordNoToken,
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Provider } from "react-redux";
@@ -39,6 +41,8 @@ import PrivacyPolicy from "./app-components/Legal/PrivacyPolicy";
 import TermsOfService from "./app-components/Legal/TermsOfService";
 import CookieRules from "./app-components/Legal/CookieRules";
 import { EditSet } from "./app-components/EditSet/EditSet";
+import ForgotPassword from "./app-components/ForgotPassword/ForgotPassword";
+
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -104,6 +108,14 @@ const router = createBrowserRouter([
       {
         path: editSet,
         element: <EditSet />,
+      },
+      {
+        path: forgotPassword,
+        element: <ForgotPassword />,
+      },
+      {
+        path: forgotPasswordNoToken,
+        element: <ForgotPassword />,
       },
     ],
   },
