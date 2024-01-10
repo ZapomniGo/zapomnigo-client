@@ -50,10 +50,17 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
     }
   }, []);
 
+  //cookie method leave for future cookie implementation
+  // const handleLogout = async () => {
+  //   localStorage.removeItem("access_token");
+  //   localStorage.removeItem("refresh_token");
+  //   window.location.reload();
+  // };
+
   const handleLogout = async () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    window.location.reload();
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        window.location.reload();
   };
 
   const handleMouseEnter = () => {
