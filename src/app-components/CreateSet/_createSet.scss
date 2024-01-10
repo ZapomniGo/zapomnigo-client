@@ -246,6 +246,13 @@
       }
     }
   }
+  .create-submition{
+    width: 80%;
+    .submit{
+      width: 40% !important;
+      font-size: 2vmax !important;
+    }
+  }
 }
 
 // position: absolute !important;
