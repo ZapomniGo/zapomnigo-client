@@ -275,16 +275,18 @@ export const EditSet = () => {
               +
             </button>
           </center>
-          <button
-            disabled={!flashcards.length}
-            onClick={handleSubmit}
-            className="submit"
-          >
-            Запази
-          </button>
+          <div className="create-submition">
+            <button className="submit" onClick={() => setIsModalOpen(!isModalOpen)}>Open modal</button>
+            <button
+              disabled={!flashcards.length}
+              onClick={handleSubmit}
+              className="submit"
+            >
+              Запази
+            </button>
+          </div>
         </div>
       </div>
-      <button onClick={() => setIsModalOpen(!isModalOpen)}>Open modal</button>
       <FlashcardImportModal
         onImport={() => handleOnImportFlashcards()}
         isOpen={isModalOpen}
