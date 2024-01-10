@@ -159,7 +159,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       </CustomNavLink>
                     </li>
                     <li className="nav-link">
-                      <CustomNavLink to="/create" activeClassName="active">
+                      <CustomNavLink to="/create-set" activeClassName="active">
                         <i className="icon" style={{ transform: "scale(1.3)" }}>
                           <GoPencil />
                         </i>
