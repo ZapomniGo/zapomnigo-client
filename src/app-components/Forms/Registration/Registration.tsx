@@ -283,6 +283,7 @@ export const Registration = () => {
         newErrors.age = { hasError: false, message: "" };
       }
     }
+<<<<<<< HEAD
     if (userData.gender.length === 0) {
       newErrors.gender = {
         hasError: true,
@@ -291,6 +292,16 @@ export const Registration = () => {
       errorsExist = true;
     } else {
       newErrors.gender = { hasError: false, message: "" };
+=======
+      if(userData.gender.length === 0){
+        newErrors.gender = {
+          hasError: true,
+          message: "Please enter gender",
+      }
+      errorsExist = true;
+    } else{
+      newErrors.gender = {hasError: false, message: ""};
+>>>>>>> footer
     }
 
     if (screenIndex === 2) {
