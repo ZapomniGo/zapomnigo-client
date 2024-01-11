@@ -9,9 +9,14 @@ import { useNavigate } from "react-router-dom";
 const VerifyEmail = () => {
   const navigate = useNavigate();
   const query = new URLSearchParams(useLocation().search);
-  const token = query.get('token');
+  const token = query.get("token");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      navigate("/");
+    }
+  }, []);
   const sendEmail = () => {
     if (!emailPattern.test(email)) {
       setMessage("Невалиден имейл");
