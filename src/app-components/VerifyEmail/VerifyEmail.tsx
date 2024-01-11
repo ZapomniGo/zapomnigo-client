@@ -21,7 +21,7 @@ const VerifyEmail = () => {
     instance
       .post("/send-email?verification=false", { email })
       .then((res) => {
-        setMessage("Имейлът е изпратен успешно! Проверете пощата си.");
+        setMessage("Имейлът е изпратен! Проверете пощата си.");
       })
       .catch((err) => {
         setMessage("Нещо се обърка. Поискайте нов код.");
@@ -35,7 +35,7 @@ const VerifyEmail = () => {
         .get("/verify?token=" + token)
         .then((res) => {
           if (res.data.message.includes("has been verified")) {
-            setMessage("Успешно потвърдихте имейла си!");
+            setMessage("Потвърдихте имейла си!");
             navigate("/login");
           } else {
             setMessage("Грешен код");

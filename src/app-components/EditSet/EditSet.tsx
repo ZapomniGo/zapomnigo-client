@@ -134,7 +134,7 @@ export const EditSet = () => {
         set_institution: institution,
       })
       .then((response) => {
-        toast("Успешно създадохте сет");
+        toast("Това съобшение трябва да се замени с някакво друго");
         console.log(response);
         window.location.href = "/sets";
       })

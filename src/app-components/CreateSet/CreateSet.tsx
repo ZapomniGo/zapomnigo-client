@@ -122,7 +122,7 @@ const navigate = useNavigate();
         set_institution: institution,
       })
       .then((response) => {
-        toast("Успешно създадохте сет");
+        toast("Добре дошли в новия си сет!");
         
        navigate("/set/" + response.data.set_id);
       })
