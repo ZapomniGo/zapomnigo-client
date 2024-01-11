@@ -130,7 +130,7 @@
     .col-1{
     }
     .col-2{
-      margin-left: 40px !important;
+      margin-left: 40px ;
       // align-items: center;
     }
     .col-3{
@@ -170,6 +170,12 @@
   }
 }
 
+@media only screen and (max-width: 1600px){
+  #footer{
+    width: 80% !important;
+  }
+
+}
 
 @media only screen and (max-width: 1200px){
   #footer{
@@ -195,16 +201,16 @@
     border-top-left-radius: 5px;
     width: 100% !important;
     flex-wrap: wrap;
-    .col-1,.col-2,.col-3{
-      width: 49% !important;
+    .col-2{
+      width: 80% !important;
       padding-top: 20px;
       margin: 0 !important;
-      .about-us{
-        margin-left: 40px;
-      }
-      .options{
-        margin-left: 40px;
-      }
+      align-self: flex-start;
+      justify-content: flex-start;
+  
+    }
+    .social-media{
+      margin-right: 0 !important;
     }
   }
 
