@@ -8,11 +8,11 @@ export const Footer = () => {
   return (
     <div id="footer">
       <div onClick={()=>window.location.replace('https://www.zapomnigo.com')} className="col-1">
-        <Tilty glare={true} max={20}>
           <div className="footer-logo">
+          <Tilty glare={true} max={15} maxGlare={0.7}>
             <img src="src/app-components/Footer/image.png" alt="" />
+            </Tilty>
           </div>
-        </Tilty>
       </div>
       <div className="col-2">
         <div className="options">
@@ -23,7 +23,7 @@ export const Footer = () => {
             Политика за бисквитки
           </a>
           <a className="link" href="/legal/privacy-policy">
-            Политка за поверителност
+            Политика за поверителност
           </a>
         </div>
       </div>
