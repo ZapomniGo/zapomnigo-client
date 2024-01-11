@@ -4,6 +4,8 @@ import { Dashboard } from "../Dashboard/Dashboard";
 import SetCard from "../SetCard/SetCard";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
+import { jwtDecode } from "jwt-decode";
+
 
 export const Sets: React.FC = () => {
   const [setCards, setSetCards] = useState([]);
@@ -12,10 +14,16 @@ export const Sets: React.FC = () => {
   const [selectSet, setSelectSet] = useState<string | null>(null);
 
 
+  const token = localStorage.getItem('access_token');
+  let userID = null;
+  
+  if (token) {
+    const decodedToken: any = jwtDecode(token);
+    userID = decodedToken.sub;
+  }
+
   useEffect(() => {
-    // instance.get(`/users/${userID}/sets`).then((response) => {
-    instance.get("/sets").then((response) => {
-      console.log(response.data.sets);
+    instance.get(`/users/${userID}/sets`).then((response) => {
       setSetCards(response.data.sets);
     });
   }, []);
