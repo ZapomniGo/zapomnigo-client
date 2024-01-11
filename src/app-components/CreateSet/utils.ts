@@ -4,7 +4,7 @@ import Flashcard, { FLASHCARD_DIRECTIONS } from "./types";
 
 const useFlashcards = () => {
   const [flashcards, setFlashcards] = useState<Flashcard[]>([
-    { term: "", definition: "", rnd: uuidv4() },
+    { term: "", definition: "", flashcard_id: uuidv4() },
   ]);
 
   const handleMoveFlashcard = (
@@ -40,32 +40,32 @@ const useFlashcards = () => {
   };
 
   const handleAddFlashcard = () => {
-    setFlashcards([...flashcards, { term: "", definition: "", rnd: uuidv4() }]);
+    setFlashcards([...flashcards, { term: "", definition: "", flashcard_id: uuidv4() }]);
   };
 
-  const handleDeleteFlashcard = (rnd: string) => {
+  const handleDeleteFlashcard = (flashcard_id: string) => {
     setFlashcards((prevFlashcards) =>
-      prevFlashcards.filter((flashcard) => flashcard.rnd !== rnd)
+      prevFlashcards.filter((flashcard) => flashcard.flashcard_id !== flashcard_id)
     );
   };
 
-  const handleDuplicateFlashcard = (rnd: string) => {
+  const handleDuplicateFlashcard = (flashcard_id: string) => {
     setFlashcards((prevFlashcards) => {
-      let duplicate = prevFlashcards.find((flashcard) => flashcard.rnd === rnd);
+      let duplicate = prevFlashcards.find((flashcard) => flashcard.flashcard_id === flashcard_id);
 
-      duplicate = { ...duplicate!, rnd: uuidv4() };
+      duplicate = { ...duplicate!, flashcard_id: uuidv4() };
       return duplicate ? [...prevFlashcards, duplicate] : prevFlashcards;
     });
   };
 
-  const handleFlipFlashcard = (rnd: string) => {
+  const handleFlipFlashcard = (flashcard_id: string) => {
     setFlashcards((prevFlashcards) => {
       const flippedFlashcards = prevFlashcards.map((flashcard) => {
-        if (flashcard.rnd === rnd) {
+        if (flashcard.flashcard_id === flashcard_id) {
           return {
             term: flashcard.definition,
             definition: flashcard.term,
-            rnd: flashcard.rnd,
+            flashcard_id: flashcard.flashcard_id,
           };
         }
         return flashcard;
@@ -81,7 +81,7 @@ const useFlashcards = () => {
         return {
           term: flashcard.definition,
           definition: flashcard.term,
-          rnd: flashcard.rnd,
+          flashcard_id: flashcard.flashcard_id,
         };
       });
     });
@@ -96,7 +96,7 @@ const useFlashcards = () => {
       return {
         term: term.trim(),
         definition: definition.trim(),
-        rnd: uuidv4(),
+        flashcard_id: uuidv4(),
       };
     });
 

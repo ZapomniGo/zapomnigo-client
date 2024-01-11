@@ -207,13 +207,13 @@ export const EditSet = () => {
                 <MdFlip onClick={() => handleFlipAllFlashcards()} />
                 {/* TODO(): Refactor styling for icons */}
                 <MdDeleteOutline
-                  onClick={() => handleDeleteFlashcard(flashcard.rnd)}
+                  onClick={() => handleDeleteFlashcard(flashcard.flashcard_id)}
                 />
                 <div>
                   {!isEmpty(flashcard.term) ||
                   !isEmpty(flashcard.definition) ? (
                     <HiOutlineDuplicate
-                      onClick={() => handleDuplicateFlashcard(flashcard.rnd)}
+                      onClick={() => handleDuplicateFlashcard(flashcard.flashcard_id)}
                     />
                   ) : (
                     ""
@@ -238,7 +238,7 @@ export const EditSet = () => {
                   {!isEmpty(flashcard.term) ||
                   !isEmpty(flashcard.definition) ? (
                     <MdFlip
-                      onClick={() => handleFlipFlashcard(flashcard.rnd)}
+                      onClick={() => handleFlipFlashcard(flashcard.flashcard_id)}
                     />
                   ) : (
                     ""
