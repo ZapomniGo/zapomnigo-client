@@ -9,7 +9,7 @@ export const Footer = () => {
     <div id="footer">
       <div onClick={()=>window.location.replace('https://www.zapomnigo.com')} className="col-1">
           <div className="footer-logo">
-          <Tilty glare={true} max={15} maxGlare={0.7}>
+          <Tilty reverse={true} glare={true} max={15} maxGlare={0.7}>
             <img src="src/app-components/Footer/image.png" alt="" />
             </Tilty>
           </div>
