@@ -1,6 +1,8 @@
 import { FaFacebookSquare } from "react-icons/fa";
 import { BsInstagram } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
+import { SiGmail } from "react-icons/si";
+import { RiTwitterXLine } from "react-icons/ri";
 
 
 export const Footer = () => {
@@ -10,21 +12,6 @@ export const Footer = () => {
                 <div className="footer-logo">
                     <img src="src/app-components/Footer/image.png" alt="" />
                 </div>
-            </div>
-            <div className="social-media">
-                <a href="#">
-                    <FaFacebookSquare />
-                </a>
-                <a href="#">
-                    <BsInstagram />
-                </a>
-                <a href="#" className="email">
-                    <MdEmail />
-                </a>
-                <a href="#">
-                    <BsInstagram />
-                </a>
-                
             </div>
             <div className="col-2">
                 <div className="about-us">
@@ -43,6 +30,31 @@ export const Footer = () => {
                         </li>
                     </ul>
                 </div>
+            </div>
+            <div className="social-media">
+                <div className="options">
+                    <a href="#">
+                        <FaFacebookSquare />
+                    </a>
+                    <a href="#">
+                        <BsInstagram />
+                    </a>
+                    <a href="#" className="">
+                        <SiGmail />
+                    </a>
+                    <a href="#">
+                        <RiTwitterXLine />
+                    </a>                    
+                </div>
+                {/* <div className="options">
+                    <a href="#" className="">
+                        <SiGmail />
+                    </a>
+                    <a href="#">
+                        <RiTwitterXLine />
+                    </a>
+                    
+                </div> */}
             </div>
             {/* <div className="col-3">
                 <div className="about-us">

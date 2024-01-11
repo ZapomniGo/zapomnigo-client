@@ -83,7 +83,7 @@
     align-self: center;
     display: flex;
     background-color: #fff;
-    width: 60%;
+    width: 50%;
     margin-top: 50px;
     justify-content: center;
     border-top-right-radius: 7px;
@@ -91,7 +91,7 @@
     .col-1,.col-2,.col-3{
       margin: 20px;
       display: flex;
-      width: 33%;
+      width: 47%;
     }
 
     .col-1{
@@ -112,25 +112,26 @@
 
     }
     .social-media{
-      justify-content: center;
-      width: 33%;
       display: flex;
-      align-items: center;
-      margin-top: 15px;
-    svg{
-        color: $text-color;
-        font-size: 50px;
-        margin: 0 7.5px;
+      margin-right: 40px;
+      .options{
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        margin-top: 15px;
+      svg{
+          color: $text-color;
+          font-size: 40px;
+          margin: 0 7.5px;
+        }   
       }
-      .email{
-        svg{
-          font-size: 65px;
-        }
-      }
-      
+    }
+    .col-1{
     }
     .col-2{
-      align-items: center;
+      margin-left: 40px !important;
+      // align-items: center;
     }
     .col-3{
       margin-left: 0;
