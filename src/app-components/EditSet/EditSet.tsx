@@ -276,7 +276,7 @@ export const EditSet = () => {
             </button>
           </center>
           <div className="create-submition">
-            <button className="submit" onClick={() => setIsModalOpen(!isModalOpen)}>Open modal</button>
+            <button className="submit" onClick={() => setIsModalOpen(!isModalOpen)}>Импортирай</button>
             <button
               disabled={!flashcards.length}
               onClick={handleSubmit}

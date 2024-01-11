@@ -2,6 +2,16 @@ $primary-color: #ff4e00;
 $secondary-color: #ec9f05;
 
 .modal {
+  textarea {
+    align-self: center;
+    background-color: transparent;
+    resize: none;
+    width: 93%;
+    height: 80%;
+    outline: none;
+    border: 1.5px solid $secondary-color;
+    border-radius: 2px;
+  }
   display: none;
   position: fixed;
   top: 0;
