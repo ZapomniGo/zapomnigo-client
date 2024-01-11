@@ -116,7 +116,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                   ></img>
                 </span>
                 <div className="text header-text">
-                  <span className="name">{username}</span>
+                  <span className="name">{username.length > 13 ? username.substring(0, 13) + '...' : username}</span>
                   <span className="institution">{institution}</span>
                 </div>
               </div>
