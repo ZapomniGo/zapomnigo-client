@@ -83,11 +83,9 @@
     align-self: center;
     display: flex;
     background-color: #fff;
-    width: 50%;
-    margin-top: 50px;
+    width: 100% !important;
+    margin-top: 40vmax !important;
     justify-content: center;
-    border-top-right-radius: 7px;
-    border-top-left-radius: 7px;
     .col-1,.col-2,.col-3{
       margin: 20px;
       display: flex;
@@ -115,7 +113,7 @@
       display: flex;
       margin-right: 40px;
       .options{
-        justify-content: center;
+        justify-content: space-evenly;
         flex-direction: column;
         display: flex;
         align-items: center;
@@ -124,10 +122,15 @@
           color: $text-color;
           font-size: 40px;
           margin: 0 7.5px;
+          transition:.2s;
         }   
+        svg:hover{
+          color: red;
+        }
+        a{
+          color:gray !important;
+        }
       }
-    }
-    .col-1{
     }
     .col-2{
       margin-left: 40px ;
@@ -148,7 +151,9 @@
       .options{
         display: flex;
         flex-direction: column;
+        justify-content: space-evenly;
         padding-left: 15px;
+        height:100%;
         ul{
           li{
             a{
@@ -161,7 +166,7 @@
         a{
           font-size: 1.1rem;
           text-decoration: none;
-          color: #000;
+          color: gray;
           padding: 5px 0;
 
         }
