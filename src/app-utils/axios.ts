@@ -33,7 +33,10 @@ instance.interceptors.response.use(
       return Promise.reject(error);
     }
     const config = error.config;
-    if (error.response && error.response.status === 499) {
+    if (
+      (error.response && error.response.status === 498) ||
+      error.response.status === 499
+    ) {
       return axios
         .post(`${HEROKU_URL}/refresh`)
         .then(() => {
