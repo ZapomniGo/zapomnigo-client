@@ -76,15 +76,16 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-
+  justify-content: space-between;
   #footer{
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     color: $text-color;
     align-self: center;
     display: flex;
     background-color: #fff;
-    width: 95%;
-    margin-top: calc(100vh - 250px);
+    width: 60%;
+    margin-top: 50px;
+    justify-content: center;
     border-top-right-radius: 7px;
     border-top-left-radius: 7px;
     .col-1,.col-2,.col-3{
@@ -102,31 +103,34 @@
         display: flex;
         justify-content: center;
         img{
-          width: 60%;
+          width: 80%;
           height: auto;
           border-radius: 5px;
         }
       }
-      .social-media{
-        display: flex;
-        align-items: center;
-        margin-top: 15px;
-      svg{
-          color: $text-color;
-          font-size: 50px;
-          margin: 0 7.5px;
-        }
-        .email{
-          svg{
-            font-size: 65px;
-          }
-        }
-        
-      }
+
 
     }
+    .social-media{
+      justify-content: center;
+      width: 33%;
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+    svg{
+        color: $text-color;
+        font-size: 50px;
+        margin: 0 7.5px;
+      }
+      .email{
+        svg{
+          font-size: 65px;
+        }
+      }
+      
+    }
     .col-2{
-      margin-left: 55px;
+      align-items: center;
     }
     .col-3{
       margin-left: 0;

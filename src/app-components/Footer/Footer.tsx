@@ -10,41 +10,41 @@ export const Footer = () => {
                 <div className="footer-logo">
                     <img src="src/app-components/Footer/image.png" alt="" />
                 </div>
-                <div className="social-media">
-                    <a href="#">
-                        <FaFacebookSquare />
-                    </a>
-                    <a href="#">
-                        <BsInstagram />
-                    </a>
-                    <a href="#" className="email">
-                        <MdEmail />
-                    </a>
-                    <a href="#">
-                        <BsInstagram />
-                    </a>
-                    
-                </div>
+            </div>
+            <div className="social-media">
+                <a href="#">
+                    <FaFacebookSquare />
+                </a>
+                <a href="#">
+                    <BsInstagram />
+                </a>
+                <a href="#" className="email">
+                    <MdEmail />
+                </a>
+                <a href="#">
+                    <BsInstagram />
+                </a>
+                
             </div>
             <div className="col-2">
                 <div className="about-us">
-                    <h2 >About us</h2>
+                    <h2>Общи условия</h2>
                 </div>
                 <div className="options">
                     <ul>
                         <li>
-                        <a href="">About ZapomniGo</a>
+                        <a href="">Политика за поверителност</a>
                         </li>
                         <li>
-                            <a href="">Privacy Policy</a>
+                            <a href="">Политика за ползване</a>
                         </li>
                         <li>
-                            <a href="">Terms and Conditions</a>
+                            <a href="">Маркетингово съгласие</a>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div className="col-3">
+            {/* <div className="col-3">
                 <div className="about-us">
                     <h2 >About us</h2>
                 </div>    
@@ -79,7 +79,7 @@ export const Footer = () => {
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }
