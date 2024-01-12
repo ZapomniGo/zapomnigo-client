@@ -154,7 +154,7 @@ export const EditSet = () => {
       <ToastContainer />
       <div className="create-set-wrapper">
         <div className="create-set">
-          <h1>Създай сет</h1>
+          <h1>Редактирай тесте</h1>
           <input
             type="text"
             value={title}
@@ -282,7 +282,7 @@ export const EditSet = () => {
               onClick={handleSubmit}
               className="submit"
             >
-              Запази
+              Запази промните
             </button>
           </div>
         </div>
