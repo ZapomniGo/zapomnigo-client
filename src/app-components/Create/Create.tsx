@@ -1,9 +1,10 @@
 import { FaRegFolderOpen } from "react-icons/fa";
 import { TbCards } from "react-icons/tb";
-
+import Dashboard from "../Dashboard/Dashboard";
 
 export const Create = () =>{
     return (
+        <Dashboard>
         <div className="create-section">
            <div className="create-header">
                 <div className="create-title">
@@ -34,8 +35,8 @@ export const Create = () =>{
                         </div>
                     </a>
                 </div>
-
             </div>
         </div>
+        </Dashboard>
     )
 }
