@@ -122,7 +122,7 @@ const navigate = useNavigate();
         set_institution: institution,
       })
       .then((response) => {
-        toast("Успешно създадохте сет");
+        toast("Добре дошли в новото си тесте");
         
        navigate("/set/" + response.data.set_id);
       })
@@ -142,7 +142,7 @@ const navigate = useNavigate();
       <ToastContainer />
       <div className="create-set-wrapper">
         <div className="create-set">
-          <h1>Създай сет</h1>
+          <h1>Създай тесте</h1>
           <input
             type="text"
             value={title}

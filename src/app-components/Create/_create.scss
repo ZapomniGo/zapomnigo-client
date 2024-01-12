@@ -6,6 +6,15 @@
     display: flex;
     justify-content: flex-end;
     padding-top: 20px;
+    h1{
+        font-size: 2.5rem;
+        color: gray;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    h2{
+        text-align: center;
+    }
     .create-header{
         display: flex;
         flex-direction: column;
@@ -17,6 +26,7 @@
             height: 10%;
         }
         .create-option{
+            margin-top:5vmax;  
             display: flex;
             align-self: flex-end;
             height: 75%;
@@ -31,7 +41,8 @@
                 width: 30%;
                 margin: 0 30px;
                 background-color: $sidebar-color;
-                border-radius: 5px;
+                border-radius: 10px;
+                padding:1vmax;
                 box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 
 
@@ -50,7 +61,7 @@
                     display: flex;
                     justify-content: center;
                     height: 20%;
-                    color: $secondary-color;
+                    color: gray;
                     text-decoration: none;
                     h2{
                         font-size: 3rem;
@@ -116,6 +127,7 @@
             .create-folder-option{
                 margin: 10px 0 !important;
                 width: 70% !important;
+                padding:2vmax !important;
             }
         }
         .option-description{

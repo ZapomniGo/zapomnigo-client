@@ -36,7 +36,7 @@ export const SetPage = () => {
   useEffect(() => {
     if (id.length === 0 || id.length !== 26 || id.includes(" ")) {
       setFlashcards({
-        set_name: "Хм, този сет не съществува",
+        set_name: "Хм, това тесте не съществува",
         set_description: "Провери дали си въвел правилния линк",
         set_category: "",
         flashcards: [],
