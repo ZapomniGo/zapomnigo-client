@@ -10,12 +10,16 @@ type FlashcardImportModalProps = {
 const FlashcardImportModal = (props: FlashcardImportModalProps) => {
   const [inputText, setInputText] = useState("");
   const [delimiter, setDelimiter] = useState("");
+  const [rowDelimiter, setRowDelimiter] = useState("\n");
   const [isTermEmpty, setIsTermEmpty] = useState(false);
   const [isDefinitionEmpty, setIsDefinitionEmpty] = useState(false);
 
   const handleImport = () => {
-    const flashcards = inputText.split("\n").map((line) => {
-      const [term, definition] = line.trim().split(delimiter);
+    const flashcards = inputText.split(rowDelimiter).map((line) => {
+      const [term, definition] =
+        delimiter === "TAB"
+          ? line.replace(/\t/g, delimiter).trim().split(delimiter)
+          : line.trim().split(delimiter);
 
       if (!term || !definition) {
         setIsTermEmpty(!term);
@@ -27,6 +31,11 @@ const FlashcardImportModal = (props: FlashcardImportModalProps) => {
     });
 
     if (flashcards.some((card) => !card)) {
+      return;
+    }
+
+    if (flashcards.length > 2000) {
+      alert("Cannot input more than 2000 flashcard pairs.");
       return;
     }
 
@@ -45,7 +54,8 @@ const FlashcardImportModal = (props: FlashcardImportModalProps) => {
           Import your flashcard data.
           <label>
             Enter your data in the following manner, term[<em>delimiter</em>]
-            definition
+            definition. If your delimiter is a tab, please input TAB in the
+            field.
             <textarea
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
@@ -54,6 +64,12 @@ const FlashcardImportModal = (props: FlashcardImportModalProps) => {
             {isTermEmpty && (
               <span className="validation-error" style={{ color: "red" }}>
                 <FaExclamationCircle /> Term cannot be empty
+              </span>
+            )}
+            <br />
+            {isDefinitionEmpty && (
+              <span className="validation-error" style={{ color: "red" }}>
+                <FaExclamationCircle /> Definition cannot be empty
               </span>
             )}
           </label>
@@ -67,11 +83,15 @@ const FlashcardImportModal = (props: FlashcardImportModalProps) => {
             style={{ height: "2rem" }}
           />
         </label>
-        {isDefinitionEmpty && (
-          <span className="validation-error" style={{ color: "red" }}>
-            <FaExclamationCircle /> Definition cannot be empty
-          </span>
-        )}
+        <label>
+          Row Delimiter:
+          <input
+            type="text"
+            value={rowDelimiter}
+            onChange={(e) => setRowDelimiter(e.target.value)}
+            style={{ height: "2rem" }}
+          />
+        </label>
         <div className="button-container">
           <button onClick={props.onClose}>Cancel</button>
           <button onClick={handleImport}>OK</button>
