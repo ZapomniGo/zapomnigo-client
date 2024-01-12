@@ -135,7 +135,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
               </li>
               <ul className="menu-links">
                 <li className="nav-link">
-                  <CustomNavLink to="/" activeClassName="active">
+                  <CustomNavLink to="/" activeClassName="active" onClick={handleCloseClick}>
                     <i className="icon" style={{ transform: "scale(1.3)" }}>
                       <BiHomeAlt />
                     </i>
@@ -145,7 +145,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                 {token ? (
                   <>
                     <li className="nav-link">
-                      <CustomNavLink to={`/sets/${username}`} activeClassName="active">
+                      <CustomNavLink to={`/sets/${username}`} activeClassName="active" onClick={handleCloseClick}>
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <TbCards />
                         </i>
@@ -153,7 +153,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       </CustomNavLink>
                     </li>
                     <li className="nav-link">
-                      <CustomNavLink to="/folders" activeClassName="active">
+                      <CustomNavLink to="/folders" activeClassName="active" onClick={handleCloseClick}>
                         <i className="icon">
                           <FaRegFolderOpen />
                         </i>
@@ -161,7 +161,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       </CustomNavLink>
                     </li>
                     <li className="nav-link">
-                      <CustomNavLink to="/create-set" activeClassName="active">
+                      <CustomNavLink to="/create-set" activeClassName="active" onClick={handleCloseClick}>
                         <i className="icon" style={{ transform: "scale(1.3)" }}>
                           <GoPencil />
                         </i>
@@ -169,7 +169,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       </CustomNavLink>
                     </li>
                     <li className="nav-link">
-                      <CustomNavLink to="/settings" activeClassName="active">
+                      <CustomNavLink to="/settings" activeClassName="active" onClick={handleCloseClick}>
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <TbSettings />
                         </i>
@@ -180,7 +180,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                 ) : (
                   <>
                     <li className="nav-link">
-                      <CustomNavLink to="/register" activeClassName="active">
+                      <CustomNavLink to="/register" activeClassName="active" onClick={handleCloseClick}>
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <GoPencil />
                         </i>
@@ -188,7 +188,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       </CustomNavLink>
                     </li>
                     <li className="nav-link">
-                      <CustomNavLink to="/login" activeClassName="active">
+                      <CustomNavLink to="/login" activeClassName="active" onClick={handleCloseClick}>
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <BiLogIn />
                         </i>
