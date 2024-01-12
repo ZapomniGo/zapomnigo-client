@@ -113,7 +113,7 @@ export const SetPage = () => {
               <p className="description">{flashcards.set_description}</p>
               <p className="category">{flashcards.set_category}</p>
               <div className="actions">
-                <a href="#">
+                <a href={`/study/${id}`}>
                   <FaRegLightbulb />
                   Учи
                 </a>

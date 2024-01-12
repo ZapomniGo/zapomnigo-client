@@ -1,18 +1,39 @@
-export const homeRoute = "/";
-export const registerRoute = "/register";
-export const loginRoute = "/login";
-export const setsRoute = "/sets/:id";
-export const foldersRoute = "/folders";
-export const createRoute = "/create";
-export const settingsRoute = "/settings";
-export const createSetRoute = "/create-set";
-export const setPage = "/set/:id";
-export const verifyEmail = "/verify";
-export const verifyEmailToken = "/verify?token=:token";
-export const privacyPolicy = "/legal/privacy-policy";
-export const termsOfService = "/legal/terms-of-service";
-export const cookieRules = "/legal/cookie-rules";
-export const editSet = "/edit-set/:id";
-export const forgotPassword = "/forgot-password?token=:token";
-export const forgotPasswordNoToken = "/forgot-password";
+const homeRoute = "/";
+const registerRoute = "/register";
+const loginRoute = "/login";
+const setsRoute = "/sets/:id";
+const foldersRoute = "/folders";
+const createRoute = "/create";
+const settingsRoute = "/settings";
+const createSetRoute = "/create-set";
+const setPageRoute = "/set/:id";
+const verifyEmailRoute = "/verify";
+const verifyEmailTokenRoute = "/verify?token=:token";
+const privacyPolicyRoute = "/legal/privacy-policy";
+const termsOfServiceRoute = "/legal/terms-of-service";
+const cookieRulesRoute = "/legal/cookie-rules";
+const editSetRoute = "/edit-set/:id";
+const forgotPasswordRoute = "/forgot-password?token=:token";
+const forgotPasswordNoTokenRoute = "/forgot-password";
+const studyRoute = "/study/:id";
 
+export {
+  homeRoute,
+  registerRoute,
+  loginRoute,
+  setsRoute,
+  foldersRoute,
+  createRoute,
+  settingsRoute,
+  createSetRoute,
+  setPageRoute,
+  verifyEmailRoute,
+  verifyEmailTokenRoute,
+  privacyPolicyRoute,
+  termsOfServiceRoute,
+  cookieRulesRoute,
+  editSetRoute,
+  forgotPasswordRoute,
+  forgotPasswordNoTokenRoute,
+  studyRoute,
+};

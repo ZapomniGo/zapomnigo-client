@@ -11,15 +11,16 @@ import {
   settingsRoute,
   loginRoute,
   createSetRoute,
-  setPage,
-  verifyEmail,
-  verifyEmailToken,
-  privacyPolicy,
-  termsOfService,
-  cookieRules,
-  editSet,
-  forgotPassword,
-  forgotPasswordNoToken,
+  setPageRoute,
+  verifyEmailRoute,
+  verifyEmailTokenRoute,
+  privacyPolicyRoute,
+  termsOfServiceRoute,
+  cookieRulesRoute,
+  editSetRoute,
+  forgotPasswordRoute,
+  forgotPasswordNoTokenRoute,
+  studyRoute,
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Provider } from "react-redux";
@@ -42,6 +43,7 @@ import TermsOfService from "./app-components/Legal/TermsOfService";
 import CookieRules from "./app-components/Legal/CookieRules";
 import { EditSet } from "./app-components/EditSet/EditSet";
 import ForgotPassword from "./app-components/ForgotPassword/ForgotPassword";
+import { StudyComponent } from "./app-components/StudyMode/StudyComponent";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -82,40 +84,44 @@ const router = createBrowserRouter([
         element: <CreateSet />,
       },
       {
-        path: setPage,
+        path: setPageRoute,
         element: <SetPage />,
       },
       {
-        path: verifyEmail,
+        path: verifyEmailRoute,
         element: <VerifyEmail />,
       },
       {
-        path: verifyEmailToken,
+        path: verifyEmailTokenRoute,
         element: <VerifyEmailToken />,
       },
       {
-        path: privacyPolicy,
+        path: privacyPolicyRoute,
         element: <PrivacyPolicy />,
       },
       {
-        path: termsOfService,
+        path: termsOfServiceRoute,
         element: <TermsOfService />,
       },
       {
-        path: cookieRules,
+        path: cookieRulesRoute,
         element: <CookieRules />,
       },
       {
-        path: editSet,
+        path: editSetRoute,
         element: <EditSet />,
       },
       {
-        path: forgotPassword,
+        path: forgotPasswordRoute,
         element: <ForgotPassword />,
       },
       {
-        path: forgotPasswordNoToken,
+        path: forgotPasswordNoTokenRoute,
         element: <ForgotPassword />,
+      },
+      {
+        path: studyRoute,
+        element: <StudyComponent />,
       },
     ],
   },
