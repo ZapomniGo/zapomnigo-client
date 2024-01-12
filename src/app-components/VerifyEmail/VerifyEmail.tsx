@@ -5,7 +5,7 @@ import instance from "../../app-utils/axios";
 import { emailPattern } from "./../Forms/Registration/utils";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import { Background } from "../Forms/FormsBackground/Background";
 const VerifyEmail = () => {
   const navigate = useNavigate();
   const query = new URLSearchParams(useLocation().search);
@@ -52,25 +52,29 @@ const VerifyEmail = () => {
     }
   }, [token]);
   return (
-    <div className="verify">
-      <div className="verifyContainer">
-        <h1>Потвърдете имейла си</h1>
-        <p>
-          Проверете пощата си, би трябвало да сте получили имейл от нас.
-          Проверете и спам папката. Ако все пак не сте получили, натиснете
-          бутона отдолу
-        </p>
-        <input
-          onChange={(e) => setEmail(e.target.value)}
-          type="text"
-          placeholder="Имейл"
-        />
-        <button onClick={sendEmail} className="button">
-          Изпрати отново
-        </button>
-        {message.length ? <p className="msg">{message}</p> : ""}
+      <div id="backgroundForm">
+        <Background />
+
+        <div className="verify">
+          <div className="verifyContainer">
+            <h1>Потвърди си имейла</h1>
+            <p>
+              Изпратихме ти имейл за потвърждение. Провери пощата си и натисни
+              линка в него. Ако все пак не си получил имейла, можеш да поискаш
+              нов като си въведеш имейла по-долу и натиснеш бутона.
+            </p>
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              placeholder="Имейл"
+            />
+            <button onClick={sendEmail} className="button">
+              Изпрати отново
+            </button>
+            {message.length ? <p className="msg">{message}</p> : ""}
+          </div>
+        </div>
       </div>
-    </div>
   );
 };
 
