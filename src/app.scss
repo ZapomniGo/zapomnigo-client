@@ -160,7 +160,7 @@ input[type="submit"] {
   cursor: pointer;
   min-height: 2.5vmax;
   margin: 0.5vmax;
-  padding: 0 .7vmax;
+  padding: 0 0.7vmax;
   border-radius: 0.2em;
   font-size: 1.2vmax;
   background-color: $secondary-color;
@@ -179,6 +179,7 @@ input[type="submit"] {
     }
   }
 }
+
 
 button:hover:not(#RFS-StepButton, button[type="button"]),
 input[type="submit"]:hover {
@@ -339,7 +340,7 @@ input[type="submit"]:hover {
         input[type="checkbox"]:checked:after {
           background-color: white;
         }
-        label{
+        label {
           width: 100%;
         }
       }
