@@ -77,7 +77,6 @@ export const EditSet = () => {
 
 
   const handleSubmit = () => {
-    //check if the title is not empty
     if (title.length === 0) {
       toast("Моля въведете заглавие");
       return;
