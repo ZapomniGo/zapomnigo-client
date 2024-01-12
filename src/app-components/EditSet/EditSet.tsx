@@ -126,7 +126,7 @@ export const EditSet = () => {
     }
     //check if the tags are not empty
     instance
-      .post("/sets", {
+      .put(`/sets/${id}`, {
         set_name: title,
         set_description: description,
         flashcards: flashcards,
@@ -136,7 +136,7 @@ export const EditSet = () => {
       .then((response) => {
         toast("Успешно създадохте сет");
         console.log(response);
-        window.location.href = "/sets";
+        window.location.href = `/set/${id}`;
       })
       .catch((error) => {
         toast("Възникна грешка");
