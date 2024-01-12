@@ -83,6 +83,46 @@ const StudyComponent = () => {
     return shuffledArray;
   };
 
+  // Levenshtein distance algorithm for string similarity (MOST LIKELY WILL CHANGE.)
+  const calculateSimilarity = (str1, str2) => {
+    const len1 = str1.length + 1;
+    const len2 = str2.length + 1;
+
+    const matrix = Array(len1)
+      .fill(null)
+      .map(() => Array(len2).fill(null));
+
+    for (let i = 0; i < len1; i++) {
+      for (let j = 0; j < len2; j++) {
+        if (i === 0) {
+          matrix[i][j] = j;
+        } else if (j === 0) {
+          matrix[i][j] = i;
+        } else {
+          const cost = str1.charAt(i - 1) === str2.charAt(j - 1) ? 0 : 1;
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j - 1] + cost
+          );
+        }
+      }
+    }
+
+    const maxLen = Math.max(len1, len2);
+    const distance = matrix[len1 - 1][len2 - 1];
+
+    return 1 - distance / maxLen;
+  };
+
+  const isAnswerCorrect = (userInput, expectedAnswer) => {
+    const similarity = calculateSimilarity(
+      userInput.toLowerCase(),
+      expectedAnswer.toLowerCase()
+    );
+    return similarity > 0.8;
+  };
+
   console.log(flashcards);
 
   return (
