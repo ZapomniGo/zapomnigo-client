@@ -1,1 +1,1 @@
-web:  npm i && vite build
+web:  npm i && npm run serve-heroku
