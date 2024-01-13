@@ -41,7 +41,7 @@ const VerifyEmail = () => {
         .then((res) => {
           if (res.data.message.includes("has been verified")) {
             setMessage("Потвърдихте имейла си!");
-            navigate("/login");
+            window.location.href = "/login";
           } else {
             setMessage("Грешен код");
           }

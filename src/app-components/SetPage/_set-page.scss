@@ -5,6 +5,7 @@
   align-items: center;
   font-size: 15px;
   margin-top: 3vh;
+
   .set-info {
     padding: 1vmax;
     display: flex;
@@ -18,7 +19,6 @@
     margin-bottom: 5vh;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     border: 3px solid orange;
-
 
     .set-title {
       display: flex;
@@ -71,9 +71,9 @@
     .actions {
       margin: 2px 15px;
       display: flex;
-      flex-wrap:wrap;
+      flex-wrap: wrap;
       a {
-        margin:.3vmax;
+        margin: 0.3vmax;
         display: flex;
         align-items: center;
         margin-right: 6px;
@@ -88,6 +88,10 @@
           margin-right: 5px;
           font-size: 20px;
         }
+      }
+      a:hover {
+        background-color: white;
+        color: orange;
       }
       .rotate {
         svg {
@@ -108,16 +112,25 @@
       select {
         border-radius: 5px;
         height: auto !important;
-        width:auto;
+        width: auto;
         font-size: 1rem;
         padding: 0.5vmax;
       }
     }
   }
 }
-
+#loadingBanner {
+  font-size: 3vmax !important;
+  color: gray !important;
+  margin-top: 10vh;
+  text-align: center;
+}
 @media screen and (max-width: 800px) {
   #set-page {
+    a:hover {
+      background-color: orange;
+      color: white;
+    }
     .set-info {
       .set-title {
         h1 {

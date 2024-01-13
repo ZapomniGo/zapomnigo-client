@@ -79,12 +79,13 @@ export const SetPage = () => {
       return;
     }
     instance
-      .post(`/sets/${id}/duplicate`)
+      .post(`/sets/${id}/copy`)
       .then((response) => {
+        toast("Добре дошъл в новото си идентично тесте!");
         navigate(`/set/${response.data.set_id}`);
       })
       .catch((error) => {
-        console.log(error);
+        toast("Имаше грешка при копирането, пробвай отново по-късно");
       });
   };
 
@@ -147,7 +148,7 @@ export const SetPage = () => {
         setUsername(response.data.set.username);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }, [id]);
 
@@ -231,11 +232,17 @@ export const SetPage = () => {
                   Флашкарти (
                   {flashcards ? flashcards.flashcards.length : "Зареждане..."})
                 </h2>
-                <select onChange={handleFilterChange}>
-                  <option value="">По подразбиране</option>
-                  <option value="a-z">По азбучен ред(А-Я)</option>
-                  <option value="z-a">По азбучен ред(Я-А)</option>
-                </select>
+                {flashcards.flashcards.length !== 1 ? (
+                  <>
+                    <select onChange={handleFilterChange}>
+                      <option value="">По подразбиране</option>
+                      <option value="a-z">По азбучен ред(А-Я)</option>
+                      <option value="z-a">По азбучен ред(Я-А)</option>
+                    </select>
+                  </>
+                ) : (
+                  ""
+                )}
               </div>
               {sortedFlashcards.map((flashcard) => (
                 <Flashcard key={flashcard.flashcard_id} flashcard={flashcard} />
@@ -245,7 +252,7 @@ export const SetPage = () => {
         ) : (
           <center>
             {" "}
-            <h1>Зареждане...</h1>
+            <h1 id="loadingBanner">Зареждане...</h1>
           </center>
         )}
       </>
