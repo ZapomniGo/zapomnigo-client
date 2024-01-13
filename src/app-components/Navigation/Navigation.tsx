@@ -19,6 +19,7 @@ import { url } from "../../Global";
 import { BiLogIn } from "react-icons/bi";
 import instance from "../../app-utils/axios";
 import { ToastContainer, toast } from "react-toastify";
+import CookieConsent, { Cookies } from "react-cookie-consent";
 import "react-toastify/dist/ReactToastify.css";
 
 interface NavigationProps {
