@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const IS_PROD = import.meta.env.IS_PROD;
+const IS_PROD = import.meta.env.VITE_IS_PROD;
 
 // const IS_PROD =
 //   window.location.href.indexOf("localhost") === -1 ||

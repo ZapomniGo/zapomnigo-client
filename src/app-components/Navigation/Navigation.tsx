@@ -111,7 +111,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
               <div className="image-text">
                 <span className="image">
                   <img
-                    src="/public/logo.jpg"
+                    src="/logo.jpg"
                     alt="logo"
                   ></img>
                 </span>
