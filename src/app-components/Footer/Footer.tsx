@@ -10,7 +10,7 @@ export const Footer = () => {
       <div onClick={()=>window.location.replace('https://www.zapomnigo.com')} className="col-1">
           <div className="footer-logo">
           <Tilty reverse={true} glare={true} max={15} maxGlare={0.7}>
-            <img src="src/app-components/Footer/image.png" alt="" />
+            <img src="/public/image.jpg" alt="" />
             </Tilty>
           </div>
       </div>

@@ -38,9 +38,21 @@ instance.interceptors.response.use(
       error.response.status === 499
     ) {
       return axios
-        .post(`${HEROKU_URL}/refresh`)
-        .then(() => {
-          return instance.request(config);
+        .post(
+          `${HEROKU_URL}/refresh`,
+          {},
+          {
+            headers: {
+              Authorization: localStorage.getItem("refresh_token"),
+            },
+          }
+        )
+        .then((res) => {
+          localStorage.setItem("access_token", res.data.access_token);
+          config.headers.Authorization = res.data.access_token;
+          localStorage.setItem("refresh_token", res.data.refresh_token);
+          console.log(config);
+          return axios.request(config);
         })
         .catch((error) => {
           return Promise.reject(error);

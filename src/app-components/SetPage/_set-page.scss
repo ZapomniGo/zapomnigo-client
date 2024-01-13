@@ -71,7 +71,9 @@
     .actions {
       margin: 2px 15px;
       display: flex;
+      flex-wrap:wrap;
       a {
+        margin:.3vmax;
         display: flex;
         align-items: center;
         margin-right: 6px;

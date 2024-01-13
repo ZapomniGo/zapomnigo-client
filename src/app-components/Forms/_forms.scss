@@ -4,6 +4,7 @@
   background-color: #f1f1f1;
   position: relative;
   overflow-x: hidden;
+  z-index:-1 !important;
 
   .spacer {
     position: absolute;

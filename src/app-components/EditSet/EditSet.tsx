@@ -77,7 +77,6 @@ export const EditSet = () => {
 
 
   const handleSubmit = () => {
-    //check if the title is not empty
     if (title.length === 0) {
       toast("Моля въведете заглавие");
       return;
@@ -126,7 +125,7 @@ export const EditSet = () => {
     }
     //check if the tags are not empty
     instance
-      .post("/sets", {
+      .put(`/sets/${id}`, {
         set_name: title,
         set_description: description,
         flashcards: flashcards,
@@ -134,9 +133,9 @@ export const EditSet = () => {
         set_institution: institution,
       })
       .then((response) => {
-        toast("Успешно създадохте сет");
+        toast("Това съобшение трябва да се замени с някакво друго");
         console.log(response);
-        window.location.href = "/sets";
+        window.location.href = `/set/${id}`;
       })
       .catch((error) => {
         toast("Възникна грешка");
@@ -154,7 +153,7 @@ export const EditSet = () => {
       <ToastContainer />
       <div className="create-set-wrapper">
         <div className="create-set">
-          <h1>Създай сет</h1>
+          <h1>Редактирай тесте</h1>
           <input
             type="text"
             value={title}
@@ -207,13 +206,13 @@ export const EditSet = () => {
                 <MdFlip onClick={() => handleFlipAllFlashcards()} />
                 {/* TODO(): Refactor styling for icons */}
                 <MdDeleteOutline
-                  onClick={() => handleDeleteFlashcard(flashcard.rnd)}
+                  onClick={() => handleDeleteFlashcard(flashcard.flashcard_id)}
                 />
                 <div>
                   {!isEmpty(flashcard.term) ||
                   !isEmpty(flashcard.definition) ? (
                     <HiOutlineDuplicate
-                      onClick={() => handleDuplicateFlashcard(flashcard.rnd)}
+                      onClick={() => handleDuplicateFlashcard(flashcard.flashcard_id)}
                     />
                   ) : (
                     ""
@@ -238,7 +237,7 @@ export const EditSet = () => {
                   {!isEmpty(flashcard.term) ||
                   !isEmpty(flashcard.definition) ? (
                     <MdFlip
-                      onClick={() => handleFlipFlashcard(flashcard.rnd)}
+                      onClick={() => handleFlipFlashcard(flashcard.flashcard_id)}
                     />
                   ) : (
                     ""
@@ -282,7 +281,7 @@ export const EditSet = () => {
               onClick={handleSubmit}
               className="submit"
             >
-              Запази
+              Запази промните
             </button>
           </div>
         </div>

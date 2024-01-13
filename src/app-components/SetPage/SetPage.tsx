@@ -6,19 +6,21 @@ import { FaRegLightbulb } from "react-icons/fa";
 import { RiPencilLine } from "react-icons/ri";
 import { FiShare2 } from "react-icons/fi";
 import { PiExport } from "react-icons/pi";
+import { MdDeleteOutline } from "react-icons/md";
 //get the id from the url
 import { useParams } from "react-router-dom";
 import instance from "../../app-utils/axios";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 export const SetPage = () => {
+  const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [flashcards, setFlashcards] = useState<FlashcardSet>();
   const [sortingOrder, setSortingOrder] = useState<string>("");
-  const [username, setUsername] = useState('');
-  const [creator, setCreator] = useState('');
-
-
+  const [username, setUsername] = useState("");
+  const [creator, setCreator] = useState("");
+  const { id } = useParams<{ id: string }>();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortingOrder(event.target.value);
@@ -32,11 +34,31 @@ export const SetPage = () => {
     }
     return 0;
   });
-  const { id } = useParams<{ id: string }>();
+
+  const deleteSet = () => {
+    if (!token) {
+      return;
+    }
+    if (creator !== username) {
+      return;
+    }
+    if (!window.confirm("Сигурен ли си, че искаш да изтриеш този сет?")) {
+      return;
+    }
+    instance
+      .delete(`/sets/${id}`)
+      .then((response) => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     if (id.length === 0 || id.length !== 26 || id.includes(" ")) {
       setFlashcards({
-        set_name: "Хм, този сет не съществува",
+        set_name: "Хм, това тесте не съществува",
         set_description: "Провери дали си въвел правилния линк",
         set_category: "",
         flashcards: [],
@@ -56,19 +78,17 @@ export const SetPage = () => {
       });
   }, [id]);
 
-
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("access_token");
     setToken(token || null);
-  
+
     if (token) {
-      const decodedToken: { username: string, institution: string } = jwtDecode(token);
+      const decodedToken: { username: string; institution: string } =
+        jwtDecode(token);
       setCreator(decodedToken.username);
       console.log(creator);
     }
   }, []);
-
-
 
   return (
     <Dashboard>
@@ -77,16 +97,18 @@ export const SetPage = () => {
           <div id="set-page">
             <div className="set-info">
               <div className="set-title">
-                <h1>
-                {flashcards.set_name}
-                </h1>
-                {flashcards && flashcards.organization  ? (
-            <div className={`set-institution ${flashcards.organization ? "open" : "close"}`}>
-              <a href="#">
-                {flashcards.organization}
-              </a>
-            </div>
-          ): ''}
+                <h1>{flashcards.set_name}</h1>
+                {flashcards && flashcards.organization ? (
+                  <div
+                    className={`set-institution ${
+                      flashcards.organization ? "open" : "close"
+                    }`}
+                  >
+                    <a href="#">{flashcards.organization}</a>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
               <p className="description">{flashcards.set_description}</p>
               <p className="category">{flashcards.set_category}</p>
@@ -116,6 +138,12 @@ export const SetPage = () => {
                 <a href="#">
                   <PiExport /> Експортирай
                 </a>
+                {creator === username && (
+                  <a onClick={deleteSet}>
+                    <MdDeleteOutline />
+                    Изтрий
+                  </a>
+                )}
               </div>
               <p className="creator">Създадено от {flashcards.username}</p>
             </div>
@@ -123,10 +151,7 @@ export const SetPage = () => {
               <div className="cards-info-header">
                 <h2>
                   Флашкарти (
-                  {flashcards
-                    ? flashcards.flashcards.length
-                    : "Зареждане..."}
-                  )
+                  {flashcards ? flashcards.flashcards.length : "Зареждане..."})
                 </h2>
                 <select onChange={handleFilterChange}>
                   <option value="">По подразбиране</option>
@@ -146,7 +171,7 @@ export const SetPage = () => {
           </center>
         )}
       </>
-      <div style={{marginBottom: "5vmax"}}></div>
+      <div style={{ marginBottom: "5vmax" }}></div>
     </Dashboard>
   );
 };
