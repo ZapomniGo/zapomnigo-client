@@ -5,19 +5,22 @@ import { MdContentCopy } from "react-icons/md";
 import { FaRegLightbulb } from "react-icons/fa";
 import { RiPencilLine } from "react-icons/ri";
 import { FiShare2 } from "react-icons/fi";
-import { PiExport } from "react-icons/pi";
+import { FiDownload } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
+import { FaRegCopy } from "react-icons/fa6";
 //get the id from the url
 import { useParams } from "react-router-dom";
 import instance from "../../app-utils/axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { all } from "axios";
 
 export const SetPage = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [flashcards, setFlashcards] = useState<FlashcardSet>();
+  const [allData, setAllData] = useState<any>();
   const [sortingOrder, setSortingOrder] = useState<string>("");
   const [username, setUsername] = useState("");
   const [creator, setCreator] = useState("");
@@ -35,6 +38,55 @@ export const SetPage = () => {
     }
     return 0;
   });
+
+  const Export = () => {
+    if (!token) {
+      return;
+    }
+    let dataObj = allData;
+    let flashcards2 = dataObj.set.flashcards;
+    let csvContent = "Term,Definition\n";
+
+    for (let card of flashcards2) {
+      const parser = new DOMParser();
+      const htmlTerm = parser.parseFromString(card.term, "text/html");
+      const textTerm = htmlTerm.body.textContent || "";
+      const htmlCard = parser.parseFromString(card.definition, "text/html");
+      const textCard = htmlCard.body.textContent || "";
+      csvContent += `${textTerm},${textCard}\n`;
+    }
+
+    let blob = new Blob([csvContent], {
+      type: "text/csv;charset=utf-8;",
+    });
+    let link = document.createElement("a");
+    if (link.download !== undefined) {
+      let url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", allData.set.set_name + ".csv");
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
+  const DuplicateSet = () => {
+    if (!token) {
+      return;
+    }
+    if (!window.confirm("Сигурен ли си, че искаш да копираш този сет?")) {
+      return;
+    }
+    instance
+      .post(`/sets/${id}/duplicate`)
+      .then((response) => {
+        navigate(`/set/${response.data.set_id}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const deleteSet = () => {
     if (!token) {
@@ -91,6 +143,7 @@ export const SetPage = () => {
       .get(`/sets/${id}`)
       .then((response) => {
         setFlashcards(response.data.set);
+        setAllData(response.data);
         setUsername(response.data.set.username);
       })
       .catch((error) => {
@@ -152,12 +205,16 @@ export const SetPage = () => {
                   <RiPencilLine />
                   Редактирай
                 </a> */}
+                <a onClick={DuplicateSet} href="#">
+                  <FaRegCopy />
+                  Копирай
+                </a>
                 <a onClick={Share} href="#">
                   <FiShare2 />
                   Сподели
                 </a>
-                <a href="#">
-                  <PiExport /> Експортирай
+                <a onClick={Export} href="#">
+                  <FiDownload /> Експортирай
                 </a>
                 {creator === username && (
                   <a onClick={deleteSet}>
