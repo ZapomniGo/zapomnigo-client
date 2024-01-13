@@ -122,7 +122,7 @@ const navigate = useNavigate();
         set_institution: institution,
       })
       .then((response) => {
-        toast("Добре дошли в новия си сет!");
+        toast("Добре дошъл в новото си тесте");
         
        navigate("/set/" + response.data.set_id);
       })
@@ -142,7 +142,7 @@ const navigate = useNavigate();
       <ToastContainer />
       <div className="create-set-wrapper">
         <div className="create-set">
-          <h1>Създай сет</h1>
+          <h1>Създай тесте</h1>
           <input
             type="text"
             value={title}
@@ -194,13 +194,13 @@ const navigate = useNavigate();
               <div className="buttonWrapper">
                 {/* TODO(): Refactor styling for icons */}
                 <MdDeleteOutline
-                  onClick={() => handleDeleteFlashcard(flashcard.rnd)}
+                  onClick={() => handleDeleteFlashcard(flashcard.flashcard_id)}
                 />
                 <div>
                   {!isEmpty(flashcard.term) ||
                   !isEmpty(flashcard.definition) ? (
                     <HiOutlineDuplicate
-                      onClick={() => handleDuplicateFlashcard(flashcard.rnd)}
+                      onClick={() => handleDuplicateFlashcard(flashcard.flashcard_id)}
                     />
                   ) : (
                     ""
@@ -225,7 +225,7 @@ const navigate = useNavigate();
                   {!isEmpty(flashcard.term) ||
                   !isEmpty(flashcard.definition) ? (
                     <MdFlip
-                      onClick={() => handleFlipFlashcard(flashcard.rnd)}
+                      onClick={() => handleFlipFlashcard(flashcard.flashcard_id)}
                     />
                   ) : (
                     ""
