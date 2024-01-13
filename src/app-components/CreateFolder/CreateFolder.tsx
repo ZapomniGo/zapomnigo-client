@@ -20,6 +20,14 @@ export const CreateFolder = () => {
           console.log(response.data.sets);
           setSetCards(response.data.sets);
         });
+        instance.get("/categories")
+        .then((response) => {
+          setAllCategories(response.data.categories);
+        })
+      instance.get("/organizations")
+      .then((response) =>{
+          setAllInstitutions(response.data.organizations);
+      })
     }, []);
 
     const handleChangeFolder = (key: string, value: string) => {
@@ -28,11 +36,11 @@ export const CreateFolder = () => {
     
     
     const handleSubmitFolder = () => {
-      if (folder.title.length === 0) {
+      if (title.length === 0) {
         toast("Моля въведете заглавие");
         return;
       }
-      if (folder.description.length === 0) {
+      if (description.length === 0) {
         toast("Моля въведете описание");
         return;
       }
@@ -48,31 +56,64 @@ export const CreateFolder = () => {
 
     };
 
-
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [allCategories, setAllCategories] = useState([]);
+    const [category, setCategory] = useState("");
+    const [allInstitutions, setAllInstitutions] = useState([]);
+    const [institution, setInstitution] = useState("");
 
   return (
     <Dashboard>
         <ToastContainer />
-      <div className="create-folder">
-        <div className="create-folder-wrapper">
-          <div className="create-folder-title">
-            <h1>Create Folder</h1>
-          </div>
-          <div className="flashcard">
-            <Editor
-              placeholder={"Термин"}
-              value={folder.title}
-              onChange={(value: string) =>
-                handleChangeFolder("title", value)
-              }
-            />
-            <Editor
-              placeholder={"Дефиниция"}
-              value={folder.description}
-              onChange={(value: string) =>
-                handleChangeFolder("description", value)
-              }
-            />
+      <div className="create-set-wrapper">
+        <div className="create-set">
+        <h1>Създай тесте</h1>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Заглавие"
+            className="title"
+            minLength={1}
+            maxLength={100}
+          />
+          <div className="other-info">
+            <div className="description">
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Описание"
+              />
+            </div>
+            <div className="tags">
+              <select
+                onChange={(e) => setCategory(e.target.value)}
+                defaultValue={""}
+                id="categories"
+                name="categories"
+              >
+                <option value="">Без категория</option>
+                {allCategories.map((category, index) => (
+                  <option key={index} value={category.category_id}>
+                    {category.category_name}
+                  </option>
+                ))}
+              </select>
+              <select
+                onChange={(e) => setInstitution(e.target.value)}
+                defaultValue=""
+                id="institution"
+                name="institution"
+              >
+                <option value="">Без институция</option>
+                {allInstitutions.map((institution, index) => (
+                  <option key={index} value={institution.organization_id}>
+                    {institution.organization_name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           {setCards.map((card: any) => (
             <SelectSet
