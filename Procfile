@@ -1,1 +1,1 @@
-web:  npm i && npm run serve-heroku
+web:  npm i && npm run dev
