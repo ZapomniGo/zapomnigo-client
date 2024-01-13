@@ -167,7 +167,7 @@ export const Login = () => {
             <a className="link" onClick={() => navigate("/register")}>
               Нямам акаунт
             </a>
-            <input type="submit" value={"Влезни"} onClick={login} />
+            <input type="submit" value={"Вход"} onClick={login} />
           </div>
           <center>
             {" "}

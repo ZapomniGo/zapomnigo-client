@@ -193,7 +193,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <BiLogIn />
                         </i>
-                        <span className="text nav-text">Влезни</span>
+                        <span className="text nav-text">Вход</span>
                       </CustomNavLink>
                     </li>
                   </>
