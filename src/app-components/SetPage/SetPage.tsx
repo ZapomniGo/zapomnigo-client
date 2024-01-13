@@ -69,7 +69,7 @@ export const SetPage = () => {
     navigator.clipboard
       .writeText(url)
       .then(() => {
-        toast("Копирано в клипборда!");
+        toast("Линкът е копиран в клипборда");
       })
       .catch(() => {
         toast("Копирането не се поддържа от браузъра :(");
