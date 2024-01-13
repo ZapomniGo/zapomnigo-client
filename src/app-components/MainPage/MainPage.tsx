@@ -12,7 +12,6 @@ export const MainPage: React.FC = () => {
   // const [exploreCards, setExploreCards] = useState(10);
   const [selectSet, setSelectSet] = useState<string | null>(null);
 
-
   useEffect(() => {
     // instance.get(`/users/${userID}/sets`).then((response) => {
 
@@ -21,7 +20,6 @@ export const MainPage: React.FC = () => {
       setSetCards(response.data.sets);
     });
   }, []);
-
 
   const handleLoadRecent = () => {
     setRecentCards((prevRecentCards) => prevRecentCards + 10);
