@@ -1,9 +1,7 @@
-import { useState } from "react";
+import { isBackspace } from "lexical/LexicalUtils";
 
-export const SelectSet = ({ id, title, description, institution, image, creator_name, onSelectSet, onDeselectSet}) => {
+export const SelectSet = ({ id, title, description, institution, image, creator_name, onSelectSet, onDeselectSet, isAvb}) => {
     
-    const [isSelected, setIsSelected] = useState(false);
-
 
     return (
         <div className="select-set">
@@ -31,11 +29,13 @@ export const SelectSet = ({ id, title, description, institution, image, creator_
                         </div>
                     ): ''}
                 </div>
-                {isSelected ? (
-                    <button onClick={() => { onDeselectSet(id); setIsSelected(false); }}>Deselect Set</button>
+                {isAvb === true ? (
+                                        <button onClick={() => {onSelectSet(id); isAvb}}>Select Set</button>
+
+
                 ) : (
-                    <button onClick={() => {onSelectSet(id); setIsSelected(true)}}>Select Set</button>)
-                }
+                    <button onClick={() => { onDeselectSet(id); isAvb}}>Deselect Set</button>
+)}
                 
                 </div>
         </div>

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const useFolders = () => {
     const [folder, setFolder] = useState<Folder[]>([
-      { title: "", description: "", rnd: uuidv4() },
+      { title: "", description: "", folder_id: uuidv4(), catgeory: "", institution: "" },
     ]);
     const handleChangeFolder = (
         field: "term" | "definition",

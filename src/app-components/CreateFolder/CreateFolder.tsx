@@ -11,9 +11,14 @@ export const CreateFolder = () => {
   interface Set {
     id: number;
   }
-
-  const [folder, setFolder] = useState<{ title: string; description: string; selectedSets: Set[] }>({ title: '', description: '', selectedSets: [] }); 
+    
+  const [allCategories, setAllCategories] = useState([]);
+  const [allInstitutions, setAllInstitutions] = useState([]);
+  const [folder, setFolder] = useState<{ title: string; description: string; selectedSets: Set[], institution: string, category: string }>({ title: '', description: '', selectedSets: [], institution: '', category: '' }); 
   const [setCards, setSetCards] = useState([]);
+  const [availableSets, setAvailableSets] = useState({});
+
+
 
     useEffect(() => {
         instance.get("/sets").then((response) => {
@@ -36,14 +41,7 @@ export const CreateFolder = () => {
     
     
     const handleSubmitFolder = () => {
-      if (title.length === 0) {
-        toast("Моля въведете заглавие");
-        return;
-      }
-      if (description.length === 0) {
-        toast("Моля въведете описание");
-        return;
-      }
+ 
     
       // Map over selectedSets and return an object that only contains the set_id
       const selectedSetIds = folder.selectedSets.map(set => ({ set_id: set.set_id }));
@@ -56,23 +54,61 @@ export const CreateFolder = () => {
 
     };
 
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [allCategories, setAllCategories] = useState([]);
-    const [category, setCategory] = useState("");
-    const [allInstitutions, setAllInstitutions] = useState([]);
-    const [institution, setInstitution] = useState("");
+    const handleSelectSet = (set) => {
+      setAvailableSets(prevSets => ({
+        ...prevSets,
+        [set.set_id]: false, // Set the availability of the selected set to false
+      }));
+    
+      setFolder(prevFolder => ({ 
+        ...prevFolder, 
+        selectedSets: [...prevFolder.selectedSets, set]
+      }));
+    };
+    
+    // When a set is deselected
+    const handleDeselectSet = (set) => {
+      setAvailableSets(prevSets => ({
+        ...prevSets,
+        [set.set_id]: true, // Set the availability of the deselected set to true
+      }));
+    
+      setFolder(prevFolder => ({ 
+        ...prevFolder, 
+        selectedSets: prevFolder.selectedSets.filter(set => set.set_id !== set.set_id)
+      }));
+    }; 
+
+    const unavailableSetIds = Object.keys(availableSets).filter(id => availableSets[id] === false);
+    const unavailableSets = setCards.filter(set => unavailableSetIds.includes(set.set_id.toString()));
+
 
   return (
     <Dashboard>
         <ToastContainer />
+        <div>
+      <h2>Unavailable Sets</h2>
+      {unavailableSets.map(card => (
+          <SelectSet
+          key={card.set_id}
+          id={card.set_id}
+          title={card.set_name}
+          description={card.set_description}
+          institution={card.organization_name}
+          image={'src/app-components/Navigation/logo.png'}
+          creator_name={card.username}
+          isAvb={availableSets[card.set_id] !== false} 
+          onSelectSet={() => handleSelectSet(card)}
+          onDeselectSet={() => handleDeselectSet(card)}
+        />
+      ))}
+    </div>
       <div className="create-set-wrapper">
         <div className="create-set">
         <h1>Създай тесте</h1>
           <input
             type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => handleChangeFolder('title', e.target.value)}
             placeholder="Заглавие"
             className="title"
             minLength={1}
@@ -81,15 +117,14 @@ export const CreateFolder = () => {
           <div className="other-info">
             <div className="description">
               <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) => handleChangeFolder('description', e.target.value)}
                 placeholder="Описание"
               />
             </div>
             <div className="tags">
               <select
-                onChange={(e) => setCategory(e.target.value)}
-                defaultValue={""}
+            onChange={(e) => handleChangeFolder('category', e.target.value)}
+            defaultValue={""}
                 id="categories"
                 name="categories"
               >
@@ -101,8 +136,8 @@ export const CreateFolder = () => {
                 ))}
               </select>
               <select
-                onChange={(e) => setInstitution(e.target.value)}
-                defaultValue=""
+            onChange={(e) => handleChangeFolder('institution', e.target.value)}
+            defaultValue=""
                 id="institution"
                 name="institution"
               >
@@ -124,14 +159,12 @@ export const CreateFolder = () => {
             institution={card.organization_name}
             image={'src/app-components/Navigation/logo.png'}
             creator_name={card.username}
-            onSelectSet={(id) => setFolder(prevFolder => ({ 
-              ...prevFolder, 
-              selectedSets: [...prevFolder.selectedSets, card]
-            }))}
-            onDeselectSet={() => setFolder(prevFolder => ({ 
-              ...prevFolder, 
-              selectedSets: prevFolder.selectedSets.filter(set => set.set_id !== card.set_id)
-            }))}
+            isAvb={availableSets[card.set_id] !== false} // The set is available if its ID is not in the availableSets state or if its value is true
+            onSelectSet={() => handleSelectSet(card)}
+
+            onDeselectSet={() => handleDeselectSet(card)}
+
+            
           />
         ))}
           <button onClick={handleSubmitFolder}>Създай</button>
