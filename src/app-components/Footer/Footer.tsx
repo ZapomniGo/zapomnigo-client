@@ -10,7 +10,7 @@ export const Footer = () => {
       <div onClick={()=>window.location.replace('https://www.zapomnigo.com')} className="col-1">
           <div className="footer-logo">
           <Tilty reverse={true} glare={true} max={15} maxGlare={0.7}>
-            <img src="/image.jpg" alt="" />
+            <img src="/image.jpg" alt="Лого" />
             </Tilty>
           </div>
       </div>
@@ -29,7 +29,7 @@ export const Footer = () => {
       </div>
       <div className="social-media">
         <div className="options">
-          <a href="www.facebook.com">
+          <a href="https://www.facebook.com/profile.php?id=61555653000101">
             <FaFacebookSquare />
           </a>
           <a href="https://www.instagram.com/zapomnigo">

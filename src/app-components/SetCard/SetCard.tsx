@@ -46,7 +46,7 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
       </div>
       <div className={`set-creator  ${isSelected ? "open" : "close"}`}>
         <div className="image">
-            <img src={image} alt="" />
+            <img src={image} alt="Лого" />
         </div>
         <div className="creator-name">
             <p>
