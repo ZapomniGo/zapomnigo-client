@@ -127,7 +127,7 @@ export const Login = () => {
       <div id="wrapperForm">
         <form onSubmit={handleSubmit}>
           <div className="title">
-            <p>Влизане</p>
+            <p>Вход</p>
           </div>
           <section>
             <input
