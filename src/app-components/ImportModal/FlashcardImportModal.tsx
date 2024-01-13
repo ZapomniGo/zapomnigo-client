@@ -23,17 +23,17 @@ const FlashcardImportModal = (props: FlashcardImportModalProps) => {
   return (
     <div className={`modal ${props.isOpen ? "open" : ""}`}>
       <div className="modal-content">
-        <h2>Import Flashcards</h2>
+        <h2>Импортирай флашкарти</h2>
         <label>
-          Flashcards (Term{delimiter}Definition):
+          Флашкарти (Термин{delimiter}Дефиниция):
           <textarea
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder="Enter flashcards here..."
+            placeholder="Въведи флашкарти тук..."
           />
         </label>
         <label>
-          Delimiter:
+          Разделител:
           <input
             type="text"
             value={delimiter}

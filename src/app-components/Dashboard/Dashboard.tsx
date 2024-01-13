@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import ContainerComponent from '../PageContainer/PageContainer';
-
+import { Footer } from '../Footer/Footer';
 import { useAppSelector } from "../../app-context/store";
 
 interface DashboardProps {
@@ -29,6 +29,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
             {children}
         </div>
       </section>
+      <Footer />
     </ContainerComponent>
   );
 };

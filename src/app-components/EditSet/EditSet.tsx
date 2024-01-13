@@ -6,15 +6,15 @@ import { MdDeleteOutline, MdFlip } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
-import { useFlashcards } from "./utils";
-import { FLASHCARD_DIRECTIONS } from "./types";
+import { useFlashcards } from "../CreateSet/utils";
+import { FLASHCARD_DIRECTIONS } from "../CreateSet/types";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import instance from "../../app-utils/axios";
 import FlashcardImportModal from "../ImportModal/FlashcardImportModal";
-import { useNavigate } from "react-router-dom";
-export const CreateSet = () => {
-const navigate = useNavigate();
+import { useParams } from "react-router";
+
+export const EditSet = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -22,6 +22,9 @@ const navigate = useNavigate();
   const [category, setCategory] = useState("");
   const [allInstitutions, setAllInstitutions] = useState([]);
   const [institution, setInstitution] = useState("");
+  const [FlashcardInfo, setFlashcardInfo] = useState([]);
+
+  const { id } = useParams<{ id: string }>();
 
   const {
     flashcards,
@@ -33,19 +36,26 @@ const navigate = useNavigate();
     handleFlipFlashcard,
     handleFlipAllFlashcards,
     handleOnImportFlashcards,
+    loadFlashcards
   } = useFlashcards();
 
   useEffect(() => {
-
     instance.get("/categories")
-    .then((response) => {
-      setAllCategories(response.data.categories);
+      .then((response) => {
+        setAllCategories(response.data.categories);
+      })
+    instance.get("/organizations")
+    .then((response) =>{
+        setAllInstitutions(response.data.organizations);
     })
-  instance.get("/organizations")
-  .then((response) =>{
-      setAllInstitutions(response.data.organizations);
-  })
-
+    instance.get(`/sets/${id}`)
+      .then((response) => {
+        loadFlashcards(response.data.set.flashcards);
+        setTitle(response.data.set.set_name);
+        setDescription(response.data.set.set_description);
+        setInstitution(response.data.set.set_institution);
+        setCategory(response.data.set.set_category);
+      })
   }, []);
   const isEmpty = (string: string) => {
     if (string.length === 0) {
@@ -64,6 +74,8 @@ const navigate = useNavigate();
     }
     return false;
   };
+
+
   const handleSubmit = () => {
     //check if the title is not empty
     if (title.length === 0) {
@@ -123,8 +135,8 @@ const navigate = useNavigate();
       })
       .then((response) => {
         toast("Успешно създадохте сет");
-        
-       navigate("/set/" + response.data.set_id);
+        console.log(response);
+        window.location.href = "/sets";
       })
       .catch((error) => {
         toast("Възникна грешка");
@@ -192,6 +204,7 @@ const navigate = useNavigate();
           {flashcards.map((flashcard, index) => (
             <div className="flashcardWrapper">
               <div className="buttonWrapper">
+                <MdFlip onClick={() => handleFlipAllFlashcards()} />
                 {/* TODO(): Refactor styling for icons */}
                 <MdDeleteOutline
                   onClick={() => handleDeleteFlashcard(flashcard.rnd)}
@@ -241,23 +254,22 @@ const navigate = useNavigate();
               </div>{" "}
               <div key={index} className="flashcard">
                 <Editor
-                  placeholder={"Термин"}
-                  value={flashcard.term}
-                  onChange={(value: string) =>
+                placeholder={"Term"}
+                value={flashcard.term}
+                onChange={(value: string) =>
                     handleChangeFlashcard(index, "term", value)
-                  }
+                }
                 />
                 <Editor
-                  placeholder={"Дефиниция"}
-                  value={flashcard.definition}
-                  onChange={(value: string) =>
+                placeholder={"Definition"}
+                value={flashcard.definition}
+                onChange={(value: string) =>
                     handleChangeFlashcard(index, "definition", value)
-                  }
+                }
                 />
-              </div>
+            </div>
             </div>
           ))}
-
           <center>
             <button onClick={handleAddFlashcard} className="add-card">
               +
@@ -273,7 +285,6 @@ const navigate = useNavigate();
               Запази
             </button>
           </div>
-
         </div>
       </div>
       <FlashcardImportModal

@@ -9,5 +9,10 @@ type Flashcard = {
   rnd: string;
 };
 
+type SetInfo = {
+  flashcards: Flashcard[];
+}
+
+
 export default Flashcard;
 export { FLASHCARD_DIRECTIONS };

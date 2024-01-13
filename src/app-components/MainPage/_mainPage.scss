@@ -4,7 +4,6 @@
   align-self: flex-start;
   flex-direction: column;
   margin-left: 1.5vmax;
-  margin-right: 1.5vmax;
   color: $text-color;
   font-size: 1.75rem;
   margin-top: 1vmax;
@@ -15,6 +14,13 @@
   }
 
 
+}
+@media screen and (max-width: 1550px) {
+  .set-wrapper {
+    margin-right: 0 !important;
+
+  }
+  
 }
 
 @media only screen and (max-width: 1000px){

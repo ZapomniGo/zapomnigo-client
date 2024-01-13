@@ -16,8 +16,11 @@ import {
   verifyEmailToken,
   privacyPolicy,
   termsOfService,
-  marketingConsent,
   createFolder,
+  cookieRules,
+  editSet,
+  forgotPassword,
+  forgotPasswordNoToken,
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Provider } from "react-redux";
@@ -35,10 +38,13 @@ import { CreateSet } from "./app-components/CreateSet/CreateSet";
 import { SetPage } from "./app-components/SetPage/SetPage";
 import VerifyEmail from "./app-components/VerifyEmail/VerifyEmail";
 import VerifyEmailToken from "./app-components/VerifyEmail/VerifyEmail";
-import PrivacyPolicy  from "./app-components/Legal/PrivacyPolicy";
-import  TermsOfService  from "./app-components/Legal/TermsOfService";
-import MarketingConsent  from "./app-components/Legal/MarketingConsent";
 import { CreateFolder } from "./app-components/CreateFolder/CreateFolder";
+import PrivacyPolicy from "./app-components/Legal/PrivacyPolicy";
+import TermsOfService from "./app-components/Legal/TermsOfService";
+import CookieRules from "./app-components/Legal/CookieRules";
+import { EditSet } from "./app-components/EditSet/EditSet";
+import ForgotPassword from "./app-components/ForgotPassword/ForgotPassword";
+
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -98,8 +104,20 @@ const router = createBrowserRouter([
         element: <TermsOfService />,
       },
       {
-        path: marketingConsent,
-        element: <MarketingConsent />,
+        path: cookieRules,
+        element: <CookieRules />,
+      },
+      {
+        path: editSet,
+        element: <EditSet />,
+      },
+      {
+        path: forgotPassword,
+        element: <ForgotPassword />,
+      },
+      {
+        path: forgotPasswordNoToken,
+        element: <ForgotPassword />,
       },
       {
         path: createFolder,

@@ -153,13 +153,14 @@ select {
 .disabled {
   color: gray;
 }
-button:not(#RFS-StepButton),
+button:not(#RFS-StepButton, button[type="button"]),
 input[type="submit"] {
   transition: 0.2s;
+  min-height: 2.5vmax;
   cursor: pointer;
   min-height: 2.5vmax;
   margin: 0.5vmax;
-  padding: 0 0.7vmax;
+  padding: 0 .7vmax;
   border-radius: 0.2em;
   font-size: 1.2vmax;
   background-color: $secondary-color;
@@ -179,7 +180,7 @@ input[type="submit"] {
   }
 }
 
-button:hover,
+button:hover:not(#RFS-StepButton, button[type="button"]),
 input[type="submit"]:hover {
   box-shadow: 0 0 5px 2px $secondary-color;
 }
@@ -338,7 +339,7 @@ input[type="submit"]:hover {
         input[type="checkbox"]:checked:after {
           background-color: white;
         }
-        label {
+        label{
           width: 100%;
         }
       }
@@ -382,7 +383,7 @@ input[type="submit"]:hover {
 }
 a {
   color: black;
-  transition:0.3s;
+  transition: 0.3s;
   &:hover {
     color: $secondary-color;
   }
@@ -394,11 +395,11 @@ a {
   padding: 0;
   margin: 0;
   height: auto;
-  transition: 0.3s;
+  transition: 0s;
   font-size: 1.2vmax;
   &:hover {
     cursor: pointer;
-    color: red;
+    color: red !important;
   }
 }
 

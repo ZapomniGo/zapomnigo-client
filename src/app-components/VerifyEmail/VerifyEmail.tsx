@@ -3,11 +3,13 @@
 import React, { useEffect, useState } from "react";
 import instance from "../../app-utils/axios";
 import { emailPattern } from "./../Forms/Registration/utils";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
 const VerifyEmail = () => {
   const navigate = useNavigate();
-  const { token } = useParams();
+  const query = new URLSearchParams(useLocation().search);
+  const token = query.get('token');
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const sendEmail = () => {
@@ -15,17 +17,26 @@ const VerifyEmail = () => {
       setMessage("Невалиден имейл");
       return;
     }
-    setMessage("Имейлът е изпратен успешно! Проверете пак пощата си.");
+    // console.log(email);
+    instance
+      .post("/send-email?verification=false", { email })
+      .then((res) => {
+        setMessage("Имейлът е изпратен успешно! Проверете пощата си.");
+      })
+      .catch((err) => {
+        setMessage("Нещо се обърка. Поискайте нов код.");
+      });
+    // setMessage("Имейлът е изпратен успешно! Проверете пак пощата си.");
     console.log("send email");
   };
   useEffect(() => {
     if (token) {
       instance
-        .get("veryfy?token=" + token)
+        .get("/verify?token=" + token)
         .then((res) => {
           if (res.data.message.includes("has been verified")) {
             setMessage("Успешно потвърдихте имейла си!");
-            navigate("/");
+            navigate("/login");
           } else {
             setMessage("Грешен код");
           }

@@ -14,8 +14,8 @@
     text-align: center;
   }
   img {
-    width: 85%;
-    display: block;
+    max-width: 85%;
+    display: inline-block;
     margin-left: 7.5%;
     border-radius: 10px;
     -webkit-user-drag: none;
