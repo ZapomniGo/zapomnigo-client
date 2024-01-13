@@ -1,6 +1,13 @@
 import axios from "axios";
 
-const HEROKU_URL = "https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1";
+//check if the app is in production or development by checking the url
+const IS_PROD =
+  window.location.href.indexOf("localhost") === -1 ||
+  window.location.href.indexOf("zapomnigo") !== -1;
+
+const HEROKU_URL_DEV = "https://dev-server-zapomnigo-3b17b7751381/v1";
+const HEROKU_URL_PROD = "https://dev-server-zapomnigo-3b17b7751381/v1";
+const HEROKU_URL = IS_PROD ? HEROKU_URL_PROD : HEROKU_URL_DEV;
 
 const instance = axios.create();
 
