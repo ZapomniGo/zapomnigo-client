@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import instance from "../../app-utils/axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 export const SetPage = () => {
   const navigate = useNavigate();
@@ -55,6 +56,25 @@ export const SetPage = () => {
       });
   };
 
+  const Share = () => {
+    const url = window.location.href;
+    try {
+      navigator.share({
+        title: "Сподели този сет",
+        url: url,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        toast("Копирано в клипборда!");
+      })
+      .catch(() => {
+        toast("Копирането не се поддържа от браузъра :(");
+      });
+  };
   useEffect(() => {
     if (id.length === 0 || id.length !== 26 || id.includes(" ")) {
       setFlashcards({
@@ -93,6 +113,7 @@ export const SetPage = () => {
   return (
     <Dashboard>
       <>
+        <ToastContainer />
         {flashcards ? (
           <div id="set-page">
             <div className="set-info">
@@ -131,7 +152,7 @@ export const SetPage = () => {
                   <RiPencilLine />
                   Редактирай
                 </a> */}
-                <a href="#">
+                <a onClick={Share} href="#">
                   <FiShare2 />
                   Сподели
                 </a>
