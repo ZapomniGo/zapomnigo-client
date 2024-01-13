@@ -21,6 +21,7 @@ export const SetPage = () => {
   const [sortingOrder, setSortingOrder] = useState<string>("");
   const [username, setUsername] = useState("");
   const [creator, setCreator] = useState("");
+  const [admin, setAdmin] = useState(false);
   const { id } = useParams<{ id: string }>();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -103,10 +104,15 @@ export const SetPage = () => {
     setToken(token || null);
 
     if (token) {
-      const decodedToken: { username: string; institution: string } =
+      const decodedToken: { username: string; institution: string; admin: boolean } =
         jwtDecode(token);
       setCreator(decodedToken.username);
-      console.log(creator);
+        if(decodedToken.admin === true){
+        setAdmin(true);
+        console.log(decodedToken.admin)
+
+      }
+      console.log(admin)
     }
   }, []);
 
@@ -142,7 +148,7 @@ export const SetPage = () => {
                   <MdContentCopy />
                   Прегледай
                 </a>
-                {creator === username && (
+                {creator === username  || admin && (
                   <a href={`/edit-set/${id}`}>
                     <RiPencilLine />
                     Редактирай
