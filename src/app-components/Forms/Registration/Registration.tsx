@@ -545,7 +545,7 @@ export const Registration = () => {
 
               <div className="checkboxes">
                 <div className="privacy-policy">
-                  <a href="#">Политика за поверителност</a>
+                  <a  target="_blank" href="/legal/privacy-policy">Политика за поверителност</a>
                   <input
                     type="checkbox"
                     checked={userData.privacy_policy}
@@ -553,7 +553,7 @@ export const Registration = () => {
                   />
                 </div>
                 <div className="terms-and-conditions">
-                  <a href="/legal/terms-and-conditions">Политика за ползване</a>
+                  <a target="_blank" href="/legal/terms-of-service">Политика за ползване</a>
                   <input
                     type="checkbox"
                     checked={userData.terms_and_conditions}
@@ -562,14 +562,14 @@ export const Registration = () => {
                     }
                   />
                 </div>
-                <div className="marketing-consent">
-                  <a href="#">Маркетингово съгласие</a>
+                {/* <div className="marketing-consent">
+                  <a target="_blank" href="#">Маркетингово съгласие</a>
                   <input
                     type="checkbox"
                     checked={userData.marketing_consent}
                     onChange={() => handleCheckboxChange("marketing_consent")}
                   />
-                </div>
+                </div> */}
               </div>
               <div className="errorText">{policyError.message}</div>
               <div className="errorText">{termsError.message}</div>

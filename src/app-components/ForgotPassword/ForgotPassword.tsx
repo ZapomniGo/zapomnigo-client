@@ -21,8 +21,14 @@ const ForgetPassword = () => {
         setMessage("Моля, въведете валиден имейл адрес");
         return;
       }
-      instance.post("/send-email?verification=false", { email: email });
-      setMessage("Изпратихме Ви имейл с линк за промяна на паролата");
+      instance
+        .post("/send-email?verification=false", { email: email })
+        .then(() => {
+          setMessage("Изпратихме ти имейл с линк за промяна на паролата");
+        })
+        .catch((err) => {
+          setMessage("Такъв потребител не съществува :(");
+        });
       return;
     }
     if (password1 !== password2) {
@@ -46,7 +52,7 @@ const ForgetPassword = () => {
     instance
       .post("/forgot-password", { new_password: password1, token: token })
       .then((res) => {
-        setMessage("Успешно променихте паролата си! ");
+        setMessage("Паролата е променена");
         setTimeout(() => {
           navigate("/login");
         }, 2000);
@@ -55,7 +61,7 @@ const ForgetPassword = () => {
         if (err.response && err.response.data) {
           setMessage(err.response.data.message);
         } else {
-          setMessage("Възникна грешка. Моля опитайте по-късно");
+          setMessage("Възникна грешка. Опитай по-късно");
         }
       });
   };

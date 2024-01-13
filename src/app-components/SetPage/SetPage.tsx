@@ -75,7 +75,7 @@ export const SetPage = () => {
     if (!token) {
       return;
     }
-    if (!window.confirm("Сигурен ли си, че искаш да копираш този сет?")) {
+    if (!window.confirm("Сигурен ли си, че искаш да копираш това тесте?")) {
       return;
     }
     instance
@@ -113,7 +113,7 @@ export const SetPage = () => {
     const url = window.location.href;
     try {
       navigator.share({
-        title: "Сподели този сет",
+        title: "Сподели това тесте",
         url: url,
       });
     } catch (e) {
