@@ -5,7 +5,7 @@
 ## ============================================================
 */
 
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useState, useEffect } from "react";
 import { Stepper } from "react-form-stepper";
 import { Background } from "../FormsBackground/Background";
 import { emailPattern, initialErrors, initialUserState } from "./utils";
@@ -16,6 +16,11 @@ import { useNavigate } from "react-router-dom";
 
 export const Registration = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      navigate("/");
+    }
+  }, []);
   const [termsError, setTermsError] = useState<DataError>({
     hasError: false,
     message: "",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Background } from "../FormsBackground/Background";
 import { LoginData, LoginErrorRecord } from "./types";
 import { initialErrors } from "./utils";
@@ -26,6 +26,12 @@ const validateForm = (data: LoginData): LoginErrorRecord => {
 export const Login = () => {
   const navigate = useNavigate();
   const [backendError, setBackendError] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      navigate("/");
+    }
+  }, []);
 
   const login = async () => {
     if (
