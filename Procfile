@@ -1,1 +1,1 @@
-web:  npm i && npm run dev
+web:  npm i && vite build
