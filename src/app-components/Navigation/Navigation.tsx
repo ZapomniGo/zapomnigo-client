@@ -19,6 +19,7 @@ import { url } from "../../Global";
 import { BiLogIn } from "react-icons/bi";
 import instance from "../../app-utils/axios";
 import { ToastContainer, toast } from "react-toastify";
+import CookieConsent, { Cookies } from "react-cookie-consent";
 import "react-toastify/dist/ReactToastify.css";
 
 interface NavigationProps {
@@ -192,7 +193,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <BiLogIn />
                         </i>
-                        <span className="text nav-text">Влезни</span>
+                        <span className="text nav-text">Вход</span>
                       </CustomNavLink>
                     </li>
                   </>

@@ -44,7 +44,7 @@ import TermsOfService from "./app-components/Legal/TermsOfService";
 import CookieRules from "./app-components/Legal/CookieRules";
 import { EditSet } from "./app-components/EditSet/EditSet";
 import ForgotPassword from "./app-components/ForgotPassword/ForgotPassword";
-
+import NotFound from "./app-components/NotFound/NotFound";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -122,7 +122,11 @@ const router = createBrowserRouter([
       {
         path: createFolder,
         element: <CreateFolder />,
-      }
+      },
+      {
+        path: "*",
+        element: <NotFound />,
+      },
     ],
   },
 ]);

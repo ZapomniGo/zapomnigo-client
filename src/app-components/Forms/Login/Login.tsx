@@ -127,7 +127,7 @@ export const Login = () => {
       <div id="wrapperForm">
         <form onSubmit={handleSubmit}>
           <div className="title">
-            <p>Влизане</p>
+            <p>Вход</p>
           </div>
           <section>
             <input
@@ -167,7 +167,7 @@ export const Login = () => {
             <a className="link" onClick={() => navigate("/register")}>
               Нямам акаунт
             </a>
-            <input type="submit" value={"Влезни"} onClick={login} />
+            <input type="submit" value={"Вход"} onClick={login} />
           </div>
           <center>
             {" "}
