@@ -12,7 +12,6 @@ export const MainPage: React.FC = () => {
   // const [exploreCards, setExploreCards] = useState(10);
   const [selectSet, setSelectSet] = useState<string | null>(null);
 
-
   useEffect(() => {
     // instance.get(`/users/${userID}/sets`).then((response) => {
 
@@ -21,7 +20,6 @@ export const MainPage: React.FC = () => {
       setSetCards(response.data.sets);
     });
   }, []);
-
 
   const handleLoadRecent = () => {
     setRecentCards((prevRecentCards) => prevRecentCards + 10);
@@ -45,20 +43,19 @@ export const MainPage: React.FC = () => {
         <h2 className="category-title">Разгледай</h2>
         <div className="sets">
           {setCards.map((card) => (
-              
-              <SetCard
-                key={card.set_id}
-                id={card.set_id}
-                title={card.set_name}
-                description={card.set_description}
-                institution={card.organization_name}
-                image={'/logo.jpg'}
-                creator_name={card.username}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                isSelected={selectSet === card.set_id}
-              />
-            ))}
+            <SetCard
+              key={card.set_id}
+              id={card.set_id}
+              title={card.set_name}
+              description={card.set_description}
+              institution={card.organization_name}
+              image={"public/logo.jpg"}
+              creator_name={card.username}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              isSelected={selectSet === card.set_id}
+            />
+          ))}
         </div>
         {/* {recentCards <
           setCards.filter((card) => card.category_name === "recent").length && (
