@@ -1,4 +1,3 @@
-import { isBackspace } from "lexical/LexicalUtils";
 
 export const SelectSet = ({ id, title, description, institution, image, creator_name, onSelectSet, onDeselectSet, isAvb}) => {
     
@@ -7,18 +6,18 @@ export const SelectSet = ({ id, title, description, institution, image, creator_
         <div className="select-set">
             <div className="select-set-wrapper">
                 <div className="select-set-title">
-                    <h1>{title}</h1>
+                    {title.length > 63 ? title.substring(0, 63) + '...' : title}
                 </div>
                 <div className="select-set-description">
-                    <p>{description}</p>
+                    {description.length > 99 ? description.substring(0, 102) + '...' : description}
                 </div>
                 <div className="select-set-creator">
                     <div className="image">
-                        <img src={image} alt="" />
+                        <img src="/public/logo.jpg" alt="" />
                     </div>
                     <div className="creator-name">
                         <p>
-                            {creator_name}
+                        {creator_name.length > 16 ? creator_name.substring(0, 16) + '...' : creator_name}
                         </p>
                     </div>
                     {institution > 0 ? (
@@ -28,16 +27,14 @@ export const SelectSet = ({ id, title, description, institution, image, creator_
                             </a>
                         </div>
                     ): ''}
-                </div>
-                {isAvb === true ? (
-                                        <button onClick={() => {onSelectSet(id); isAvb}}>Select Set</button>
-
-
+                                    {isAvb === true ? (
+                    <button onClick={() => {onSelectSet(id); isAvb}}>Избери</button>
                 ) : (
-                    <button onClick={() => { onDeselectSet(id); isAvb}}>Deselect Set</button>
-)}
-                
+                    <button onClick={() => {onDeselectSet(id); isAvb}}>Махни</button>
+                    )}        
                 </div>
+                </div>
+
         </div>
     );
 }
