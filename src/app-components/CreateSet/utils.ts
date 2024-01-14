@@ -96,9 +96,13 @@ const useFlashcards = () => {
 
   const handleOnImportFlashcards = (importedData, delimiter, delimeter2) => {
     let inputString = importedData;
-
-    let newArr = inputString
-      .split(delimeter2.trim())
+    if (inputString.length === 0) {
+      return;
+    }
+    if (inputString[inputString.length - 1] === delimiter) {
+      inputString = inputString.slice(0, inputString.length - 1);
+    }
+    let newArr = inputString.split(delimeter2.trim())
       .map((item) => item.split(delimiter.trim()));
 
     let newFlashcards = newArr.map((item) => ({
