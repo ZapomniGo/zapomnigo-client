@@ -12,7 +12,7 @@ interface SetCardProps {
   creator_name: string;
 }
 
-const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, image, creator_name, onMouseEnter, onMouseLeave, isSelected }) => {
+const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, image, creator_name, onMouseEnter, onMouseLeave, isSelected, icon }) => {
   const displayDescription = () => {
     let n = 120;
     if (description.length > n) {
@@ -34,7 +34,7 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
     >
       <div className={`title-options ${isSelected ? "open" : "close"}`}>
       <div className={`set-title ${isSelected ? "open" : "close"}`}>
-        {title.length > 34 ? title.substring(0, 35) + '...' : title}
+        {icon}{title.length > 34 ? title.substring(0, 35) + '...' : title}
       </div>        
       {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
           <SlOptionsVertical />

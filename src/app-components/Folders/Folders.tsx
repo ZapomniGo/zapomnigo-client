@@ -5,6 +5,8 @@ import SetCard from "../SetCard/SetCard";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
 import { jwtDecode } from "jwt-decode";
+import { FaRegFolderClosed } from "react-icons/fa6";
+
 
 
 export const Folders: React.FC = () => {
@@ -63,6 +65,7 @@ export const Folders: React.FC = () => {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 isSelected={selectSet === card.set_id}
+                icon={<FaRegFolderClosed />}
               />
             ))}
         </div>
