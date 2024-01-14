@@ -37,38 +37,6 @@ export const SetPage = () => {
     setSortingOrder(event.target.value);
   };
 
-  const deleteSet = () => {
-    if (!token) {
-      return;
-    }
-    let dataObj = allData;
-    let flashcards2 = dataObj.set.flashcards;
-    let csvContent = "Term,Definition\n";
-
-    for (let card of flashcards2) {
-      const parser = new DOMParser();
-      const htmlTerm = parser.parseFromString(card.term, "text/html");
-      const textTerm = htmlTerm.body.textContent || "";
-      const htmlCard = parser.parseFromString(card.definition, "text/html");
-      const textCard = htmlCard.body.textContent || "";
-      csvContent += `${textTerm},${textCard}\n`;
-    }
-
-    let blob = new Blob([csvContent], {
-      type: "text/csv;charset=utf-8;",
-    });
-    let link = document.createElement("a");
-    if (link.download !== undefined) {
-      let url = URL.createObjectURL(blob);
-      link.setAttribute("href", url);
-      link.setAttribute("download", allData.set.set_name + ".csv");
-      link.style.visibility = "hidden";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
-
   const DuplicateSet = () => {
     if (!token) {
       return;
