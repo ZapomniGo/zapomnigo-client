@@ -276,7 +276,7 @@ const StudyComponent = () => {
           </div>
         )}
 
-        <div className="test">
+        <div className="answer-options">
           {flashcards.flashcards.slice(0, 4).map((flashcard, index) => (
             <div className="option" key={flashcard.flashcard_id}>
               {isInput[index] ? (
