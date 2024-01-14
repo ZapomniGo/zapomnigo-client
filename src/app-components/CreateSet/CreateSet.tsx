@@ -121,6 +121,7 @@ export const CreateSet = () => {
       .then((response) => {
         toast("Добре дошъл в новото си тесте");
         navigate("/set/" + response.data.set_id);
+        window.scrollTo(0, 0);
       })
       .catch((error) => {
         toast("Възникна грешка");
