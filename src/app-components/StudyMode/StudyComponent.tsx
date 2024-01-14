@@ -270,7 +270,7 @@ const StudyComponent = () => {
         {flashcards.flashcards.length > 0 && (
           <div id="flashcard" className={"no-image-flashcard"}>
             <div className="term">
-              <p className="term-text">Термин:</p>
+              {/* <p className="term-text">Термин:</p> */}
               <h3>{parse(flashcards.flashcards[currentFlashcardIndex].term)}</h3>
             </div>
           </div>
