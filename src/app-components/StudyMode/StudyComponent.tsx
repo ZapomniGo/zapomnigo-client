@@ -85,7 +85,7 @@ const StudyComponent = () => {
     setShuffledDefinitions(selectedDefinitions);
   };
 
-  const handleAnswerButtonClick = (definition: string) => {
+  const handleAnswerButtonClick = (definition: string, isInput: boolean) => {
     if (definition === correctDefinition) {
       const nextIndex = currentFlashcardIndex + 1;
       if (nextIndex < flashcards.flashcards.length) {
@@ -175,13 +175,24 @@ const StudyComponent = () => {
     <>
       <div>
         <h2>{flashcards.flashcards[currentFlashcardIndex]?.term}</h2>
-        {shuffledDefinitions.map((definition, index) => (
-          <button
-            key={index}
-            onClick={() => handleAnswerButtonClick(definition)}
-          >
-            {definition}
-          </button>
+        {flashcards.flashcards.map((flashcard, index) => (
+          <div key={index}>
+            {flashcard.isInput ? (
+              <input
+                type="text"
+                placeholder={`Enter definition for ${flashcard.term}`}
+                onBlur={(e) => handleAnswerButtonClick(e.target.value, true)}
+              />
+            ) : (
+              <button
+                onClick={() =>
+                  handleAnswerButtonClick(flashcard.definition, false)
+                }
+              >
+                {flashcard.definition}
+              </button>
+            )}
+          </div>
         ))}
       </div>
     </>
