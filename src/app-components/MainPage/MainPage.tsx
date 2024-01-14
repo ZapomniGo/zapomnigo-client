@@ -11,6 +11,9 @@ export const MainPage: React.FC = () => {
   // const [exploreCards, setExploreCards] = useState(10);
   const [selectSet, setSelectSet] = useState<string | null>(null);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  
 
   const handleLoadRecent = () => {
     setPage(page + 1);
@@ -24,6 +27,7 @@ export const MainPage: React.FC = () => {
 
   useEffect(() => {
     instance.get(`/sets?page=${page}&size=20&sort_by_date=false&ascending=true`).then((response) => {
+      setTotalPages(response.data.total_pages);
       const newCards = [...setCards];
       response.data.sets.forEach(card => newCards.push(card));
       setSetCards(newCards);
@@ -60,7 +64,7 @@ export const MainPage: React.FC = () => {
               />
             ))}
         </div>
-        <MoreBtn onClick={handleLoadRecent} />
+        {page < totalPages &&  <MoreBtn onClick={handleLoadRecent} />}
       </div>
         {/* 
       <div className="set-wrapper">

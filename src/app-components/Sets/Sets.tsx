@@ -4,25 +4,36 @@ import { Dashboard } from "../Dashboard/Dashboard";
 import SetCard from "../SetCard/SetCard";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
+import { jwtDecode } from "jwt-decode";
 
 export const Sets: React.FC = () => {
   const [setCards, setSetCards] = useState([]);
   const [recentCards, setRecentCards] = useState(10);
   // const [exploreCards, setExploreCards] = useState(10);
   const [selectSet, setSelectSet] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-
+  const token = localStorage.getItem('access_token');
+  let userID = null;
+  
+  if (token) {
+    const decodedToken: any = jwtDecode(token);
+    userID = decodedToken.sub;
+  }
+  
   useEffect(() => {
-    // instance.get(`/users/${userID}/sets`).then((response) => {
-    instance.get("/sets").then((response) => {
-      console.log(response.data.sets);
-      setSetCards(response.data.sets);
+    instance.get(`/users/${userID}/sets?page=${page}&size=2&sort_by_date=false&ascending=true`).then((response) => {
+      setTotalPages(response.data.total_pages);
+      const newCards = [...setCards];
+      response.data.sets.forEach(card => newCards.push(card));
+      setSetCards(newCards);
     });
-  }, []);
+  }, [page]);
 
 
   const handleLoadRecent = () => {
-    setRecentCards((prevRecentCards) => prevRecentCards + 10);
+    setPage(page + 1);
   };
 
   // const handleLoadExplore = () => {
@@ -58,10 +69,8 @@ export const Sets: React.FC = () => {
               />
             ))}
         </div>
-        {recentCards <
-          setCards.filter((card) => card.category_name === "recent").length && (
-          <MoreBtn onClick={handleLoadRecent} />
-        )}
+        {page < totalPages &&  <MoreBtn onClick={handleLoadRecent} />}
+
       </div>
     </Dashboard>
   );

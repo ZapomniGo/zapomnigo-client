@@ -23,6 +23,7 @@ export const SetPage = () => {
   const [creator, setCreator] = useState("");
   const [page, setPage] = useState(1);
   const { id } = useParams<{ id: string }>();
+  const [totalPages, setTotalPages] = useState(1);
 
 
   const handleLoadRecent = () => {
@@ -67,6 +68,7 @@ export const SetPage = () => {
     }
 
     instance.get(`/sets/${id}?page=${page}&size=3`).then((response) => {
+      setTotalPages(response.data.total_pages);
       const newFlashcards = response.data.set.flashcards;
       let updatedFlashcards = [];
       if (flashcards && Array.isArray(flashcards.flashcards)) {
@@ -170,7 +172,7 @@ export const SetPage = () => {
                 <Flashcard key={flashcard.flashcard_id} flashcard={flashcard} />
               ))}
             </div>
-            <MoreBtn onClick={handleLoadRecent} />
+            {page < totalPages &&  <MoreBtn onClick={handleLoadRecent} />}
           </div>
         ) : (
           <center>
