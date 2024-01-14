@@ -70,7 +70,7 @@ const StudyComponent = () => {
   const ensureDIfferentFlashcard = () => {
     let nextIndex;
     do {
-      nextIndex = Math.floor(Math.random() * flashcards.flashcards.length);
+      nextIndex = shuffleArrayWeighted(flashcards.flashcards);
     } while (nextIndex === previousFlashcardIndex);
 
     setCurrentFlashcardIndex(nextIndex);
@@ -128,6 +128,32 @@ const StudyComponent = () => {
       ];
     }
     return shuffledArray;
+  };
+
+  const shuffleArrayWeighted = (flashcards) => {
+    // Calculate weights based on correctness
+    const weights = flashcards.map((card) => card.correctness);
+
+    // Adjust weights to increase probability for flashcards with lower correctness
+    const adjustedWeights = weights.map((weight) => Math.exp(-weight));
+
+    // Calculate total weight
+    const totalWeight = adjustedWeights.reduce((acc, curr) => acc + curr, 0);
+
+    // Generate random number in the range [0, totalWeight)
+    const randomWeight = Math.random() * totalWeight;
+
+    // Find the flashcard corresponding to the selected weight
+    let cumulativeWeight = 0;
+    for (let i = 0; i < flashcards.length; i++) {
+      cumulativeWeight += adjustedWeights[i];
+      if (randomWeight <= cumulativeWeight) {
+        return i;
+      }
+    }
+
+    // Default to returning the last flashcard if something goes wrong
+    return flashcards.length - 1;
   };
 
   // Levenshtein distance algorithm for string similarity (MOST LIKELY WILL CHANGE.)
