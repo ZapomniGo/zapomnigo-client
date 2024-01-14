@@ -21,6 +21,7 @@ import {
   editSet,
   forgotPassword,
   forgotPasswordNoToken,
+  folderView,
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Provider } from "react-redux";
@@ -45,6 +46,7 @@ import CookieRules from "./app-components/Legal/CookieRules";
 import { EditSet } from "./app-components/EditSet/EditSet";
 import ForgotPassword from "./app-components/ForgotPassword/ForgotPassword";
 import NotFound from "./app-components/NotFound/NotFound";
+import { FolderView } from "./app-components/FolderView/FolderView";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -122,6 +124,10 @@ const router = createBrowserRouter([
       {
         path: createFolder,
         element: <CreateFolder />,
+      },
+      {
+        path: folderView,
+        element: <FolderView />,
       },
       {
         path: "*",

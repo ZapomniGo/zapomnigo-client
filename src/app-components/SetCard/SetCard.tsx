@@ -27,7 +27,7 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
   
   return (
     <div
-      className={"set-card"+(isSelected ? " active" : "")}
+      className={"set-card folder-card"+(isSelected ? " active" : "")}
       onMouseEnter={() => onMouseEnter(id)}
       onMouseLeave={onMouseLeave}
       onClick={() => navigate(`/set/${id}`)}

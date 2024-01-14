@@ -48,7 +48,7 @@ export const Sets: React.FC = () => {
   return (
     <Dashboard>
       <div className="set-wrapper">
-        <h2 className="category-title">Разгледай</h2>
+        <h2 className="category-title">Мойте сетове</h2>
         <div className="sets">
           {setCards.map((card) => (
               

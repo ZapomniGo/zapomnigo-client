@@ -6,7 +6,7 @@ import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
 import { Footer } from "../Footer/Footer";
 
-export const MainPage: React.FC = () => {
+export const FolderView: React.FC = () => {
   const [setCards, setSetCards] = useState([]);
   const [recentCards, setRecentCards] = useState(10);
   // const [exploreCards, setExploreCards] = useState(10);
@@ -25,6 +25,9 @@ export const MainPage: React.FC = () => {
     setRecentCards((prevRecentCards) => prevRecentCards + 10);
   };
 
+  // const handleLoadExplore = () => {
+  //   setExploreCards((prevExploreCards) => prevExploreCards + 10);
+  // };
 
   const handleMouseEnter = (id: string) => {
     setSelectSet(id);
@@ -37,7 +40,7 @@ export const MainPage: React.FC = () => {
   return (
     <Dashboard>
       <div className="set-wrapper">
-        <h2 className="category-title">Разгледай</h2>
+        <h2 className="category-title">Смени с име на папка</h2>
         <div className="sets">
           {setCards.map((card) => (
               
@@ -47,7 +50,7 @@ export const MainPage: React.FC = () => {
                 title={card.set_name}
                 description={card.set_description}
                 institution={card.organization_name}
-                image={'public/logo.jpg'}
+                image={'/public/logo.jpg'}
                 creator_name={card.username}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
