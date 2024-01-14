@@ -10,7 +10,9 @@ const StudyComponent = () => {
     set_name: "",
     set_description: "",
     set_category: "",
-    flashcards: [],
+    set: {
+      flashcards: [],
+    },
     username: "",
     organization: "",
   });
@@ -30,7 +32,9 @@ const StudyComponent = () => {
         set_name: "Хм, този сет не съществува",
         set_description: "Провери дали си въвел правилния линк",
         set_category: "",
-        flashcards: [],
+        set: {
+          flashcards: [],
+        },
         username: "все още никого :<",
         organization: "",
       });
@@ -38,7 +42,7 @@ const StudyComponent = () => {
     }
 
     instance
-      .get(`/sets/${id}`)
+      .get(`/set/${id}`)
       .then((res) => {
         setFlashcards(res.data.set);
       })
@@ -46,12 +50,12 @@ const StudyComponent = () => {
         console.error(err);
       });
 
-    if (flashcards.flashcards.length > 0) {
+    if (flashcards.set.flashcards.length > 0) {
       setCurrentFlashcardIndex(0);
-      setCorrectDefinition(flashcards.flashcards[0].definition);
-      shuffleDefinitions(flashcards.flashcards[0].definition);
+      setCorrectDefinition(flashcards.set.flashcards[0].definition);
+      shuffleDefinitions(flashcards.set.flashcards[0].definition);
     }
-  }, [id, flashcards.flashcards.length]);
+  }, [id, flashcards.set.flashcards.length]);
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -70,12 +74,12 @@ const StudyComponent = () => {
 
   useEffect(() => {
     ensureDIfferentFlashcard();
-  }, [currentFlashcardIndex, flashcards.flashcards]);
+  }, [currentFlashcardIndex, flashcards.set.flashcards]);
 
   const ensureDIfferentFlashcard = () => {
     let nextIndex;
     do {
-      nextIndex = shuffleArrayWeighted(flashcards.flashcards);
+      nextIndex = shuffleArrayWeighted(flashcards.set.flashcards);
     } while (nextIndex === previousFlashcardIndex);
 
     setCurrentFlashcardIndex(nextIndex);
@@ -84,7 +88,7 @@ const StudyComponent = () => {
 
   const shuffleDefinitions = (correctDefinition: string) => {
     const allDefinitions = [
-      ...flashcards.flashcards.map((card) => card.definition),
+      ...flashcards.set.flashcards.map((card) => card.definition),
     ];
     const shuffled = shuffleArray([...allDefinitions, correctDefinition]);
     const selectedDefinitions = shuffled.slice(0, 4);
@@ -94,10 +98,11 @@ const StudyComponent = () => {
   const handleAnswerButtonClick = (definition: string, isInput: boolean) => {
     if (isInput) {
       const updatedFlashcard = {
-        definition: flashcards.flashcards[currentFlashcardIndex].definition,
-        flashcard_id: flashcards.flashcards[currentFlashcardIndex].flashcard_id,
+        definition: flashcards.set.flashcards[currentFlashcardIndex].definition,
+        flashcard_id:
+          flashcards.set.flashcards[currentFlashcardIndex].flashcard_id,
         notes: null,
-        term: flashcards.flashcards[currentFlashcardIndex].term,
+        term: flashcards.set.flashcards[currentFlashcardIndex].term,
         correctness: isAnswerCorrect(definition, correctDefinition) ? 1 : 0,
         username: username,
         user_id: userId,
@@ -105,24 +110,25 @@ const StudyComponent = () => {
 
       instance
         .put(
-          `/flashcards/${flashcards.flashcards[currentFlashcardIndex].flashcard_id}/study`,
+          `/flashcards/${flashcards.set.flashcards[currentFlashcardIndex].flashcard_id}/study`,
           updatedFlashcard
         )
         .catch((err) => console.error(err));
 
       ensureDIfferentFlashcard();
-      setCorrectDefinition(flashcards.flashcards[nextIndex].definition);
-      shuffleDefinitions(flashcards.flashcards[nextIndex].definition);
+      setCorrectDefinition(flashcards.set.flashcards[nextIndex].definition);
+      shuffleDefinitions(flashcards.set.flashcards[nextIndex].definition);
     } else {
       if (definition === correctDefinition) {
         const nextIndex = currentFlashcardIndex + 1;
-        if (nextIndex < flashcards.flashcards.length) {
+        if (nextIndex < flashcards.set.flashcards.length) {
           const updatedFlashcard = {
-            definition: flashcards.flashcards[currentFlashcardIndex].definition,
+            definition:
+              flashcards.set.flashcards[currentFlashcardIndex].definition,
             flashcard_id:
-              flashcards.flashcards[currentFlashcardIndex].flashcard_id,
+              flashcards.set.flashcards[currentFlashcardIndex].flashcard_id,
             notes: null,
-            term: flashcards.flashcards[currentFlashcardIndex].term,
+            term: flashcards.set.flashcards[currentFlashcardIndex].term,
             correctness: 1,
             username: username,
             user_id: userId,
@@ -130,14 +136,14 @@ const StudyComponent = () => {
 
           instance
             .put(
-              `/flashcards/${flashcards.flashcards[currentFlashcardIndex].flashcard_id}/study`,
+              `/flashcards/${flashcards.set.flashcards[currentFlashcardIndex].flashcard_id}/study`,
               updatedFlashcard
             )
             .catch((err) => console.error(err));
 
           ensureDIfferentFlashcard();
-          setCorrectDefinition(flashcards.flashcards[nextIndex].definition);
-          shuffleDefinitions(flashcards.flashcards[nextIndex].definition);
+          setCorrectDefinition(flashcards.set.flashcards[nextIndex].definition);
+          shuffleDefinitions(flashcards.set.flashcards[nextIndex].definition);
         } else {
           console.log("Reached end of flashcards");
         }
@@ -172,7 +178,7 @@ const StudyComponent = () => {
     return result;
   };
 
-  const isInput = shouldBeInput(flashcards.flashcards);
+  const isInput = shouldBeInput(flashcards.set.flashcards);
 
   const shuffleArrayWeighted = (flashcards) => {
     // Calculate weights based on correctness
@@ -246,10 +252,12 @@ const StudyComponent = () => {
     <>
       <div id="flashcard" className={"no-image"}>
         <div className="term">
-          <h3>{parse(flashcards.flashcards[currentFlashcardIndex].term)}</h3>
+          <h3>
+            {parse(flashcards.set.flashcards[currentFlashcardIndex].term)}
+          </h3>
         </div>
       </div>
-      {flashcards.flashcards.map((flashcard, index) => (
+      {flashcards.set.flashcards.map((flashcard, index) => (
         <div key={flashcard.flashcard_id}>
           {isInput[index] ? (
             <input
