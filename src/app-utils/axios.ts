@@ -1,6 +1,14 @@
 import axios from "axios";
 
-const HEROKU_URL = "https://zapomnigo-server-aaea6dc84a09.herokuapp.com/v1";
+const IS_PROD = import.meta.env.VITE_IS_PROD;
+
+// const IS_PROD =
+//   window.location.href.indexOf("localhost") === -1 ||
+//   window.location.href.indexOf("zapomnigo") !== -1;
+
+const HEROKU_URL_DEV = import.meta.env.VITE_HEROKU_URL_DEV;
+const HEROKU_URL_PROD = import.meta.env.VITE_HEROKU_URL_PROD;
+const HEROKU_URL = IS_PROD ? HEROKU_URL_PROD : HEROKU_URL_DEV;
 
 const instance = axios.create();
 
@@ -38,9 +46,21 @@ instance.interceptors.response.use(
       error.response.status === 499
     ) {
       return axios
-        .post(`${HEROKU_URL}/refresh`)
-        .then(() => {
-          return instance.request(config);
+        .post(
+          `${HEROKU_URL}/refresh`,
+          {},
+          {
+            headers: {
+              Authorization: localStorage.getItem("refresh_token"),
+            },
+          }
+        )
+        .then((res) => {
+          localStorage.setItem("access_token", res.data.access_token);
+          config.headers.Authorization = res.data.access_token;
+          localStorage.setItem("refresh_token", res.data.refresh_token);
+          console.log(config);
+          return axios.request(config);
         })
         .catch((error) => {
           return Promise.reject(error);
