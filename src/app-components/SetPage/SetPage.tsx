@@ -112,7 +112,6 @@ export const SetPage = () => {
         console.log(decodedToken.admin)
 
       }
-      console.log(admin)
     }
   }, []);
 
@@ -148,7 +147,7 @@ export const SetPage = () => {
                   <MdContentCopy />
                   Прегледай
                 </a>
-                {creator === username  || admin && (
+                {(creator === username || admin) && (
                   <a href={`/edit-set/${id}`}>
                     <RiPencilLine />
                     Редактирай

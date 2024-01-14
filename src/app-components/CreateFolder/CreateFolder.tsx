@@ -136,8 +136,11 @@ export const CreateFolder = () => {
               </select>
             </div>
           </div>
-          <h1>Избрани сетове</h1>
+          {unavailableSets.length > 0 && (
+            <h1>Избрани сетове</h1>
+          )}
           <div className="test">
+
           <div className="sets-wrapper">
 
           {unavailableSets.map(card => (
