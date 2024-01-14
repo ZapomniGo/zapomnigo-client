@@ -1,0 +1,25 @@
+.sets-wrapper{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: left;
+    
+    .select-set{
+        background-color: red;
+        display: flex;
+        width: 30.8%;
+        margin: 10px 10px;
+        padding: 5px;
+        border-radius: 5px;
+        .select-set-wrapper{
+        }
+    }
+    button{
+        margin: 5px 0 !important; 
+    }
+}
+
+.test{
+    display: flex;
+    justify-content: center;
+}

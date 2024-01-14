@@ -85,27 +85,13 @@ export const CreateFolder = () => {
 
   return (
     <Dashboard>
-        <ToastContainer />
-        <div>
-      <h2>Unavailable Sets</h2>
-      {unavailableSets.map(card => (
-          <SelectSet
-          key={card.set_id}
-          id={card.set_id}
-          title={card.set_name}
-          description={card.set_description}
-          institution={card.organization_name}
-          image={'src/app-components/Navigation/logo.png'}
-          creator_name={card.username}
-          isAvb={availableSets[card.set_id] !== false} 
-          onSelectSet={() => handleSelectSet(card)}
-          onDeselectSet={() => handleDeselectSet(card)}
-        />
-      ))}
-    </div>
+      <ToastContainer />
+      <div>
+
+      </div>
       <div className="create-set-wrapper">
         <div className="create-set">
-        <h1>Създай тесте</h1>
+        <h1>Създай папка</h1>
           <input
             type="text"
             onChange={(e) => handleChangeFolder('title', e.target.value)}
@@ -150,23 +136,45 @@ export const CreateFolder = () => {
               </select>
             </div>
           </div>
-          {setCards.map((card: any) => (
+          <h1>Избрани сетове</h1>
+          <div className="test">
+          <div className="sets-wrapper">
+
+          {unavailableSets.map(card => (
             <SelectSet
-            key={card.set_id}
-            id={card.set_id}
-            title={card.set_name}
-            description={card.set_description}
-            institution={card.organization_name}
-            image={'src/app-components/Navigation/logo.png'}
-            creator_name={card.username}
-            isAvb={availableSets[card.set_id] !== false} // The set is available if its ID is not in the availableSets state or if its value is true
-            onSelectSet={() => handleSelectSet(card)}
-
-            onDeselectSet={() => handleDeselectSet(card)}
-
-            
-          />
+              key={card.set_id}
+              id={card.set_id}
+              title={card.set_name}
+              description={card.set_description}
+              institution={card.organization_name}
+              image={'src/app-components/Navigation/logo.png'}
+              creator_name={card.username}
+              isAvb={availableSets[card.set_id] !== false} 
+              onSelectSet={() => handleSelectSet(card)}
+              onDeselectSet={() => handleDeselectSet(card)}
+            />
+          
         ))}
+        </div>
+        </div>
+
+          <h1>Избери сетове</h1>
+          <div className="sets-wrapper">
+          {setCards.filter(card => availableSets[card.set_id] !== false).map((card: any) => (
+              <SelectSet
+                key={card.set_id}
+                id={card.set_id}
+                title={card.set_name}
+                description={card.set_description}
+                institution={card.organization_name}
+                image={'src/app-components/Navigation/logo.png'}
+                creator_name={card.username}
+                isAvb={availableSets[card.set_id] !== false} // The set is available if its ID is not in the availableSets state or if its value is true
+                onSelectSet={() => handleSelectSet(card)}
+                onDeselectSet={() => handleDeselectSet(card)}
+              />
+            ))}
+            </div>
           <button onClick={handleSubmitFolder}>Създай</button>
         </div>
       </div>
