@@ -12,28 +12,26 @@ import { useParams } from "react-router-dom";
 import instance from "../../app-utils/axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { MoreBtn } from "../MoreBtn/MoreBtn";
 
 export const SetPage = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
-  const [flashcards, setFlashcards] = useState<FlashcardSet>();
+  const [flashcards, setFlashcards] = useState("");
   const [sortingOrder, setSortingOrder] = useState<string>("");
   const [username, setUsername] = useState("");
   const [creator, setCreator] = useState("");
+  const [page, setPage] = useState(1);
   const { id } = useParams<{ id: string }>();
+
+
+  const handleLoadRecent = () => {
+    setPage(page + 1);
+  };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortingOrder(event.target.value);
   };
-
-  const sortedFlashcards = flashcards?.flashcards.slice().sort((a, b) => {
-    if (sortingOrder === "a-z") {
-      return a.term.localeCompare(b.term);
-    } else if (sortingOrder === "z-a") {
-      return b.term.localeCompare(a.term);
-    }
-    return 0;
-  });
 
   const deleteSet = () => {
     if (!token) {
@@ -67,16 +65,25 @@ export const SetPage = () => {
       });
       return;
     }
-    instance
-      .get(`/sets/${id}`)
-      .then((response) => {
-        setFlashcards(response.data.set);
-        setUsername(response.data.set.username);
-      })
-      .catch((error) => {
-        console.log(error);
+
+    instance.get(`/sets/${id}?page=${page}&size=3`).then((response) => {
+      const newFlashcards = response.data.set.flashcards;
+      let updatedFlashcards = [];
+      if (flashcards && Array.isArray(flashcards.flashcards)) {
+        updatedFlashcards = [...flashcards.flashcards, ...newFlashcards];
+      } else {
+        updatedFlashcards = [...newFlashcards];
+      }
+      setFlashcards({
+        ...response.data.set,
+        flashcards: updatedFlashcards
       });
-  }, [id]);
+      setUsername(response.data.set.username);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }, [id, page]);
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -159,10 +166,11 @@ export const SetPage = () => {
                   <option value="z-a">По азбучен ред(Я-А)</option>
                 </select>
               </div>
-              {sortedFlashcards.map((flashcard) => (
+              {flashcards.flashcards.map((flashcard) => (
                 <Flashcard key={flashcard.flashcard_id} flashcard={flashcard} />
               ))}
             </div>
+            <MoreBtn onClick={handleLoadRecent} />
           </div>
         ) : (
           <center>

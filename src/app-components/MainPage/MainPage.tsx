@@ -8,28 +8,28 @@ import { Footer } from "../Footer/Footer";
 
 export const MainPage: React.FC = () => {
   const [setCards, setSetCards] = useState([]);
-  const [recentCards, setRecentCards] = useState(10);
   // const [exploreCards, setExploreCards] = useState(10);
   const [selectSet, setSelectSet] = useState<string | null>(null);
-
-
-  useEffect(() => {
-    // instance.get(`/users/${userID}/sets`).then((response) => {
-
-    instance.get(`/sets`).then((response) => {
-      console.log(response.data.sets);
-      setSetCards(response.data.sets);
-    });
-  }, []);
-
+  const [page, setPage] = useState(1);
 
   const handleLoadRecent = () => {
-    setRecentCards((prevRecentCards) => prevRecentCards + 10);
+    setPage(page + 1);
   };
 
-  // const handleLoadExplore = () => {
-  //   setExploreCards((prevExploreCards) => prevExploreCards + 10);
-  // };
+  // useEffect(() => {
+  //   instance.get(`/sets?page=${page}&size=20&sort_by_date=false&ascending=true`).then((response) => {
+  //     setSetCards(response.data.sets);
+  //   });
+  // }, []);
+
+  useEffect(() => {
+    instance.get(`/sets?page=${page}&size=20&sort_by_date=false&ascending=true`).then((response) => {
+      const newCards = [...setCards];
+      response.data.sets.forEach(card => newCards.push(card));
+      setSetCards(newCards);
+    });
+  }, [page]);
+
 
   const handleMouseEnter = (id: string) => {
     setSelectSet(id);
@@ -60,11 +60,9 @@ export const MainPage: React.FC = () => {
               />
             ))}
         </div>
-        {/* {recentCards <
-          setCards.filter((card) => card.category_name === "recent").length && (
-          <MoreBtn onClick={handleLoadRecent} />
-        )}
+        <MoreBtn onClick={handleLoadRecent} />
       </div>
+        {/* 
       <div className="set-wrapper">
         <h2 className="category-title">Explore</h2>
         <div className="sets">
@@ -88,7 +86,6 @@ export const MainPage: React.FC = () => {
           setCards.filter((card) => card.category_name === "recent").length && (
           <MoreBtn onClick={handleLoadRecent} />
         )} */}
-      </div>
 
       {/* <div className="set-wrapper">
         <h2 className="category-title">Разгледай</h2>
