@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react';
-import ContainerComponent from '../PageContainer/PageContainer';
-import { Footer } from '../Footer/Footer';
+import React, { useEffect } from "react";
+import ContainerComponent from "../PageContainer/PageContainer";
+import { Footer } from "../Footer/Footer";
 import { useAppSelector } from "../../app-context/store";
-
 interface DashboardProps {
   children: React.ReactNode;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
-  const navigationSliceManager = useAppSelector((state) => state.navigationReducer);
+  const navigationSliceManager = useAppSelector(
+    (state) => state.navigationReducer
+  );
+
+
 
   useEffect(() => {
     if (navigationSliceManager.open) {
@@ -25,9 +28,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
   return (
     <ContainerComponent open={navigationSliceManager.open}>
       <section className="card-section">
-        <div className='category'>
-            {children}
-        </div>
+        <div className="category">{children}</div>
       </section>
       <Footer />
     </ContainerComponent>

@@ -54,6 +54,7 @@ export const MainPage: React.FC = () => {
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               isSelected={selectSet === card.set_id}
+              category={card.category_name}
             />
           ))}
         </div>

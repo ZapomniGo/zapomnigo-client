@@ -19,6 +19,15 @@
         transition: $tran-03;
         overflow: hidden;
     }
+    .miniLabel{
+        font-size: 0.8rem;
+        color: $text-color;
+        margin-right: 0.5rem;
+        background-color:#f5f5f5;
+        padding:4px;
+        border-radius:5px;
+        margin-left:5px;
+    }
     .open {
         transition: $tran-03;
         opacity: 1;

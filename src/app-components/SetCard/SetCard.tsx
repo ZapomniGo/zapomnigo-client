@@ -12,7 +12,7 @@ interface SetCardProps {
   creator_name: string;
 }
 
-const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, image, creator_name, onMouseEnter, onMouseLeave, isSelected }) => {
+const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, image, creator_name, onMouseEnter, onMouseLeave, isSelected, category }) => {
   const displayDescription = () => {
     let n = 120;
     if (description.length > n) {
@@ -53,10 +53,17 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
               {creator_name}
             </p>
         </div>
-        {institution > 0 ? (
+        {institution ? (
             <div className={`set-institution ${isSelected ? "open" : "close"}`}>
               <a href="#">
                 {institution}
+              </a>
+            </div>
+          ): ''}
+          {category ? (
+            <div className={`set-category ${isSelected ? "open" : "close"}`}>
+              <a className="miniLabel">
+                {category}
               </a>
             </div>
           ): ''}
