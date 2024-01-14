@@ -80,6 +80,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 
   const handleCloseClick = () => {
     dispatch(navReducer({ open: false }));
+    window.scrollTo(0, 0);
   };
 
   return (
