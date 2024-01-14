@@ -4,6 +4,7 @@ import instance from "../../app-utils/axios";
 import React from "react";
 import { jwtDecode } from "jwt-decode";
 import parse from "html-react-parser";
+import Dashboard from "../Dashboard/Dashboard";
 
 const StudyComponent = () => {
   const [flashcards, setFlashcards] = useState({
@@ -263,34 +264,43 @@ const StudyComponent = () => {
 
   return (
     <>
-      {flashcards.flashcards.length > 0 && (
-        <div id="flashcard" className={"no-image"}>
-          <div className="term">
-            <h3>{parse(flashcards.flashcards[currentFlashcardIndex].term)}</h3>
+      <Dashboard>
+      <div className="study-component">
+        <div className="study-wrapper">
+        {flashcards.flashcards.length > 0 && (
+          <div id="flashcard" className={"no-image-flashcard"}>
+            <div className="term">
+              <p className="term-text">Термин:</p>
+              <h3>{parse(flashcards.flashcards[currentFlashcardIndex].term)}</h3>
+            </div>
+          </div>
+        )}
+
+        <div className="test">
+          {flashcards.flashcards.slice(0, 4).map((flashcard, index) => (
+            <div className="option" key={flashcard.flashcard_id}>
+              {isInput[index] ? (
+                <input
+                  type="text"
+                  placeholder={`Въведи дефиниция за ${flashcard.term}`}
+                  onBlur={(e) => handleAnswerButtonClick(e.target.value, true)}
+                />
+              ) : (
+                <button
+                  key={index}
+                  onClick={() =>
+                    handleAnswerButtonClick(flashcard.definition, false)
+                  }
+                >
+                  {parse(flashcard.definition)}
+                </button>
+              )}
+            </div>
+          ))}
           </div>
         </div>
-      )}
-      {flashcards.flashcards.slice(0, 4).map((flashcard, index) => (
-        <div key={flashcard.flashcard_id}>
-          {isInput[index] ? (
-            <input
-              type="text"
-              placeholder={`Въведи дефиниция за ${flashcard.term}`}
-              onBlur={(e) => handleAnswerButtonClick(e.target.value, true)}
-            />
-          ) : (
-            <button
-              key={index}
-              onClick={() =>
-                handleAnswerButtonClick(flashcard.definition, false)
-              }
-            >
-              {parse(flashcard.definition)}
-            </button>
-          )}
-        </div>
-      ))}
-      ))
+      </div>
+      </Dashboard>
     </>
   );
 };
