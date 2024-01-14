@@ -166,7 +166,7 @@ const StudyComponent = () => {
       userInput.toLowerCase(),
       expectedAnswer.toLowerCase()
     );
-    return expectedAnswer.length < 20 ? similarity > 0.99 : similarity > 0.85;
+    return expectedAnswer.length < 20 ? similarity >= 0.99 : similarity >= 0.85;
   };
 
   console.log(flashcards);
