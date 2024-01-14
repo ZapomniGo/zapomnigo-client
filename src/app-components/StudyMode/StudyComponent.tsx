@@ -10,9 +10,7 @@ const StudyComponent = () => {
     set_name: "",
     set_description: "",
     set_category: "",
-    set: {
-      flashcards: [],
-    },
+    flashcards: [],
     username: "",
     organization: "",
   });
@@ -27,35 +25,37 @@ const StudyComponent = () => {
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
+    console.log(flashcards);
+  }, [flashcards]);
+
+  useEffect(() => {
     if (id!.length === 0 || id!.length !== 26 || id!.includes(" ")) {
-      setFlashcards({
+      setFlashcards((prevFlashcards) => ({
+        ...prevFlashcards,
         set_name: "Хм, този сет не съществува",
         set_description: "Провери дали си въвел правилния линк",
         set_category: "",
-        set: {
-          flashcards: [],
-        },
+        flashcards: [],
         username: "все още никого :<",
         organization: "",
-      });
+      }));
       return;
     }
 
     instance
-      .get(`/set/${id}`)
+      .get(`/sets/${id}`)
       .then((res) => {
         setFlashcards(res.data.set);
+        if (flashcards.flashcards.length > 0) {
+          setCurrentFlashcardIndex(0);
+          setCorrectDefinition(flashcards.flashcards[0].definition);
+          shuffleDefinitions(flashcards.flashcards[0].definition);
+        }
       })
       .catch((err) => {
         console.error(err);
       });
-
-    if (flashcards.set.flashcards.length > 0) {
-      setCurrentFlashcardIndex(0);
-      setCorrectDefinition(flashcards.set.flashcards[0].definition);
-      shuffleDefinitions(flashcards.set.flashcards[0].definition);
-    }
-  }, [id, flashcards.set.flashcards.length]);
+  }, [id]);
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -73,22 +73,21 @@ const StudyComponent = () => {
   }, []);
 
   useEffect(() => {
-    ensureDIfferentFlashcard();
-  }, [currentFlashcardIndex, flashcards.set.flashcards]);
+    ensureDifferentFlashcard();
+  }, [currentFlashcardIndex]);
 
-  const ensureDIfferentFlashcard = () => {
+  const ensureDifferentFlashcard = () => {
     let nextIndex;
     do {
-      nextIndex = shuffleArrayWeighted(flashcards.set.flashcards);
+      nextIndex = Math.floor(Math.random() * flashcards.flashcards.length);
     } while (nextIndex === previousFlashcardIndex);
 
     setCurrentFlashcardIndex(nextIndex);
-    setPreviousFlashcardIndex(nextIndex);
   };
 
   const shuffleDefinitions = (correctDefinition: string) => {
     const allDefinitions = [
-      ...flashcards.set.flashcards.map((card) => card.definition),
+      ...flashcards.flashcards.map((card) => card.definition),
     ];
     const shuffled = shuffleArray([...allDefinitions, correctDefinition]);
     const selectedDefinitions = shuffled.slice(0, 4);
@@ -98,11 +97,10 @@ const StudyComponent = () => {
   const handleAnswerButtonClick = (definition: string, isInput: boolean) => {
     if (isInput) {
       const updatedFlashcard = {
-        definition: flashcards.set.flashcards[currentFlashcardIndex].definition,
-        flashcard_id:
-          flashcards.set.flashcards[currentFlashcardIndex].flashcard_id,
+        definition: flashcards.flashcards[currentFlashcardIndex].definition,
+        flashcard_id: flashcards.flashcards[currentFlashcardIndex].flashcard_id,
         notes: null,
-        term: flashcards.set.flashcards[currentFlashcardIndex].term,
+        term: flashcards.flashcards[currentFlashcardIndex].term,
         correctness: isAnswerCorrect(definition, correctDefinition) ? 1 : 0,
         username: username,
         user_id: userId,
@@ -110,25 +108,26 @@ const StudyComponent = () => {
 
       instance
         .put(
-          `/flashcards/${flashcards.set.flashcards[currentFlashcardIndex].flashcard_id}/study`,
+          `/flashcards/${flashcards.flashcards[currentFlashcardIndex].flashcard_id}/study`,
           updatedFlashcard
         )
         .catch((err) => console.error(err));
 
-      ensureDIfferentFlashcard();
-      setCorrectDefinition(flashcards.set.flashcards[nextIndex].definition);
-      shuffleDefinitions(flashcards.set.flashcards[nextIndex].definition);
+      setPreviousFlashcardIndex(currentFlashcardIndex);
+      ensureDifferentFlashcard();
+      setCorrectDefinition(flashcards.flashcards[nextIndex].definition);
+      shuffleDefinitions(flashcards.flashcards[nextIndex].definition);
     } else {
+      console.log(definition, correctDefinition);
       if (definition === correctDefinition) {
         const nextIndex = currentFlashcardIndex + 1;
-        if (nextIndex < flashcards.set.flashcards.length) {
+        if (nextIndex < flashcards.flashcards.length) {
           const updatedFlashcard = {
-            definition:
-              flashcards.set.flashcards[currentFlashcardIndex].definition,
+            definition: flashcards.flashcards[currentFlashcardIndex].definition,
             flashcard_id:
-              flashcards.set.flashcards[currentFlashcardIndex].flashcard_id,
+              flashcards.flashcards[currentFlashcardIndex].flashcard_id,
             notes: null,
-            term: flashcards.set.flashcards[currentFlashcardIndex].term,
+            term: flashcards.flashcards[currentFlashcardIndex].term,
             correctness: 1,
             username: username,
             user_id: userId,
@@ -136,19 +135,41 @@ const StudyComponent = () => {
 
           instance
             .put(
-              `/flashcards/${flashcards.set.flashcards[currentFlashcardIndex].flashcard_id}/study`,
+              `/flashcards/${flashcards.flashcards[currentFlashcardIndex].flashcard_id}/study`,
               updatedFlashcard
             )
             .catch((err) => console.error(err));
 
-          ensureDIfferentFlashcard();
-          setCorrectDefinition(flashcards.set.flashcards[nextIndex].definition);
-          shuffleDefinitions(flashcards.set.flashcards[nextIndex].definition);
+          setPreviousFlashcardIndex(currentFlashcardIndex);
+          ensureDifferentFlashcard();
+          setCorrectDefinition(flashcards.flashcards[nextIndex].definition);
+          shuffleDefinitions(flashcards.flashcards[nextIndex].definition);
         } else {
           console.log("Reached end of flashcards");
         }
       } else {
-        console.log("Incorrect answer");
+        const updatedFlashcard = {
+          definition: flashcards.flashcards[currentFlashcardIndex].definition,
+          flashcard_id:
+            flashcards.flashcards[currentFlashcardIndex].flashcard_id,
+          notes: null,
+          term: flashcards.flashcards[currentFlashcardIndex].term,
+          correctness: 0,
+          username: username,
+          user_id: userId,
+        };
+
+        instance
+          .put(
+            `/flashcards/${flashcards.flashcards[currentFlashcardIndex].flashcard_id}/study`,
+            updatedFlashcard
+          )
+          .catch((err) => console.error(err));
+
+        setPreviousFlashcardIndex(currentFlashcardIndex);
+        ensureDifferentFlashcard();
+        setCorrectDefinition(flashcards.flashcards[nextIndex].definition);
+        shuffleDefinitions(flashcards.flashcards[nextIndex].definition);
       }
     }
   };
@@ -166,34 +187,28 @@ const StudyComponent = () => {
   };
 
   const shouldBeInput = (flashcards) => {
-    if (flashcards.length === 0) {
+    if (!flashcards || !flashcards.set || !flashcards.flashcards) {
       return [];
     }
 
     const avgConfidence =
-      flashcards.reduce((sum, card) => sum + card.confidence, 0) /
-      flashcards.length;
-    const result = flashcards.map((card) => card.confidence > avgConfidence);
+      flashcards.flashcards.reduce((sum, card) => sum + card.confidence, 0) /
+      flashcards.flashcards.length;
+    const result = flashcards.flashcards.map(
+      (card) => card.confidence > avgConfidence
+    );
 
     return result;
   };
 
-  const isInput = shouldBeInput(flashcards.set.flashcards);
+  const isInput = shouldBeInput(flashcards.flashcards);
 
   const shuffleArrayWeighted = (flashcards) => {
-    // Calculate weights based on correctness
     const weights = flashcards.map((card) => card.correctness);
-
-    // Adjust weights to increase probability for flashcards with lower correctness
     const adjustedWeights = weights.map((weight) => Math.exp(-weight));
-
-    // Calculate total weight
     const totalWeight = adjustedWeights.reduce((acc, curr) => acc + curr, 0);
-
-    // Generate random number in the range [0, totalWeight)
     const randomWeight = Math.random() * totalWeight;
 
-    // Find the flashcard corresponding to the selected weight
     let cumulativeWeight = 0;
     for (let i = 0; i < flashcards.length; i++) {
       cumulativeWeight += adjustedWeights[i];
@@ -201,8 +216,6 @@ const StudyComponent = () => {
         return i;
       }
     }
-
-    // Default to returning the last flashcard if something goes wrong
     return flashcards.length - 1;
   };
 
@@ -246,18 +259,18 @@ const StudyComponent = () => {
     return expectedAnswer.length < 20 ? similarity >= 0.99 : similarity >= 0.85;
   };
 
-  console.log(flashcards);
+  console.log(currentFlashcardIndex, "index");
 
   return (
     <>
-      <div id="flashcard" className={"no-image"}>
-        <div className="term">
-          <h3>
-            {parse(flashcards.set.flashcards[currentFlashcardIndex].term)}
-          </h3>
+      {flashcards.flashcards.length > 0 && (
+        <div id="flashcard" className={"no-image"}>
+          <div className="term">
+            <h3>{parse(flashcards.flashcards[currentFlashcardIndex].term)}</h3>
+          </div>
         </div>
-      </div>
-      {flashcards.set.flashcards.map((flashcard, index) => (
+      )}
+      {flashcards.flashcards.slice(0, 4).map((flashcard, index) => (
         <div key={flashcard.flashcard_id}>
           {isInput[index] ? (
             <input
@@ -267,11 +280,12 @@ const StudyComponent = () => {
             />
           ) : (
             <button
+              key={index}
               onClick={() =>
                 handleAnswerButtonClick(flashcard.definition, false)
               }
             >
-              {flashcard.definition}
+              {parse(flashcard.definition)}
             </button>
           )}
         </div>
