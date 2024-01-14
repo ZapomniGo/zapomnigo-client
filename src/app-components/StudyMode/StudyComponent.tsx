@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import instance from "../../app-utils/axios";
 import React from "react";
 import { jwtDecode } from "jwt-decode";
+import { Flashcard } from "../SetPage/Flashcard";
 
 const StudyComponent = () => {
   const [flashcards, setFlashcards] = useState({
@@ -174,7 +175,7 @@ const StudyComponent = () => {
   return (
     <>
       <div>
-        <h2>{flashcards.flashcards[currentFlashcardIndex]?.term}</h2>
+        <Flashcard flashcard={flashcards.flashcards[currentFlashcardIndex]} />
         {flashcards.flashcards.map((flashcard, index) => (
           <div key={index}>
             {flashcard.isInput ? (
