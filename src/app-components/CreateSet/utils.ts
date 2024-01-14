@@ -4,7 +4,7 @@ import Flashcard, { FLASHCARD_DIRECTIONS } from "./types";
 
 const useFlashcards = () => {
   const [flashcards, setFlashcards] = useState<Flashcard[]>([
-    { term: "", definition: "", rnd: uuidv4() },
+    { term: "", definition: "", flashcard_id: uuidv4() },
   ]);
 
   const handleMoveFlashcard = (
@@ -40,32 +40,39 @@ const useFlashcards = () => {
   };
 
   const handleAddFlashcard = () => {
-    setFlashcards([...flashcards, { term: "", definition: "", rnd: uuidv4() }]);
+    setFlashcards([
+      ...flashcards,
+      { term: "", definition: "", flashcard_id: uuidv4() },
+    ]);
   };
 
-  const handleDeleteFlashcard = (rnd: string) => {
+  const handleDeleteFlashcard = (flashcard_id: string) => {
     setFlashcards((prevFlashcards) =>
-      prevFlashcards.filter((flashcard) => flashcard.rnd !== rnd)
+      prevFlashcards.filter(
+        (flashcard) => flashcard.flashcard_id !== flashcard_id
+      )
     );
   };
 
-  const handleDuplicateFlashcard = (rnd: string) => {
+  const handleDuplicateFlashcard = (flashcard_id: string) => {
     setFlashcards((prevFlashcards) => {
-      let duplicate = prevFlashcards.find((flashcard) => flashcard.rnd === rnd);
+      let duplicate = prevFlashcards.find(
+        (flashcard) => flashcard.flashcard_id === flashcard_id
+      );
 
-      duplicate = { ...duplicate!, rnd: uuidv4() };
+      duplicate = { ...duplicate!, flashcard_id: uuidv4() };
       return duplicate ? [...prevFlashcards, duplicate] : prevFlashcards;
     });
   };
 
-  const handleFlipFlashcard = (rnd: string) => {
+  const handleFlipFlashcard = (flashcard_id: string) => {
     setFlashcards((prevFlashcards) => {
       const flippedFlashcards = prevFlashcards.map((flashcard) => {
-        if (flashcard.rnd === rnd) {
+        if (flashcard.flashcard_id === flashcard_id) {
           return {
             term: flashcard.definition,
             definition: flashcard.term,
-            rnd: flashcard.rnd,
+            flashcard_id: flashcard.flashcard_id,
           };
         }
         return flashcard;
@@ -81,31 +88,34 @@ const useFlashcards = () => {
         return {
           term: flashcard.definition,
           definition: flashcard.term,
-          rnd: flashcard.rnd,
+          flashcard_id: flashcard.flashcard_id,
         };
       });
     });
   };
 
-  const handleOnImportFlashcards = (importedData, delimiter) => {
-    const pairs = importedData.split(delimiter);
+  const handleOnImportFlashcards = (importedData, delimiter, delimeter2) => {
+    let inputString = importedData;
 
-    const newFlashcards = pairs.map((pair) => {
-      const [term, definition] = pair.split(delimiter);
+    let newArr = inputString
+      .split(delimeter2.trim())
+      .map((item) => item.split(delimiter.trim()));
 
-      return {
-        term: term.trim(),
-        definition: definition.trim(),
-        rnd: uuidv4(),
-      };
-    });
+    let newFlashcards = newArr.map((item) => ({
+      term: item[0],
+      definition: item[1],
+      flashcard_id: uuidv4(),
+    }));
+    if (newFlashcards[newFlashcards.length - 1].term === "" || newFlashcards[newFlashcards.length - 1].definition === "") {
+      newFlashcards.pop();
+    }
 
     setFlashcards(newFlashcards);
   };
 
   const loadFlashcards = (responseData) => {
-    setFlashcards(responseData)
-  }
+    setFlashcards(responseData);
+  };
 
   return {
     flashcards,

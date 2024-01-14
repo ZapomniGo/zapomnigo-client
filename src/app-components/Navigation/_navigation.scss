@@ -205,7 +205,7 @@ body{
             .menu-mobile{
                 display: flex;
                 width: 20%;
-                height: 100%;
+                min-height: 25px !important;
                 // margin-left: 2vw;
                 justify-content: center;
                 svg{

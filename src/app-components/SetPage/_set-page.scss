@@ -5,6 +5,25 @@
   align-items: center;
   font-size: 15px;
   margin-top: 3vh;
+
+  .category{
+    color: gray;
+    font-size: 1.1rem;
+    background-color: #f5f5f5;
+    width: auto;
+    height:auto;
+    border-radius: 5px;
+    text-align: center;
+    padding: 0.8vmax;
+  }
+  .hrz-flex{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin-left:1vmax;
+  }
   .set-info {
     padding: 1vmax;
     display: flex;
@@ -18,7 +37,6 @@
     margin-bottom: 5vh;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     border: 3px solid orange;
-
 
     .set-title {
       display: flex;
@@ -58,8 +76,10 @@
       color: gray;
     }
     .category {
-      font-size: 1.2rem;
+      font-size:.8rem;
       color: gray;
+      padding:5px !important;
+      margin: .3vmax;
     }
 
     .creator {
@@ -71,7 +91,9 @@
     .actions {
       margin: 2px 15px;
       display: flex;
+      flex-wrap: wrap;
       a {
+        margin: 0.3vmax;
         display: flex;
         align-items: center;
         margin-right: 6px;
@@ -86,6 +108,10 @@
           margin-right: 5px;
           font-size: 20px;
         }
+      }
+      a:hover {
+        background-color: white;
+        color: orange;
       }
       .rotate {
         svg {
@@ -106,16 +132,25 @@
       select {
         border-radius: 5px;
         height: auto !important;
-        width:auto;
+        width: auto;
         font-size: 1rem;
         padding: 0.5vmax;
       }
     }
   }
 }
-
+#loadingBanner {
+  font-size: 3vmax !important;
+  color: gray !important;
+  margin-top: 10vh;
+  text-align: center;
+}
 @media screen and (max-width: 800px) {
   #set-page {
+    a:hover {
+      background-color: orange;
+      color: white;
+    }
     .set-info {
       .set-title {
         h1 {

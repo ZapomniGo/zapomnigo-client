@@ -5,6 +5,7 @@ import instance from "../../app-utils/axios";
 import { emailPattern } from "../Forms/Registration/utils";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Background } from "../Forms/FormsBackground/Background";
 
 const ForgetPassword = () => {
   const [message, setMessage] = useState("");
@@ -20,8 +21,14 @@ const ForgetPassword = () => {
         setMessage("Моля, въведете валиден имейл адрес");
         return;
       }
-      instance.post("/send-email?verification=false", { email: email });
-      setMessage("Изпратихме Ви имейл с линк за промяна на паролата");
+      instance
+        .post("/send-email?verification=false", { email: email })
+        .then(() => {
+          setMessage("Изпратихме ти имейл с линк за промяна на паролата");
+        })
+        .catch((err) => {
+          setMessage("Такъв потребител не съществува :(");
+        });
       return;
     }
     if (password1 !== password2) {
@@ -43,58 +50,62 @@ const ForgetPassword = () => {
       setMessage("Паролата трябва да съдържа поне един специален символ");
     }
     instance
-      .post("/forgot-password", { "new_password": password1, token: token })
+      .post("/forgot-password", { new_password: password1, token: token })
       .then((res) => {
-         setMessage("Успешно променихте паролата си! ");
+        setMessage("Паролата е променена");
         setTimeout(() => {
           navigate("/login");
         }, 2000);
       })
       .catch((err) => {
         if (err.response && err.response.data) {
-         setMessage(err.response.data.message);
+          setMessage(err.response.data.message);
         } else {
-          setMessage("Възникна грешка. Моля опитайте по-късно");
+          setMessage("Възникна грешка. Опитай по-късно");
         }
       });
   };
   return (
-    <div className="verify">
-      {token ? (
-        <div className="verifyContainer">
-          <input
-            onChange={(e) => setPassword1(e.target.value)}
-            type="password"
-            placeholder="Парола"
-          />
-          <input
-            onChange={(e) => setPassword2(e.target.value)}
-            type="password"
-            placeholder="Повтори паролата"
-          />
-          <button onClick={handleSubmit} className="button">
-            Промени паролата
-          </button>
-          {message.length ? <p className="msg">{message}</p> : ""}
-        </div>
-      ) : (
-        <div className="verifyContainer">
-          <h1>Забравена парола</h1>
-          <p>
-            Въведете имейл адреса, с който сте се регистрирали и ние ще Ви
-            пратим линк по него
-          </p>
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            type="text"
-            placeholder="Имейл"
-          />
-          <button onClick={handleSubmit} className="button">
-            Изпрати
-          </button>
-          {message.length ? <p className="msg">{message}</p> : ""}
-        </div>
-      )}
+    <div id="backgroundForm">
+      <Background />
+      <div className="verify">
+        {token ? (
+          <div className="verifyContainer">
+            <p>Оп оп, май е време е да си избереш нова парола</p>
+            <input
+              onChange={(e) => setPassword1(e.target.value)}
+              type="password"
+              placeholder="Нова парола"
+            />
+            <input
+              onChange={(e) => setPassword2(e.target.value)}
+              type="password"
+              placeholder="Повтори новата парола"
+            />
+            <button onClick={handleSubmit} className="button">
+              Промени паролата
+            </button>
+            {message.length ? <p className="msg">{message}</p> : ""}
+          </div>
+        ) : (
+          <div className="verifyContainer">
+            <h1>Забравена парола</h1>
+            <p>
+              Въведи имейл адреса, с който сте се регистрирал и ние ще ти пратим
+              линк
+            </p>
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              placeholder="Имейл"
+            />
+            <button onClick={handleSubmit} className="button">
+              Изпрати
+            </button>
+            {message.length ? <p className="msg">{message}</p> : ""}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

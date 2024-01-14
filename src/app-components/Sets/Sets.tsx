@@ -61,7 +61,7 @@ export const Sets: React.FC = () => {
                 title={card.set_name}
                 description={card.set_description}
                 institution={card.organization_name}
-                image={'src/app-components/Navigation/logo.png'}
+                image={'/logo.jpg'}
                 creator_name={card.username}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}

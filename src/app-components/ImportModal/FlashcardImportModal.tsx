@@ -9,14 +9,12 @@ type FlashcardImportModalProps = {
 const FlashcardImportModal = (props: FlashcardImportModalProps) => {
   const [inputText, setInputText] = useState("");
   const [delimiter, setDelimiter] = useState(" ");
+  const [delimiter2, setDelimiter2] = useState("\n");
+
 
   const handleImport = () => {
-    const flashcards = inputText.split(delimiter).map((pair) => {
-      const [term, definition] = pair.trim().split(/\s*[:=]\s*/);
-      return { term, definition };
-    });
-
-    props.onImport(flashcards);
+    const flashcards = inputText;
+    props.onImport(flashcards, delimiter, delimiter2);
     props.onClose();
   };
 
@@ -33,16 +31,25 @@ const FlashcardImportModal = (props: FlashcardImportModalProps) => {
           />
         </label>
         <label>
-          Разделител:
+          Символ разделител между термин и дефиниция:
           <input
             type="text"
             value={delimiter}
             onChange={(e) => setDelimiter(e.target.value)}
           />
         </label>
+        <label>
+          Символ разделител между нови флашкарти:
+          <input
+            type="text"
+            value={delimiter2}
+            onChange={(e) => setDelimiter2(e.target.value)}
+            placeholder="/n"
+          />
+        </label>
         <div className="button-container">
-          <button onClick={props.onClose}>Cancel</button>
-          <button onClick={handleImport}>OK</button>
+          <button onClick={props.onClose}>Откажи</button>
+          <button onClick={handleImport}>Потвърди</button>
         </div>
       </div>
     </div>

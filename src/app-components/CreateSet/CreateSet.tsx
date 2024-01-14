@@ -14,7 +14,7 @@ import instance from "../../app-utils/axios";
 import FlashcardImportModal from "../ImportModal/FlashcardImportModal";
 import { useNavigate } from "react-router-dom";
 export const CreateSet = () => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -36,16 +36,12 @@ const navigate = useNavigate();
   } = useFlashcards();
 
   useEffect(() => {
-
-    instance.get("/categories")
-    .then((response) => {
+    instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
-    })
-  instance.get("/organizations")
-  .then((response) =>{
+    });
+    instance.get("/organizations").then((response) => {
       setAllInstitutions(response.data.organizations);
-  })
-
+    });
   }, []);
   const isEmpty = (string: string) => {
     if (string.length === 0) {
@@ -122,9 +118,9 @@ const navigate = useNavigate();
         set_institution: institution,
       })
       .then((response) => {
-        toast("Добре дошли в новия си сет!");
-        
-       navigate("/set/" + response.data.set_id);
+        toast("Добре дошъл в новото си тесте");
+        navigate("/set/" + response.data.set_id);
+        window.scrollTo(0, 0);
       })
       .catch((error) => {
         toast("Възникна грешка");
@@ -142,7 +138,7 @@ const navigate = useNavigate();
       <ToastContainer />
       <div className="create-set-wrapper">
         <div className="create-set">
-          <h1>Създай сет</h1>
+          <h1>Създай тесте</h1>
           <input
             type="text"
             value={title}
@@ -194,13 +190,15 @@ const navigate = useNavigate();
               <div className="buttonWrapper">
                 {/* TODO(): Refactor styling for icons */}
                 <MdDeleteOutline
-                  onClick={() => handleDeleteFlashcard(flashcard.rnd)}
+                  onClick={() => handleDeleteFlashcard(flashcard.flashcard_id)}
                 />
                 <div>
                   {!isEmpty(flashcard.term) ||
                   !isEmpty(flashcard.definition) ? (
                     <HiOutlineDuplicate
-                      onClick={() => handleDuplicateFlashcard(flashcard.rnd)}
+                      onClick={() =>
+                        handleDuplicateFlashcard(flashcard.flashcard_id)
+                      }
                     />
                   ) : (
                     ""
@@ -225,7 +223,9 @@ const navigate = useNavigate();
                   {!isEmpty(flashcard.term) ||
                   !isEmpty(flashcard.definition) ? (
                     <MdFlip
-                      onClick={() => handleFlipFlashcard(flashcard.rnd)}
+                      onClick={() =>
+                        handleFlipFlashcard(flashcard.flashcard_id)
+                      }
                     />
                   ) : (
                     ""
@@ -264,7 +264,12 @@ const navigate = useNavigate();
             </button>
           </center>
           <div className="create-submition">
-            <button className="submit" onClick={() => setIsModalOpen(!isModalOpen)}>Импортирай</button>
+            <button
+              className="submit"
+              onClick={() => setIsModalOpen(!isModalOpen)}
+            >
+              Импортирай
+            </button>
             <button
               disabled={!flashcards.length}
               onClick={handleSubmit}
@@ -273,11 +278,10 @@ const navigate = useNavigate();
               Запази
             </button>
           </div>
-
         </div>
       </div>
       <FlashcardImportModal
-        onImport={() => handleOnImportFlashcards()}
+        onImport={handleOnImportFlashcards}
         isOpen={isModalOpen}
         onClose={() => {
           console.log("closed");

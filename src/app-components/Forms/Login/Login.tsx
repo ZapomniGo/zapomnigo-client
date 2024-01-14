@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Background } from "../FormsBackground/Background";
 import { LoginData, LoginErrorRecord } from "./types";
 import { initialErrors } from "./utils";
@@ -26,6 +26,12 @@ const validateForm = (data: LoginData): LoginErrorRecord => {
 export const Login = () => {
   const navigate = useNavigate();
   const [backendError, setBackendError] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      navigate("/");
+    }
+  }, []);
 
   const login = async () => {
     if (
@@ -127,7 +133,7 @@ export const Login = () => {
       <div id="wrapperForm">
         <form onSubmit={handleSubmit}>
           <div className="title">
-            <p>Влизане</p>
+            <p>Вход</p>
           </div>
           <section>
             <input
@@ -167,7 +173,7 @@ export const Login = () => {
             <a className="link" onClick={() => navigate("/register")}>
               Нямам акаунт
             </a>
-            <input type="submit" value={"Влезни"} onClick={login} />
+            <input type="submit" value={"Вход"} onClick={login} />
           </div>
           <center>
             {" "}

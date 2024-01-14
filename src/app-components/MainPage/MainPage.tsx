@@ -13,17 +13,10 @@ export const MainPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  
-
   const handleLoadRecent = () => {
     setPage(page + 1);
   };
 
-  // useEffect(() => {
-  //   instance.get(`/sets?page=${page}&size=20&sort_by_date=false&ascending=true`).then((response) => {
-  //     setSetCards(response.data.sets);
-  //   });
-  // }, []);
 
   useEffect(() => {
     instance.get(`/sets?page=${page}&size=20&sort_by_date=false&ascending=true`).then((response) => {
@@ -49,20 +42,20 @@ export const MainPage: React.FC = () => {
         <h2 className="category-title">Разгледай</h2>
         <div className="sets">
           {setCards.map((card) => (
-              
-              <SetCard
-                key={card.set_id}
-                id={card.set_id}
-                title={card.set_name}
-                description={card.set_description}
-                institution={card.organization_name}
-                image={'src/app-components/Navigation/logo.png'}
-                creator_name={card.username}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                isSelected={selectSet === card.set_id}
-              />
-            ))}
+            <SetCard
+              key={card.set_id}
+              id={card.set_id}
+              title={card.set_name}
+              description={card.set_description}
+              institution={card.organization_name}
+              image={"logo.jpg"}
+              creator_name={card.username}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              isSelected={selectSet === card.set_id}
+              category={card.category_name}
+            />
+          ))}
         </div>
         {page < totalPages &&  <MoreBtn onClick={handleLoadRecent} />}
       </div>

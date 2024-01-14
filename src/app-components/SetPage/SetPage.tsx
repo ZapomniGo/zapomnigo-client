@@ -5,14 +5,17 @@ import { MdContentCopy } from "react-icons/md";
 import { FaRegLightbulb } from "react-icons/fa";
 import { RiPencilLine } from "react-icons/ri";
 import { FiShare2 } from "react-icons/fi";
-import { PiExport } from "react-icons/pi";
+import { FiDownload } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
+import { FaRegCopy } from "react-icons/fa6";
 //get the id from the url
 import { useParams } from "react-router-dom";
 import instance from "../../app-utils/axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
+import { toast, ToastContainer } from "react-toastify";
+import { all } from "axios";
 
 export const SetPage = () => {
   const navigate = useNavigate();
@@ -38,7 +41,54 @@ export const SetPage = () => {
     if (!token) {
       return;
     }
-    if (creator !== username) {
+    let dataObj = allData;
+    let flashcards2 = dataObj.set.flashcards;
+    let csvContent = "Term,Definition\n";
+
+    for (let card of flashcards2) {
+      const parser = new DOMParser();
+      const htmlTerm = parser.parseFromString(card.term, "text/html");
+      const textTerm = htmlTerm.body.textContent || "";
+      const htmlCard = parser.parseFromString(card.definition, "text/html");
+      const textCard = htmlCard.body.textContent || "";
+      csvContent += `${textTerm},${textCard}\n`;
+    }
+
+    let blob = new Blob([csvContent], {
+      type: "text/csv;charset=utf-8;",
+    });
+    let link = document.createElement("a");
+    if (link.download !== undefined) {
+      let url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", allData.set.set_name + ".csv");
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
+  const DuplicateSet = () => {
+    if (!token) {
+      return;
+    }
+    if (!window.confirm("Сигурен ли си, че искаш да копираш това тесте?")) {
+      return;
+    }
+    instance
+      .post(`/sets/${id}/copy`)
+      .then((response) => {
+        toast("Добре дошъл в новото си идентично тесте!");
+        navigate(`/set/${response.data.set_id}`);
+      })
+      .catch((error) => {
+        toast("Имаше грешка при копирането, пробвай отново по-късно");
+      });
+  };
+
+  const deleteSet = () => {
+    if (!token) {
       return;
     }
     if (!window.confirm("Сигурен ли си, че искаш да изтриеш този сет?")) {
@@ -54,10 +104,29 @@ export const SetPage = () => {
       });
   };
 
+  const Share = () => {
+    const url = window.location.href;
+    try {
+      navigator.share({
+        title: "Сподели това тесте",
+        url: url,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        toast("Линкът е копиран в клипборда");
+      })
+      .catch(() => {
+        toast("Копирането не се поддържа от браузъра :(");
+      });
+  };
   useEffect(() => {
     if (id.length === 0 || id.length !== 26 || id.includes(" ")) {
       setFlashcards({
-        set_name: "Хм, този сет не съществува",
+        set_name: "Хм, това тесте не съществува",
         set_description: "Провери дали си въвел правилния линк",
         set_category: "",
         flashcards: [],
@@ -102,6 +171,7 @@ export const SetPage = () => {
   return (
     <Dashboard>
       <>
+        <ToastContainer />
         {flashcards ? (
           <div id="set-page">
             <div className="set-info">
@@ -120,7 +190,18 @@ export const SetPage = () => {
                 )}
               </div>
               <p className="description">{flashcards.set_description}</p>
-              <p className="category">{flashcards.set_category}</p>
+              <div className="hrz-flex">
+                {flashcards.category_name ? (
+                  <p className="category">{flashcards.category_name}</p>
+                ) : (
+                  ""
+                )}
+                {flashcards.organization_name ? (
+                  <p className="category">{flashcards.organization_name}</p>
+                ) : (
+                  ""
+                )}
+              </div>
               <div className="actions">
                 <a href={`/study/${id}`}>
                   <FaRegLightbulb />
@@ -130,7 +211,7 @@ export const SetPage = () => {
                   <MdContentCopy />
                   Прегледай
                 </a>
-                {creator === username && (
+                {(creator === username || isAdmin) && (
                   <a href={`/edit-set/${id}`}>
                     <RiPencilLine />
                     Редактирай
@@ -140,14 +221,18 @@ export const SetPage = () => {
                   <RiPencilLine />
                   Редактирай
                 </a> */}
-                <a href="#">
+                <a onClick={DuplicateSet} href="#">
+                  <FaRegCopy />
+                  Копирай
+                </a>
+                <a onClick={Share} href="#">
                   <FiShare2 />
                   Сподели
                 </a>
-                <a href="#">
-                  <PiExport /> Експортирай
+                <a onClick={Export} href="#">
+                  <FiDownload /> Експортирай
                 </a>
-                {creator === username && (
+                {(creator === username || isAdmin) && (
                   <a onClick={deleteSet}>
                     <MdDeleteOutline />
                     Изтрий
@@ -162,11 +247,17 @@ export const SetPage = () => {
                   Флашкарти (
                   {flashcards ? flashcards.flashcards.length : "Зареждане..."})
                 </h2>
-                <select onChange={handleFilterChange}>
-                  <option value="">По подразбиране</option>
-                  <option value="a-z">По азбучен ред(А-Я)</option>
-                  <option value="z-a">По азбучен ред(Я-А)</option>
-                </select>
+                {flashcards.flashcards.length !== 1 ? (
+                  <>
+                    <select onChange={handleFilterChange}>
+                      <option value="">По подразбиране</option>
+                      <option value="a-z">По азбучен ред(А-Я)</option>
+                      <option value="z-a">По азбучен ред(Я-А)</option>
+                    </select>
+                  </>
+                ) : (
+                  ""
+                )}
               </div>
               {flashcards.flashcards.map((flashcard) => (
                 <Flashcard key={flashcard.flashcard_id} flashcard={flashcard} />
@@ -177,7 +268,7 @@ export const SetPage = () => {
         ) : (
           <center>
             {" "}
-            <h1>Зареждане...</h1>
+            <h1 id="loadingBanner">Зареждане...</h1>
           </center>
         )}
       </>

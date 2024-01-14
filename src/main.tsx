@@ -45,6 +45,7 @@ import { EditSet } from "./app-components/EditSet/EditSet";
 import ForgotPassword from "./app-components/ForgotPassword/ForgotPassword";
 import { StudyComponent } from "./app-components/StudyMode/StudyComponent";
 
+import NotFound from "./app-components/NotFound/NotFound";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -122,6 +123,10 @@ const router = createBrowserRouter([
       {
         path: studyRoute,
         element: <StudyComponent />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },
