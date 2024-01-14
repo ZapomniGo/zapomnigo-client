@@ -96,20 +96,22 @@ const useFlashcards = () => {
 
   const handleOnImportFlashcards = (importedData, delimiter, delimeter2) => {
     let inputString = importedData;
-    
+
     let newArr = inputString
       .split(delimeter2.trim())
       .map((item) => item.split(delimiter.trim()));
 
-    let flashcards = [];
-    for (let i = 0; i < newArr.length; i++) {
-      flashcards.push({
-        term: newArr[i][0],
-        definition: newArr[i][1],
-        flashcard_id: uuidv4(),
-      });
+    let newFlashcards = newArr.map((item) => ({
+      term: item[0],
+      definition: item[1],
+      flashcard_id: uuidv4(),
+    }));
+
+    if (newFlashcards[newFlashcards.length - 1].term === "" || newFlashcards[newFlashcards.length - 1].definition === "") {
+      newFlashcards.pop();
     }
-   setFlashcards(flashcards);
+
+    setFlashcards(newFlashcards);
   };
 
   const loadFlashcards = (responseData) => {
