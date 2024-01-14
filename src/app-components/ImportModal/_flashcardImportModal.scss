@@ -2,15 +2,17 @@ $primary-color: #ff4e00;
 $secondary-color: #ec9f05;
 
 .modal {
+  color:gray;
   textarea {
     align-self: center;
     background-color: transparent;
     resize: none;
     width: 93%;
-    height: 80%;
+    height: 20vh;
     outline: none;
     border: 1.5px solid $secondary-color;
     border-radius: 2px;
+    padding: 10px;
   }
   display: none;
   position: fixed;
@@ -81,4 +83,16 @@ $secondary-color: #ec9f05;
       }
     }
   }
+}
+@media screen and (max-width: 800px) {
+  .modal {
+    .modal-content {
+      width: 90%;
+    }
+    button {
+      font-size: 1rem !important;
+      padding:1vmax !important;
+    }
+  }
+  
 }

@@ -33,7 +33,7 @@ const FlashcardImportModal = (props: FlashcardImportModalProps) => {
           />
         </label>
         <label>
-          Разделител:
+          Символ разделител между термин и дефиниция:
           <input
             type="text"
             value={delimiter}
@@ -41,8 +41,8 @@ const FlashcardImportModal = (props: FlashcardImportModalProps) => {
           />
         </label>
         <div className="button-container">
-          <button onClick={props.onClose}>Cancel</button>
-          <button onClick={handleImport}>OK</button>
+          <button onClick={props.onClose}>Откажи</button>
+          <button onClick={handleImport}>Потвърди</button>
         </div>
       </div>
     </div>
