@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import instance from "../../app-utils/axios";
 import React from "react";
+import { jwtDecode } from "jwt-decode";
 
 const StudyComponent = () => {
   const [flashcards, setFlashcards] = useState({
@@ -13,8 +14,11 @@ const StudyComponent = () => {
     organization: "",
   });
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
+  const [previousFlashcardIndex, setPreviousFlashcardIndex] = useState(-1);
   const [correctDefinition, setCorrectDefinition] = useState("");
   const [shuffledDefinitions, setShuffledDefinitions] = useState<string[]>([]);
+  const [username, setUsername] = useState("");
+  const [token, setToken] = useState<string | null>(null);
 
   const { id } = useParams<{ id: string }>();
 
@@ -47,6 +51,31 @@ const StudyComponent = () => {
     }
   }, [id, flashcards.flashcards.length]);
 
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    setToken(token || null);
+
+    if (token) {
+      const decodedToken: { username: string; institution: string } =
+        jwtDecode(token);
+      setUsername(decodedToken.username);
+    }
+  }, []);
+
+  useEffect(() => {
+    ensureDIfferentFlashcard();
+  }, [currentFlashcardIndex, flashcards.flashcards]);
+
+  const ensureDIfferentFlashcard = () => {
+    let nextIndex;
+    do {
+      nextIndex = Math.floor(Math.random() * flashcards.flashcards.length);
+    } while (nextIndex === previousFlashcardIndex);
+
+    setCurrentFlashcardIndex(nextIndex);
+    setPreviousFlashcardIndex(nextIndex);
+  };
+
   const shuffleDefinitions = (correctDefinition: string) => {
     const allDefinitions = [
       ...flashcards.flashcards.map((card) => card.definition),
@@ -60,7 +89,24 @@ const StudyComponent = () => {
     if (definition === correctDefinition) {
       const nextIndex = currentFlashcardIndex + 1;
       if (nextIndex < flashcards.flashcards.length) {
-        setCurrentFlashcardIndex(nextIndex);
+        const updatedFlashcard = {
+          definition: flashcards.flashcards[currentFlashcardIndex].definition,
+          flashcard_id:
+            flashcards.flashcards[currentFlashcardIndex].flashcard_id,
+          notes: null,
+          term: flashcards.flashcards[currentFlashcardIndex].term,
+          correctness: 1,
+          username: username,
+        };
+
+        instance
+          .put(
+            `/flashcards/${flashcards.flashcards[currentFlashcardIndex].flashcard_id}/study`,
+            updatedFlashcard
+          )
+          .catch((err) => console.error(err));
+
+        ensureDIfferentFlashcard();
         setCorrectDefinition(flashcards.flashcards[nextIndex].definition);
         shuffleDefinitions(flashcards.flashcards[nextIndex].definition);
       } else {
