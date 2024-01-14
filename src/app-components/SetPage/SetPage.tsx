@@ -24,9 +24,16 @@ export const SetPage = () => {
   const [sortingOrder, setSortingOrder] = useState<string>("");
   const [username, setUsername] = useState("");
   const [creator, setCreator] = useState("");
-  const jwt: { username: string; admin: boolean } = jwtDecode(
-    localStorage.getItem("access_token") || ""
-  );
+  const [isAdmin, setIsAdmin] = useState();
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      const decodedToken = jwtDecode(localStorage.getItem("access_token"));
+      setIsAdmin(decodedToken.admin);
+    } else {
+      setIsAdmin(false);
+    }
+  }, []);
+
   const { id } = useParams<{ id: string }>();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -94,9 +101,6 @@ export const SetPage = () => {
 
   const deleteSet = () => {
     if (!token) {
-      return;
-    }
-    if (creator !== username && !jwt.admin) {
       return;
     }
     if (!window.confirm("Сигурен ли си, че искаш да изтриеш този сет?")) {
@@ -210,7 +214,7 @@ export const SetPage = () => {
                   <MdContentCopy />
                   Прегледай
                 </a>
-                {(creator === username || jwt.admin) && (
+                {(creator === username || isAdmin) && (
                   <a href={`/edit-set/${id}`}>
                     <RiPencilLine />
                     Редактирай
@@ -231,7 +235,7 @@ export const SetPage = () => {
                 <a onClick={Export} href="#">
                   <FiDownload /> Експортирай
                 </a>
-                {(creator === username || jwt.admin) && (
+                {(creator === username || isAdmin) && (
                   <a onClick={deleteSet}>
                     <MdDeleteOutline />
                     Изтрий
