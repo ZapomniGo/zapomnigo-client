@@ -106,7 +106,6 @@ const useFlashcards = () => {
       definition: item[1],
       flashcard_id: uuidv4(),
     }));
-
     if (newFlashcards[newFlashcards.length - 1].term === "" || newFlashcards[newFlashcards.length - 1].definition === "") {
       newFlashcards.pop();
     }
