@@ -15,7 +15,7 @@ const FlashcardImportModal = (props: FlashcardImportModalProps) => {
       const [term, definition] = pair.trim().split(/\s*[:=]\s*/);
       return { term, definition };
     });
-
+console.log(flashcards);
     props.onImport(flashcards);
     props.onClose();
   };
