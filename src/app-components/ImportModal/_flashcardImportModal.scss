@@ -3,6 +3,7 @@ $secondary-color: #ec9f05;
 
 .modal {
   color:gray;
+  z-index:10;
   textarea {
     align-self: center;
     background-color: transparent;
