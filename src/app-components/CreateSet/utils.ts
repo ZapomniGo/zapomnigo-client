@@ -118,7 +118,8 @@ const useFlashcards = () => {
         flashcard_id: uuidv4(),
       });
     }
-   setFlashcards(flashcards);
+
+    setFlashcards(newFlashcards);
   };
 
   const loadFlashcards = (responseData) => {
