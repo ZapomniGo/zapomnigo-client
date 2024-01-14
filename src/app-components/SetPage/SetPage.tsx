@@ -24,6 +24,9 @@ export const SetPage = () => {
   const [sortingOrder, setSortingOrder] = useState<string>("");
   const [username, setUsername] = useState("");
   const [creator, setCreator] = useState("");
+  const jwt: { username: string; admin: boolean } = jwtDecode(
+    localStorage.getItem("access_token") || ""
+  );
   const { id } = useParams<{ id: string }>();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -93,7 +96,7 @@ export const SetPage = () => {
     if (!token) {
       return;
     }
-    if (creator !== username) {
+    if (creator !== username && !jwt.admin) {
       return;
     }
     if (!window.confirm("Сигурен ли си, че искаш да изтриеш този сет?")) {
@@ -186,7 +189,18 @@ export const SetPage = () => {
                 )}
               </div>
               <p className="description">{flashcards.set_description}</p>
-              <p className="category">{flashcards.set_category}</p>
+              <div className="hrz-flex">
+                {flashcards.category_name ? (
+                  <p className="category">{flashcards.category_name}</p>
+                ) : (
+                  ""
+                )}
+                {flashcards.organization_name ? (
+                  <p className="category">{flashcards.organization_name}</p>
+                ) : (
+                  ""
+                )}
+              </div>
               <div className="actions">
                 <a href="#">
                   <FaRegLightbulb />
@@ -196,7 +210,7 @@ export const SetPage = () => {
                   <MdContentCopy />
                   Прегледай
                 </a>
-                {creator === username && (
+                {(creator === username || jwt.admin) && (
                   <a href={`/edit-set/${id}`}>
                     <RiPencilLine />
                     Редактирай
@@ -217,7 +231,7 @@ export const SetPage = () => {
                 <a onClick={Export} href="#">
                   <FiDownload /> Експортирай
                 </a>
-                {creator === username && (
+                {(creator === username || jwt.admin) && (
                   <a onClick={deleteSet}>
                     <MdDeleteOutline />
                     Изтрий

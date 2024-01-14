@@ -13,8 +13,16 @@ import "react-toastify/dist/ReactToastify.css";
 import instance from "../../app-utils/axios";
 import FlashcardImportModal from "../ImportModal/FlashcardImportModal";
 import { useParams } from "react-router";
+import { jwtDecode } from "jwt-decode";
+
 
 export const EditSet = () => {
+  const jwt: { username: string; admin: boolean } = jwtDecode(
+    localStorage.getItem("access_token") || ""
+  );
+if (!jwt.admin || !localStorage.getItem("access_token")) {
+    window.location.href = "/login";
+  }
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -281,7 +289,7 @@ export const EditSet = () => {
               onClick={handleSubmit}
               className="submit"
             >
-              Запази промните
+              Запази промените
             </button>
           </div>
         </div>
