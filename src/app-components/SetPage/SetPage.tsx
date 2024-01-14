@@ -25,6 +25,8 @@ export const SetPage = () => {
   const [username, setUsername] = useState("");
   const [creator, setCreator] = useState("");
   const [isAdmin, setIsAdmin] = useState();
+
+  
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
       const decodedToken = jwtDecode(localStorage.getItem("access_token"));

@@ -17,12 +17,12 @@ import { jwtDecode } from "jwt-decode";
 
 
 export const EditSet = () => {
-  const jwt: { username: string; admin: boolean } = jwtDecode(
-    localStorage.getItem("access_token") || ""
-  );
-if (!jwt.admin || !localStorage.getItem("access_token")) {
-    window.location.href = "/login";
-  }
+//   const jwt: { username: string; admin: boolean } = jwtDecode(
+//     localStorage.getItem("access_token") || ""
+//   );
+// if (!jwt.admin || !localStorage.getItem("access_token")) {
+//     window.location.href = "/login";
+//   }
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
