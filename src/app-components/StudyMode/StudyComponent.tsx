@@ -3,7 +3,6 @@ import { useParams } from "react-router";
 import instance from "../../app-utils/axios";
 import React from "react";
 import { jwtDecode } from "jwt-decode";
-import { Flashcard } from "../SetPage/Flashcard";
 import parse from "html-react-parser";
 
 const StudyComponent = () => {
@@ -180,25 +179,15 @@ const StudyComponent = () => {
           <h3>{parse(flashcards.flashcards[currentFlashcardIndex].term)}</h3>
         </div>
       </div>
-      {flashcards.flashcards.map((flashcard, index) => (
-        <div key={index}>
-          {flashcard.isInput ? (
-            <input
-              type="text"
-              placeholder={`Enter definition for ${flashcard.term}`}
-              onBlur={(e) => handleAnswerButtonClick(e.target.value, true)}
-            />
-          ) : (
-            <button
-              onClick={() =>
-                handleAnswerButtonClick(flashcard.definition, false)
-              }
-            >
-              {flashcard.definition}
-            </button>
-          )}
-        </div>
+      {shuffledDefinitions.map((definition, index) => (
+        <button
+          key={index}
+          onClick={() => handleAnswerButtonClick(definition, false)}
+        >
+          {definition}
+        </button>
       ))}
+      ))
     </>
   );
 };
