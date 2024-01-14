@@ -277,7 +277,7 @@ const navigate = useNavigate();
         </div>
       </div>
       <FlashcardImportModal
-        onImport={() => handleOnImportFlashcards()}
+        onImport={handleOnImportFlashcards}
         isOpen={isModalOpen}
         onClose={() => {
           console.log("closed");

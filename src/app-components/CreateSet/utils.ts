@@ -40,18 +40,25 @@ const useFlashcards = () => {
   };
 
   const handleAddFlashcard = () => {
-    setFlashcards([...flashcards, { term: "", definition: "", flashcard_id: uuidv4() }]);
+    setFlashcards([
+      ...flashcards,
+      { term: "", definition: "", flashcard_id: uuidv4() },
+    ]);
   };
 
   const handleDeleteFlashcard = (flashcard_id: string) => {
     setFlashcards((prevFlashcards) =>
-      prevFlashcards.filter((flashcard) => flashcard.flashcard_id !== flashcard_id)
+      prevFlashcards.filter(
+        (flashcard) => flashcard.flashcard_id !== flashcard_id
+      )
     );
   };
 
   const handleDuplicateFlashcard = (flashcard_id: string) => {
     setFlashcards((prevFlashcards) => {
-      let duplicate = prevFlashcards.find((flashcard) => flashcard.flashcard_id === flashcard_id);
+      let duplicate = prevFlashcards.find(
+        (flashcard) => flashcard.flashcard_id === flashcard_id
+      );
 
       duplicate = { ...duplicate!, flashcard_id: uuidv4() };
       return duplicate ? [...prevFlashcards, duplicate] : prevFlashcards;
@@ -87,25 +94,27 @@ const useFlashcards = () => {
     });
   };
 
-  const handleOnImportFlashcards = (importedData, delimiter) => {
-    const pairs = importedData.split(delimiter);
+  const handleOnImportFlashcards = (importedData, delimiter, delimeter2) => {
+    let inputString = importedData;
+    
+    let newArr = inputString
+      .split(delimeter2.trim())
+      .map((item) => item.split(delimiter.trim()));
 
-    const newFlashcards = pairs.map((pair) => {
-      const [term, definition] = pair.split(delimiter);
-
-      return {
-        term: term.trim(),
-        definition: definition.trim(),
+    let flashcards = [];
+    for (let i = 0; i < newArr.length; i++) {
+      flashcards.push({
+        term: newArr[i][0],
+        definition: newArr[i][1],
         flashcard_id: uuidv4(),
-      };
-    });
-
-    setFlashcards(newFlashcards);
+      });
+    }
+   setFlashcards(flashcards);
   };
 
   const loadFlashcards = (responseData) => {
-    setFlashcards(responseData)
-  }
+    setFlashcards(responseData);
+  };
 
   return {
     flashcards,
