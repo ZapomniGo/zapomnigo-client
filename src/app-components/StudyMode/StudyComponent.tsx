@@ -26,10 +26,6 @@ const StudyComponent = () => {
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    console.log(flashcards);
-  }, [flashcards]);
-
-  useEffect(() => {
     if (id!.length === 0 || id!.length !== 26 || id!.includes(" ")) {
       return;
     }
@@ -37,17 +33,34 @@ const StudyComponent = () => {
     instance
       .get(`/sets/${id}/study`)
       .then((res) => {
-        setFlashcards(res.data.flashcards);
-        if (flashcards.length > 0) {
+        const newFlashcards = res.data.flashcards;
+
+        if (newFlashcards.length > 0) {
+          setFlashcards(newFlashcards);
           setCurrentFlashcardIndex(0);
-          setCorrectDefinition(flashcards[0].definition);
-          shuffleDefinitions(flashcards[0].definition);
+          setCorrectDefinition(newFlashcards[0].definition);
+          shuffleDefinitions(newFlashcards[0].definition);
         }
       })
       .catch((err) => {
         console.error(err);
       });
   }, [id]);
+
+  useEffect(() => {
+    ensureDifferentFlashcard();
+  }, [flashcards]);
+
+  useEffect(() => {
+    shuffleDefinitions(correctDefinition);
+  }, [correctDefinition]);
+
+  useEffect(() => {
+    if (flashcards.length > 0 && currentFlashcardIndex < flashcards.length) {
+      setCorrectDefinition(flashcards[currentFlashcardIndex].definition);
+      shuffleDefinitions(flashcards[currentFlashcardIndex].definition);
+    }
+  }, [currentFlashcardIndex, flashcards]);
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -64,10 +77,6 @@ const StudyComponent = () => {
     }
   }, []);
 
-  useEffect(() => {
-    ensureDifferentFlashcard();
-  }, [currentFlashcardIndex]);
-
   const ensureDifferentFlashcard = () => {
     if (flashcards.length === 0) {
       return;
@@ -75,27 +84,38 @@ const StudyComponent = () => {
 
     let nextIndex;
     do {
-      nextIndex = shuffleWeightedArray(flashcards);
+      nextIndex = Math.floor(Math.random() * flashcards.length);
     } while (nextIndex === previousFlashcardIndex);
 
     setCurrentFlashcardIndex(nextIndex);
   };
 
   const shuffleDefinitions = (correctDefinition: string) => {
-    const allDefinitions = [...flashcards.map((card) => card.definition)];
-    const shuffled = shuffleArray([...allDefinitions, correctDefinition]);
-    const selectedDefinitions = shuffled.slice(0, 4);
-    setShuffledDefinitions(selectedDefinitions);
+    const allDefinitions = flashcards
+      .map((card) => card.definition)
+      .filter((def) => def !== correctDefinition);
+
+    const shuffled = shuffleArray(allDefinitions.slice(0, 3));
+    const randomIndex = Math.floor(Math.random() * 4);
+    shuffled.splice(randomIndex, 0, correctDefinition);
+
+    setShuffledDefinitions(shuffled);
   };
 
-  const handleAnswerButtonClick = (definition: string, isInput: boolean) => {
-    const isCorrect = isInput
-      ? isAnswerCorrect(definition, correctDefinition)
-        ? 1
-        : 0
-      : definition === correctDefinition
-      ? 1
-      : 0;
+  const shuffleArray = (array) => {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
+    }
+    return shuffledArray;
+  };
+
+  const handleAnswerButtonClick = (definition: string) => {
+    const isCorrect = definition === correctDefinition ? 1 : 0;
 
     const updatedFlashcard = {
       correctness: isCorrect,
@@ -122,97 +142,6 @@ const StudyComponent = () => {
     }
   };
 
-  const shuffleArray = (array) => {
-    const shuffledArray = [...array];
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [
-        shuffledArray[j],
-        shuffledArray[i],
-      ];
-    }
-    return shuffledArray;
-  };
-
-  const shouldBeInput = (flashcards) => {
-    if (!flashcards) {
-      return [];
-    }
-
-    const avgConfidence =
-      flashcards.reduce((sum, card) => sum + card.confidence, 0) /
-      flashcards.length;
-    const result = flashcards.map((card) => card.confidence > avgConfidence);
-
-    return result;
-  };
-
-  const isInput = shouldBeInput(flashcards);
-
-  const shuffleWeightedArray = (flashcards) => {
-    if (!flashcards || flashcards.length === 0) {
-      return [];
-    }
-
-    const meanConfidence =
-      flashcards.reduce((sum, card) => sum + card.confidence, 0) /
-      flashcards.length;
-
-    const shuffledFlashcards = shuffleArray(flashcards);
-
-    const shuffledWithInput = shuffledFlashcards
-      .filter((card) => card.confidence > meanConfidence)
-      .slice(0, 1);
-
-    const shuffledWithButtons = shuffledFlashcards
-      .filter((card) => card.confidence <= meanConfidence)
-      .slice(0, 3);
-
-    return [...shuffledWithInput, ...shuffledWithButtons];
-  };
-
-  // Levenshtein distance algorithm for string similarity (MOST LIKELY WILL CHANGE.)
-  const calculateSimilarity = (str1, str2) => {
-    const len1 = str1.length + 1;
-    const len2 = str2.length + 1;
-
-    const matrix = Array(len1)
-      .fill(null)
-      .map(() => Array(len2).fill(null));
-
-    for (let i = 0; i < len1; i++) {
-      for (let j = 0; j < len2; j++) {
-        if (i === 0) {
-          matrix[i][j] = j;
-        } else if (j === 0) {
-          matrix[i][j] = i;
-        } else {
-          const cost = str1.charAt(i - 1) === str2.charAt(j - 1) ? 0 : 1;
-          matrix[i][j] = Math.min(
-            matrix[i - 1][j] + 1,
-            matrix[i][j - 1] + 1,
-            matrix[i - 1][j - 1] + cost
-          );
-        }
-      }
-    }
-
-    const maxLen = Math.max(len1, len2);
-    const distance = matrix[len1 - 1][len2 - 1];
-
-    return 1 - distance / maxLen;
-  };
-
-  const isAnswerCorrect = (userInput, expectedAnswer) => {
-    const similarity = calculateSimilarity(
-      userInput.toLowerCase(),
-      expectedAnswer.toLowerCase()
-    );
-    return expectedAnswer.length < 20 ? similarity >= 0.99 : similarity >= 0.85;
-  };
-
-  console.log(currentFlashcardIndex, "index");
-
   return (
     <>
       <Dashboard>
@@ -228,26 +157,14 @@ const StudyComponent = () => {
             )}
 
             <div className="answer-options">
-              {flashcards.slice(0, 4).map((flashcard, index) => (
-                <div className="option" key={flashcard.flashcard_id}>
-                  {isInput[index] ? (
-                    <input
-                      type="text"
-                      placeholder={`Въведи дефиниция за ${flashcard.term}`}
-                      onBlur={(e) =>
-                        handleAnswerButtonClick(e.target.value, true)
-                      }
-                    />
-                  ) : (
-                    <button
-                      key={index}
-                      onClick={() =>
-                        handleAnswerButtonClick(flashcard.definition, false)
-                      }
-                    >
-                      {parse(flashcard.definition)}
-                    </button>
-                  )}
+              {shuffledDefinitions.slice(0, 4).map((definition, index) => (
+                <div className="option" key={index + Math.random()}>
+                  <button
+                    key={index}
+                    onClick={() => handleAnswerButtonClick(definition)}
+                  >
+                    {parse(definition)}
+                  </button>
                 </div>
               ))}
             </div>
