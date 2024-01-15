@@ -1,0 +1,20 @@
+name: Merge DEV_ENV to PROD_ENV
+
+on:
+  workflow_dispatch:
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        ref: DEV_ENV
+    
+    - name: Merge into PROD_ENV
+      run: |
+        git checkout PROD_ENV
+        git merge --no-ff DEV_ENV
+        git push origin PROD_ENV
