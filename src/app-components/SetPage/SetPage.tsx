@@ -23,7 +23,17 @@ export const SetPage = () => {
   const [creator, setCreator] = useState("");
   const [admin, setAdmin] = useState(false);
   const { id } = useParams<{ id: string }>();
+  const [isAdmin, setIsAdmin] = useState();
 
+  
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      const decodedToken = jwtDecode(localStorage.getItem("access_token"));
+      setIsAdmin(decodedToken.admin);
+    } else {
+      setIsAdmin(false);
+    }
+  }, []);
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortingOrder(event.target.value);
   };
