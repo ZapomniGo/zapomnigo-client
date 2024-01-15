@@ -38,7 +38,6 @@ export const SetPage = () => {
     }
   }, []);
 
-
   const handleLoadRecent = () => {
     setPage(page + 1);
   };
@@ -146,24 +145,26 @@ export const SetPage = () => {
       return;
     }
 
-    instance.get(`/sets/${id}?page=${page}&size=3`).then((response) => {
-      setTotalPages(response.data.total_pages);
-      const newFlashcards = response.data.set.flashcards;
-      let updatedFlashcards = [];
-      if (flashcards && Array.isArray(flashcards.flashcards)) {
-        updatedFlashcards = [...flashcards.flashcards, ...newFlashcards];
-      } else {
-        updatedFlashcards = [...newFlashcards];
-      }
-      setFlashcards({
-        ...response.data.set,
-        flashcards: updatedFlashcards
+    instance
+      .get(`/sets/${id}?page=${page}&size=2000`)
+      .then((response) => {
+        setTotalPages(response.data.total_pages);
+        const newFlashcards = response.data.set.flashcards;
+        let updatedFlashcards = [];
+        if (flashcards && Array.isArray(flashcards.flashcards)) {
+          updatedFlashcards = [...flashcards.flashcards, ...newFlashcards];
+        } else {
+          updatedFlashcards = [...newFlashcards];
+        }
+        setFlashcards({
+          ...response.data.set,
+          flashcards: updatedFlashcards,
+        });
+        setUsername(response.data.set.username);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-      setUsername(response.data.set.username);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
   }, [id, page]);
 
   useEffect(() => {
@@ -213,7 +214,13 @@ export const SetPage = () => {
                 )}
               </div>
               <div className="actions">
-                <a href={`/study/${id}`}>
+                <a
+                  onClick={() =>
+                    flashcards.flashcards.length > 4
+                      ? navigate(`/study/${id}`)
+                      : toast("Учи режимът работи с 4 или повече флашкарти!")
+                  }
+                >
                   <FaRegLightbulb />
                   Учи
                 </a>
@@ -273,7 +280,7 @@ export const SetPage = () => {
                 <Flashcard key={flashcard.flashcard_id} flashcard={flashcard} />
               ))}
             </div>
-            {page < totalPages &&  <MoreBtn onClick={handleLoadRecent} />}
+            {page < totalPages && <MoreBtn onClick={handleLoadRecent} />}
           </div>
         ) : (
           <center>
