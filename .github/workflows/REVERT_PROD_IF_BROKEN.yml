@@ -1,0 +1,19 @@
+name: Revert PROD_ENV to Previous Commit
+
+on:
+  workflow_dispatch:
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: PROD_ENV
+          
+      - name: Revert to Previous Commit
+        run: |
+          git reset --hard HEAD~1
+          git push --force origin PROD_ENV
