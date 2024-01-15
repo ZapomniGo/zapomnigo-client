@@ -5,24 +5,25 @@ import { MdContentCopy } from "react-icons/md";
 import { FaRegLightbulb } from "react-icons/fa";
 import { RiPencilLine } from "react-icons/ri";
 import { FiShare2 } from "react-icons/fi";
-import { PiExport } from "react-icons/pi";
+import { FiDownload } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
+import { FaRegCopy } from "react-icons/fa6";
 //get the id from the url
 import { useParams } from "react-router-dom";
 import instance from "../../app-utils/axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { all } from "axios";
 
 export const SetPage = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [flashcards, setFlashcards] = useState<FlashcardSet>();
+  const [allData, setAllData] = useState<any>();
   const [sortingOrder, setSortingOrder] = useState<string>("");
   const [username, setUsername] = useState("");
   const [creator, setCreator] = useState("");
-  const [admin, setAdmin] = useState(false);
-  const { id } = useParams<{ id: string }>();
   const [isAdmin, setIsAdmin] = useState();
 
   
@@ -34,6 +35,9 @@ export const SetPage = () => {
       setIsAdmin(false);
     }
   }, []);
+
+  const { id } = useParams<{ id: string }>();
+
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortingOrder(event.target.value);
   };
@@ -47,11 +51,58 @@ export const SetPage = () => {
     return 0;
   });
 
-  const deleteSet = () => {
+  const Export = () => {
     if (!token) {
       return;
     }
-    if (creator !== username) {
+    let dataObj = allData;
+    let flashcards2 = dataObj.set.flashcards;
+    let csvContent = "Term,Definition\n";
+
+    for (let card of flashcards2) {
+      const parser = new DOMParser();
+      const htmlTerm = parser.parseFromString(card.term, "text/html");
+      const textTerm = htmlTerm.body.textContent || "";
+      const htmlCard = parser.parseFromString(card.definition, "text/html");
+      const textCard = htmlCard.body.textContent || "";
+      csvContent += `${textTerm},${textCard}\n`;
+    }
+
+    let blob = new Blob([csvContent], {
+      type: "text/csv;charset=utf-8;",
+    });
+    let link = document.createElement("a");
+    if (link.download !== undefined) {
+      let url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", allData.set.set_name + ".csv");
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
+  const DuplicateSet = () => {
+    if (!token) {
+      return;
+    }
+    if (!window.confirm("Сигурен ли си, че искаш да копираш това тесте?")) {
+      return;
+    }
+    instance
+      .post(`/sets/${id}/copy`)
+      .then((response) => {
+        toast("Добре дошъл в новото си идентично тесте!");
+        navigate(`/set/${response.data.set_id}`);
+      })
+      .catch((error) => {
+        toast("Имаше грешка при копирането, пробвай отново по-късно");
+      });
+  };
+
+  const deleteSet = () => {
+    if (!token) {
       return;
     }
     if (!window.confirm("Сигурен ли си, че искаш да изтриеш този сет?")) {
@@ -71,7 +122,7 @@ export const SetPage = () => {
     const url = window.location.href;
     try {
       navigator.share({
-        title: "Сподели този сет",
+        title: "Сподели това тесте",
         url: url,
       });
     } catch (e) {
@@ -99,13 +150,14 @@ export const SetPage = () => {
       return;
     }
     instance
-      .get(`/sets/${id}`)
+      .get(`/sets/${id}?page=1&size=2000`)
       .then((response) => {
         setFlashcards(response.data.set);
+        setAllData(response.data);
         setUsername(response.data.set.username);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }, [id]);
 
@@ -114,14 +166,10 @@ export const SetPage = () => {
     setToken(token || null);
 
     if (token) {
-      const decodedToken: { username: string; institution: string; admin: boolean } =
+      const decodedToken: { username: string; institution: string } =
         jwtDecode(token);
       setCreator(decodedToken.username);
-        if(decodedToken.admin === true){
-        setAdmin(true);
-        console.log(decodedToken.admin)
-
-      }
+      console.log(creator);
     }
   }, []);
 
@@ -147,7 +195,18 @@ export const SetPage = () => {
                 )}
               </div>
               <p className="description">{flashcards.set_description}</p>
-              <p className="category">{flashcards.set_category}</p>
+              <div className="hrz-flex">
+                {flashcards.category_name ? (
+                  <p className="category">{flashcards.category_name}</p>
+                ) : (
+                  ""
+                )}
+                {flashcards.organization_name ? (
+                  <p className="category">{flashcards.organization_name}</p>
+                ) : (
+                  ""
+                )}
+              </div>
               <div className="actions">
                 <a href="#">
                   <FaRegLightbulb />
@@ -157,7 +216,7 @@ export const SetPage = () => {
                   <MdContentCopy />
                   Прегледай
                 </a>
-                {(creator === username || admin) && (
+                {(creator === username || isAdmin) && (
                   <a href={`/edit-set/${id}`}>
                     <RiPencilLine />
                     Редактирай
@@ -167,14 +226,18 @@ export const SetPage = () => {
                   <RiPencilLine />
                   Редактирай
                 </a> */}
+                <a onClick={DuplicateSet} href="#">
+                  <FaRegCopy />
+                  Копирай
+                </a>
                 <a onClick={Share} href="#">
                   <FiShare2 />
                   Сподели
                 </a>
-                <a href="#">
-                  <PiExport /> Експортирай
+                <a onClick={Export} href="#">
+                  <FiDownload /> Експортирай
                 </a>
-                {creator === username && (
+                {(creator === username || isAdmin) && (
                   <a onClick={deleteSet}>
                     <MdDeleteOutline />
                     Изтрий
@@ -189,11 +252,17 @@ export const SetPage = () => {
                   Флашкарти (
                   {flashcards ? flashcards.flashcards.length : "Зареждане..."})
                 </h2>
-                <select onChange={handleFilterChange}>
-                  <option value="">По подразбиране</option>
-                  <option value="a-z">По азбучен ред(А-Я)</option>
-                  <option value="z-a">По азбучен ред(Я-А)</option>
-                </select>
+                {flashcards.flashcards.length !== 1 ? (
+                  <>
+                    <select onChange={handleFilterChange}>
+                      <option value="">По подразбиране</option>
+                      <option value="a-z">По азбучен ред(А-Я)</option>
+                      <option value="z-a">По азбучен ред(Я-А)</option>
+                    </select>
+                  </>
+                ) : (
+                  ""
+                )}
               </div>
               {sortedFlashcards.map((flashcard) => (
                 <Flashcard key={flashcard.flashcard_id} flashcard={flashcard} />
@@ -203,7 +272,7 @@ export const SetPage = () => {
         ) : (
           <center>
             {" "}
-            <h1>Зареждане...</h1>
+            <h1 id="loadingBanner">Зареждане...</h1>
           </center>
         )}
       </>
