@@ -27,6 +27,16 @@ export const SetPage = () => {
   const [page, setPage] = useState(1);
   const { id } = useParams<{ id: string }>();
   const [totalPages, setTotalPages] = useState(1);
+  const [isAdmin, setIsAdmin] = useState();
+
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      const decodedToken = jwtDecode(localStorage.getItem("access_token"));
+      setIsAdmin(decodedToken.admin);
+    } else {
+      setIsAdmin(false);
+    }
+  }, []);
 
 
   const handleLoadRecent = () => {
