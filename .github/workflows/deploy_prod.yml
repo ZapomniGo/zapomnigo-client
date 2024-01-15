@@ -15,6 +15,4 @@ jobs:
     
     - name: Merge into PROD_ENV
       run: |
-        git checkout PROD_ENV
-        git merge --no-ff DEV_ENV
-        git push origin PROD_ENV
+        git git reset --hard origin/DEV_ENV && git push
