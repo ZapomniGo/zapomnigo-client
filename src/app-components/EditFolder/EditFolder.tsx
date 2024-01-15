@@ -21,17 +21,23 @@ export const EditFolder = () => {
   const [allInstitutions, setAllInstitutions] = useState([]);
   const [folder, setFolder] = useState<{ folder_title: string; folder_description: string; sets: Set[], organization_id: string, category_id: string }>({ folder_title: '', folder_description: '', sets: [], organization_id: '', category_id: '' }); 
   const [setCards, setSetCards] = useState([]);
-  const [availableSets, setAvailableSets] = useState({});
-
-
+//   const [availableSets, setAvailableSets] = useState([]);
+  const [allSets, setAllSets] = useState([]);
+  const [uniqueSets, setUniqueSets] = useState([]);
 
     useEffect(() => {
         
         instance.get(`/folders/${id}/sets`).then((response) => {
-            console.log(response);
+            console.log(response.data.sets);
             setSetCards(response.data.sets);
           });
           
+
+          instance.get("/sets").then((response) => {
+            console.log(response.data.sets);
+            setAllSets(response.data.sets);
+          });
+
         instance.get("/categories")
         .then((response) => {
           setAllCategories(response.data.categories);
@@ -68,39 +74,78 @@ export const EditFolder = () => {
       console.log(folderToSubmit)
     }
 
-    const handleSelectSet = (set) => {
-      setAvailableSets(prevSets => ({
-        ...prevSets,
-        [set.set_id]: false, // Set the availability of the selected set to false
-      }));
-    
-      setFolder(prevFolder => ({ 
-        ...prevFolder, 
-        sets: [...prevFolder.sets, set]
-      }));
-    };
+    const handleSelectSet = (selectedSet) => {
+        // Remove the selected set from uniqueSets
+        const newUniqueSets = uniqueSets.filter(set => set.set_id !== selectedSet.set_id);
+      
+        // Add the selected set to setCards
+        const newSetCards = [...setCards, selectedSet];
+      
+        // Update the state
+        setUniqueSets(newUniqueSets);
+        setSetCards(newSetCards);
+      };
     
     // When a set is deselected
-    const handleDeselectSet = (set) => {
-      setAvailableSets(prevSets => ({
-        ...prevSets,
-        [set.set_id]: true, // Set the availability of the deselected set to true
-      }));
+    const handleDeselectSet = (deselectedSet) => {
+          // Remove the deselected set from setCards
+        const newSetCards = setCards.filter(set => set.set_id !== deselectedSet.set_id);
+
+        // Add the deselected set back to uniqueSets
+        const newUniqueSets = [...uniqueSets, deselectedSet];
+
+        // Update the state
+        setSetCards(newSetCards);
+        setUniqueSets(newUniqueSets);
+    };
     
-      setFolder(prevFolder => ({ 
-        ...prevFolder, 
-        sets: prevFolder.sets.filter(set => set.set_id !== set.set_id)
-      }));
-    }; 
+    //   setFolder(prevFolder => ({ 
+    //     ...prevFolder, 
+    //     sets: prevFolder.sets.filter(set => set.set_id !== set.set_id)
+    //   }));
+    // }; 
 
-    const unavailableSetIds = Object.keys(availableSets).filter(id => availableSets[id] === false);
-    const unavailableSets = setCards.filter(set => unavailableSetIds.includes(set.set_id.toString()));
-
+    // const unavailableSetIds = Object.keys(availableSets).filter(id => availableSets[id] === false);
+    // const unavailableSets = setCards.filter(set => unavailableSetIds.includes(set.set_id.toString()));
+    useEffect(() => {
+        const unique = allSets.filter(set1 => !setCards.some(set2 => set2.set_id === set1.set_id));
+        setUniqueSets(unique);
+      }, [allSets, setCards]);
 
   return (
     <Dashboard>
       <ToastContainer />
-      <div>
+      <p>Selected</p>
+      {setCards.map((card) => (
+      <SelectSet
+        key={card.set_id}
+        id={card.set_id}
+        title={card.set_name}
+        description={card.set_description}
+        institution={card.organization_name}
+        image={'src/app-components/Navigation/lg.png'}
+        creator_name={card.username}
+        isAvb={false} 
+        onSelectSet={() => handleSelectSet(card)}
+        onDeselectSet={() => handleDeselectSet(card)}
+      />
+    ))}
+    <p>Available</p>
+        {uniqueSets.map((card) => (
+      <SelectSet
+        key={card.set_id}
+        id={card.set_id}
+        title={card.set_name}
+        description={card.set_description}
+        institution={card.organization_name}
+        image={'src/app-components/Navigation/lo.png'}
+        creator_name={card.username}
+        isAvb={true} 
+        onSelectSet={() => handleSelectSet(card)}
+        onDeselectSet={() => handleDeselectSet(card)}
+      />
+    ))}
+      {/* <div>
 
       </div>
       <div className="create-set-wrapper">
@@ -194,7 +239,7 @@ export const EditFolder = () => {
             </div>
           <button onClick={handleSubmitFolder}>Създай</button>
         </div>
-      </div>
+      </div> */}
     </Dashboard>
   );
 }

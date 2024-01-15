@@ -48,6 +48,7 @@ import { EditSet } from "./app-components/EditSet/EditSet";
 import ForgotPassword from "./app-components/ForgotPassword/ForgotPassword";
 import NotFound from "./app-components/NotFound/NotFound";
 import { FolderView } from "./app-components/FolderView/FolderView";
+import { EditFolder } from "./app-components/EditFolder/EditFolder";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -136,7 +137,7 @@ const router = createBrowserRouter([
       },
       {
         path: folderEdit,
-        element: <FolderView />,
+        element: <EditFolder />,
       }
     ],
   },

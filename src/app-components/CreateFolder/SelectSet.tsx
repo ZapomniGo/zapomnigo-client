@@ -13,7 +13,7 @@ export const SelectSet = ({ id, title, description, institution, image, creator_
                 </div>
                 <div className="select-set-creator">
                     <div className="image">
-                        <img src="/public/logo.jpg" alt="" />
+                        <img src={image} alt="" />
                     </div>
                     <div className="creator-name">
                         <p>
