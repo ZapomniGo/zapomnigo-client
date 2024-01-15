@@ -17,4 +17,5 @@ export const cookieRules = "/legal/cookie-rules";
 export const editSet = "/edit-set/:id";
 export const forgotPassword = "/forgot-password?token=:token";
 export const forgotPasswordNoToken = "/forgot-password";
-export const folderView = "/folder/view";
+export const folderView = "/folder/:id";
+export const folderEdit = "/edit-folder/:id";

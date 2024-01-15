@@ -22,6 +22,7 @@ import {
   forgotPassword,
   forgotPasswordNoToken,
   folderView,
+  folderEdit
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Provider } from "react-redux";
@@ -133,6 +134,10 @@ const router = createBrowserRouter([
         path: "*",
         element: <NotFound />,
       },
+      {
+        path: folderEdit,
+        element: <FolderView />,
+      }
     ],
   },
 ]);

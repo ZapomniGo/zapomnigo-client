@@ -4,20 +4,24 @@ import { Dashboard } from "../Dashboard/Dashboard";
 import SetCard from "../SetCard/SetCard";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
+import { useParams } from "react-router";
 
 
 export const FolderView: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const [setCards, setSetCards] = useState([]);
   const [recentCards, setRecentCards] = useState(10);
   // const [exploreCards, setExploreCards] = useState(10);
   const [selectSet, setSelectSet] = useState<string | null>(null);
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     // instance.get(`/users/${userID}/sets`).then((response) => {
 
-    instance.get(`/sets`).then((response) => {
-      console.log(response.data.sets);
+    instance.get(`/folders/${id}/sets`).then((response) => {
+      console.log(response);
       setSetCards(response.data.sets);
+      setTitle(response.data.folder_title);
     });
   }, []);
 
@@ -40,7 +44,7 @@ export const FolderView: React.FC = () => {
   return (
     <Dashboard>
       <div className="set-wrapper">
-        <h2 className="category-title">Смени с име на папка</h2>
+        <h2 className="category-title">{title}</h2>
         <div className="sets">
           {setCards.map((card) => (
               

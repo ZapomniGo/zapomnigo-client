@@ -25,8 +25,9 @@ export const Folders: React.FC = () => {
   }
 
   useEffect(() => {
-    instance.get(`/users/${userID}/sets`).then((response) => {
-      setSetCards(response.data.sets);
+    instance.get(`/users/${userID}/folders`).then((response) => {
+      console.log(response)
+      setSetCards(response.data.folders);
     });
   }, []);
 
@@ -55,11 +56,11 @@ export const Folders: React.FC = () => {
           {setCards.map((card) => (
               
               <SetCard
-                key={card.set_id}
-                id={card.set_id}
-                title={card.set_name}
-                description={card.set_description}
-                institution={card.organization_name}
+                key={card.folder_id}
+                id={card.folder_id}
+                title={card.folder_title}
+                description={card.folder_description}
+                institution={card.organization}
                 image={'/logo.jpg'}
                 creator_name={card.username}
                 onMouseEnter={handleMouseEnter}

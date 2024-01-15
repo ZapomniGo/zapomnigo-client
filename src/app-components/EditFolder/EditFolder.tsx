@@ -3,13 +3,15 @@ import Dashboard from "../Dashboard/Dashboard";
 import instance from "../../app-utils/axios";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import Editor from "../RichEditor/Editor";
-import { SelectSet } from "./SelectSet";
+import { SelectSet } from "../CreateFolder/SelectSet";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-
-export const CreateFolder = () => {
+export const EditFolder = () => {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+
+  
 
   interface Set {
     id: number;
@@ -24,10 +26,12 @@ export const CreateFolder = () => {
 
 
     useEffect(() => {
-        instance.get("/sets").then((response) => {
-          console.log(response.data.sets);
-          setSetCards(response.data.sets);
-        });
+        
+        instance.get(`/folders/${id}/sets`).then((response) => {
+            console.log(response);
+            setSetCards(response.data.sets);
+          });
+          
         instance.get("/categories")
         .then((response) => {
           setAllCategories(response.data.categories);
@@ -54,7 +58,7 @@ export const CreateFolder = () => {
       .then((response) => {
         console.log(response)
         toast("Добре дошъл в новото си тесте");
-        navigate("/folder/" + response.data.folder_id);
+        // navigate("/folder/" + response.data.folder_id);
       })
       .catch((error) => {
         toast("Възникна грешка");

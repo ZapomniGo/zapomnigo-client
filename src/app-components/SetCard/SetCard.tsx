@@ -30,8 +30,10 @@ const SetCard: React.FC<SetCardProps> = ({ id, title, description, institution, 
       className={"set-card folder-card"+(isSelected ? " active" : "")}
       onMouseEnter={() => onMouseEnter(id)}
       onMouseLeave={onMouseLeave}
-      onClick={() => navigate(`/set/${id}`)}
-    >
+      // onClick={() => navigate(`/set/${id}`)}
+      onClick={() => navigate(`/folder/${id}`)}
+      
+>
       <div className={`title-options ${isSelected ? "open" : "close"}`}>
       <div className={`set-title ${isSelected ? "open" : "close"}`}>
         {icon}{title.length > 34 ? title.substring(0, 35) + '...' : title}
