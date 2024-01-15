@@ -67,6 +67,7 @@ export const Folders: React.FC = () => {
                 onMouseLeave={handleMouseLeave}
                 isSelected={selectSet === card.set_id}
                 icon={<FaRegFolderClosed />}
+                type={"folder"}
               />
             ))}
         </div>

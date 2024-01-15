@@ -58,4 +58,4 @@ export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
   );
 };
 
-export default Dashboard;
+export default Dashboard; 

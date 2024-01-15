@@ -102,6 +102,19 @@
       }
 }
 
+.add-set{
+    justify-content: center;
+    background-color: #ececec;
+    a{
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        display: flex;
+        width: auto;
+        text-align: center;
+    }
+}
+
 .set-creator.open{
     opacity: 0;
     transition: $tran-03;
