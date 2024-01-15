@@ -160,7 +160,7 @@ export const CreateFolder = () => {
               title={card.set_name}
               description={card.set_description}
               institution={card.organization_name}
-              image={'src/app-components/Navigation/logo.png'}
+              image={'/logo.jpg'}
               creator_name={card.username}
               isAvb={availableSets[card.set_id] !== false} 
               onSelectSet={() => handleSelectSet(card)}
@@ -180,7 +180,7 @@ export const CreateFolder = () => {
                 title={card.set_name}
                 description={card.set_description}
                 institution={card.organization_name}
-                image={'src/app-components/Navigation/logo.png'}
+                image={'/logo.jpg'}
                 creator_name={card.username}
                 isAvb={availableSets[card.set_id] !== false} 
                 onSelectSet={() => handleSelectSet(card)}
