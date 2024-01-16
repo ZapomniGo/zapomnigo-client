@@ -53,8 +53,10 @@ export const EditSet = () => {
         loadFlashcards(response.data.set.flashcards);
         setTitle(response.data.set.set_name);
         setDescription(response.data.set.set_description);
+        //here i should get the ids of inst and catgeory and check in select
         setInstitution(response.data.set.set_institution);
         setCategory(response.data.set.set_category);
+        console.log(response.data);
       })
   }, []);
   const isEmpty = (string: string) => {
@@ -147,6 +149,12 @@ export const EditSet = () => {
     const url = "http://www.google.com/search?q=" + query;
     window.open(url, "_blank");
   };
+
+  useEffect(() => {
+    console.log(institution);
+    console.log(category);
+  }
+  , [institution, category]);
 
   return (
     <Dashboard>
