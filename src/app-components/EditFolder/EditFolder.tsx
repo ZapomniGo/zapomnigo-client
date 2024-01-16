@@ -106,7 +106,6 @@ export const EditFolder = () => {
         const unique = allSets.filter(set1 => !setCards.some(set2 => set2.set_id === set1.set_id));
         setUniqueSets(unique);
         console.log(allInstitutions)
-        console.log(folder.category_id)
       }, [allSets, setCards]);
 
   return (
