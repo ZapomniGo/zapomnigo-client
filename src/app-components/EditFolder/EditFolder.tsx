@@ -15,7 +15,7 @@ export const EditFolder = () => {
   const [allCategories, setAllCategories] = useState([]);
   const [allInstitutions, setAllInstitutions] = useState([]);
   //change ids to names after backend is fixed also change the select in option
-  const [folder, setFolder] = useState<{ folder_title: string; folder_description: string; sets: Set[], organization_id: string, category_id: string }>({ folder_title: '', folder_description: '', sets: [], organization_id: '', category_id: '' }); 
+  const [folder, setFolder] = useState<{ folder_title: string; folder_description: string; sets: Set[], organization_name: string, category_name: string }>({ folder_title: '', folder_description: '', sets: [], organization_name: '', category_name: '' }); 
   const [setCards, setSetCards] = useState([]);
   const [allSets, setAllSets] = useState([]);
   const [uniqueSets, setUniqueSets] = useState([]);
@@ -26,12 +26,12 @@ export const EditFolder = () => {
     useEffect(() => {
         
         instance.get(`/folders/${id}/sets`).then((response) => {
-            console.log(response.data.sets);
+            console.log(response);
             setSetCards(response.data.sets);
             folder.folder_title = response.data.folder_title;
             folder.folder_description = response.data.folder_description;
-            folder.organization_id = "01HGDJEMZKEG4C7BFH6PYG8KM0";
-            folder.category_id = "01HJKREA25THZE70QVPWN6W1E6"
+            folder.organization_name = response.data.organization_name;
+            folder.category_name = response.data.category_name;
           });
           
 
@@ -144,7 +144,7 @@ export const EditFolder = () => {
               >
                 <option value="">Без категория</option>
                 {allCategories.map((category, index) => (
-                  <option key={index} value={category.category_id} selected={category.category_id === folder.category_id}>
+                  <option key={index} value={category.category_id} selected={category.category_name === folder.category_name}>
                   {category.category_name}
               </option>
                 ))}
@@ -157,7 +157,7 @@ export const EditFolder = () => {
                     >
                     <option value="">Без институция</option>
                     {allInstitutions.map((institution, index) => (
-                        <option key={index} value={institution.organization_id} selected={institution.organization_id === folder.organization_id}>
+                        <option key={index} value={institution.organization_id} selected={institution.organization_name === folder.organization_name}>
                             {institution.organization_name}
                         </option>
                     ))}

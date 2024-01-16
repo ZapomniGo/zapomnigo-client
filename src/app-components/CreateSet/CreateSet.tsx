@@ -123,7 +123,8 @@ const navigate = useNavigate();
       })
       .then((response) => {
         toast("Добре дошъл в новото си тесте");
-        navigate("/set/" + response.data.set_id);
+        console.log(response);
+        // navigate("/set/" + response.data.set_id);
       })
       .catch((error) => {
         toast("Възникна грешка");
