@@ -112,19 +112,18 @@ const navigate = useNavigate();
       toast("Някоя от картите е с поле с повече от 10000 символа");
       return;
     }
-    //check if the tags are not empty
+    // check if the tags are not empty
     instance
       .post("/sets", {
         set_name: title,
         set_description: description,
         flashcards: flashcards,
         set_category: category,
-        set_institution: institution,
+        organization_id: institution,
       })
       .then((response) => {
         toast("Добре дошъл в новото си тесте");
-        
-       navigate("/set/" + response.data.set_id);
+        navigate("/set/" + response.data.set_id);
       })
       .catch((error) => {
         toast("Възникна грешка");

@@ -141,10 +141,14 @@
 
         }
         .option-svg{
-            height: 40% !important;
+            height: 70% !important;
+            svg{
+                height: 10%;
+            }
 
         }
         .option-title{
+            height: 30% !important;
             align-items: center;
         }
     }

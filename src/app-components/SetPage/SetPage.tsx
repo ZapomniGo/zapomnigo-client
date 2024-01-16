@@ -145,7 +145,7 @@ export const SetPage = () => {
         set_category: "",
         flashcards: [],
         username: "все още никого :<",
-        organization: "",
+        organization_name: "",
       });
       return;
     }
@@ -155,6 +155,7 @@ export const SetPage = () => {
         setFlashcards(response.data.set);
         setAllData(response.data);
         setUsername(response.data.set.username);
+        console.log(response)
       })
       .catch((error) => {
         console.error(error);
