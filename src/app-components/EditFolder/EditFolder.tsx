@@ -8,11 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 export const EditFolder = () => {
-  const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
-
-  
-
   interface Set {
     id: number;
   }
@@ -23,8 +18,9 @@ export const EditFolder = () => {
   const [setCards, setSetCards] = useState([]);
   const [allSets, setAllSets] = useState([]);
   const [uniqueSets, setUniqueSets] = useState([]);
-  const { folderID } = useParams<{ folderID: string }>();
 
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
 
     useEffect(() => {
         
@@ -33,7 +29,8 @@ export const EditFolder = () => {
             setSetCards(response.data.sets);
             folder.folder_title = response.data.folder_title;
             folder.folder_description = response.data.folder_description;
-            folder.organization_id = response.data.organization_id;z
+            folder.organization_id = "01HGDJEMZKEG4C7BFH6PYG8KM0";
+            folder.category_id = "01HJKREA25THZE70QVPWN6W1E6"
           });
           
 
@@ -50,6 +47,7 @@ export const EditFolder = () => {
       .then((response) =>{
           setAllInstitutions(response.data.organizations);
       })
+
     }, []);
 
     const handleChangeFolder = (key: string, value: string) => {
@@ -67,8 +65,8 @@ export const EditFolder = () => {
       .put(`/folders/${id}`, folderToSubmit)
       .then((response) => {
         console.log(response)
-        toast("Добре дошъл в новото си тесте");
-        // navigate("/folder/" + response.data.folder_id);
+        toast("Добре дошъл в новата си папка");
+        navigate("/folder/" + id);
       })
       .catch((error) => {
         toast("Възникна грешка");
@@ -106,6 +104,8 @@ export const EditFolder = () => {
     useEffect(() => {
         const unique = allSets.filter(set1 => !setCards.some(set2 => set2.set_id === set1.set_id));
         setUniqueSets(unique);
+        console.log(allInstitutions)
+        console.log(folder.category_id)
       }, [allSets, setCards]);
 
   return (
@@ -116,7 +116,7 @@ export const EditFolder = () => {
       </div>
       <div className="create-set-wrapper">
         <div className="create-set">
-        <h1>Създай папка</h1>
+        <h1>Редактирай папка</h1>
         <input
             type="text"
             value={folder.folder_title}
@@ -143,24 +143,24 @@ export const EditFolder = () => {
               >
                 <option value="">Без категория</option>
                 {allCategories.map((category, index) => (
-                  <option key={index} value={category.category_id}>
-                    {category.category_name}
-                  </option>
+                  <option key={index} value={category.category_id} selected={category.category_id === folder.category_id}>
+                  {category.category_name}
+              </option>
                 ))}
               </select>
               <select
-            onChange={(e) => handleChangeFolder('organization_id', e.target.value)}
-            defaultValue={folder.organization_id}
-                id="institution"
-                name="institution"
-              >
-                <option value="">Без институция</option>
-                {allInstitutions.map((institution, index) => (
-                  <option key={index} value={institution.organization_id}>
-                    {institution.organization_name}
-                  </option>
-                ))}
-              </select>
+                    onChange={(e) => handleChangeFolder('organization_id', e.target.value)}
+                    defaultValue={""}
+                    id="institution"
+                    name="institution"
+                    >
+                    <option value="">Без институция</option>
+                    {allInstitutions.map((institution, index) => (
+                        <option key={index} value={institution.organization_id} selected={institution.organization_id === folder.organization_id}>
+                            {institution.organization_name}
+                        </option>
+                    ))}
+                </select>
             </div>
           </div>
             <h1>Избрани сетове</h1>
