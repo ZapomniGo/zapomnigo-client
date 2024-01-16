@@ -22,6 +22,7 @@ const StudyComponent = () => {
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
   const [token, setToken] = useState<string | null>(null);
+  const [showNextButton, setShowNextButton] = useState(false);
 
   const { id } = useParams<{ id: string }>();
 
@@ -134,12 +135,21 @@ const StudyComponent = () => {
         .catch((err) => console.error(err));
     }
 
-    setPreviousFlashcardIndex(currentFlashcardIndex);
-    ensureDifferentFlashcard();
-    if (flashcards[nextIndex]) {
-      setCorrectDefinition(flashcards[nextIndex].definition);
-      shuffleDefinitions(flashcards[nextIndex].definition);
+    if (definition !== correctDefinition) {
+      setShowNextButton(true);
+    } else {
+      setPreviousFlashcardIndex(currentFlashcardIndex);
+      ensureDifferentFlashcard();
+      if (flashcards[nextIndex]) {
+        setCorrectDefinition(flashcards[nextIndex].definition);
+        shuffleDefinitions(flashcards[nextIndex].definition);
+      }
     }
+  };
+
+  const handleNextButtonClick = () => {
+    ensureDifferentFlashcard();
+    setShowNextButton(false);
   };
 
   return (
@@ -168,6 +178,14 @@ const StudyComponent = () => {
                 </div>
               ))}
             </div>
+            {showNextButton && (
+              <button
+                className="next-button"
+                onClick={() => handleNextButtonClick()}
+              >
+                Следваща карта
+              </button>
+            )}
           </div>
         </div>
       </Dashboard>
