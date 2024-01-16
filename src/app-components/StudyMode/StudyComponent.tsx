@@ -23,6 +23,7 @@ const StudyComponent = () => {
   const [userId, setUserId] = useState("");
   const [token, setToken] = useState<string | null>(null);
   const [showNextButton, setShowNextButton] = useState(false);
+  const [selectedDefinition, setSelectedDefinition] = useState(null);
 
   const { id } = useParams<{ id: string }>();
 
@@ -117,6 +118,7 @@ const StudyComponent = () => {
 
   const handleAnswerButtonClick = (definition: string) => {
     const isCorrect = definition === correctDefinition ? 1 : 0;
+    setSelectedDefinition(definition);
 
     const updatedFlashcard = {
       correctness: isCorrect,
@@ -124,7 +126,6 @@ const StudyComponent = () => {
       user_id: userId,
     };
 
-    const nextIndex = currentFlashcardIndex + 1;
 
     if (flashcards[currentFlashcardIndex]) {
       instance
@@ -135,21 +136,20 @@ const StudyComponent = () => {
         .catch((err) => console.error(err));
     }
 
-    if (definition !== correctDefinition) {
-      setShowNextButton(true);
-    } else {
-      setPreviousFlashcardIndex(currentFlashcardIndex);
-      ensureDifferentFlashcard();
-      if (flashcards[nextIndex]) {
-        setCorrectDefinition(flashcards[nextIndex].definition);
-        shuffleDefinitions(flashcards[nextIndex].definition);
-      }
-    }
+    setShowNextButton(true);
+    
   };
 
   const handleNextButtonClick = () => {
+    const nextIndex = currentFlashcardIndex + 1;
+    setPreviousFlashcardIndex(currentFlashcardIndex);
     ensureDifferentFlashcard();
+    if (flashcards[nextIndex]) {
+      setCorrectDefinition(flashcards[nextIndex].definition);
+      shuffleDefinitions(flashcards[nextIndex].definition);
+    }
     setShowNextButton(false);
+    setSelectedDefinition(null);
   };
 
   return (
@@ -159,7 +159,7 @@ const StudyComponent = () => {
           <div className="study-wrapper">
             {flashcards.length > 0 && (
               <div id="flashcard" className={"no-image-flashcard"}>
-                <div className="term">
+                <div className={`term `}>
                   {/* <p className="term-text">Термин:</p> */}
                   <h3>{parse(flashcards[currentFlashcardIndex].term)}</h3>
                 </div>
@@ -168,8 +168,9 @@ const StudyComponent = () => {
 
             <div className="answer-options">
               {shuffledDefinitions.slice(0, 4).map((definition, index) => (
-                <div className="option" key={index + Math.random()}>
+                <div className={`option ${selectedDefinition && (definition === correctDefinition ? "correct" : definition === selectedDefinition ? "incorrect" : "")}`} key={index + Math.random()}>
                   <button
+                    disabled={showNextButton}
                     key={index}
                     onClick={() => handleAnswerButtonClick(definition)}
                   >

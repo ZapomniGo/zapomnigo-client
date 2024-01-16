@@ -63,6 +63,18 @@
         }
       }
     }
+
+    .correct{
+      button{
+        background-color: green !important;
+      }
+    }
+    .incorrect{
+      button{
+        background-color: red !important;
+      }
+      
+    } 
   }
 }
 
