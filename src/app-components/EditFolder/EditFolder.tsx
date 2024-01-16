@@ -14,6 +14,7 @@ export const EditFolder = () => {
     
   const [allCategories, setAllCategories] = useState([]);
   const [allInstitutions, setAllInstitutions] = useState([]);
+  //change ids to names after backend is fixed
   const [folder, setFolder] = useState<{ folder_title: string; folder_description: string; sets: Set[], organization_id: string, category_id: string }>({ folder_title: '', folder_description: '', sets: [], organization_id: '', category_id: '' }); 
   const [setCards, setSetCards] = useState([]);
   const [allSets, setAllSets] = useState([]);

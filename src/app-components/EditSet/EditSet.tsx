@@ -54,8 +54,8 @@ export const EditSet = () => {
         setTitle(response.data.set.set_name);
         setDescription(response.data.set.set_description);
         //here i should get the ids of inst and catgeory and check in select
-        setInstitution(response.data.set.set_institution);
-        setCategory(response.data.set.set_category);
+        setInstitution(response.data.set.organization_name);
+        setCategory(response.data.set.category_name);
         console.log(response.data);
       })
   }, []);
@@ -187,11 +187,13 @@ export const EditSet = () => {
                 name="categories"
               >
                 <option value="">Без категория</option>
-                {allCategories.map((category, index) => (
-                  <option key={index} value={category.category_id}>
-                    {category.category_name}
-                  </option>
-                ))}
+                {allCategories.map((allCat, index) => {
+                    return (
+                      <option key={index} value={category.category_id} selected={allCat.category_name === category}>
+                        {allCat.category_name}
+                      </option>
+                    );
+                  })}
               </select>
               <select
                 onChange={(e) => setInstitution(e.target.value)}
@@ -200,9 +202,9 @@ export const EditSet = () => {
                 name="institution"
               >
                 <option value="">Без институция</option>
-                {allInstitutions.map((institution, index) => (
-                  <option key={index} value={institution.organization_id}>
-                    {institution.organization_name}
+                {allInstitutions.map((allInst, index) => (
+                  <option key={index} value={allInst.organization_id} selected={allInst.organization_name === institution}>
+                    {allInst.organization_name}
                   </option>
                 ))}
               </select>
