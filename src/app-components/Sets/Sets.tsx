@@ -23,7 +23,7 @@ export const Sets: React.FC = () => {
   }
   
   useEffect(() => {
-    instance.get(`/users/${userID}/sets?page=${page}&size=2&sort_by_date=false&ascending=true`).then((response) => {
+    instance.get(`/users/${userID}/sets?page=${page}&size=20&sort_by_date=false&ascending=true`).then((response) => {
       setTotalPages(response.data.total_pages);
       const newCards = [...setCards];
       response.data.sets.forEach(card => newCards.push(card));
@@ -35,10 +35,6 @@ export const Sets: React.FC = () => {
   const handleLoadRecent = () => {
     setPage(page + 1);
   };
-
-  // const handleLoadExplore = () => {
-  //   setExploreCards((prevExploreCards) => prevExploreCards + 10);
-  // };
 
   const handleMouseEnter = (id: string) => {
     setSelectSet(id);

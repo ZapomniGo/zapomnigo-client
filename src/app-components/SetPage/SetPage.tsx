@@ -146,7 +146,7 @@ export const SetPage = () => {
     }
 
     instance
-      .get(`/sets/${id}?page=${page}&size=2000`)
+      .get(`/sets/${id}?page=${page}&size=20`)
       .then((response) => {
         setTotalPages(response.data.total_pages);
         const newFlashcards = response.data.set.flashcards;
