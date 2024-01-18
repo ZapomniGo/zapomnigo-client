@@ -19,23 +19,28 @@ const Flip = () => {
       });
   }, []);
   const previous = () => {
+    setIsHidden(true);
     if (counter > 0) {
       setCounter((prev) => prev - 1);
-    }else{
-      setCounter(flashcards.length-1)
+    } else {
+      setCounter(flashcards.length - 1);
     }
   };
   const next = () => {
+    setIsHidden(true);
     if (counter < flashcards.length - 1) {
       setCounter((prev) => prev + 1);
-    }else{
-      setCounter(0)
+    } else {
+      setCounter(0);
     }
   };
   return (
     <>
       {flashcards.length > 0 ? (
         <section id="wrapper">
+            <h1 className="top-right">
+              {counter+1}/{flashcards.length}
+            </h1>
           <section id="card">
             <div id="front">
               <p>{parse(flashcards[counter].term)}</p>
@@ -48,13 +53,16 @@ const Flip = () => {
           </section>
 
           <center className="btnGroup">
-            <button onClick={next}>Следваща</button>
-            <button onClick={() => setIsHidden((prev) => !prev)}>Покажи</button>
             <button onClick={previous}>Предишна</button>
+            <button onClick={() => setIsHidden((prev) => !prev)}>Покажи</button>
+            <button onClick={next}>Следваща</button>
           </center>
         </section>
       ) : (
-        <h1>Няма такава тестета</h1>
+        <center>
+          {" "}
+          <h1>Зареждане...</h1>
+        </center>
       )}
     </>
   );
