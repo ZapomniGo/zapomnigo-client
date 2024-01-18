@@ -70,13 +70,16 @@
             }
         }
     }
-    button{
-        font-size: 0.9rem !important;
-        min-height: 2.3rem !important;
-        
- 
-        margin: 5px 0 !important; 
+    .choose-btn{
+        button{
+            font-size: 0.9rem !important;
+            min-height: 2.3rem !important;
+            
+     
+            margin: 5px 0 !important; 
+        }
     }
+
 }
 
 .test{

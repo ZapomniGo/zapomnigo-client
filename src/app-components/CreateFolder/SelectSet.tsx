@@ -27,11 +27,14 @@ export const SelectSet = ({ id, title, description, institution, image, creator_
                             </a>
                         </div>
                     ): ''}
-                    {isAvb === true ? (
-                    <button onClick={() => {onSelectSet(id); isAvb}}>Избери</button>
-                    ) : (
-                    <button onClick={() => {onDeselectSet(id); isAvb}}>Махни</button>
-                    )}        
+                    <div className="choose-btn">
+                        {isAvb === true ? (
+                        <button onClick={() => {onSelectSet(id); isAvb}}>Избери</button>
+                        ) : (
+                        <button onClick={() => {onDeselectSet(id); isAvb}}>Махни</button>
+                        )}  
+                    </div>
+                          
                 </div>
                 </div>
 
