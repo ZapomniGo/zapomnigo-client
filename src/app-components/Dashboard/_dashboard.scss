@@ -39,6 +39,9 @@
 }
 
 @media only screen and (max-width: 1000px){    
+  .card-section{
+    margin-top: 8vh;
+  }
   .sets{
     justify-content: center;
     align-items: flex-start;
