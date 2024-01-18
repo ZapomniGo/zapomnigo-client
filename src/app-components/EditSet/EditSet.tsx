@@ -27,10 +27,10 @@ export const EditSet = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [allCategories, setAllCategories] = useState([]);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState({ name: "", id: "" });
+  const [institution, setInstitution] = useState({ name: "", id: "" });
+
   const [allInstitutions, setAllInstitutions] = useState([]);
-  const [institution, setInstitution] = useState("");
-  const [FlashcardInfo, setFlashcardInfo] = useState([]);
 
   const { id } = useParams<{ id: string }>();
 
@@ -51,21 +51,20 @@ export const EditSet = () => {
     instance.get("/categories")
       .then((response) => {
         setAllCategories(response.data.categories);
-        console.log(response);
       })
     instance.get("/organizations")
     .then((response) =>{
         setAllInstitutions(response.data.organizations);
+        console.log(response)
     })
     instance.get(`/sets/${id}`)
       .then((response) => {
         loadFlashcards(response.data.set.flashcards);
         setTitle(response.data.set.set_name);
         setDescription(response.data.set.set_description);
-        //here i should get the ids of inst and catgeory and check in select
-        setInstitution(response.data.set.organization_name);
-        setCategory(response.data.set.category_name);
-        console.log(response.data);
+        setInstitution({name: response.data.set.organization_name, id: ""});
+        setCategory({name: response.data.set.category_name, id: ""});
+        console.log(response)
       })
   }, []);
   const isEmpty = (string: string) => {
@@ -140,17 +139,18 @@ export const EditSet = () => {
         set_name: title,
         set_description: description,
         flashcards: flashcards,
-        set_category: category,
-        set_institution: institution,
+        set_category: category.id,
+        organization_id: institution.id,
       })
       .then((response) => {
-        toast("Това съобшение трябва да се замени с някакво друго");
-        console.log(response);
+        toast("Успешно редактирахте тестето");
+        console.log(response)
         window.location.href = `/set/${id}`;
       })
       .catch((error) => {
         toast("Възникна грешка");
         console.log(error);
+        console.log(category.id);
       });
   };
 
@@ -160,8 +160,8 @@ export const EditSet = () => {
   };
 
   useEffect(() => {
-    console.log(institution);
-    console.log(category);
+    console.log(institution.id);
+    console.log(category.id);
   }
   , [institution, category]);
 
@@ -189,34 +189,34 @@ export const EditSet = () => {
               />
             </div>
             <div className="tags">
-              <select
-                onChange={(e) => setCategory(e.target.value)}
-                defaultValue={""}
-                id="categories"
-                name="categories"
-              >
-                <option value="">Без категория</option>
-                {allCategories.map((allCat, index) => {
-                    return (
-                      <option key={index} value={category ? category.category_id : ""} selected={allCat.category_name === category}>
-                        {allCat.category_name}
-                      </option>
-                    );
-                  })}
-              </select>
-              <select
-                onChange={(e) => setInstitution(e.target.value)}
-                defaultValue=""
-                id="institution"
-                name="institution"
-              >
-                <option value="">Без институция</option>
-                {allInstitutions.map((allInst, index) => (
-                  <option key={index} value={allInst.organization_id} selected={allInst.organization_name === institution}>
-                    {allInst.organization_name}
-                  </option>
-                ))}
-              </select>
+            <select
+              onChange={(e) => {
+                const selectedCategory = allCategories.find((cat) => cat.category_id === e.target.value);
+                setCategory({ name: selectedCategory ? selectedCategory.category_name : "", id: selectedCategory ? selectedCategory.category_id : "" });
+              }}
+            >
+              <option value="">Select a category</option>
+              {allCategories.map((allCat, index) => (
+                <option key={index} value={allCat.category_id} selected={category && category.name === allCat.category_name}>
+                  {allCat.category_name}
+                </option>
+              ))}
+            </select>
+
+
+            <select
+              onChange={(e) => {
+                const selectedInstitution = allInstitutions.find((cat) => cat.organization_id === e.target.value);
+                setCategory({ name: selectedInstitution ? selectedInstitution.organization_name : "", id: selectedInstitution ? selectedInstitution.organization_id : "" });
+              }}
+            >
+              <option value="">Select a category</option>
+              {allInstitutions.map((allInst, index) => (
+                <option key={index} value={allInst.organization_id} selected={category && institution.name === allInst.organization_name}>
+                  {allInst.organization_name}
+                </option>
+              ))}
+            </select>
             </div>
           </div>
           {flashcards.map((flashcard, index) => (
