@@ -15,4 +15,5 @@ export const cookieRules = "/legal/cookie-rules";
 export const editSet = "/edit-set/:id";
 export const forgotPassword = "/forgot-password?token=:token";
 export const forgotPasswordNoToken = "/forgot-password";
+export const flipMode = "/flip-set/:id";
 

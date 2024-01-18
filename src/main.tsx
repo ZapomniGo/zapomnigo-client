@@ -20,6 +20,7 @@ import {
   editSet,
   forgotPassword,
   forgotPasswordNoToken,
+  flipMode
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Provider } from "react-redux";
@@ -43,6 +44,7 @@ import CookieRules from "./app-components/Legal/CookieRules";
 import { EditSet } from "./app-components/EditSet/EditSet";
 import ForgotPassword from "./app-components/ForgotPassword/ForgotPassword";
 import NotFound from "./app-components/NotFound/NotFound";
+import FlipMode from "./app-components/FlipMode/FlipMode";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -116,6 +118,10 @@ const router = createBrowserRouter([
       {
         path: forgotPasswordNoToken,
         element: <ForgotPassword />,
+      },
+      {
+        path: flipMode,
+        element: <FlipMode />,
       },
       {
         path: "*",
