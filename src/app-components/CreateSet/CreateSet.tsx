@@ -44,6 +44,7 @@ export const CreateSet = () => {
     });
   }, []);
   const isEmpty = (string: string) => {
+    if(!string) return true;
     if (string.length === 0) {
       return true;
     }
