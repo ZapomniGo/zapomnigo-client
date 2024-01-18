@@ -4,8 +4,9 @@ import instance from "../../app-utils/axios";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { SelectSet } from "../CreateFolder/SelectSet";
-import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const EditFolder = () => {
   interface Set {
@@ -19,24 +20,25 @@ export const EditFolder = () => {
   const [setCards, setSetCards] = useState([]);
   const [allSets, setAllSets] = useState([]);
   const [uniqueSets, setUniqueSets] = useState([]);
-
+  const [category, setCategory] = useState({ name: "", id: "" });
+  const [institution, setInstitution] = useState({ name: "", id: "" });
   const navigate = useNavigate();
+
   const { id } = useParams<{ id: string }>();
 
     useEffect(() => {
         
         instance.get(`/folders/${id}/sets`).then((response) => {
-            console.log(response);
             setSetCards(response.data.sets);
             folder.folder_title = response.data.folder_title;
             folder.folder_description = response.data.folder_description;
-            folder.organization_name = response.data.organization_name;
-            folder.category_name = response.data.category_name;
+            setInstitution({name: response.data.organization_name, id: ""});
+            setCategory({name: response.data.category_name, id: ""});
           });
           
 
           instance.get("/sets").then((response) => {
-            console.log(response.data.sets);
+
             setAllSets(response.data.sets);
           });
 
@@ -47,8 +49,7 @@ export const EditFolder = () => {
       instance.get("/organizations")
       .then((response) =>{
           setAllInstitutions(response.data.organizations);
-      })
-
+        })
     }, []);
 
     const handleChangeFolder = (key: string, value: string) => {
@@ -60,21 +61,23 @@ export const EditFolder = () => {
       // Map over sets and return only the set_id
       const selectedSetIds = setCards.map(set => set.set_id.toString());    
       // Use selectedSetIds when making your request
-      const folderToSubmit = { ...folder, sets: selectedSetIds };
-    
+      const folderToSubmit = { 
+        ...folder, 
+        sets: selectedSetIds, 
+        category_id: category.id ? category.id : categoryIdRef.current, 
+        organization_id: institution.id  ? institution.id : institutionIdRef.current
+      };
+
       instance
       .put(`/folders/${id}`, folderToSubmit)
       .then((response) => {
-        console.log(response)
         toast("Добре дошъл в новата си папка");
         navigate("/folder/" + id);
       })
       .catch((error) => {
         toast("Възникна грешка");
-        console.log(error);
       });
-    
-      console.log(folderToSubmit)
+      
     }
 
     const handleSelectSet = (selectedSet) => {
@@ -99,10 +102,32 @@ export const EditFolder = () => {
     };
 
     useEffect(() => {
-        const unique = allSets.filter(set1 => !setCards.some(set2 => set2.set_id === set1.set_id));
-        setUniqueSets(unique);
-        console.log(allInstitutions)
-      }, [allSets, setCards]);
+      const unique = allSets.filter(set1 => !setCards.some(set2 => set2.set_id === set1.set_id));
+      setUniqueSets(unique);
+    }, [allSets, setCards]);
+
+
+    const categoryIdRef = useRef(null);
+    const institutionIdRef = useRef(null);
+    
+    useEffect(() => {
+      if (category && category.name && allCategories.length > 0) {
+        const selectedCategory = allCategories.find((cat) => cat.category_name === category.name);
+        if (selectedCategory) {
+          categoryIdRef.current = selectedCategory.category_id;
+        }
+      }
+    
+      if (institution && institution.name && allInstitutions.length > 0) {
+        const selectedInstitution = allInstitutions.find((inst) => inst.organization_name === institution.name);
+        if (selectedInstitution) {
+          institutionIdRef.current = selectedInstitution.organization_id;
+        }
+      }
+    }, [allCategories, allInstitutions]);
+
+
+
 
   return (
     <Dashboard>
@@ -131,7 +156,7 @@ export const EditFolder = () => {
               />
             </div>
             <div className="tags">
-              <select
+              {/* <select
             onChange={(e) => handleChangeFolder('category_id', e.target.value)}
             defaultValue={folder.category_id}
                 id="categories"
@@ -143,8 +168,39 @@ export const EditFolder = () => {
                   {category.category_name}
               </option>
                 ))}
-              </select>
+              </select> */}
+
+
+
               <select
+              onChange={(e) => {
+                const selectedCategory = allCategories.find((cat) => cat.category_id === e.target.value);
+                setCategory({ name: selectedCategory ? selectedCategory.category_name : "", id: selectedCategory ? selectedCategory.category_id : "" });
+              }}
+            >
+              <option value="">Select a category</option>
+              {allCategories.map((allCat, index) => (
+                <option key={index} value={allCat.category_id} selected={category && category.name === allCat.category_name}>
+                  {allCat.category_name}
+                </option>
+              ))}
+            </select>
+            
+
+            <select
+              onChange={(e) => {
+                const selectedInstitution = allInstitutions.find((cat) => cat.organization_id === e.target.value);
+                setInstitution({ name: selectedInstitution ? selectedInstitution.organization_name : "", id: selectedInstitution ? selectedInstitution.organization_id : "" });
+              }}
+            >
+              <option value="">Select a category</option>
+              {allInstitutions.map((allInst, index) => (
+                <option key={index} value={allInst.organization_id} selected={category && institution.name === allInst.organization_name}>
+                  {allInst.organization_name}
+                </option>
+              ))}
+            </select>
+              {/* <select
                     onChange={(e) => handleChangeFolder('organization_id', e.target.value)}
                     defaultValue={""}
                     id="institution"
@@ -156,7 +212,7 @@ export const EditFolder = () => {
                             {institution.organization_name}
                         </option>
                     ))}
-                </select>
+                </select> */}
             </div>
           </div>
           {setCards.length >= 1 && <h1>Избрани сетове</h1>}

@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import instance from "../../app-utils/axios";
 import FlashcardImportModal from "../ImportModal/FlashcardImportModal";
 import { useParams } from "react-router";
-import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 
 export const EditSet = () => {
@@ -29,7 +29,7 @@ export const EditSet = () => {
   const [allCategories, setAllCategories] = useState([]);
   const [category, setCategory] = useState({ name: "", id: "" });
   const [institution, setInstitution] = useState({ name: "", id: "" });
-
+  const navigate = useNavigate();
   const [allInstitutions, setAllInstitutions] = useState([]);
 
   const { id } = useParams<{ id: string }>();
@@ -55,7 +55,6 @@ export const EditSet = () => {
     instance.get("/organizations")
     .then((response) =>{
         setAllInstitutions(response.data.organizations);
-        console.log(response)
     })
     instance.get(`/sets/${id}`)
       .then((response) => {
@@ -64,7 +63,6 @@ export const EditSet = () => {
         setDescription(response.data.set.set_description);
         setInstitution({name: response.data.set.organization_name, id: ""});
         setCategory({name: response.data.set.category_name, id: ""});
-        console.log(response)
       })
   }, []);
   const isEmpty = (string: string) => {
@@ -144,13 +142,11 @@ export const EditSet = () => {
       })
       .then((response) => {
         toast("Успешно редактирахте тестето");
-        console.log(response)
-        window.location.href = `/set/${id}`;
+        navigate("/set/" + id);
       })
       .catch((error) => {
         toast("Възникна грешка");
-        console.log(error);
-        console.log(category.id);
+
       });
   };
 
@@ -158,12 +154,6 @@ export const EditSet = () => {
     const url = "http://www.google.com/search?q=" + query;
     window.open(url, "_blank");
   };
-
-  useEffect(() => {
-    console.log(institution.id);
-    console.log(category.id);
-  }
-  , [institution, category]);
 
   return (
     <Dashboard>
@@ -207,7 +197,7 @@ export const EditSet = () => {
             <select
               onChange={(e) => {
                 const selectedInstitution = allInstitutions.find((cat) => cat.organization_id === e.target.value);
-                setCategory({ name: selectedInstitution ? selectedInstitution.organization_name : "", id: selectedInstitution ? selectedInstitution.organization_id : "" });
+                setInstitution({ name: selectedInstitution ? selectedInstitution.organization_name : "", id: selectedInstitution ? selectedInstitution.organization_id : "" });
               }}
             >
               <option value="">Select a category</option>
@@ -309,7 +299,6 @@ export const EditSet = () => {
         onImport={() => handleOnImportFlashcards()}
         isOpen={isModalOpen}
         onClose={() => {
-          console.log("closed");
           setIsModalOpen(false);
         }}
       />
