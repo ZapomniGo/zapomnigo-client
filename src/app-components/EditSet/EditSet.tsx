@@ -51,6 +51,7 @@ export const EditSet = () => {
     instance.get("/categories")
       .then((response) => {
         setAllCategories(response.data.categories);
+        console.log(response);
       })
     instance.get("/organizations")
     .then((response) =>{
@@ -197,7 +198,7 @@ export const EditSet = () => {
                 <option value="">Без категория</option>
                 {allCategories.map((allCat, index) => {
                     return (
-                      <option key={index} value={category.category_id} selected={allCat.category_name === category}>
+                      <option key={index} value={category ? category.category_id : ""} selected={allCat.category_name === category}>
                         {allCat.category_name}
                       </option>
                     );

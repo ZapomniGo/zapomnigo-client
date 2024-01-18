@@ -1,3 +1,9 @@
+.submition {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: center;}
+
 .sets-wrapper{
     display: flex;
     width: 100%;
@@ -5,11 +11,13 @@
     justify-content: left;            
     flex-direction: row;
 
+
+
     
     .select-set{
         background-color: white;
         display: flex;
-        width: 32%;
+        width: 31.6%;
         margin: 10px 10px;
         border-radius: 5px;
         height: 170px;
@@ -75,15 +83,16 @@
 
 @media only screen and (max-width: 1550px){
     .select-set{
-        width: 31.4% !important;
+        width: 31.3% !important;
     }
 }
   
 @media screen and (max-width: 1000px) {
     .sets-wrapper{
         justify-content: center;
-        .creator-name{
-            // font-size: 0.7rem !important;
+        .select-set{
+            
+        
         }
         .image{
             margin-right: 0.3vmax !important;

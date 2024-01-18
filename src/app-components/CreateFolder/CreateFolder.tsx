@@ -166,6 +166,9 @@ export const CreateFolder = () => {
             />
           
         ))}
+            <div className="submition">
+              <button onClick={handleSubmitFolder}>Запази промените</button>
+            </div>
         </div>
         </div>
 

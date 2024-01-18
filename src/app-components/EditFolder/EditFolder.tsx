@@ -78,23 +78,19 @@ export const EditFolder = () => {
     }
 
     const handleSelectSet = (selectedSet) => {
-        // Remove the selected set from uniqueSets
+
         const newUniqueSets = uniqueSets.filter(set => set.set_id !== selectedSet.set_id);
       
-        // Add the selected set to setCards
         const newSetCards = [...setCards, selectedSet];
       
-        // Update the state
         setUniqueSets(newUniqueSets);
         setSetCards(newSetCards);
       };
     
-    // When a set is deselected
     const handleDeselectSet = (deselectedSet) => {
-          // Remove the deselected set from setCards
+
         const newSetCards = setCards.filter(set => set.set_id !== deselectedSet.set_id);
 
-        // Add the deselected set back to uniqueSets
         const newUniqueSets = [...uniqueSets, deselectedSet];
 
         // Update the state
@@ -163,8 +159,7 @@ export const EditFolder = () => {
                 </select>
             </div>
           </div>
-            <h1>Избрани сетове</h1>
-          <div className="test">
+          {setCards.length >= 1 && <h1>Избрани сетове</h1>}
             <div className="sets-wrapper">
             {setCards.map((card) => (
                 <SelectSet
@@ -180,7 +175,9 @@ export const EditFolder = () => {
                     onDeselectSet={() => handleDeselectSet(card)}
                 />
                 ))}
-            </div>
+                <div className="submition">
+                  <button onClick={handleSubmitFolder}>Запази промените</button>
+                </div>
         </div>
 
           <h1>Избери сетове</h1>
@@ -200,7 +197,6 @@ export const EditFolder = () => {
             />
             ))}
             </div>
-          <button onClick={handleSubmitFolder}>Създай</button>
         </div>
       </div>
     </Dashboard>

@@ -121,6 +121,11 @@
         display: flex;
         width: auto;
         text-align: center;
+
+    }
+    svg{
+        width: 2em !important;
+        height: 2em !important;
     }
 }
 
@@ -133,13 +138,13 @@
 
 @media only screen and (max-width: 1550px){
     .set-card{
-        width: 23.3%;
+        width: 23%;
     }
 }
   
 @media only screen and (max-width: 1350px){
     .set-card{
-        width: 31%;
+        width: 32%;
     }
 }
 

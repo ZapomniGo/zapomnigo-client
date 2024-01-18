@@ -18,7 +18,7 @@ const forgotPasswordNoTokenRoute = "/forgot-password";
 const studyRoute = "/study/:id";
 const folderView = "/folder/:id";
 const folderEdit = "/edit-folder/:id";
-const folderCreate = "/create-folder/:id";
+const folderCreate = "/create-folder";
 
 export {
   homeRoute,

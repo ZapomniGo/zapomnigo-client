@@ -5,6 +5,8 @@ import SetCard from "../SetCard/SetCard";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
 import { jwtDecode } from "jwt-decode";
+import { FaPlus } from "react-icons/fa6";
+
 
 export const Sets: React.FC = () => {
   const [setCards, setSetCards] = useState([]);
@@ -64,6 +66,9 @@ export const Sets: React.FC = () => {
                 isSelected={selectSet === card.set_id}
               />
             ))}
+            <div className="add-set set-card">
+              <a href={`/create-set`}><FaPlus/></a>
+            </div>
         </div>
         {page < totalPages &&  <MoreBtn onClick={handleLoadRecent} />}
 
