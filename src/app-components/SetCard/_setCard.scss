@@ -1,0 +1,212 @@
+.set-card {
+    transition: 0.3s;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+        rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    // width: 18rem;
+    width: 18.4%;
+    margin: 7.5px;
+    border-radius: 8px;
+    padding: 0 10px;
+    font-size: 0.8rem;
+    height: 9.5rem;
+    .set-description.close,
+    .set-institution.close {
+        opacity: 0;
+        transition: $tran-03;
+        overflow: hidden;
+    }
+    .miniLabel{
+        font-size: 0.8rem;
+        color: $text-color;
+        margin-right: 0.5rem;
+        background-color:#f5f5f5;
+        padding:4px;
+        border-radius:5px;
+        margin-left:5px;
+    }
+    .open {
+        transition: $tran-03;
+        opacity: 1;
+    }
+    .title-options {
+        padding-top: 5px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        height: 47%;
+        opacity: 1 !important;
+        margin-top: 5px;
+        margin-right: 5px;
+
+        .more-options {
+        padding-right: 0.8vmax;
+        }
+    }
+    .title-options.open{
+        height: 45%;
+    }
+    .set-title {
+        font-size: 1.4rem;
+        transition: $tran-02;
+        word-break: break-word;
+        // margin-top: 10px;
+    }
+
+    .set-title.open {
+        transition: $tran-02;
+        font-size: 1.2rem;
+    }
+    .set-description {
+        word-break: break-all;
+        display: flex;
+        align-items: flex-start;
+        height: 24%;
+    }
+    .set-creator {
+        height: 20%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5vmin;
+        // margin-top: 20px;
+        // padding-top: 10px;
+        // margin-bottom: 5px;
+        .image {
+            width: 10%;
+            display: flex;
+            align-items: center;
+            margin-right: 0.5rem;
+            img {
+                border-radius: 5px;
+                min-width: 100%;
+                min-height: 100%;
+            }
+        }
+        .creator-name {
+            font-weight: 500;
+            color: $text-color;
+            transition: $tran-02;
+            white-space: nowrap;
+        }
+
+        .set-institution {
+            text-align: right;
+            width: 65%;
+            a{
+                text-decoration: none;
+                display: inline-block;
+                background: $primary-color-light;
+                padding: 5px;
+                color:$text-color;
+                border-radius: 5px;
+            }
+        }
+    }
+
+    .set-card.open {
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+      }
+}
+
+.add-set{
+    justify-content: center;
+    background-color: #ececec;
+    a{
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        display: flex;
+        width: auto;
+        text-align: center;
+    }
+}
+
+.set-creator.open{
+    opacity: 0;
+    transition: $tran-03;
+    overflow: hidden;
+    z-index: 111;
+}
+
+@media only screen and (max-width: 1550px){
+    .set-card{
+        width: 23.3%;
+    }
+}
+  
+@media only screen and (max-width: 1350px){
+    .set-card{
+        width: 31%;
+    }
+}
+
+
+@media only screen and (max-width: 1000px){
+    // .set-creator.close,
+    // .set-creator.open{
+    //     opacity: 0 !important;
+    //     transition: $tran-03;
+    //     overflow: hidden;
+    //     z-index: 111;
+    // }
+    .set-card{
+        height: 12rem;
+        // width: 16rem ;
+        .category-title{
+            text-align: center;
+            margin-left: 0;
+        }
+        .open {
+            transition: $tran-03;
+            opacity: 1;
+          }
+          .title-options{
+            height: 35%;
+          }
+          .set-title {
+            font-size: 1.2rem !important;
+          }
+          .set-title.active {
+            transition: $tran-02;
+            font-size: 1.2rem;
+          }
+          .title-options.open{
+            height: 35%;
+          }
+    
+    }
+
+    .open {
+      transition: $tran-03;
+      opacity: 1;
+    }
+    .set-title {
+      font-size: 1.2rem !important;
+    }
+    .set-title.active {
+      transition: $tran-02;
+      font-size: 1.2rem;
+    }
+    .close{
+      opacity: 1 !important;
+    }
+    .set-description{
+        height: 40% !important;
+    }
+}
+
+@media only screen and (max-width: 850px){
+    .set-card{
+        width: 43%;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .set-card{
+        width: 70%;
+    }
+}
+

@@ -1,0 +1,20 @@
+#notFound h1 {
+  padding: 10vmax;
+  font-size: 5vmax;
+  color: gray;
+}
+#notFound {
+  a {
+    font-size: 2vmax;
+    color: gray;
+  }
+}
+@media screen and (max-width: 768px) {
+  #notFound h1 {
+    text-align: center;
+    padding: 2vmax;
+    padding-top: 15vmax;
+    font-size: 3vmax;
+    color: gray;
+  }
+}

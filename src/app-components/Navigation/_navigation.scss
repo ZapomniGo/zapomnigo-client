@@ -1,0 +1,327 @@
+
+//reusable code
+body{
+    height: 100vh;
+    background: $body-color;
+}
+.menu{
+    height: 100%;
+}
+.no-scroll {
+    overflow: hidden;
+  }
+
+.navigation-bar{
+        
+    .sidebar{
+        position: fixed;
+        top: 1%;
+        left: 0;
+        height: 98%;
+        width: 250px;
+        padding: 10px 14px ;
+        background: $sidebar-color;
+        transition: $tran-05;
+        z-index: 100;
+        border-radius: 0 1em 1em 0;
+        overflow: hidden;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+
+        .search-box input{
+            height: 100%;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+            outline: none;
+            border: none;
+            border-radius: 6px;
+            background: $primary-color-light;
+            padding: 0;
+        }
+
+        .image{
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .text{
+            font-size: 16px;
+            font-weight: 500;
+            color: $text-color;
+            transition: $tran-02;
+            white-space: nowrap;
+            opacity: 1;
+        }
+        .image-text img{
+            width: 40px;
+            border-radius: 6px;
+        }
+
+        .search-box{
+            background: $primary-color-light;
+            border-radius: 6px;
+            transition: $tran-02;
+            margin-top: 15px;
+        }
+
+        .menu-bar{
+            height: calc(100% - 50px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .mode{
+                position: relative;
+                border-radius: 6px;
+                background: $primary-color-light;
+            }
+        }
+        .logout{
+            cursor: pointer;
+        }
+    }
+
+
+
+    .sidebar header{
+        position: relative;
+        .image-text{
+            display: flex;
+            align-items: center;
+            .header-text{
+                display: flex;
+                flex-direction: column;
+
+                .name{
+                    font-weight: 600;
+                }
+                
+                .profession{
+                    margin-top: -2px;
+                }
+            }
+        }
+    }
+
+    .sidebar li{
+
+        height: 50px;
+        margin-top: 10px;
+        list-style: none;
+        display: flex;
+        align-items: center;
+
+        .icon svg{
+            font-size: 20px;
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $text-color;
+            transition: $tran-02 !important;
+        }
+
+        .text{
+            color: $text-color;
+            transition: $tran-02 !important;
+        }
+
+        a {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: $tran-02 !important;
+        }
+
+        a:hover{
+            @include orangeBackground;
+        }
+
+        .active{
+            @include orangeBackground;
+        }
+
+        .active svg,
+        .active .text{
+            color: $sidebar-color;
+        }
+
+        a:hover .icon svg,  
+        a:hover .text{
+            color: $sidebar-color;
+        }  
+    } 
+
+    .sidebar.close{
+        width: 88px;
+        .text{
+            opacity: 0;
+            overflow: hidden;
+        }
+    }
+
+    .close-mobile{
+        display: none;
+    }
+    
+    
+    .nav-mobile {
+        display: none;
+    }
+
+
+    @media only screen and (max-width: 1000px){
+
+        .sidebar{
+            width: 100vw;
+            top: 0;
+            min-height: 100vh;
+            border-radius: 0;
+
+        }
+
+        .sidebar header {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-mobile {
+            padding: 5px 0;
+            min-width: 100%;
+            display: flex !important;
+            align-items: center;
+            height: 5vh;
+            position: fixed;
+            z-index: 100;
+            width: 100%;
+            height: 8vh;
+            background-color: rgba(255, 255, 255, 0.734); // semi-transparent gray
+            .menu-mobile{
+                display: flex;
+                width: 20%;
+                min-height: 25px !important;
+                // margin-left: 2vw;
+                justify-content: center;
+                svg{
+                    transform: scale(2);
+                }
+            }
+            .search-box{
+                display: flex;
+                flex-direction: row;
+                background-color: $primary-color-light;
+                border-radius: 5px;
+                height: 90%;
+                border: 1.5px solid $secondary-color;
+                i{
+                    align-self: center;
+                    display: flex;
+                    padding: 10px 15px;
+                    color: $text-color;
+
+                }
+                width: 75%;
+                input{
+                    height: 100%;
+                    width: 100%;
+                    font-size: 16px;
+                    font-weight: 500;
+                    outline: none;
+                    border: none;
+                    border-radius: 6px;
+                    background: $primary-color-light;
+                    margin:0 !important;
+
+                }
+            } 
+        }
+
+        .sidebar.close{
+            display: none;
+        }
+        .close-mobile{
+            display: flex;
+            font-size: 30px;
+            align-self: flex-end;
+        }
+
+        .sidebar .menu-bar{
+            height: calc(100% - 75px);
+        }
+        
+
+    }
+}
+
+
+
+//Testing leave it here for future experiments with dark mode
+// .sidebar header .image-text{
+//     display: flex;
+//     align-items: center;
+// }
+
+// header .image-text .header-text{
+//     display: flex;
+//     flex-direction: column;
+// }
+
+
+
+
+// .menu-bar .mode .moon-sun{
+//     height: 50px;
+//     width: 60px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+// }
+
+// .menu-bar .mode i {
+//     position: absolute;
+// }
+
+// .menu-bar .mode i.sun svg{
+//     opacity: 0;
+// }
+
+// .menu-bar .mode .toggle-switch{
+    // position: absolute;
+    // display: flex;
+    // right: 0;
+    // height: 100%;
+    // display: flex;
+    // align-items: center;
+    // min-width: 60px;
+    // justify-content: center;
+    // cursor: pointer;
+    // background: $primary-color-light;
+    // border-radius: 6px;
+    // background: $primary-color-light;
+// }
+
+// .toggle-switch .switch{
+//     position: relative;
+//     height: 22px;
+//     width: 44px;
+//     border-radius: 25px;
+//     background: $toggle-color;
+// }
+
+// .switch::before{
+//     content: ' ';
+//     position: absolute;
+//     height: 15px;
+//     width: 15px;
+//     border-radius: 50%;
+//     top: 50%;
+//     left: 5px;
+//     transform: translateY(-50%);
+//     background: $sidebar-color;
+// }

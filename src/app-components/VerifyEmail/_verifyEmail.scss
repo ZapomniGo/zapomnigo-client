@@ -1,0 +1,60 @@
+.verify {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+  .verifyContainer {
+    z-index:20;
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    h1 {
+      text-align: center;
+      font-size: 2vmax;
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: $secondary-color;
+    }
+    p {
+      margin-bottom: 20px;
+      color: gray;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: orange;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+}
+//make a mobile version
+@media (orientation: portrait) {
+  .verifyContainer {
+    width: 80vw !important;
+    button {
+      padding: 1vmax !important;
+      width: 100% !important;
+      margin-left: 10%;
+      font-size: 3vmax !important;
+    }
+    input {
+      padding: 3vmax !important;
+      font-size: 3vmax !important;
+    }
+    .msg {
+      color: orange !important;
+    }
+  }
+}
