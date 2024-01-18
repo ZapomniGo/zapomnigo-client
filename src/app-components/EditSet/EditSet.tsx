@@ -14,7 +14,7 @@ import instance from "../../app-utils/axios";
 import FlashcardImportModal from "../ImportModal/FlashcardImportModal";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
-
+import { useRef } from "react";
 
 export const EditSet = () => {
 //   const jwt: { username: string; admin: boolean } = jwtDecode(
@@ -83,6 +83,25 @@ export const EditSet = () => {
     return false;
   };
 
+  const categoryIdRef = useRef(null);
+  const institutionIdRef = useRef(null);
+
+  useEffect(() => {
+    if (category && category.name && allCategories.length > 0) {
+      const selectedCategory = allCategories.find((cat) => cat.category_name === category.name);
+      if (selectedCategory) {
+        categoryIdRef.current = selectedCategory.category_id;
+      }
+    }
+  
+    if (institution && institution.name && allInstitutions.length > 0) {
+      const selectedInstitution = allInstitutions.find((inst) => inst.organization_name === institution.name);
+      if (selectedInstitution) {
+        institutionIdRef.current = selectedInstitution.organization_id;
+      }
+    }
+  }, [allCategories, allInstitutions]);
+
 
   const handleSubmit = () => {
     if (title.length === 0) {
@@ -137,8 +156,8 @@ export const EditSet = () => {
         set_name: title,
         set_description: description,
         flashcards: flashcards,
-        set_category: category.id,
-        organization_id: institution.id,
+        category_id: category.id ? category.id : categoryIdRef.current, 
+        organization_id: institution.id  ? institution.id : institutionIdRef.current
       })
       .then((response) => {
         toast("Успешно редактирахте тестето");

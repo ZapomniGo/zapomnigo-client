@@ -156,22 +156,6 @@ export const EditFolder = () => {
               />
             </div>
             <div className="tags">
-              {/* <select
-            onChange={(e) => handleChangeFolder('category_id', e.target.value)}
-            defaultValue={folder.category_id}
-                id="categories"
-                name="categories"
-              >
-                <option value="">Без категория</option>
-                {allCategories.map((category, index) => (
-                  <option key={index} value={category.category_id} selected={category.category_name === folder.category_name}>
-                  {category.category_name}
-              </option>
-                ))}
-              </select> */}
-
-
-
               <select
               onChange={(e) => {
                 const selectedCategory = allCategories.find((cat) => cat.category_id === e.target.value);
@@ -200,19 +184,7 @@ export const EditFolder = () => {
                 </option>
               ))}
             </select>
-              {/* <select
-                    onChange={(e) => handleChangeFolder('organization_id', e.target.value)}
-                    defaultValue={""}
-                    id="institution"
-                    name="institution"
-                    >
-                    <option value="">Без институция</option>
-                    {allInstitutions.map((institution, index) => (
-                        <option key={index} value={institution.organization_id} selected={institution.organization_name === folder.organization_name}>
-                            {institution.organization_name}
-                        </option>
-                    ))}
-                </select> */}
+
             </div>
           </div>
           {setCards.length >= 1 && <h1>Избрани сетове</h1>}
