@@ -34,6 +34,12 @@ const Flip = () => {
       setCounter(0);
     }
   };
+
+  useEffect(() => {
+    console.log(isHidden);
+  }, [isHidden]);
+
+
   return (
     <>
       {flashcards.length > 0 ? (
@@ -54,7 +60,9 @@ const Flip = () => {
 
           <center className="btnGroup">
             <button onClick={previous}>Предишна</button>
-            <button onClick={() => setIsHidden((prev) => !prev)}>Покажи</button>
+            <button onClick={() => setIsHidden((prev) => !prev)}>
+              {isHidden ? 'Покажи' : 'Скрий'}
+            </button>
             <button onClick={next}>Следваща</button>
           </center>
         </section>
