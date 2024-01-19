@@ -19,6 +19,8 @@ const studyRoute = "/study/:id";
 const folderView = "/folder/:id";
 const folderEdit = "/edit-folder/:id";
 const folderCreate = "/create-folder";
+export const flipMode = "/flip-set/:id";
+
 
 export {
   homeRoute,

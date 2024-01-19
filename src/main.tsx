@@ -24,6 +24,8 @@ import {
   folderView,
   folderEdit,
   folderCreate,
+  flipMode
+
 
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
@@ -53,6 +55,8 @@ import { StudyComponent } from "./app-components/StudyMode/StudyComponent";
 import NotFound from "./app-components/NotFound/NotFound";
 import { FolderView } from "./app-components/FolderView/FolderView";
 import { EditFolder } from "./app-components/EditFolder/EditFolder";
+import FlipMode from "./app-components/FlipMode/FlipMode";
+
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -138,6 +142,10 @@ const router = createBrowserRouter([
       {
         path: studyRoute,
         element: <StudyComponent />,
+      },
+      {
+        path: flipMode,
+        element: <FlipMode />,
       },
       {
         path: "*",

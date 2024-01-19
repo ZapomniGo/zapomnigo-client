@@ -225,7 +225,7 @@ export const SetPage = () => {
                   <FaRegLightbulb />
                   Учи
                 </a>
-                <a href="#" className="rotate">
+                <a href={"/flip-set/"+id} className="rotate">
                   <MdContentCopy />
                   Прегледай
                 </a>
