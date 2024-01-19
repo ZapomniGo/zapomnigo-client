@@ -6,7 +6,7 @@ const IS_PROD = import.meta.env.VITE_IS_PROD;
 //   window.location.href.indexOf("localhost") === -1 ||
 //   window.location.href.indexOf("zapomnigo") !== -1;
 
-const HEROKU_URL_DEV = import.meta.env.VITE_HEROKU_URL_DEV;
+const HEROKU_URL_DEV = import.meta.env.VITE_HEROKU_URL_PROD;
 const HEROKU_URL_PROD = import.meta.env.VITE_HEROKU_URL_PROD;
 const HEROKU_URL = IS_PROD ? HEROKU_URL_PROD : HEROKU_URL_DEV;
 
