@@ -53,7 +53,7 @@ export const Folders: React.FC = () => {
   return (
     <Dashboard>
       <div className="set-wrapper">
-        <h2 className="category-title">Мойте папки</h2>
+        <h2 className="category-title">Моите папки</h2>
         <div className="sets folders">
           {setCards.map((card) => (
               

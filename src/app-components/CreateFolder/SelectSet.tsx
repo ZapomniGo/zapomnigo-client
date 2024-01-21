@@ -1,3 +1,7 @@
+import { FaMinus } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa6";
+
+
 
 export const SelectSet = ({ id, title, description, institution, image, creator_name, onSelectSet, onDeselectSet, isAvb}) => {
     
@@ -29,9 +33,9 @@ export const SelectSet = ({ id, title, description, institution, image, creator_
                     ): ''}
                     <div className="choose-btn">
                         {isAvb === true ? (
-                        <button onClick={() => {onSelectSet(id); isAvb}}>Избери</button>
+                        <button onClick={() => {onSelectSet(id); isAvb}}><FaPlus/></button>
                         ) : (
-                        <button onClick={() => {onDeselectSet(id); isAvb}}>Махни</button>
+                        <button onClick={() => {onDeselectSet(id); isAvb}}><FaMinus/></button>
                         )}  
                     </div>
                           

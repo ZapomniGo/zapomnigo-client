@@ -203,9 +203,11 @@ export const EditFolder = () => {
                     onDeselectSet={() => handleDeselectSet(card)}
                 />
                 ))}
-                <div className="submition">
-                  <button onClick={handleSubmitFolder}>Запази промените</button>
-                </div>
+                {setCards.length >= 1 && (
+                  <div className="submition">
+                    <button onClick={handleSubmitFolder}>Създай папка</button>
+                  </div>
+                )}
         </div>
 
           <h1>Избери сетове</h1>

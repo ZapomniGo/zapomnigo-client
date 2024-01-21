@@ -4,6 +4,7 @@
     width: 100%;
     button{
         font-size: 1.5rem !important;
+        padding: 15px !important;
     }
     
     justify-content: center;
@@ -39,10 +40,10 @@
                 height: 25%;
                 align-items: center;
                 .image{
+                    width: 10%;
                     display: flex;
                     margin-right: 0.5rem;
                     height: 100%;
-                    width: 9%;
                     img{
 
                         min-height: 100%;
@@ -53,7 +54,7 @@
                 }
 
                 .creator-name{
-                    width: 68%;
+                    width: 75%;
                     font-weight: 500;
                     font-size: 0.8rem;
                     overflow: hidden;
@@ -72,9 +73,13 @@
         }
     }
     .choose-btn{
+        display: flex;
+        justify-content: center;
+        width: 14%;
         button{
+            width: 75.7%;
             font-size: 0.9rem !important;
-            min-height: 2.3rem !important;
+            min-height: 2.2rem !important;
             
      
             margin: 5px 0 !important; 
@@ -108,9 +113,7 @@
         button{
             font-size: 11px !important;
             min-height: 3vmax !important;
-        }
-        .creator-name{
-            width: 68% !important;
+            // width: 25%;
         }
     }
     .submition {
@@ -119,6 +122,7 @@
             width: 50%;
             font-size: 1.5rem !important;
         }
+
     }
     
 }
