@@ -5,8 +5,7 @@ import SetCard from "../SetCard/SetCard";
 // import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
 import { useParams } from "react-router";
-import { FaPlus } from "react-icons/fa6";
-
+import { FaPen } from "react-icons/fa";
 
 export const FolderView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -62,7 +61,7 @@ export const FolderView: React.FC = () => {
               />
             ))}
             <div className="add-set set-card">
-              <a href={`/edit-folder/${id}`}><FaPlus/></a>
+              <a href={`/edit-folder/${id}`}><FaPen/></a>
             </div>
         </div>
 

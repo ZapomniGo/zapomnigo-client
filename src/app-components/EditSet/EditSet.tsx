@@ -204,7 +204,7 @@ export const EditSet = () => {
                 setCategory({ name: selectedCategory ? selectedCategory.category_name : "", id: selectedCategory ? selectedCategory.category_id : "" });
               }}
             >
-              <option value="">Select a category</option>
+              <option value="">Категория</option>
               {allCategories.map((allCat, index) => (
                 <option key={index} value={allCat.category_id} selected={category && category.name === allCat.category_name}>
                   {allCat.category_name}
@@ -219,7 +219,7 @@ export const EditSet = () => {
                 setInstitution({ name: selectedInstitution ? selectedInstitution.organization_name : "", id: selectedInstitution ? selectedInstitution.organization_id : "" });
               }}
             >
-              <option value="">Select a category</option>
+              <option value="">Организация</option>
               {allInstitutions.map((allInst, index) => (
                 <option key={index} value={allInst.organization_id} selected={category && institution.name === allInst.organization_name}>
                   {allInst.organization_name}
