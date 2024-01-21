@@ -53,7 +53,7 @@
                 }
 
                 .creator-name{
-                    width: 70%;
+                    width: 68%;
                     font-weight: 500;
                     font-size: 0.8rem;
                     overflow: hidden;
@@ -108,7 +108,9 @@
         button{
             font-size: 11px !important;
             min-height: 3vmax !important;
-            width: 25%;
+        }
+        .creator-name{
+            width: 68% !important;
         }
     }
     .submition {
