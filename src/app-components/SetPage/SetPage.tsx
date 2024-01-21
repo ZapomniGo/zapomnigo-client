@@ -15,6 +15,7 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import { toast, ToastContainer } from "react-toastify";
+import { FaPlus } from "react-icons/fa6";
 import { all } from "axios";
 
 export const SetPage = () => {
@@ -50,8 +51,8 @@ export const SetPage = () => {
     if (!token) {
       return;
     }
-    let dataObj = allData;
-    let flashcards2 = dataObj.set.flashcards;
+    let dataObj = flashcards;
+    let flashcards2 = dataObj.flashcards;
     let csvContent = "Term,Definition\n";
 
     for (let card of flashcards2) {
@@ -70,7 +71,7 @@ export const SetPage = () => {
     if (link.download !== undefined) {
       let url = URL.createObjectURL(blob);
       link.setAttribute("href", url);
-      link.setAttribute("download", allData.set.set_name + ".csv");
+      link.setAttribute("download", dataObj.set_name + ".csv");
       link.style.visibility = "hidden";
       document.body.appendChild(link);
       link.click();
@@ -161,7 +162,7 @@ export const SetPage = () => {
           flashcards: updatedFlashcards,
         });
         setUsername(response.data.set.username);
-        console.log(response)
+        console.log(response);
       })
       .catch((error) => {
         console.error(error);
@@ -225,7 +226,7 @@ export const SetPage = () => {
                   <FaRegLightbulb />
                   Учи
                 </a>
-                <a href={"/flip-set/"+id} className="rotate">
+                <a href={"/flip-set/" + id} className="rotate">
                   <MdContentCopy />
                   Прегледай
                 </a>
@@ -280,13 +281,25 @@ export const SetPage = () => {
               {flashcards.flashcards.map((flashcard) => (
                 <Flashcard key={flashcard.flashcard_id} flashcard={flashcard} />
               ))}
+              <div
+                id="flashcard"
+                className={"hvr"}
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: "2vmax",
+                }}
+                onClick={() => navigate(`/edit-set/${id}`)}
+              >
+                <FaPlus />
+              </div>
             </div>
             {page < totalPages && <MoreBtn onClick={handleLoadRecent} />}
           </div>
         ) : (
           <center>
             {" "}
-            <h1 id="loadingBanner">Зареждане...</h1>
+            <h1 id="loadingьBanner">Зареждане...</h1>
           </center>
         )}
       </>
