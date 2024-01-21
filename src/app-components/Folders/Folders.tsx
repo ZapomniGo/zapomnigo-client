@@ -6,6 +6,8 @@ import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
 import { jwtDecode } from "jwt-decode";
 import { FaRegFolderClosed } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa6";
+
 
 
 
@@ -70,6 +72,9 @@ export const Folders: React.FC = () => {
                 type={"folder"}
               />
             ))}
+            <div className="add-set set-card add-folder">
+              <a href={`/create-folder`}><FaPlus/></a>
+            </div>
         </div>
         {recentCards <
           setCards.filter((card) => card.category_name === "recent").length && (

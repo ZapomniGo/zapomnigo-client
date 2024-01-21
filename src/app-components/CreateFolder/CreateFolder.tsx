@@ -167,7 +167,7 @@ export const CreateFolder = () => {
           
         ))}
             <div className="submition">
-              <button onClick={handleSubmitFolder}>Запази промените</button>
+              <button onClick={handleSubmitFolder}>Създай папка</button>
             </div>
         </div>
         </div>
@@ -189,8 +189,7 @@ export const CreateFolder = () => {
               />
             ))}
             </div>
-          <button onClick={handleSubmitFolder}>Създай</button>
-        </div>
+          </div>
       </div>
     </Dashboard>
   );

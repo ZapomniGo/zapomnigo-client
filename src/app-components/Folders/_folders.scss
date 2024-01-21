@@ -1,9 +1,13 @@
 .folders{
     .folder-card{
-        box-shadow: rgba(255, 94, 0, 0.4) 5px 5px, rgba(255, 94, 0, 0.4) 10px 10px, rgba(255, 94, 0, 0.4) 15px 15px;
+        box-shadow: rgba(255, 94, 0, 0.4) 4px 4px, rgba(255, 94, 0, 0.4) 8px 9px, rgba(255, 94, 0, 0.4) 12px 12px;
     }
     svg{
         padding-top: 5px;
         margin-right: 3px;
+    }
+    .add-folder{
+        box-shadow: rgba(255, 94, 0, 0.4) 4px 4px, rgba(255, 94, 0, 0.4) 8px 9px, rgba(255, 94, 0, 0.4) 12px 12px;
+
     }
 }
