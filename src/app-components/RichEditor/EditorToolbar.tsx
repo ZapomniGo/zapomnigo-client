@@ -145,17 +145,21 @@ export const formats = [
 export const QuillToolbar = ({ id }) => (
   <div id={id}>
     {/* {Number(window.innerWidth) < Number(innerHeight) ? ( */}
-      <div className="ql-formats">
-        <button className="ql-bold" />
-        <button className="ql-italic" />
-        <button className="ql-underline" />
-        <button className="ql-formula" />
-        <button className="ql-link" />
-          <button className="ql-image" />
-          <button className="ql-video" />
-      </div>
+    <div className="ql-formats">
+      <button className="ql-bold" />
+      <button className="ql-italic" />
+      <button className="ql-underline" />
+      <button className="ql-formula" />
+      <button className="ql-link" />
+      <button className="ql-image" />
+      <button className="ql-video" />
+      {/* <span className="ql-formats">
+        <select className="ql-color" />
+        <select className="ql-background" />
+      </span> */}
+    </div>
     {/* ) : ( */}
-      {/* <>
+    {/* <>
         <span className="ql-formats">
           { <select className="ql-font" defaultValue="arial">
         <option value="arial">Arial</option>
