@@ -139,6 +139,12 @@
     }
   }
 }
+.hvr{
+  transition:.3s;
+}
+.hvr:hover{
+  color: orange;
+}
 #loadingBanner {
   font-size: 3vmax !important;
   color: gray !important;
@@ -188,7 +194,6 @@
       font-size: 1.1rem;
     }
     select {
-      width: 35% !important;
       font-size: 1.1rem !important;
     }
   }
@@ -235,7 +240,6 @@
       select {
         margin: 0;
         height: 100%;
-        width: 35% !important;
         padding: 5px 0;
         font-size: 0.9rem !important;
       }
