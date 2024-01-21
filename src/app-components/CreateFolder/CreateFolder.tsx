@@ -166,9 +166,12 @@ export const CreateFolder = () => {
             />
           
         ))}
-            <div className="submition">
-              <button onClick={handleSubmitFolder}>Създай папка</button>
-            </div>
+        {unavailableSets.length >= 1 && (
+          <div className="submition">
+            <button onClick={handleSubmitFolder}>Създай папка</button>
+          </div>
+        )}
+
         </div>
         </div>
 
