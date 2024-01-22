@@ -69,7 +69,7 @@ const Flip = () => {
       ) : (
         <center>
           {" "}
-          <h1>Зареждане...</h1>
+          <h1 className="loadingBanner">Зареждане...</h1>
         </center>
       )}
     </>
