@@ -303,7 +303,7 @@ export const SetPage = () => {
         ) : (
           <center>
             {" "}
-            <h1 id="loadingьBanner">Зареждане...</h1>
+            <h1 className="loadingBanner">Зареждане...</h1>
           </center>
         )}
       </>
