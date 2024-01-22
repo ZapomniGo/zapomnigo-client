@@ -281,18 +281,22 @@ export const SetPage = () => {
               {flashcards.flashcards.map((flashcard) => (
                 <Flashcard key={flashcard.flashcard_id} flashcard={flashcard} />
               ))}
-              <div
-                id="flashcard"
-                className={"hvr"}
-                style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  padding: "2vmax",
-                }}
-                onClick={() => navigate(`/edit-set/${id}`)}
-              >
-                <FaPlus />
-              </div>
+              {(creator == username) | isAdmin ? (
+                <div
+                  id="flashcard"
+                  className={"hvr"}
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "2vmax",
+                  }}
+                  onClick={() => navigate(`/edit-set/${id}`)}
+                >
+                  <FaPlus />
+                </div>
+              ) : (
+                ""
+              )}
             </div>
             {page < totalPages && <MoreBtn onClick={handleLoadRecent} />}
           </div>
