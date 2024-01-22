@@ -24,9 +24,8 @@ import {
   folderView,
   folderEdit,
   folderCreate,
-  flipMode
-
-
+  flipMode,
+  landingPage,
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Provider } from "react-redux";
@@ -51,7 +50,7 @@ import CookieRules from "./app-components/Legal/CookieRules";
 import { EditSet } from "./app-components/EditSet/EditSet";
 import ForgotPassword from "./app-components/ForgotPassword/ForgotPassword";
 import { StudyComponent } from "./app-components/StudyMode/StudyComponent";
-
+import HomePage from "./app-components/HomePage/LandingPage";
 import NotFound from "./app-components/NotFound/NotFound";
 import { FolderView } from "./app-components/FolderView/FolderView";
 import { EditFolder } from "./app-components/EditFolder/EditFolder";
@@ -154,8 +153,12 @@ const router = createBrowserRouter([
       {
         path: folderEdit,
         element: <EditFolder />,
-      }
+      },
     ],
+  },
+  {
+    path: landingPage,
+    element: <HomePage />,
   },
 ]);
 

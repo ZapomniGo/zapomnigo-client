@@ -14,7 +14,7 @@ const VerifyEmail = () => {
   const [message, setMessage] = useState("");
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
-      navigate("/");
+      navigate("/home");
     }
   }, []);
   const sendEmail = () => {

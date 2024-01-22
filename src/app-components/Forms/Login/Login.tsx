@@ -29,7 +29,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
-      navigate("/");
+      navigate("/home");
     }
   }, []);
 

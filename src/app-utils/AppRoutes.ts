@@ -1,29 +1,31 @@
-const homeRoute = "/";
-const registerRoute = "/register";
-const loginRoute = "/login";
-const setsRoute = "/sets/:id";
-const foldersRoute = "/folders";
-const createRoute = "/create";
-const settingsRoute = "/settings";
-const createSetRoute = "/create-set";
-const setPageRoute = "/set/:id";
-const verifyEmailRoute = "/verify";
-const verifyEmailTokenRoute = "/verify?token=:token";
-const privacyPolicyRoute = "/legal/privacy-policy";
-const termsOfServiceRoute = "/legal/terms-of-service";
-const cookieRulesRoute = "/legal/cookie-rules";
-const editSetRoute = "/edit-set/:id";
-const forgotPasswordRoute = "/forgot-password?token=:token";
-const forgotPasswordNoTokenRoute = "/forgot-password";
-const studyRoute = "/study/:id";
-const folderView = "/folder/:id";
-const folderEdit = "/edit-folder/:id";
-const folderCreate = "/create-folder";
-export const flipMode = "/flip-set/:id";
+const homeRoute = "/app";
+const registerRoute = "/app/register";
+const loginRoute = "/app/login";
+const setsRoute = "/app/sets/:id";
+const foldersRoute = "/app/folders";
+const createRoute = "/app/create";
+const settingsRoute = "/app/settings";
+const createSetRoute = "/app/create-set";
+const setPageRoute = "/app/set/:id";
+const verifyEmailRoute = "/app/verify";
+const verifyEmailTokenRoute = "/app/verify?token=:token";
+const privacyPolicyRoute = "/app/legal/privacy-policy";
+const termsOfServiceRoute = "/app/legal/terms-of-service";
+const cookieRulesRoute = "/app/legal/cookie-rules";
+const editSetRoute = "/app/edit-set/:id";
+const forgotPasswordRoute = "/app/forgot-password?token=:token";
+const forgotPasswordNoTokenRoute = "/app/forgot-password";
+const studyRoute = "/app/study/:id";
+const folderView = "/app/folder/:id";
+const folderEdit = "/app/edit-folder/:id";
+const folderCreate = "/app/create-folder";
+const landingPage = "/";
+const flipMode = "/app/flip-set/:id";
 
 
 export {
   homeRoute,
+  flipMode,
   registerRoute,
   loginRoute,
   setsRoute,
@@ -43,5 +45,6 @@ export {
   studyRoute,
   folderView,
   folderEdit,
-  folderCreate
+  folderCreate,
+  landingPage,
 };
