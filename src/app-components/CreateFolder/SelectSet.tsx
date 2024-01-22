@@ -37,10 +37,9 @@ export const SelectSet = ({ id, title, description, institution, image, creator_
                         ) : (
                         <button onClick={() => {onDeselectSet(id); isAvb}}><FaMinus/></button>
                         )}  
-                    </div>
-                          
+                    </div>   
                 </div>
-                </div>
+            </div>
 
         </div>
     );
