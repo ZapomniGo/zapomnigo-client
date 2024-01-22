@@ -163,6 +163,7 @@ export const CreateFolder = () => {
               isAvb={availableSets[card.set_id] !== false} 
               onSelectSet={() => handleSelectSet(card)}
               onDeselectSet={() => handleDeselectSet(card)}
+              chosen={true}
             />
           
         ))}

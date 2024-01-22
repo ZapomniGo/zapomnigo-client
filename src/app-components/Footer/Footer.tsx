@@ -16,6 +16,22 @@ export const Footer = () => {
       </div>
       <div className="col-2">
         <div className="options">
+            <div>
+                <a className="link" href="/legal/terms-of-service">
+                    Общи условия
+                </a>
+            </div>
+
+          <a className="link" href="/legal/cookie-rules">
+            Политика за бисквитки
+          </a>
+          <a className="link" href="/legal/privacy-policy">
+            Политика за поверителност
+          </a>
+        </div>
+      </div>
+    {/* <div className="col-2">
+        <div className="options">
           <a className="link" href="/legal/terms-of-service">
             Общи условия
           </a>
@@ -26,7 +42,7 @@ export const Footer = () => {
             Политика за поверителност
           </a>
         </div>
-      </div>
+      </div> */}
       <div className="social-media">
         <div className="options">
           <a href="https://www.facebook.com/profile.php?id=61555653000101">
@@ -39,52 +55,7 @@ export const Footer = () => {
             <SiGmail />
           </a>
         </div>
-        {/* <div className="options">
-                    <a href="#" className="">
-                        <SiGmail />
-                    </a>
-                    <a href="#">
-                        <RiTwitterXLine />
-                    </a>
-                    
-                </div> */}
       </div>
-      {/* <div className="col-3">
-                <div className="about-us">
-                    <h2 >About us</h2>
-                </div>    
-                <div className="options">
-                    <ul>
-                        <li>
-                        <a href="">About ZapomniGo</a>
-                        </li>
-                        <li>
-                            <a href="">Privacy Policy</a>
-                        </li>
-                        <li>
-                            <a href="">Terms and Conditions</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div className="col-3">
-                <div className="about-us">
-                    <h2 >About us</h2>
-                </div>    
-                <div className="options">
-                    <ul>
-                        <li>
-                        <a href="">About ZapomniGo</a>
-                        </li>
-                        <li>
-                            <a href="">Privacy Policy</a>
-                        </li>
-                        <li>
-                            <a href="">Terms and Conditions</a>
-                        </li>
-                    </ul>
-                </div>
-            </div> */}
     </div>
   );
 };

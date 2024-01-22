@@ -92,8 +92,8 @@
     }
   }
   .btnGroup {
-    position: fixed;
-    bottom: 0;
+    position: fixed !important;
+    bottom: 0 !important;
     button {
       font-size: 15px !important;
       padding: 10px 20px !important;
