@@ -201,6 +201,7 @@ export const EditFolder = () => {
                     isAvb={false} 
                     onSelectSet={() => handleSelectSet(card)}
                     onDeselectSet={() => handleDeselectSet(card)}
+                    chosen={true}
                 />
                 ))}
                 {setCards.length >= 1 && (
