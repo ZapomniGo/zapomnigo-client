@@ -50,7 +50,7 @@ const SetCard: React.FC<SetCardProps> = ({
       
 >
       <div className={`title-options ${isSelected ? "open" : "close"}`}>
-      <div className={`set-title ${isSelected ? "open" : "close"}`}>
+      <div className={`set-title ${isSelected ? "open" : "close"} folder-title`}>
         {icon}{title.length > 34 ? title.substring(0, 35) + '...' : title}
       </div>        
       {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
