@@ -4,7 +4,8 @@ import { Dashboard } from "../Dashboard/Dashboard";
 import SetCard from "../SetCard/SetCard";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
-import { Footer } from "../Footer/Footer";
+
+
 
 export const MainPage: React.FC = () => {
   const [setCards, setSetCards] = useState([]);
@@ -12,7 +13,7 @@ export const MainPage: React.FC = () => {
   const [selectSet, setSelectSet] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
+  const [allCategories, setAllCategories] = useState([]);
   const handleLoadRecent = () => {
     setPage(page + 1);
   };
@@ -24,6 +25,9 @@ export const MainPage: React.FC = () => {
       const newCards = [...setCards];
       response.data.sets.forEach(card => newCards.push(card));
       setSetCards(newCards);
+    });
+    instance.get("/categories").then((response) => {
+      setAllCategories(response.data.categories);
     });
   }, [page]);
 
@@ -38,6 +42,16 @@ export const MainPage: React.FC = () => {
 
   return (
     <Dashboard>
+      <div className="category-wrapper">
+      {allCategories.map((category) => (
+        <div key={category.category_id}>
+          <a href={`/app/${category.category_name}`}>
+          {category.category_name}
+
+          </a>
+        </div>
+      ))}
+      </div>
       <div className="set-wrapper">
         <h2 className="category-title">Разгледай</h2>
         <div className="sets">
