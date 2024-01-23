@@ -72,7 +72,7 @@ export const EditFolder = () => {
       .put(`/folders/${id}`, folderToSubmit)
       .then((response) => {
         toast("Добре дошъл в новата си папка");
-        navigate("/folder/" + id);
+        navigate("folder/" + id);
       })
       .catch((error) => {
         toast("Възникна грешка");
@@ -187,7 +187,7 @@ export const EditFolder = () => {
 
             </div>
           </div>
-          {setCards.length >= 1 && <h1>Избрани сетове</h1>}
+          {setCards.length >= 1 && <h1>Избрани тестета</h1>}
             <div className="sets-wrapper">
             {setCards.map((card) => (
                 <SelectSet
@@ -206,12 +206,12 @@ export const EditFolder = () => {
                 ))}
                 {setCards.length >= 1 && (
                   <div className="submition">
-                    <button onClick={handleSubmitFolder}>Създай папка</button>
+                    <button onClick={handleSubmitFolder}>Редактирай папка</button>
                   </div>
                 )}
         </div>
 
-          <h1>Избери сетове</h1>
+          <h1>Избери тестета</h1>
           <div className="sets-wrapper">
           {uniqueSets.map((card) => (
             <SelectSet

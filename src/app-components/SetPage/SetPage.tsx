@@ -24,11 +24,11 @@ export const SetPage = () => {
   const [flashcards, setFlashcards] = useState("");
   const [sortingOrder, setSortingOrder] = useState<string>("");
   const [username, setUsername] = useState("");
-  const [creator, setCreator] = useState("");
+  const [creator, setCreator] = useState("no one yet");
   const [page, setPage] = useState(1);
   const { id } = useParams<{ id: string }>();
   const [totalPages, setTotalPages] = useState(1);
-  const [isAdmin, setIsAdmin] = useState();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -90,7 +90,7 @@ export const SetPage = () => {
       .post(`/sets/${id}/copy`)
       .then((response) => {
         toast("Добре дошъл в новото си идентично тесте!");
-        navigate(`/set/${response.data.set_id}`);
+        navigate(`set/${response.data.set_id}`);
       })
       .catch((error) => {
         toast("Имаше грешка при копирането, пробвай отново по-късно");
@@ -101,13 +101,13 @@ export const SetPage = () => {
     if (!token) {
       return;
     }
-    if (!window.confirm("Сигурен ли си, че искаш да изтриеш този сет?")) {
+    if (!window.confirm("Сигурен ли си, че искаш да изтриеш това тесте?")) {
       return;
     }
     instance
       .delete(`/sets/${id}`)
       .then((response) => {
-        navigate("/");
+        navigate("/app");
       })
       .catch((error) => {
         console.log(error);
@@ -226,12 +226,12 @@ export const SetPage = () => {
                   <FaRegLightbulb />
                   Учи
                 </a>
-                <a href={"/flip-set/" + id} className="rotate">
+                <a href={"/app/flip-set/" + id} className="rotate">
                   <MdContentCopy />
                   Прегледай
                 </a>
                 {(creator === username || isAdmin) && (
-                  <a href={`/edit-set/${id}`}>
+                  <a href={`/app/edit-set/${id}`}>
                     <RiPencilLine />
                     Редактирай
                   </a>
@@ -240,17 +240,21 @@ export const SetPage = () => {
                   <RiPencilLine />
                   Редактирай
                 </a> */}
-                <a onClick={DuplicateSet} href="#">
-                  <FaRegCopy />
-                  Копирай
-                </a>
+                {(localStorage.getItem("access_token")) && (
+                  <a onClick={DuplicateSet} href="#">
+                    <FaRegCopy />
+                    Копирай
+                  </a>
+                )}
                 <a onClick={Share} href="#">
                   <FiShare2 />
                   Сподели
                 </a>
-                <a onClick={Export} href="#">
-                  <FiDownload /> Експортирай
-                </a>
+                {creator !== "no one yet" && (
+                  <a onClick={Export} href="#">
+                    <FiDownload /> Експортирай
+                  </a>
+                )}
                 {(creator === username || isAdmin) && (
                   <a onClick={deleteSet}>
                     <MdDeleteOutline />
@@ -290,7 +294,7 @@ export const SetPage = () => {
                     alignItems: "center",
                     padding: "2vmax",
                   }}
-                  onClick={() => navigate(`/edit-set/${id}`)}
+                  onClick={() => navigate(`app/edit-set/${id}`)}
                 >
                   <FaPlus />
                 </div>

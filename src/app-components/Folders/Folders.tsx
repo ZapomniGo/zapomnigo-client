@@ -73,7 +73,7 @@ export const Folders: React.FC = () => {
               />
             ))}
             <div className="add-set set-card add-folder">
-              <a href={`/create-folder`}><FaPlus/></a>
+              <a href={`/app/create-folder`}><FaPlus/></a>
             </div>
         </div>
         {recentCards <

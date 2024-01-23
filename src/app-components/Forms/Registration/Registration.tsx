@@ -18,7 +18,7 @@ export const Registration = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
-      navigate("/");
+      navigate("home");
     }
   }, []);
   const [termsError, setTermsError] = useState<DataError>({
@@ -70,7 +70,7 @@ export const Registration = () => {
 
       const response = await instance.post(`/register`, userData);
       if (response.status === 200) {
-        navigate("/verify");
+        navigate("verify");
       }
     } catch (error) {
       if (!navigator.onLine) {
@@ -550,7 +550,7 @@ export const Registration = () => {
 
               <div className="checkboxes">
                 <div className="privacy-policy">
-                  <a  target="_blank" href="/legal/privacy-policy">Политика за поверителност</a>
+                  <a  target="_blank" href="/app/legal/privacy-policy">Политика за поверителност</a>
                   <input
                     type="checkbox"
                     checked={userData.privacy_policy}
@@ -558,7 +558,7 @@ export const Registration = () => {
                   />
                 </div>
                 <div className="terms-and-conditions">
-                  <a target="_blank" href="/legal/terms-of-service">Политика за ползване</a>
+                  <a target="_blank" href="/app/legal/terms-of-service">Политика за ползване</a>
                   <input
                     type="checkbox"
                     checked={userData.terms_and_conditions}

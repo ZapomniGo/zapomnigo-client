@@ -17,15 +17,15 @@ export const Footer = () => {
       <div className="col-2">
         <div className="options">
             <div>
-                <a className="link" href="/legal/terms-of-service">
+                <a className="link" href="/app/legal/terms-of-service">
                     Общи условия
                 </a>
             </div>
 
-          <a className="link" href="/legal/cookie-rules">
+          <a className="link" href="/app/legal/cookie-rules">
             Политика за бисквитки
           </a>
-          <a className="link" href="/legal/privacy-policy">
+          <a className="link" href="/app/legal/privacy-policy">
             Политика за поверителност
           </a>
         </div>

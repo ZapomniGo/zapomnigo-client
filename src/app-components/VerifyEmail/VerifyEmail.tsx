@@ -14,7 +14,7 @@ const VerifyEmail = () => {
   const [message, setMessage] = useState("");
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
-      navigate("/");
+      navigate("home");
     }
   }, []);
   const sendEmail = () => {
@@ -41,7 +41,7 @@ const VerifyEmail = () => {
         .then((res) => {
           if (res.data.message.includes("has been verified")) {
             setMessage("Потвърдихте имейла си!");
-            window.location.href = "/login";
+            window.location.href = "login";
           } else {
             setMessage("Грешен код");
           }
