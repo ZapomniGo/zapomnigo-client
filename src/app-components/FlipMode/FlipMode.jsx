@@ -60,7 +60,7 @@ const Flip = () => {
 
           <center className="btnGroup">
             {flashcards.length > 1 ? (
-            <button onClick={next}>Следваща</button>
+            <button onClick={previous}>Предишна</button>
             ) : null}            
             <button onClick={() => setIsHidden((prev) => !prev)}>
               {isHidden ? 'Покажи' : 'Скрий'}

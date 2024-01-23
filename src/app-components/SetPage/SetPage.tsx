@@ -90,7 +90,7 @@ export const SetPage = () => {
       .post(`/sets/${id}/copy`)
       .then((response) => {
         toast("Добре дошъл в новото си идентично тесте!");
-        navigate(`set/${response.data.set_id}`);
+        navigate(`/app/set/${response.data.set_id}`);
       })
       .catch((error) => {
         toast("Имаше грешка при копирането, пробвай отново по-късно");

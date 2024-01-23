@@ -70,7 +70,7 @@ export const Registration = () => {
 
       const response = await instance.post(`/register`, userData);
       if (response.status === 200) {
-        navigate("verify");
+        navigate("/app/verify");
       }
     } catch (error) {
       if (!navigator.onLine) {
