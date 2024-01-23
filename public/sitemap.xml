@@ -4,18 +4,18 @@
   <loc>https://zapomnigo.com</loc>
 </url>
 <url>
-  <loc>https://zapomnigo.com/login</loc>
+  <loc>https://zapomnigo.com/app/login</loc>
 </url>
 <url>
-  <loc>https://zapomnigo.com/register</loc>
+  <loc>https://zapomnigo.com/app/register</loc>
 </url>
 <url>
-  <loc>https://zapomnigo.com/legal/terms-of-service</loc>
+  <loc>https://zapomnigo.com/app/legal/terms-of-service</loc>
 </url>
 <url>
-  <loc>https://zapomnigo.com/legal/privacy-policy</loc>
+  <loc>https://zapomnigo.com/app/legal/privacy-policy</loc>
 </url>
 <url>
-  <loc>https://zapomnigo.com/legal/cookie-policy</loc>
+  <loc>https://zapomnigo.com/app/legal/cookie-policy</loc>
 </url>
 </urlset>

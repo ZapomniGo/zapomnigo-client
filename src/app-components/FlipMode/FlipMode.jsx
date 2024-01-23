@@ -44,7 +44,7 @@ const Flip = () => {
     <>
       {flashcards.length > 0 ? (
         <section id="wrapper">
-            <h1 className="top-right">
+            <h1 className="counter">
               {counter+1}/{flashcards.length}
             </h1>
           <section id="card">
@@ -59,11 +59,15 @@ const Flip = () => {
           </section>
 
           <center className="btnGroup">
+            {flashcards.length > 1 ? (
             <button onClick={previous}>Предишна</button>
+            ) : null}            
             <button onClick={() => setIsHidden((prev) => !prev)}>
               {isHidden ? 'Покажи' : 'Скрий'}
             </button>
+            {flashcards.length > 1 ? (
             <button onClick={next}>Следваща</button>
+            ) : null}
           </center>
         </section>
       ) : (

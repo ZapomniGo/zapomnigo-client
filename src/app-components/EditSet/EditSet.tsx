@@ -15,14 +15,19 @@ import FlashcardImportModal from "../ImportModal/FlashcardImportModal";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
+import { jwtDecode } from "jwt-decode";
 
 export const EditSet = () => {
-//   const jwt: { username: string; admin: boolean } = jwtDecode(
-//     localStorage.getItem("access_token") || ""
-//   );
-// if (!jwt.admin || !localStorage.getItem("access_token")) {
-//     window.location.href = "/login";
-//   }
+  useEffect(() => {
+    if (!localStorage.getItem("access_token")) {
+      window.location.href = "/app/login";
+      return;
+    }
+    const jwt: { username: string; admin: boolean } = jwtDecode(
+      localStorage.getItem("access_token") || ""
+    );
+  }, []);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -44,26 +49,23 @@ export const EditSet = () => {
     handleFlipFlashcard,
     handleFlipAllFlashcards,
     handleOnImportFlashcards,
-    loadFlashcards
+    loadFlashcards,
   } = useFlashcards();
 
   useEffect(() => {
-    instance.get("/categories")
-      .then((response) => {
-        setAllCategories(response.data.categories);
-      })
-    instance.get("/organizations")
-    .then((response) =>{
-        setAllInstitutions(response.data.organizations);
-    })
-    instance.get(`/sets/${id}`)
-      .then((response) => {
-        loadFlashcards(response.data.set.flashcards);
-        setTitle(response.data.set.set_name);
-        setDescription(response.data.set.set_description);
-        setInstitution({name: response.data.set.organization_name, id: ""});
-        setCategory({name: response.data.set.category_name, id: ""});
-      })
+    instance.get("/categories").then((response) => {
+      setAllCategories(response.data.categories);
+    });
+    instance.get("/organizations").then((response) => {
+      setAllInstitutions(response.data.organizations);
+    });
+    instance.get(`/sets/${id}`).then((response) => {
+      loadFlashcards(response.data.set.flashcards);
+      setTitle(response.data.set.set_name);
+      setDescription(response.data.set.set_description);
+      setInstitution({ name: response.data.set.organization_name, id: "" });
+      setCategory({ name: response.data.set.category_name, id: "" });
+    });
   }, []);
   const isEmpty = (string: string) => {
     if (string.length === 0) {
@@ -88,20 +90,23 @@ export const EditSet = () => {
 
   useEffect(() => {
     if (category && category.name && allCategories.length > 0) {
-      const selectedCategory = allCategories.find((cat) => cat.category_name === category.name);
+      const selectedCategory = allCategories.find(
+        (cat) => cat.category_name === category.name
+      );
       if (selectedCategory) {
         categoryIdRef.current = selectedCategory.category_id;
       }
     }
-  
+
     if (institution && institution.name && allInstitutions.length > 0) {
-      const selectedInstitution = allInstitutions.find((inst) => inst.organization_name === institution.name);
+      const selectedInstitution = allInstitutions.find(
+        (inst) => inst.organization_name === institution.name
+      );
       if (selectedInstitution) {
         institutionIdRef.current = selectedInstitution.organization_id;
       }
     }
   }, [allCategories, allInstitutions]);
-
 
   const handleSubmit = () => {
     if (title.length === 0) {
@@ -156,16 +161,18 @@ export const EditSet = () => {
         set_name: title,
         set_description: description,
         flashcards: flashcards,
-        category_id: category.id ? category.id : categoryIdRef.current, 
-        organization_id: institution.id  ? institution.id : institutionIdRef.current
+        category_id: category.id ? category.id : categoryIdRef.current,
+        organization_id: institution.id
+          ? institution.id
+          : institutionIdRef.current,
       })
       .then((response) => {
-        toast("Успешно редактирахте тестето");
-        navigate("/set/" + id);
+        toast("Редакцията е готова");
+        navigate("/app/set/" + id);
+        window.scrollTo(0, 0);
       })
       .catch((error) => {
         toast("Възникна грешка");
-
       });
   };
 
@@ -198,41 +205,67 @@ export const EditSet = () => {
               />
             </div>
             <div className="tags">
-            <select
-              onChange={(e) => {
-                const selectedCategory = allCategories.find((cat) => cat.category_id === e.target.value);
-                setCategory({ name: selectedCategory ? selectedCategory.category_name : "", id: selectedCategory ? selectedCategory.category_id : "" });
-              }}
-            >
-              <option value="">Категория</option>
-              {allCategories.map((allCat, index) => (
-                <option key={index} value={allCat.category_id} selected={category && category.name === allCat.category_name}>
-                  {allCat.category_name}
-                </option>
-              ))}
-            </select>
+              <select
+                onChange={(e) => {
+                  const selectedCategory = allCategories.find(
+                    (cat) => cat.category_id === e.target.value
+                  );
+                  setCategory({
+                    name: selectedCategory
+                      ? selectedCategory.category_name
+                      : "",
+                    id: selectedCategory ? selectedCategory.category_id : "",
+                  });
+                }}
+              >
+                <option value="">Категория</option>
+                {allCategories.map((allCat, index) => (
+                  <option
+                    key={index}
+                    value={allCat.category_id}
+                    selected={
+                      category && category.name === allCat.category_name
+                    }
+                  >
+                    {allCat.category_name}
+                  </option>
+                ))}
+              </select>
 
-
-            <select
-              onChange={(e) => {
-                const selectedInstitution = allInstitutions.find((cat) => cat.organization_id === e.target.value);
-                setInstitution({ name: selectedInstitution ? selectedInstitution.organization_name : "", id: selectedInstitution ? selectedInstitution.organization_id : "" });
-              }}
-            >
-              <option value="">Организация</option>
-              {allInstitutions.map((allInst, index) => (
-                <option key={index} value={allInst.organization_id} selected={category && institution.name === allInst.organization_name}>
-                  {allInst.organization_name}
-                </option>
-              ))}
-            </select>
+              <select
+                onChange={(e) => {
+                  const selectedInstitution = allInstitutions.find(
+                    (cat) => cat.organization_id === e.target.value
+                  );
+                  setInstitution({
+                    name: selectedInstitution
+                      ? selectedInstitution.organization_name
+                      : "",
+                    id: selectedInstitution
+                      ? selectedInstitution.organization_id
+                      : "",
+                  });
+                }}
+              >
+                <option value="">Организация</option>
+                {allInstitutions.map((allInst, index) => (
+                  <option
+                    key={index}
+                    value={allInst.organization_id}
+                    selected={
+                      category && institution.name === allInst.organization_name
+                    }
+                  >
+                    {allInst.organization_name}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
           {flashcards.map((flashcard, index) => (
             <div className="flashcardWrapper">
               <div className="buttonWrapper">
-                <MdFlip onClick={() => handleFlipAllFlashcards()} />
-                {/* TODO(): Refactor styling for icons */}
+                {/* <MdFlip onClick={() => handleFlipAllFlashcards()} /> */}
                 <MdDeleteOutline
                   onClick={() => handleDeleteFlashcard(flashcard.flashcard_id)}
                 />
@@ -240,7 +273,9 @@ export const EditSet = () => {
                   {!isEmpty(flashcard.term) ||
                   !isEmpty(flashcard.definition) ? (
                     <HiOutlineDuplicate
-                      onClick={() => handleDuplicateFlashcard(flashcard.flashcard_id)}
+                      onClick={() =>
+                        handleDuplicateFlashcard(flashcard.flashcard_id)
+                      }
                     />
                   ) : (
                     ""
@@ -265,7 +300,9 @@ export const EditSet = () => {
                   {!isEmpty(flashcard.term) ||
                   !isEmpty(flashcard.definition) ? (
                     <MdFlip
-                      onClick={() => handleFlipFlashcard(flashcard.flashcard_id)}
+                      onClick={() =>
+                        handleFlipFlashcard(flashcard.flashcard_id)
+                      }
                     />
                   ) : (
                     ""
@@ -281,20 +318,20 @@ export const EditSet = () => {
               </div>{" "}
               <div key={index} className="flashcard">
                 <Editor
-                placeholder={"Term"}
-                value={flashcard.term}
-                onChange={(value: string) =>
+                  placeholder={"Term"}
+                  value={flashcard.term}
+                  onChange={(value: string) =>
                     handleChangeFlashcard(index, "term", value)
-                }
+                  }
                 />
                 <Editor
-                placeholder={"Definition"}
-                value={flashcard.definition}
-                onChange={(value: string) =>
+                  placeholder={"Definition"}
+                  value={flashcard.definition}
+                  onChange={(value: string) =>
                     handleChangeFlashcard(index, "definition", value)
-                }
+                  }
                 />
-            </div>
+              </div>
             </div>
           ))}
           <center>
@@ -303,7 +340,12 @@ export const EditSet = () => {
             </button>
           </center>
           <div className="create-submition">
-            <button className="submit" onClick={() => setIsModalOpen(!isModalOpen)}>Импортирай</button>
+            <button
+              className="submit"
+              onClick={() => setIsModalOpen(!isModalOpen)}
+            >
+              Импортирай
+            </button>
             <button
               disabled={!flashcards.length}
               onClick={handleSubmit}
