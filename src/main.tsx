@@ -63,7 +63,6 @@ const router = createBrowserRouter([
     element: <NotFound />,
   },
   {
-    
     path: homeRoute,
     element: <Navigation />,
     children: [
@@ -151,7 +150,7 @@ const router = createBrowserRouter([
         path: flipMode,
         element: <FlipMode />,
       },
-     
+
       {
         path: folderEdit,
         element: <EditFolder />,

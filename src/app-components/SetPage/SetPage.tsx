@@ -24,11 +24,11 @@ export const SetPage = () => {
   const [flashcards, setFlashcards] = useState("");
   const [sortingOrder, setSortingOrder] = useState<string>("");
   const [username, setUsername] = useState("");
-  const [creator, setCreator] = useState("");
+  const [creator, setCreator] = useState("no one yet");
   const [page, setPage] = useState(1);
   const { id } = useParams<{ id: string }>();
   const [totalPages, setTotalPages] = useState(1);
-  const [isAdmin, setIsAdmin] = useState();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -240,17 +240,21 @@ export const SetPage = () => {
                   <RiPencilLine />
                   Редактирай
                 </a> */}
-                <a onClick={DuplicateSet} href="#">
-                  <FaRegCopy />
-                  Копирай
-                </a>
+                {(localStorage.getItem("access_token")) && (
+                  <a onClick={DuplicateSet} href="#">
+                    <FaRegCopy />
+                    Копирай
+                  </a>
+                )}
                 <a onClick={Share} href="#">
                   <FiShare2 />
                   Сподели
                 </a>
-                <a onClick={Export} href="#">
-                  <FiDownload /> Експортирай
-                </a>
+                {creator !== "no one yet" && (
+                  <a onClick={Export} href="#">
+                    <FiDownload /> Експортирай
+                  </a>
+                )}
                 {(creator === username || isAdmin) && (
                   <a onClick={deleteSet}>
                     <MdDeleteOutline />
