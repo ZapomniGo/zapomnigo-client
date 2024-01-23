@@ -219,8 +219,8 @@ export const SetPage = () => {
                 {localStorage.getItem("access_token") && (
                   <a
                     onClick={() =>
-                      flashcards.flashcards.length > 4
-                        ? navigate(`/study/${id}`)
+                      flashcards.flashcards.length >= 4
+                        ? navigate(`/app/study/${id}`)
                         : toast("Учи режимът работи с 4 или повече флашкарти!")
                     }
                   >
