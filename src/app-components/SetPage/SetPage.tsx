@@ -296,7 +296,7 @@ export const SetPage = () => {
                   }}
                   onClick={() => navigate(`app/edit-set/${id}`)}
                 >
-                  <FaPlus />
+                  <FaPlus className="single"/>
                 </div>
               ) : (
                 ""

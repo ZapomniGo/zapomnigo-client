@@ -282,6 +282,11 @@ input[type="submit"]:hover {
     height: 100%;
   }
 }
+svg.single {
+  color: gray;
+  width: 2.5vw !important;
+  height: 2.5vh !important;
+}
 #wrapperForm {
   height: 100vh;
   width: 100vw;
