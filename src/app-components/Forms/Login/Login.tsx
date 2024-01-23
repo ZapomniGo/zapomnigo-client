@@ -84,7 +84,7 @@ export const Login = () => {
       } else if (error.response.status === 404) {
         setBackendError("Хм, грешно потребителско име");
       } else if (error.response.status === 418) {
-        window.location.href = "verify";
+        window.location.href = "/app/verify";
       } else if (error.response.status === 401) {
         setBackendError("Грешна парола");
       } else {
@@ -124,7 +124,7 @@ export const Login = () => {
     setErrors(newErrors);
   };
   const handleForgotPassword = () => {
-    navigate("app/forgot-password");
+    navigate("/app/forgot-password");
   };
 
   return (
@@ -170,7 +170,7 @@ export const Login = () => {
           </section>
 
           <div id="buttonWrapper">
-            <a className="link" onClick={() => navigate("/register")}>
+            <a className="link" onClick={() => navigate("/app/register")}>
               Нямам акаунт
             </a>
             <input type="submit" value={"Вход"} onClick={login} />

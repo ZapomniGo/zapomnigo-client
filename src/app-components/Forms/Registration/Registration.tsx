@@ -527,7 +527,7 @@ export const Registration = () => {
           )}
           {screenIndex == 3 ? (
             <section>
-              <p>
+              {/* <p>
                 <center>
                   Част ли сте от организация, която използва нашите услуги?{" "}
                   <br /> Ако да, моля въведете кода на вашата организация
@@ -546,7 +546,7 @@ export const Registration = () => {
                 {errors.organization.hasError
                   ? errors.organization.message
                   : ""}
-              </p>
+              </p> */}
 
               <div className="checkboxes">
                 <div className="privacy-policy">
