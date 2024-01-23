@@ -59,9 +59,9 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
   // };
 
   const handleLogout = async () => {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        window.location.reload();
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    window.location.replace("/app/login");
   };
 
   const handleMouseEnter = () => {
@@ -100,7 +100,6 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
             </i>
             <input type="search" placeholder="Търси..." />
           </div>
-
         </div>
         <nav
           className={`sidebar ${navigationSliceManager.open ? "" : "close"}`}
@@ -112,13 +111,14 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
             {token ? (
               <div className="image-text">
                 <span className="image">
-                  <img
-                    src="/logo.jpg"
-                    alt="logo"
-                  ></img>
+                  <img src="/logo.jpg" alt="logo"></img>
                 </span>
                 <div className="text header-text">
-                  <span className="name">{username.length > 13 ? username.substring(0, 13) + '...' : username}</span>
+                  <span className="name">
+                    {username.length > 13
+                      ? username.substring(0, 13) + "..."
+                      : username}
+                  </span>
                   <span className="institution">{institution}</span>
                 </div>
               </div>
@@ -137,7 +137,11 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
               </li>
               <ul className="menu-links">
                 <li className="nav-link">
-                  <CustomNavLink to="/" activeClassName="active" onClick={handleCloseClick}>
+                  <CustomNavLink
+                    to="/app"
+                    activeClassName="active"
+                    onClick={handleCloseClick}
+                  >
                     <i className="icon" style={{ transform: "scale(1.3)" }}>
                       <BiHomeAlt />
                     </i>
@@ -147,7 +151,11 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                 {token ? (
                   <>
                     <li className="nav-link">
-                      <CustomNavLink to={`/sets/${username}`} activeClassName="active" onClick={handleCloseClick}>
+                      <CustomNavLink
+                        to={`/app/sets/${username}`}
+                        activeClassName="active"
+                        onClick={handleCloseClick}
+                      >
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <TbCards />
                         </i>
@@ -155,7 +163,11 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       </CustomNavLink>
                     </li>
                     <li className="nav-link">
-                      <CustomNavLink to="/folders" activeClassName="active" onClick={handleCloseClick}>
+                      <CustomNavLink
+                        to="/app/folders"
+                        activeClassName="active"
+                        onClick={handleCloseClick}
+                      >
                         <i className="icon">
                           <FaRegFolderOpen />
                         </i>
@@ -163,7 +175,11 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       </CustomNavLink>
                     </li>
                     <li className="nav-link">
-                      <CustomNavLink to="/create" activeClassName="active" onClick={handleCloseClick}>
+                      <CustomNavLink
+                        to="/app/create"
+                        activeClassName="active"
+                        onClick={handleCloseClick}
+                      >
                         <i className="icon" style={{ transform: "scale(1.3)" }}>
                           <GoPencil />
                         </i>
@@ -171,7 +187,11 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       </CustomNavLink>
                     </li>
                     <li className="nav-link">
-                      <CustomNavLink to="/settings" activeClassName="active" onClick={handleCloseClick}>
+                      <CustomNavLink
+                        to="/app/settings"
+                        activeClassName="active"
+                        onClick={handleCloseClick}
+                      >
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <TbSettings />
                         </i>
@@ -182,7 +202,11 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                 ) : (
                   <>
                     <li className="nav-link">
-                      <CustomNavLink to="/register" activeClassName="active" onClick={handleCloseClick}>
+                      <CustomNavLink
+                        to="/app/register"
+                        activeClassName="active"
+                        onClick={handleCloseClick}
+                      >
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <GoPencil />
                         </i>
@@ -190,7 +214,11 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       </CustomNavLink>
                     </li>
                     <li className="nav-link">
-                      <CustomNavLink to="/login" activeClassName="active" onClick={handleCloseClick}>
+                      <CustomNavLink
+                        to="/app/login"
+                        activeClassName="active"
+                        onClick={handleCloseClick}
+                      >
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <BiLogIn />
                         </i>

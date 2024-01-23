@@ -9,7 +9,7 @@ const NotFound = () => {
         </h1>
         <center>
           {" "}
-          <a href="/home">Върни се на началната страница</a>
+          <a href="/app">Върни се на началната страница</a>
         </center>
       </div>
     </Dashboard>

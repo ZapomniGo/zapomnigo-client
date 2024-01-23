@@ -59,6 +59,11 @@ import FlipMode from "./app-components/FlipMode/FlipMode";
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
+    path: "*",
+    element: <NotFound />,
+  },
+  {
+    
     path: homeRoute,
     element: <Navigation />,
     children: [
@@ -146,10 +151,7 @@ const router = createBrowserRouter([
         path: flipMode,
         element: <FlipMode />,
       },
-      {
-        path: "*",
-        element: <NotFound />,
-      },
+     
       {
         path: folderEdit,
         element: <EditFolder />,

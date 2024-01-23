@@ -90,7 +90,7 @@ export const SetPage = () => {
       .post(`/sets/${id}/copy`)
       .then((response) => {
         toast("Добре дошъл в новото си идентично тесте!");
-        navigate(`/set/${response.data.set_id}`);
+        navigate(`set/${response.data.set_id}`);
       })
       .catch((error) => {
         toast("Имаше грешка при копирането, пробвай отново по-късно");
@@ -107,7 +107,7 @@ export const SetPage = () => {
     instance
       .delete(`/sets/${id}`)
       .then((response) => {
-        navigate("/");
+        navigate("/app");
       })
       .catch((error) => {
         console.log(error);
@@ -226,12 +226,12 @@ export const SetPage = () => {
                   <FaRegLightbulb />
                   Учи
                 </a>
-                <a href={"/flip-set/" + id} className="rotate">
+                <a href={"/app/flip-set/" + id} className="rotate">
                   <MdContentCopy />
                   Прегледай
                 </a>
                 {(creator === username || isAdmin) && (
-                  <a href={`/edit-set/${id}`}>
+                  <a href={`/app/edit-set/${id}`}>
                     <RiPencilLine />
                     Редактирай
                   </a>
@@ -290,7 +290,7 @@ export const SetPage = () => {
                     alignItems: "center",
                     padding: "2vmax",
                   }}
-                  onClick={() => navigate(`/edit-set/${id}`)}
+                  onClick={() => navigate(`app/edit-set/${id}`)}
                 >
                   <FaPlus />
                 </div>

@@ -29,7 +29,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
-      navigate("/home");
+      navigate("home");
     }
   }, []);
 
@@ -76,7 +76,7 @@ export const Login = () => {
     try {
       const response = await instance.post(`/login`, userData);
       if (response.status === 200) {
-        window.location.href = "/";
+        window.location.href = "/app";
       }
     } catch (error) {
       if (!navigator.onLine) {
@@ -84,7 +84,7 @@ export const Login = () => {
       } else if (error.response.status === 404) {
         setBackendError("Хм, грешно потребителско име");
       } else if (error.response.status === 418) {
-        window.location.href = "/verify";
+        window.location.href = "verify";
       } else if (error.response.status === 401) {
         setBackendError("Грешна парола");
       } else {
@@ -124,7 +124,7 @@ export const Login = () => {
     setErrors(newErrors);
   };
   const handleForgotPassword = () => {
-    navigate("/forgot-password");
+    navigate("app/forgot-password");
   };
 
   return (

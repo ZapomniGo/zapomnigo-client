@@ -52,7 +52,7 @@ export const CreateFolder = () => {
       .then((response) => {
         console.log(response)
         toast("Добре дошъл в новото си тесте");
-        navigate("/folder/" + response.data.folder_id);
+        navigate("folder/" + response.data.folder_id);
       })
       .catch((error) => {
         toast("Възникна грешка");

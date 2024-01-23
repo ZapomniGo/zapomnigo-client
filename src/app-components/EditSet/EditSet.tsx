@@ -160,8 +160,8 @@ export const EditSet = () => {
         organization_id: institution.id  ? institution.id : institutionIdRef.current
       })
       .then((response) => {
-        toast("Успешно редактирахте тестето");
-        navigate("/set/" + id);
+        toast("Реадакцията е готова");
+        navigate("/app/set/" + id);
       })
       .catch((error) => {
         toast("Възникна грешка");
@@ -231,8 +231,7 @@ export const EditSet = () => {
           {flashcards.map((flashcard, index) => (
             <div className="flashcardWrapper">
               <div className="buttonWrapper">
-                <MdFlip onClick={() => handleFlipAllFlashcards()} />
-                {/* TODO(): Refactor styling for icons */}
+                {/* <MdFlip onClick={() => handleFlipAllFlashcards()} /> */}
                 <MdDeleteOutline
                   onClick={() => handleDeleteFlashcard(flashcard.flashcard_id)}
                 />

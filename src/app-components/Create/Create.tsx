@@ -9,7 +9,7 @@ export const Create = () => {
       <div className="create-section">
         <div className="create-header">
           <div className="create-option">
-              <a href="/create-set" className="create-set-option">
+              <a href="/app/create-set" className="create-set-option">
               <Tilty className="tilty" max={10} glare={true} perspective={500} reverse={true}>
                 <div className="option-svg">
                   <TbCards />
@@ -19,7 +19,7 @@ export const Create = () => {
                 </div>
                 </Tilty>
               </a>
-            <a href="/create-folder" className="create-folder-option">
+            <a href="/app/create-folder" className="create-folder-option">
               <Tilty className="tilty" max={10} glare={true} perspective={500} reverse={true}>
                 <div className="option-svg">
                   <FaRegFolderOpen />
