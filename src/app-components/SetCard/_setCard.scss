@@ -33,7 +33,6 @@
         opacity: 1;
     }
     .title-options {
-        padding-top: 5px;
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
@@ -122,10 +121,6 @@
         width: auto;
         text-align: center;
 
-    }
-    svg{
-        width: 2em !important;
-        height: 2em !important;
     }
 }
 
