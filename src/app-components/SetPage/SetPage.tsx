@@ -216,16 +216,18 @@ export const SetPage = () => {
                 )}
               </div>
               <div className="actions">
-                <a
-                  onClick={() =>
-                    flashcards.flashcards.length > 4
-                      ? navigate(`/study/${id}`)
-                      : toast("Учи режимът работи с 4 или повече флашкарти!")
-                  }
-                >
-                  <FaRegLightbulb />
-                  Учи
-                </a>
+                {localStorage.getItem("access_token") && (
+                  <a
+                    onClick={() =>
+                      flashcards.flashcards.length > 4
+                        ? navigate(`/study/${id}`)
+                        : toast("Учи режимът работи с 4 или повече флашкарти!")
+                    }
+                  >
+                    <FaRegLightbulb />
+                    Учи
+                  </a>
+                )}
                 <a href={"/app/flip-set/" + id} className="rotate">
                   <MdContentCopy />
                   Прегледай
@@ -240,7 +242,7 @@ export const SetPage = () => {
                   <RiPencilLine />
                   Редактирай
                 </a> */}
-                {(localStorage.getItem("access_token")) && (
+                {localStorage.getItem("access_token") && (
                   <a onClick={DuplicateSet} href="#">
                     <FaRegCopy />
                     Копирай
@@ -294,9 +296,9 @@ export const SetPage = () => {
                     alignItems: "center",
                     padding: "2vmax",
                   }}
-                  onClick={() => navigate(`app/edit-set/${id}`)}
+                  onClick={() => navigate(`/app/edit-set/${id}`)}
                 >
-                  <FaPlus className="single"/>
+                  <FaPlus className="single" />
                 </div>
               ) : (
                 ""

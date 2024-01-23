@@ -53,7 +53,7 @@ export const Sets: React.FC = () => {
         <h2 className="category-title">Моите тестета</h2>
         <div className="sets">
           <div className="add-set set-card">
-            <a href={`/create-set`}>
+            <a href={`/app/create-set`}>
               <FaPlus className="single" />
             </a>
           </div>

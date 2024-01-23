@@ -31,7 +31,10 @@ const StudyComponent = () => {
     if (id!.length === 0 || id!.length !== 26 || id!.includes(" ")) {
       return;
     }
-
+    if (!localStorage.getItem("access_token")) {
+      window.location.href = "/app/login";
+      return;
+    }
     instance
       .get(`/sets/${id}/study`)
       .then((res) => {
@@ -126,7 +129,6 @@ const StudyComponent = () => {
       user_id: userId,
     };
 
-
     if (flashcards[currentFlashcardIndex]) {
       instance
         .put(
@@ -137,7 +139,6 @@ const StudyComponent = () => {
     }
 
     setShowNextButton(true);
-    
   };
 
   const handleNextButtonClick = () => {
@@ -168,7 +169,17 @@ const StudyComponent = () => {
 
             <div className="answer-options">
               {shuffledDefinitions.slice(0, 4).map((definition, index) => (
-                <div className={`option ${selectedDefinition && (definition === correctDefinition ? "correct" : definition === selectedDefinition ? "incorrect" : "")}`} key={index + Math.random()}>
+                <div
+                  className={`option ${
+                    selectedDefinition &&
+                    (definition === correctDefinition
+                      ? "correct"
+                      : definition === selectedDefinition
+                      ? "incorrect"
+                      : "")
+                  }`}
+                  key={index + Math.random()}
+                >
                   <button
                     disabled={showNextButton}
                     key={index}

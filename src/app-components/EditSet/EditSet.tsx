@@ -21,6 +21,7 @@ export const EditSet = () => {
   useEffect(() => {
     if (!localStorage.getItem("access_token")) {
       window.location.href = "/app/login";
+      return;
     }
     const jwt: { username: string; admin: boolean } = jwtDecode(
       localStorage.getItem("access_token") || ""
