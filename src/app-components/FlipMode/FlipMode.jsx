@@ -44,7 +44,7 @@ const Flip = () => {
     <>
       {flashcards.length > 0 ? (
         <section id="wrapper">
-            <h1 className="top-right">
+            <h1 className="counter">
               {counter+1}/{flashcards.length}
             </h1>
           <section id="card">

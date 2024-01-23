@@ -4,7 +4,7 @@
   align-items: center;
   min-height: 100vh;
   flex-direction: column;
-  .top-right {
+  .counter {
     position: absolute;
     top: 0vmax;
     right: 1vmax;
@@ -79,7 +79,7 @@
 }
 
 @media screen and (max-width: 1000px) {
-  .top-right{
+  .counter{
     top:8vmax !important;
   }
   #wrapper {
