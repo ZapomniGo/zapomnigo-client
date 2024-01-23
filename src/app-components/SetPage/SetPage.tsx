@@ -101,7 +101,7 @@ export const SetPage = () => {
     if (!token) {
       return;
     }
-    if (!window.confirm("Сигурен ли си, че искаш да изтриеш този сет?")) {
+    if (!window.confirm("Сигурен ли си, че искаш да изтриеш това тесте?")) {
       return;
     }
     instance

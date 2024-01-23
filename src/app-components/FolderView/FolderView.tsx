@@ -61,7 +61,7 @@ export const FolderView: React.FC = () => {
               />
             ))}
             <div className="add-set set-card">
-              <a href={`/edit-folder/${id}`}><FaPen/></a>
+              <a href={`/app/edit-folder/${id}`}><FaPen/></a>
             </div>
         </div>
 

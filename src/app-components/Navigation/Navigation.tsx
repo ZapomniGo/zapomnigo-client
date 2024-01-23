@@ -138,7 +138,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
               <ul className="menu-links">
                 <li className="nav-link">
                   <CustomNavLink
-                    to="/app"
+                    to="/app/"
                     activeClassName="active"
                     onClick={handleCloseClick}
                   >
@@ -159,7 +159,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <TbCards />
                         </i>
-                        <span className="text nav-text">Моите сетове</span>
+                        <span className="text nav-text">Моите тестета</span>
                       </CustomNavLink>
                     </li>
                     <li className="nav-link">

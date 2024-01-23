@@ -3,6 +3,11 @@ import { Background } from "../Forms/FormsBackground/Background";
 import { useNavigate } from "react-router-dom";
 const HomePage = () => {
   const navigate = useNavigate();
+  React.useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/app");
+    }
+  }, []);
   return (
     <div id="mainPage">
       <section id="backgroundForm">

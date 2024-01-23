@@ -18,13 +18,13 @@ import { useRef } from "react";
 import { jwtDecode } from "jwt-decode";
 
 export const EditSet = () => {
-  const jwt: { username: string; admin: boolean } = jwtDecode(
-    localStorage.getItem("access_token") || ""
-  );
   useEffect(() => {
     if (!localStorage.getItem("access_token")) {
       window.location.href = "/app/login";
     }
+    const jwt: { username: string; admin: boolean } = jwtDecode(
+      localStorage.getItem("access_token") || ""
+    );
   }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -169,7 +169,6 @@ export const EditSet = () => {
         toast("Редакцията е готова");
         navigate("/app/set/" + id);
         window.scrollTo(0, 0);
-
       })
       .catch((error) => {
         toast("Възникна грешка");
