@@ -59,11 +59,15 @@ const Flip = () => {
           </section>
 
           <center className="btnGroup">
-            <button onClick={previous}>Предишна</button>
+            {flashcards.length > 1 ? (
+            <button onClick={next}>Следваща</button>
+            ) : null}            
             <button onClick={() => setIsHidden((prev) => !prev)}>
               {isHidden ? 'Покажи' : 'Скрий'}
             </button>
+            {flashcards.length > 1 ? (
             <button onClick={next}>Следваща</button>
+            ) : null}
           </center>
         </section>
       ) : (
