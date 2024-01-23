@@ -72,7 +72,7 @@ export const EditFolder = () => {
       .put(`/folders/${id}`, folderToSubmit)
       .then((response) => {
         toast("Добре дошъл в новата си папка");
-        navigate("folder/" + id);
+        navigate("/app/folder/" + id);
       })
       .catch((error) => {
         toast("Възникна грешка");
