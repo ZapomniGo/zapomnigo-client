@@ -90,7 +90,7 @@ export const SetPage = () => {
       .post(`/sets/${id}/copy`)
       .then((response) => {
         toast("Добре дошъл в новото си идентично тесте!");
-        navigate(`set/${response.data.set_id}`);
+        navigate(`/app/set/${response.data.set_id}`);
       })
       .catch((error) => {
         toast("Имаше грешка при копирането, пробвай отново по-късно");
@@ -216,16 +216,18 @@ export const SetPage = () => {
                 )}
               </div>
               <div className="actions">
-                <a
-                  onClick={() =>
-                    flashcards.flashcards.length > 4
-                      ? navigate(`/study/${id}`)
-                      : toast("Учи режимът работи с 4 или повече флашкарти!")
-                  }
-                >
-                  <FaRegLightbulb />
-                  Учи
-                </a>
+                {localStorage.getItem("access_token") && (
+                  <a
+                    onClick={() =>
+                      flashcards.flashcards.length >= 4
+                        ? navigate(`/app/study/${id}`)
+                        : toast("Учи режимът работи с 4 или повече флашкарти!")
+                    }
+                  >
+                    <FaRegLightbulb />
+                    Учи
+                  </a>
+                )}
                 <a href={"/app/flip-set/" + id} className="rotate">
                   <MdContentCopy />
                   Прегледай
@@ -240,7 +242,7 @@ export const SetPage = () => {
                   <RiPencilLine />
                   Редактирай
                 </a> */}
-                {(localStorage.getItem("access_token")) && (
+                {localStorage.getItem("access_token") && (
                   <a onClick={DuplicateSet} href="#">
                     <FaRegCopy />
                     Копирай
@@ -250,7 +252,7 @@ export const SetPage = () => {
                   <FiShare2 />
                   Сподели
                 </a>
-                {creator !== "no one yet" && (
+                {(creator === username || isAdmin) && (
                   <a onClick={Export} href="#">
                     <FiDownload /> Експортирай
                   </a>
@@ -294,9 +296,9 @@ export const SetPage = () => {
                     alignItems: "center",
                     padding: "2vmax",
                   }}
-                  onClick={() => navigate(`app/edit-set/${id}`)}
+                  onClick={() => navigate(`/app/edit-set/${id}`)}
                 >
-                  <FaPlus />
+                  <FaPlus className="single" />
                 </div>
               ) : (
                 ""

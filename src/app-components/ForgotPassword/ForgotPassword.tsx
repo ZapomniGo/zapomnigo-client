@@ -54,7 +54,7 @@ const ForgetPassword = () => {
       .then((res) => {
         setMessage("Паролата е променена");
         setTimeout(() => {
-          navigate("/login");
+          navigate("/app/login");
         }, 2000);
       })
       .catch((err) => {

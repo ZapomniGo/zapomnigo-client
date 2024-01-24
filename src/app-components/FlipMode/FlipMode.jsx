@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import instance from "../../app-utils/axios";
 import parse from "html-react-parser";
+import { FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import { MdOutlineFlip } from "react-icons/md";
+import { FaArrowRotateLeft } from "react-icons/fa6";
+import { toast } from "react-toastify";
 const Flip = () => {
   const { id } = useParams();
   const [flashcards, setFlashcards] = React.useState([]);
@@ -34,19 +39,31 @@ const Flip = () => {
       setCounter(0);
     }
   };
+  const changeTermAndDefintion = () => {
+    toast("Терминът и дефиницията са сменени!");
+    setIsHidden(true);
+    setFlashcards((prev) => {
+      return prev.map((flashcard) => {
+        return {
+          term: flashcard.definition,
+          definition: flashcard.term,
+        };
+      });
+    });
+  }
+
 
   useEffect(() => {
     console.log(isHidden);
   }, [isHidden]);
 
-
   return (
     <>
       {flashcards.length > 0 ? (
         <section id="wrapper">
-            <h1 className="counter">
-              {counter+1}/{flashcards.length}
-            </h1>
+          <h1 className="counter">
+            {counter + 1}/{flashcards.length}
+          </h1>
           <section id="card">
             <div id="front">
               <p>{parse(flashcards[counter].term)}</p>
@@ -59,12 +76,11 @@ const Flip = () => {
           </section>
 
           <center className="btnGroup">
-            <button onClick={previous}>Предишна</button>
-            <button onClick={() => setIsHidden((prev) => !prev)}>
-              {isHidden ? 'Покажи' : 'Скрий'}
-            </button>
-            <button onClick={next}>Следваща</button>
+            {flashcards.length > 1 && <FaArrowLeft onClick={previous} />}
+           <MdOutlineFlip onClick={() => setIsHidden(!isHidden)} />
+            {flashcards.length > 1 && <FaArrowRight onClick={next} />}
           </center>
+          <FaArrowRotateLeft id="flip-flip-icon" onClick={changeTermAndDefintion}/>
         </section>
       ) : (
         <center>

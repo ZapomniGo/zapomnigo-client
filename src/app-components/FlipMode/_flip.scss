@@ -4,6 +4,26 @@
   align-items: center;
   min-height: 100vh;
   flex-direction: column;
+  svg {
+    font-size: 2.5vmax;
+    color: gray;
+    transition: 0.3s;
+    margin: 1vmax;
+  }
+  svg:hover {
+    color: orange;
+  }
+  .btnGroup{
+    position:fixed;
+    bottom:1vmax;
+  }
+  #flip-flip-icon {
+    position: fixed;
+    bottom: 1vmax;
+    right: 1vmax;
+    color: gray;
+    font-size: 2.2vmax;
+  }
   .counter {
     position: absolute;
     top: 0vmax;
@@ -79,8 +99,9 @@
 }
 
 @media screen and (max-width: 1000px) {
-  .counter{
-    top:8vmax !important;
+  .counter {
+    top: 8vmax !important;
+    font-size:3vmax !important;
   }
   #wrapper {
     font-size: 15px;
@@ -91,13 +112,21 @@
       width: 80%;
     }
   }
+  svg{
+    font-size:4vmax !important;
+    margin:1.5vmax !important;
+    margin-left:2vmax !important;
+    margin-right:2vmax !important;
+  }
+  #flip-flip-icon {
+    position: fixed;
+    bottom: 1vmax;
+    right: 1vmax;
+    color: gray;
+    font-size: 3vmax !important;
+  }
   .btnGroup {
     position: fixed !important;
     bottom: 0 !important;
-    button {
-      font-size: 15px !important;
-      padding: 10px 20px !important;
-      margin: 10px !important;
-    }
   }
 }

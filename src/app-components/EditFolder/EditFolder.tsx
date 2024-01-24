@@ -67,12 +67,11 @@ export const EditFolder = () => {
         category_id: category.id ? category.id : categoryIdRef.current, 
         organization_id: institution.id  ? institution.id : institutionIdRef.current
       };
-
       instance
       .put(`/folders/${id}`, folderToSubmit)
       .then((response) => {
         toast("Добре дошъл в новата си папка");
-        navigate("folder/" + id);
+        navigate("/app/folder/" + id);
       })
       .catch((error) => {
         toast("Възникна грешка");
