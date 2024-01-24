@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import instance from "../../app-utils/axios";
 import FlashcardImportModal from "../ImportModal/FlashcardImportModal";
 import { useNavigate } from "react-router-dom";
+import { convert } from "html-to-text";
 export const CreateSet = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,7 +45,7 @@ export const CreateSet = () => {
     });
   }, []);
   const isEmpty = (string: string) => {
-    if(!string) return true;
+    if (!string) return true;
     if (string.length === 0) {
       return true;
     }
@@ -130,7 +131,7 @@ export const CreateSet = () => {
   };
 
   const search = (query: string) => {
-    const url = "http://www.google.com/search?q=" + query;
+    const url = "http://www.google.com/search?q=" + convert(query);
     window.open(url, "_blank");
   };
 
