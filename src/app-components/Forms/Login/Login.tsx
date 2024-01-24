@@ -29,7 +29,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
-      navigate("home");
+      navigate("/app/home");
     }
   }, []);
 
@@ -160,7 +160,7 @@ export const Login = () => {
               onChange={formHandler}
               className={errors.password.hasError ? "error" : ""}
             />
-            <a className="link" onClick={handleForgotPassword}>
+            <a className="link" style={{marginLeft:"0.5vmax"}} onClick={handleForgotPassword}>
               Забравена парола
             </a>
 

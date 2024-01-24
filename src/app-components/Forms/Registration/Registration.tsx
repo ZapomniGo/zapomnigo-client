@@ -18,7 +18,7 @@ export const Registration = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
-      navigate("home");
+      navigate("/app/home");
     }
   }, []);
   const [termsError, setTermsError] = useState<DataError>({

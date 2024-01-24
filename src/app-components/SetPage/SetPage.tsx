@@ -252,7 +252,7 @@ export const SetPage = () => {
                   <FiShare2 />
                   Сподели
                 </a>
-                {creator !== "no one yet" && (
+                {(creator === username || isAdmin) && (
                   <a onClick={Export} href="#">
                     <FiDownload /> Експортирай
                   </a>
