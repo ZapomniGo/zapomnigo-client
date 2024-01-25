@@ -217,7 +217,7 @@ const StudyComponent = () => {
       //update the correctness
       flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
       setFlashcards(flashcardsCopy);
-      GeneratePrompt(flashcardsCopy);
+      // GeneratePrompt(flashcardsCopy);
     } else {
       alert("Incorrect!");
       InformServerAboutFlashcard(
@@ -227,7 +227,9 @@ const StudyComponent = () => {
       );
       //update the correctness
       flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
-      GeneratePrompt(flashcards);
+      console.log(currentFlashcardDefinition);
+      console.log(answer)
+      // GeneratePrompt(flashcards);
     }
   };
   //this function will inform the server about the flashcard's correctness
@@ -254,7 +256,7 @@ const StudyComponent = () => {
       <Dashboard>
         <div className="study-component">
           <div className="study-wrapper">
-            {studyMode === 1 && (
+            {studyMode && (
               <MultipleChoice
                 currentFlashcardTerm={currentFlashcardTerm}
                 currentFlashcardDefinition={currentFlashcardDefinition}
@@ -262,21 +264,21 @@ const StudyComponent = () => {
                 VerifyCorrectness={VerifyCorrectness}
               />
             )}
-            {studyMode === 2 && (
+            {studyMode === 25 && (
               <FreeInput
                 currentFlashcardTerm={currentFlashcardTerm}
                 currentFlashcardDefinition={currentFlashcardDefinition}
                 VerifyCorrectness={VerifyCorrectness}
               />
             )}
-            {studyMode === 3 && (
+            {studyMode === 35 && (
               <LevelCheck
                 currentFlashcardTerm={currentFlashcardTerm}
                 currentFlashcardDefinition={currentFlashcardDefinition}
                 VerifyCorrectness={VerifyCorrectness}
               />
             )}
-            {studyMode === -1 && (
+            {studyMode === -15 && (
               <FinishedView
                 pastFlashcardsIndexes={pastFlashcardsIndexes}
                 flashcards={flashcards}

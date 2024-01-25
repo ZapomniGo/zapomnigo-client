@@ -2,6 +2,10 @@ import React from "react";
 import parse from 'html-react-parser';
 const MultipleChoice = (props) => {
   const [answerOptions, setAnswerOptions] = React.useState([]);
+  const [correctOption, setCorrectOption] = React.useState([]); // This is the correct answer
+  const [selectedOption, setSelectedOption] = React.useState([]); // This is the answer the user selected 
+  console.log(props.currentFlashcardDefinition)
+
   React.useEffect(() => {
     let arrCopy = [];
     let availableDefinitions = [
@@ -21,10 +25,17 @@ const MultipleChoice = (props) => {
       arrCopy.push(availableDefinitions[randomIndex]);
       availableDefinitions.splice(randomIndex, 1); // Remove the chosen definition from the available definitions
     }
-
     // Let shuffle the array
     setAnswerOptions(arrCopy.sort(() => Math.random() - 0.5));
   }, []);
+
+
+  const verifyMultipleChoice = (answer) => {
+    if(props.currentFlashcardDefinition === answer){
+      console.log("here")
+    }
+  }
+
   return (
     <div>
       <div id="flashcard" className={"no-image-flashcard"}>
@@ -36,16 +47,16 @@ const MultipleChoice = (props) => {
         {answerOptions.map((answerOption) => {
           return (
             <div className="option">
-                          <button
-              key={Math.random()}
-              onClick={() => props.VerifyCorrectness(answerOption, 1)}
-            >
-              {parse(answerOption)}
-            </button>
-          </div>
-
+              <button
+                key={Math.random()}
+                onClick={() => verifyMultipleChoice(answerOption)}
+              >
+                {parse(answerOption)}
+              </button>
+            </div>
           );
         })}
+        <button onClick={() => props.VerifyCorrectness(answerOptions, 1)}>Submit</button>
       </div>
     </div>
   );
