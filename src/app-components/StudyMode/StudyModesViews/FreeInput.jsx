@@ -1,13 +1,20 @@
-import React from "react";
-import parse from 'html-react-parser';
+import React, { useEffect } from "react";
+import parse from "html-react-parser";
 const FreeInput = (props) => {
   const [answer, setAnswer] = React.useState("");
   //on enter press submit the flashcard
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      props.VerifyCorrectness(answer, 2);
-    }
-  };
+  useEffect(() => {
+    const handleEnterPress = (e) => {
+      if (e.keyCode === 13) {
+        props.VerifyCorrectness(answer, 2);
+      }
+    };
+    document.addEventListener("keydown", handleEnterPress);
+    return () => {
+      document.removeEventListener("keydown", handleEnterPress);
+    };
+  }, [answer]);
+
   React.useEffect(() => {
     setAnswer("");
   }, [props.currentFlashcardTerm]);
