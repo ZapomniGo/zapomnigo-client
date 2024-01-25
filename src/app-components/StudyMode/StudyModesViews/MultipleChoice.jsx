@@ -27,16 +27,23 @@ const MultipleChoice = (props) => {
   }, []);
   return (
     <div>
-      <div>{parse(props.currentFlashcardTerm)}</div>
-      <div>
+      <div id="flashcard" className={"no-image-flashcard"}>
+        <div className={`term `}>
+          <h3>{parse(props.currentFlashcardTerm)}</h3>
+        </div>
+      </div>
+      <div className="answer-options">
         {answerOptions.map((answerOption) => {
           return (
-            <button
+            <div className="option">
+                          <button
               key={Math.random()}
               onClick={() => props.VerifyCorrectness(answerOption, 1)}
             >
               {parse(answerOption)}
             </button>
+          </div>
+
           );
         })}
       </div>
