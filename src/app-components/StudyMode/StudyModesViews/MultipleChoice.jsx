@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import parse from "html-react-parser";
-
 const MultipleChoice = (props) => {
   const [answerOptions, setAnswerOptions] = React.useState([]);
   const [selectedAnswer, setSelectedAnswer] = React.useState();
@@ -62,7 +61,7 @@ const MultipleChoice = (props) => {
                 onClick={() => {
                   VerifyMyAnswerInternally(answerOption, 1, false);
                 }}
-                // className={buttonClass}
+                disabled={selectedAnswer}
               >
                 {parse(answerOption)}
               </button>

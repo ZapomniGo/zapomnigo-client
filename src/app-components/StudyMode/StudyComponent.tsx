@@ -10,6 +10,9 @@ import MultipleChoice from "./StudyModesViews/MultipleChoice";
 import FreeInput from "./StudyModesViews/FreeInput";
 import LevelCheck from "./StudyModesViews/LevelCheck";
 import FinishedView from "./StudyModesViews/FinishedView";
+import { toast, ToastContainer } from "react-toastify";
+import studySetup from "./studySetup.json";
+
 const StudyComponent = () => {
   //original is what we get from the server
   const [originalFlashcards, setOriginalFlashcards] = useState([]);
@@ -224,6 +227,13 @@ const StudyComponent = () => {
     GeneratePrompt(flashcardsCopy);
 
     if (isCorrect) {
+      if (studySetup.enablePositives) {
+        toast(
+          studySetup.positives[
+            Math.floor(Math.random() * studySetup.positives.length)
+          ]
+        );
+      }
       //   alert("Correct!");
       InformServerAboutFlashcard(
         flashcards[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]]
@@ -238,6 +248,14 @@ const StudyComponent = () => {
       flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
       setFlashcards(flashcardsCopy);
     } else {
+      if (studySetup.enableNegatives) {
+        toast(
+          studySetup.negatives[
+            Math.floor(Math.random() * studySetup.negatives.length)
+          ]
+        );
+      }
+
       //   alert("Incorrect!");
       InformServerAboutFlashcard(
         flashcards[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]]
@@ -268,6 +286,7 @@ const StudyComponent = () => {
 
   return (
     <>
+      <ToastContainer />
       <Dashboard>
         <div className="study-component">
           <div className="study-wrapper">
