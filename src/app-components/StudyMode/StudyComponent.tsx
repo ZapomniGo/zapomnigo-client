@@ -90,7 +90,7 @@ const StudyComponent = () => {
       minConfidenceCards = flashcardsInside;
       randomIndex = Math.floor(Math.random() * minConfidenceCards.length);
     } else if (!EnsureNoRepeat(randomIndex)) {
-      GeneratePrompt(flashcardsInside);
+      GeneratePrompt(flashcards);
       return false;
     }
 
@@ -143,11 +143,17 @@ const StudyComponent = () => {
       }
     });
     if (allFlashcardsHaveBeenStudied) {
+      // This means that all flashcards have been studied
       EndStudyMode();
       return null;
     } else {
-      //Finally, check the individual flashcard
+      //Finally, check the individual flashcard since we are sure that not all flashcards have been studied
       if (Number(flashcard.seen) >= 3) {
+        //Remove the flashcard from the array
+        let arrCopy = [...flashcards];
+        console.log(arrCopy);
+        arrCopy.splice(arrCopy.indexOf(flashcard), 1);
+        setFlashcards(arrCopy);
         return true;
       }
       return false;
@@ -171,16 +177,26 @@ const StudyComponent = () => {
       totalConfidence += flashcard.confidence;
     });
     averageConfidence = totalConfidence / flashcardsCopy.length;
-    if (flashcard.confidence < averageConfidence) {
+    if (averageConfidence == null || isNaN(averageConfidence)) {
+      averageConfidence = 0;
+    }
+    if (flashcard.confidence == null) {
+      flashcard.confidence = 0;
+    }
+    console.log("average confidence is " + averageConfidence);
+    console.log("flashcard confidence is " + flashcard.confidence);
+    if (
+      flashcard.confidence <= averageConfidence ||
+      flashcard.definition.length > 100 ||
+      flashcard.term.length > 100
+    ) {
       return 1;
-    } else if (flashcard.confidence >= averageConfidence) {
-      if (flashcard.confidence / averageConfidence > 2) {
-        return 3;
-      } else {
-        return 2;
-      }
     } else {
-      return 3;
+      if (Math.random() > 0.2) {
+        return 2;
+      } else {
+        return 3;
+      }
     }
   };
   //this function will verify the correctness of the user's answer
@@ -201,7 +217,6 @@ const StudyComponent = () => {
       //update the correctness
       flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
       setFlashcards(flashcardsCopy);
-      console.log("Going to generate prompt");
       GeneratePrompt(flashcardsCopy);
     } else {
       alert("Incorrect!");
@@ -223,9 +238,7 @@ const StudyComponent = () => {
         username: jwtDecode(localStorage.getItem("access_token")).username,
         user_id: jwtDecode(localStorage.getItem("access_token")).sub,
       })
-      .then((res) => {
-        console.log(res);
-      })
+      .then((res) => {})
       .catch((err) => {
         console.error(err);
       });
