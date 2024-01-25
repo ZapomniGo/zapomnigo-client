@@ -1,13 +1,13 @@
 import React from "react";
-import { convert } from "html-to-text";
+import parse from 'html-react-parser';
 const LevelCheck = (props) => {
   const [flipOpen, setFlipOpen] = React.useState(false);
   return (
     <div>
       <h2>Знаеш ли отговора на:</h2>
-      <h3>{convert(props.currentFlashcardTerm)}</h3>
+      <h3>{parse(props.currentFlashcardTerm)}</h3>
       {flipOpen ? (
-        <h3>{convert(props.currentFlashcardDefinition)}</h3>
+        <h3>{parse(props.currentFlashcardDefinition)}</h3>
       ) : (
         <button onClick={() => setFlipOpen(true)}>Покажи</button>
       )}

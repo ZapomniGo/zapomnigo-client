@@ -1,5 +1,5 @@
 import React from "react";
-import { convert } from "html-to-text";
+import parse from 'html-react-parser';
 const MultipleChoice = (props) => {
   const [answerOptions, setAnswerOptions] = React.useState([]);
   React.useEffect(() => {
@@ -27,7 +27,7 @@ const MultipleChoice = (props) => {
   }, []);
   return (
     <div>
-      <div>{convert(props.currentFlashcardTerm)}</div>
+      <div>{parse(props.currentFlashcardTerm)}</div>
       <div>
         {answerOptions.map((answerOption) => {
           return (
@@ -35,7 +35,7 @@ const MultipleChoice = (props) => {
               key={Math.random()}
               onClick={() => props.VerifyCorrectness(answerOption, 1)}
             >
-              {convert(answerOption)}
+              {parse(answerOption)}
             </button>
           );
         })}
