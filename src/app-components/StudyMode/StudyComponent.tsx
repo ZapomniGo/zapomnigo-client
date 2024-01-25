@@ -3,12 +3,13 @@ import { useParams } from "react-router";
 import instance from "../../app-utils/axios";
 import React from "react";
 import { jwtDecode } from "jwt-decode";
-import parse from "html-react-parser";
+import { convert } from "html-to-text";
 import Dashboard from "../Dashboard/Dashboard";
 //Copmonents for study mode
-import MultipleChoice from "./StudyModes/MultipleChoice";
-import FreeInput from "./StudyModes/FreeInput";
-
+import MultipleChoice from "./StudyModesViews/MultipleChoice";
+import FreeInput from "./StudyModesViews/FreeInput";
+import LevelCheck from "./StudyModesViews/LevelCheck";
+import FinishedView from "./StudyModesViews/FinishedView";
 const StudyComponent = () => {
   //original is what we get from the server
   const [originalFlashcards, setOriginalFlashcards] = useState([]);
@@ -20,7 +21,7 @@ const StudyComponent = () => {
     useState();
   //this is an array with all the flashcards that the user has studied
   const [pastFlashcardsIndexes, setPastFlashcardsIndexes] = useState([]);
-  //this is the study mode -> 1 is multiple choice, 2 is free input; 0 is done
+  //this is the study mode -> 1 is multiple choice, 2 is free input; 0 starting; -1 is finished
   const [studyMode, setStudyMode] = useState(0);
   const { id } = useParams<{ id: string }>();
 
@@ -77,18 +78,40 @@ const StudyComponent = () => {
       }
     });
 
+    // Check if there are 4 or fewer flashcards or only 1 or 2 flashcards below average confidence
+    if (flashcardsInside.length <= 3 || minConfidenceCards.length <= 2) {
+      minConfidenceCards = flashcardsInside;
+    }
+
     // Select a random flashcard from those with the minimum confidence
     let randomIndex = Math.floor(Math.random() * minConfidenceCards.length);
-    //Let's make sure the flashcard has not been seen too many times
-    HasFlashcardBeenSeenTooManyTime(minConfidenceCards[randomIndex]) &&
+    if (minConfidenceCards.length === 1) {
+      //include all flashcards
+      minConfidenceCards = flashcardsInside;
+      randomIndex = Math.floor(Math.random() * minConfidenceCards.length);
+    } else if (!EnsureNoRepeat(randomIndex)) {
       GeneratePrompt(flashcardsInside);
-    //if the flashcard has already been studied as last flashcard, then we need to choose another flashcard
-    !EnsureNoRepeat(randomIndex) && GeneratePrompt(flashcardsInside);
+      return false;
+    }
+
+    //Let's make sure the flashcard has not been seen too many times
+    if (HasFlashcardBeenSeenTooManyTime(minConfidenceCards[randomIndex])) {
+      GeneratePrompt(flashcardsInside);
+      return false;
+    } else if (
+      //null means that all flashcards have been studied and we need to end the study mode
+      HasFlashcardBeenSeenTooManyTime(minConfidenceCards[randomIndex]) == null
+    ) {
+      return false;
+    }
+
     //phew, the flashcard has not been studied as last flashcard, so we can study it
+    //update the past flashcards indexes to make sure we know that we have studied this flashcard
     setPastFlashcardsIndexes([...pastFlashcardsIndexes, randomIndex]);
     setCurrentFlashcardTerm(minConfidenceCards[randomIndex].term);
     setCurrentFlashcardDefinition(minConfidenceCards[randomIndex].definition);
-    let choice = ChooseStudyMode();
+
+    let choice = ChooseStudyMode(minConfidenceCards[randomIndex]);
     setStudyMode(choice);
   };
   //this function makes sure the flashcards are not repeated
@@ -106,40 +129,65 @@ const StudyComponent = () => {
     return true;
   };
   const HasFlashcardBeenSeenTooManyTime = (flashcard) => {
-    if (flashcard.seen > 3) {
-      return true;
+    let allFlashcards = [...flashcards];
+    //make sure that not all flashcards have been studied
+    let allFlashcardsHaveBeenStudied = true;
+    if (allFlashcards.length === 0) {
+      //this means react hasn't updated the flashcards yet
+      return false;
     }
-    return false;
+
+    allFlashcards.forEach((flashcard) => {
+      if (Number(flashcard.seen) < 3) {
+        allFlashcardsHaveBeenStudied = false;
+      }
+    });
+    if (allFlashcardsHaveBeenStudied) {
+      EndStudyMode();
+      return null;
+    } else {
+      //Finally, check the individual flashcard
+      if (Number(flashcard.seen) >= 3) {
+        return true;
+      }
+      return false;
+    }
   };
   //this function dyanmically chooses the study mode based on the user's performance/number of flashcards
-  const ChooseStudyMode = () => {
+  const ChooseStudyMode = (flashcard) => {
     //Multiple Choice is 1
     //FreeInput is 2
-    //If the confidence level of a flashcard is less than the average confidence level of all flashcards, then we will study it in multiple choice mode, if not, then we will study it in free input mode
+    //--------------
+    //Evaluate answer is 3
+    //If the confidence level of a flashcard is less than the average confidence
+    //level of all flashcards, then we will study it in multiple choice mode, if not,
+    //then we will study it in free input mode. Finally, if the length of the definition
+    //it too large for either, we are going to choose evaluate mode
+
+    let averageConfidence = 0;
     let totalConfidence = 0;
-    flashcards.forEach((flashcard) => {
+    let flashcardsCopy = [...flashcards];
+    flashcardsCopy.forEach((flashcard) => {
       totalConfidence += flashcard.confidence;
     });
-    if (!totalConfidence) {
+    averageConfidence = totalConfidence / flashcardsCopy.length;
+    if (flashcard.confidence < averageConfidence) {
       return 1;
-    }
-    let averageConfidence = totalConfidence / flashcards.length;
-    if (averageConfidence === 0) {
-      return 1;
-    }
-    flashcards.forEach((flashcard) => {
-      if (flashcard.confidence < averageConfidence) {
-        return 1;
+    } else if (flashcard.confidence >= averageConfidence) {
+      if (flashcard.confidence / averageConfidence > 2) {
+        return 3;
       } else {
         return 2;
       }
-    });
+    } else {
+      return 3;
+    }
   };
   //this function will verify the correctness of the user's answer
   const VerifyCorrectness = (answer, studyMode) => {
     let flashcardsCopy = [...flashcards];
 
-    if (answer == currentFlashcardDefinition) {
+    if (convert(answer) == convert(currentFlashcardDefinition)) {
       alert("Correct!");
       InformServerAboutFlashcard(
         flashcards[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]]
@@ -152,7 +200,9 @@ const StudyComponent = () => {
       ].seen += 1;
       //update the correctness
       flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
-      GeneratePrompt(flashcards);
+      setFlashcards(flashcardsCopy);
+      console.log("Going to generate prompt");
+      GeneratePrompt(flashcardsCopy);
     } else {
       alert("Incorrect!");
       InformServerAboutFlashcard(
@@ -160,10 +210,6 @@ const StudyComponent = () => {
           .flashcard_id,
         0
       );
-      //update the seen indicator
-      flashcardsCopy[
-        pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]
-      ].seen += 1;
       //update the correctness
       flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
       GeneratePrompt(flashcards);
@@ -174,6 +220,8 @@ const StudyComponent = () => {
     instance
       .put(`/flashcards/${flashcardId}/study`, {
         correctness: correctness,
+        username: jwtDecode(localStorage.getItem("access_token")).username,
+        user_id: jwtDecode(localStorage.getItem("access_token")).sub,
       })
       .then((res) => {
         console.log(res);
@@ -181,6 +229,11 @@ const StudyComponent = () => {
       .catch((err) => {
         console.error(err);
       });
+  };
+
+  const EndStudyMode = () => {
+    setStudyMode(-1);
+    alert("You have finished studying!");
   };
 
   return (
@@ -192,7 +245,7 @@ const StudyComponent = () => {
               <MultipleChoice
                 currentFlashcardTerm={currentFlashcardTerm}
                 currentFlashcardDefinition={currentFlashcardDefinition}
-                originalFlashcards={originalFlashcards}
+                flashcards={flashcards}
                 VerifyCorrectness={VerifyCorrectness}
               />
             )}
@@ -201,6 +254,19 @@ const StudyComponent = () => {
                 currentFlashcardTerm={currentFlashcardTerm}
                 currentFlashcardDefinition={currentFlashcardDefinition}
                 VerifyCorrectness={VerifyCorrectness}
+              />
+            )}
+            {studyMode === 3 && (
+              <LevelCheck
+                currentFlashcardTerm={currentFlashcardTerm}
+                currentFlashcardDefinition={currentFlashcardDefinition}
+                VerifyCorrectness={VerifyCorrectness}
+              />
+            )}
+            {studyMode === -1 && (
+              <FinishedView
+                pastFlashcardsIndexes={pastFlashcardsIndexes}
+                flashcards={flashcards}
               />
             )}
           </div>

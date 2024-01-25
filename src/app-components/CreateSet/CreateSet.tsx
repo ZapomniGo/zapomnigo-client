@@ -65,7 +65,7 @@ export const CreateSet = () => {
   const handleSubmit = () => {
     //check if the title is not empty
     if (title.length === 0) {
-      toast("Моля въведете заглавие");
+      toast("Оп, май пропусна заглавие");
       return;
     }
     if (title.length > 100) {
@@ -77,12 +77,12 @@ export const CreateSet = () => {
       return;
     }
     if (description.length === 0) {
-      toast("Моля въведете описание");
+      toast("Оп, май пропусна описание");
       return;
     }
     //check if the flashcards are not empty
     if (flashcards.length === 0) {
-      toast("Моля въведете поне една карта");
+      toast("Поне една карта трябва да се въведе");
       return;
     }
     //check if the flashcards are not empty
