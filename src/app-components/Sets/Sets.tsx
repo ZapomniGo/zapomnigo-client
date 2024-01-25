@@ -25,7 +25,7 @@ export const Sets: React.FC = () => {
   useEffect(() => {
     instance
       .get(
-        `/users/${userID}/sets?page=${page}&size=20&sort_by_date=false&ascending=true`
+        `/users/${userID}/sets?page=${page}&size=20&sort_by_date=true&ascending=false`
       )
       .then((response) => {
         setTotalPages(response.data.total_pages);

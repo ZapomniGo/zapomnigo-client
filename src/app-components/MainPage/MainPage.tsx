@@ -20,7 +20,10 @@ export const MainPage: React.FC = () => {
 
 
   useEffect(() => {
-    instance.get(`/sets?page=${page}&size=20&sort_by_date=false&ascending=true`).then((response) => {
+    instance.get(
+      `/sets?page=${page}&size=20&sort_by_date=false&ascending=true`
+      // `/sets?page=${page}&size=20&sort_by_date=false&ascending=true?category_id=01HJKREA25THZE70QVPWN6W1E6`
+      ).then((response) => {
       setTotalPages(response.data.total_pages);
       const newCards = [...setCards];
       response.data.sets.forEach(card => newCards.push(card));
@@ -28,6 +31,7 @@ export const MainPage: React.FC = () => {
     });
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
+      console.log(response.data)
     });
   }, [page]);
 
