@@ -41,8 +41,12 @@ const MultipleChoice = (props) => {
 
   return (
     <div>
-      <div>{parse(props.currentFlashcardTerm)}</div>
-      <div>
+      <div id="flashcard" className={"no-image-flashcard"}>
+        <div className={`term `}>
+          <h3>{parse(props.currentFlashcardTerm)}</h3>
+        </div>
+      </div>
+      <div className="answer-options">
         {answerOptions.map((answerOption) => {
           let buttonClass = "";
           if (showResults) {
@@ -53,13 +57,16 @@ const MultipleChoice = (props) => {
             }
           }
           return (
-            <button
+            <div className="option">
+                          <button
               key={Math.random()}
               onClick={() => handleAnswerSelection(answerOption)}
               className={buttonClass}
             >
               {parse(answerOption)}
             </button>
+          </div>
+
           );
         })}
         <button onClick={() => handleAnswerSelection(false)}>Не знам</button>
