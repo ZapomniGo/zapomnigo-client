@@ -63,6 +63,19 @@ const StudyComponent = () => {
     // Helper function to retrieve confidence - treating null as 0
     const getConfidence = (flashcard) => flashcard.confidence || 0;
 
+    //Make sure that not all flashcards have been studied
+    let allFlashcardsHaveBeenStudied = true;
+    flashcardsInside.forEach((flashcard) => {
+      if (Number(flashcard.seen) < studySetup.maxSeeFlashcards) {
+        allFlashcardsHaveBeenStudied = false;
+      }
+    });
+    if (allFlashcardsHaveBeenStudied) {
+      // This means that all flashcards have been studied
+      EndStudyMode();
+      return false;
+    }
+
     // Initialize minimum confidence to the first flashcard's confidence
     let minConfidence = getConfidence(flashcardsInside[0]);
 
@@ -146,9 +159,8 @@ const StudyComponent = () => {
       }
     });
     if (allFlashcardsHaveBeenStudied) {
-      alert("You have finished studying!");
       // This means that all flashcards have been studied
-    //  EndStudyMode();
+      EndStudyMode();
       return null;
     } else {
       //Finally, check the individual flashcard since we are sure that not all flashcards have been studied
@@ -313,7 +325,7 @@ const StudyComponent = () => {
                 VerifyCorrectness={VerifyCorrectness}
               />
             )}
-            {studyMode === -1 && (
+            {studyMode == -1 && (
               <FinishedView
                 pastFlashcardsIndexes={pastFlashcardsIndexes}
                 flashcards={flashcards}
