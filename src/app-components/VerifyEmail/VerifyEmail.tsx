@@ -18,7 +18,7 @@ const VerifyEmail = () => {
       return;
     }
     instance
-      .post("/send-email?verification=false", { email })
+      .post("/send-email?verification=true", { email })
       .then((res) => {
         setMessage("Имейлът е изпратен! Проверете пощата си.");
       })

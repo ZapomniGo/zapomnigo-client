@@ -200,10 +200,31 @@ const StudyComponent = () => {
     }
   };
   //this function will verify the correctness of the user's answer
-  const VerifyCorrectness = (answer, studyMode) => {
+  //
+  const VerifyCorrectness = (
+    answer,
+    studyMode,
+    submitAnswerInstantly = true
+  ) => {
+    let isCorrect;
     let flashcardsCopy = [...flashcards];
 
     if (convert(answer) == convert(currentFlashcardDefinition)) {
+      isCorrect = true;
+    } else {
+      isCorrect = false;
+    }
+    if (submitAnswerInstantly) {
+      GeneratePrompt(flashcardsCopy);
+    } else {
+      return {
+        correctAnswer: currentFlashcardDefinition,
+        givenAnswer: answer,
+        isCorrect: isCorrect,
+      };
+    }
+
+    if (isCorrect) {
       alert("Correct!");
       InformServerAboutFlashcard(
         flashcards[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]]
@@ -217,7 +238,6 @@ const StudyComponent = () => {
       //update the correctness
       flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
       setFlashcards(flashcardsCopy);
-      GeneratePrompt(flashcardsCopy);
     } else {
       alert("Incorrect!");
       InformServerAboutFlashcard(
@@ -227,7 +247,7 @@ const StudyComponent = () => {
       );
       //update the correctness
       flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
-      GeneratePrompt(flashcards);
+      //Don't go to the next flashcard if the answer is wrong
     }
   };
   //this function will inform the server about the flashcard's correctness
@@ -235,8 +255,6 @@ const StudyComponent = () => {
     instance
       .put(`/flashcards/${flashcardId}/study`, {
         correctness: correctness,
-        username: jwtDecode(localStorage.getItem("access_token")).username,
-        user_id: jwtDecode(localStorage.getItem("access_token")).sub,
       })
       .then((res) => {})
       .catch((err) => {

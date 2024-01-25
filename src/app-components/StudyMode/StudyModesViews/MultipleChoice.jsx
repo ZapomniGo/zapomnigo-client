@@ -25,21 +25,20 @@ const MultipleChoice = (props) => {
       arrCopy.push(availableDefinitions[randomIndex]);
       availableDefinitions.splice(randomIndex, 1); // Remove the chosen definition from the available definitions
     }
+    //make sure that the correct answer is in the array
+    if (!arrCopy.includes(props.currentFlashcardDefinition)) {
+      arrCopy.splice(Math.floor(Math.random() * arrCopy.length), 1);
+
+      arrCopy.push(props.currentFlashcardDefinition);
+    }
 
     // Let shuffle the array
     setAnswerOptions(arrCopy.sort(() => Math.random() - 0.5));
   }, []);
-
-  const handleAnswerSelection = (answerOption) => {
+  const VerifyMyAnswerInternally = (answerOption) => {
+    let answerObject = props.VerifyCorrectness(answerOption, 1, true);
     setSelectedAnswer(answerOption);
     setShowResults(true);
-    props.VerifyCorrectness(answerOption, 1);
-  };
-
-  const handleNextFlashcard = () => {
-    setSelectedAnswer(null);
-    setShowResults(false);
-    props.goToNextFlashcard();
   };
 
   return (
@@ -65,7 +64,9 @@ const MultipleChoice = (props) => {
             <div className="option">
               <button
                 key={Math.random()}
-                onClick={() => handleAnswerSelection(answerOption)}
+                onClick={() => {
+                  VerifyMyAnswerInternally(answerOption, 1, true);
+                }}
                 className={buttonClass}
               >
                 {parse(answerOption)}
@@ -73,9 +74,17 @@ const MultipleChoice = (props) => {
             </div>
           );
         })}
-        <button onClick={() => handleAnswerSelection(false)}>Не знам</button>
-        {selectedAnswer && (
-          <button onClick={handleNextFlashcard}>Следваща</button>
+        {selectedAnswer ? (
+          <button
+            onClick={() => props.VerifyCorrectness(selectedAnswer, 1, false)}
+          >
+            Следваща
+          </button>
+        ) : (
+          <button onClick={() => props.VerifyCorrectness(false, 1, false)}>
+            {" "}
+            Не знам{" "}
+          </button>
         )}
       </div>
     </div>
