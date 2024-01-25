@@ -55,18 +55,19 @@ const MultipleChoice = (props) => {
             } else if (answerOption === selectedAnswer) {
               buttonClass = "wrong-answer";
             }
+          } else if (answerOption === selectedAnswer) {
+            buttonClass = "selected";
           }
           return (
             <div className="option">
-                          <button
-              key={Math.random()}
-              onClick={() => handleAnswerSelection(answerOption)}
-              className={buttonClass}
-            >
-              {parse(answerOption)}
-            </button>
-          </div>
-
+              <button
+                key={Math.random()}
+                onClick={() => handleAnswerSelection(answerOption)}
+                className={buttonClass}
+              >
+                {parse(answerOption)}
+              </button>
+            </div>
           );
         })}
         <button onClick={() => handleAnswerSelection(false)}>Не знам</button>
