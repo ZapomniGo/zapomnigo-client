@@ -32,11 +32,14 @@ const MultipleChoice = (props) => {
 
   const handleAnswerSelection = (answerOption) => {
     setSelectedAnswer(answerOption);
+    setShowResults(true);
+    props.VerifyCorrectness(answerOption, 1);
   };
 
-  const handleVerifyCorrectness = () => {
-    setShowResults(true);
-    props.VerifyCorrectness(selectedAnswer, 1);
+  const handleNextFlashcard = () => {
+    setSelectedAnswer(null);
+    setShowResults(false);
+    props.goToNextFlashcard();
   };
 
   return (
@@ -72,7 +75,7 @@ const MultipleChoice = (props) => {
         })}
         <button onClick={() => handleAnswerSelection(false)}>Не знам</button>
         {selectedAnswer && (
-          <button onClick={handleVerifyCorrectness}>Провери</button>
+          <button onClick={handleNextFlashcard}>Следваща</button>
         )}
       </div>
     </div>
