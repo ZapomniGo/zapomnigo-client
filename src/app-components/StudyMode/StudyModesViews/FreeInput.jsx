@@ -2,6 +2,15 @@ import React from "react";
 import parse from 'html-react-parser';
 const FreeInput = (props) => {
   const [answer, setAnswer] = React.useState("");
+  //on enter press submit the flashcard
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      props.VerifyCorrectness(answer, 2);
+    }
+  };
+  React.useEffect(() => {
+    setAnswer("");
+  }, [props.currentFlashcardTerm]);
   return (
     <div>
       <div>{parse(props.currentFlashcardTerm)}</div>

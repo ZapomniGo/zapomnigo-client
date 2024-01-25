@@ -214,18 +214,17 @@ const StudyComponent = () => {
     } else {
       isCorrect = false;
     }
-    if (submitAnswerInstantly) {
-      GeneratePrompt(flashcardsCopy);
-    } else {
+    if (!submitAnswerInstantly) {
       return {
         correctAnswer: currentFlashcardDefinition,
         givenAnswer: answer,
         isCorrect: isCorrect,
       };
     }
+    GeneratePrompt(flashcardsCopy);
 
     if (isCorrect) {
-      alert("Correct!");
+      //   alert("Correct!");
       InformServerAboutFlashcard(
         flashcards[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]]
           .flashcard_id,
@@ -239,7 +238,7 @@ const StudyComponent = () => {
       flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
       setFlashcards(flashcardsCopy);
     } else {
-      alert("Incorrect!");
+      //   alert("Incorrect!");
       InformServerAboutFlashcard(
         flashcards[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]]
           .flashcard_id,

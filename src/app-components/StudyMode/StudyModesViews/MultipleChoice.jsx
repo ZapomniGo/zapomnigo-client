@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import parse from "html-react-parser";
 
 const MultipleChoice = (props) => {
@@ -7,40 +7,35 @@ const MultipleChoice = (props) => {
   const [showResults, setShowResults] = React.useState(false);
 
   React.useEffect(() => {
-    let arrCopy = [];
-    let availableDefinitions = [
-      ...props.flashcards.map((flashcard) => flashcard.definition),
-    ];
-    arrCopy.push(props.currentFlashcardDefinition);
-
-    // Remove the correct answer from the available definitions
-    availableDefinitions.splice(
-      availableDefinitions.indexOf(props.currentFlashcardDefinition),
-      1
-    );
-
-    // Let push random definitions into the array until we have 3 or run out of available definitions
-    for (let i = 0; i < 3 && availableDefinitions.length > 0; i++) {
-      let randomIndex = Math.floor(Math.random() * availableDefinitions.length);
-      arrCopy.push(availableDefinitions[randomIndex]);
-      availableDefinitions.splice(randomIndex, 1); // Remove the chosen definition from the available definitions
+    //generate answer options
+    let answerOptions = [];
+    let answerOptionsSet = new Set();
+    answerOptionsSet.add(props.currentFlashcardDefinition);
+    while (answerOptionsSet.size < 4) {
+      let randomIndex = Math.floor(Math.random() * props.flashcards.length);
+      answerOptionsSet.add(props.flashcards[randomIndex].definition);
     }
-    //make sure that the correct answer is in the array
-    if (!arrCopy.includes(props.currentFlashcardDefinition)) {
-      arrCopy.splice(Math.floor(Math.random() * arrCopy.length), 1);
+    answerOptions = Array.from(answerOptionsSet);
+    answerOptions.sort(() => Math.random() - 0.5);
+    setAnswerOptions(answerOptions);
+    console.log("all answerOptions are: ", answerOptions);
+    console.log("correct answer is: ", props.currentFlashcardDefinition);
+  }, [
+    props.currentFlashcardTerm,
+    props.flashcards,
+    props.currentFlashcardDefinition,
+  ]);
 
-      arrCopy.push(props.currentFlashcardDefinition);
-    }
-
-    // Let shuffle the array
-    setAnswerOptions(arrCopy.sort(() => Math.random() - 0.5));
-  }, []);
   const VerifyMyAnswerInternally = (answerOption) => {
-    let answerObject = props.VerifyCorrectness(answerOption, 1, true);
+    //answer object has everything you need for styling
+    let answerObject = props.VerifyCorrectness(answerOption, 1, false);
     setSelectedAnswer(answerOption);
     setShowResults(true);
   };
-
+  useEffect(() => {
+    setSelectedAnswer();
+    setShowResults(false);
+  }, [props.currentFlashcardTerm]);
   return (
     <div>
       <div id="flashcard" className={"no-image-flashcard"}>
@@ -53,21 +48,21 @@ const MultipleChoice = (props) => {
           let buttonClass = "";
           if (showResults) {
             if (answerOption === props.currentFlashcardDefinition) {
-              buttonClass = "correct-answer";
+              buttonClass = "correct";
             } else if (answerOption === selectedAnswer) {
-              buttonClass = "wrong-answer";
+              buttonClass = "incorrect";
             }
           } else if (answerOption === selectedAnswer) {
             buttonClass = "selected";
           }
           return (
-            <div className="option">
+            <div className={`option ${buttonClass}`}>
               <button
                 key={Math.random()}
                 onClick={() => {
-                  VerifyMyAnswerInternally(answerOption, 1, true);
+                  VerifyMyAnswerInternally(answerOption, 1, false);
                 }}
-                className={buttonClass}
+                // className={buttonClass}
               >
                 {parse(answerOption)}
               </button>
@@ -75,13 +70,11 @@ const MultipleChoice = (props) => {
           );
         })}
         {selectedAnswer ? (
-          <button
-            onClick={() => props.VerifyCorrectness(selectedAnswer, 1, false)}
-          >
+          <button onClick={() => props.VerifyCorrectness(selectedAnswer, 1)}>
             Следваща
           </button>
         ) : (
-          <button onClick={() => props.VerifyCorrectness(false, 1, false)}>
+          <button onClick={() => props.VerifyCorrectness(false, 1)}>
             {" "}
             Не знам{" "}
           </button>
