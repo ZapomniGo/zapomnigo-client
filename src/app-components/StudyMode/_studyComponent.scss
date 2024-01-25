@@ -30,6 +30,10 @@
           }
           font-size: 40px !important;
         }
+        img{
+          margin-left: 0;
+          max-width: 40%;
+        }
         .term-text {
           font-size: 20px;
         }
@@ -56,6 +60,10 @@
         background-color: #fff !important;
         color: gray !important;
         border: 2px solid orange !important;
+        img{
+          border-radius: 5px;
+          max-width: 50%;
+        }
         &:hover {
           background-color: orange !important;
           color: #fff !important;
