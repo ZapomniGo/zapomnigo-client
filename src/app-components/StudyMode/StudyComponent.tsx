@@ -253,6 +253,7 @@ const StudyComponent = () => {
           .flashcard_id,
         1
       );
+      //check if flashcard is above average confidence
       //update the seen indicator
       flashcardsCopy[
         pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]
