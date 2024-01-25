@@ -68,16 +68,21 @@ const MultipleChoice = (props) => {
             </div>
           );
         })}
-        {selectedAnswer ? (
-          <button onClick={() => props.VerifyCorrectness(selectedAnswer, 1)}>
-            Следваща
-          </button>
-        ) : (
-          <button onClick={() => props.VerifyCorrectness(false, 1)}>
+        <div className="btn">
+        {!selectedAnswer ? (
+            <button onClick={() => props.VerifyCorrectness(false, 1)}>
             {" "}
             Не знам{" "}
           </button>
-        )}
+          ) : null}
+        </div>
+        <div className="btn">
+          {selectedAnswer ? (
+            <button onClick={() => props.VerifyCorrectness(selectedAnswer, 1)}>
+              Следваща
+            </button>
+          ) : null}
+        </div>
       </div>
     </div>
   );
