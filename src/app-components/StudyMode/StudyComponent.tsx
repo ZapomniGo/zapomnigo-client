@@ -141,13 +141,14 @@ const StudyComponent = () => {
     }
 
     allFlashcards.forEach((flashcard) => {
-      if (Number(flashcard.seen) < 3) {
+      if (Number(flashcard.seen) < studySetup.maxSeeFlashcards) {
         allFlashcardsHaveBeenStudied = false;
       }
     });
     if (allFlashcardsHaveBeenStudied) {
+      alert("You have finished studying!");
       // This means that all flashcards have been studied
-      EndStudyMode();
+    //  EndStudyMode();
       return null;
     } else {
       //Finally, check the individual flashcard since we are sure that not all flashcards have been studied
