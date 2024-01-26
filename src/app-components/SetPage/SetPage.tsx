@@ -91,6 +91,8 @@ export const SetPage = () => {
       .then((response) => {
         toast("Добре дошъл в новото си идентично тесте!");
         navigate(`/app/set/${response.data.set_id}`);
+        //maybe think of something else
+        window.location.reload();
       })
       .catch((error) => {
         toast("Имаше грешка при копирането, пробвай отново по-късно");
