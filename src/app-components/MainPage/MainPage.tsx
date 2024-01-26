@@ -74,6 +74,16 @@ export const MainPage: React.FC = () => {
     //   { category_id: 'Enadsadsaglish', category_name: 'English' },
     //   { category_id: 'Maasdasdath', category_name: 'Math' },
     //   { category_id: 'Sciasdasdasdasdence', category_name: 'Science' },
+    //   { category_id: 'Enadsadsaglish', category_name: 'English' },
+    //   { category_id: 'Maasdasdath', category_name: 'Math' },
+    //   { category_id: 'Sciasdasdasdasdence', category_name: 'Science' },
+    //   { category_id: 'Enadsadsaglish', category_name: 'English' },
+    //   { category_id: 'Maasdasdath', category_name: 'Math' },
+    //   { category_id: 'Sciasdasdasdasdence', category_name: 'Science' },
+    //   { category_id: 'Enadsadsaglish', category_name: 'English' },
+    //   { category_id: 'Maasdasdath', category_name: 'Math' },
+    //   { category_id: 'Sciasdasdasdasdence', category_name: 'Science' },
+
     // ]);
   }, [page]);
 
@@ -116,7 +126,7 @@ export const MainPage: React.FC = () => {
     <Dashboard>
       <div className="category-wrapper">
       {allCategories.map((category) => (
-        <div key={category.category_id}>
+        <div key={category.category_id} className="category-btn">
           <p onClick={() => changeCategory(category.category_id, category.category_name)}>
             {category.category_name}
           </p>
