@@ -5,43 +5,17 @@ import SetCard from "../SetCard/SetCard";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
 
+//this we should receive from backend when calling for categories/subcategories
 const mockSets = [
-  {
-    "category_name": "english",
-    "organization_name": "",
-    "set_description": "Test Description",
-    "set_id": "01HN0GKK384ZQW03MWRZSR549K",
-    "set_modification_date": "2024-01-25 14:32:57.704165",
-    "set_name": "Test Set",
-    "username": "testuser@test.com"
-  },
-  {
-    "category_name": "english",
-    "organization_name": "",
-    "set_description": "Test Description",
-    "set_id": "01HN0GK3384ZQW03MWRZSR549K",
-    "set_modification_date": "2024-01-25 14:32:57.704165",
-    "set_name": "Test Set",
-    "username": "testuser@test.com"
-  },
-  {
-    "category_name": "english",
-    "organization_name": "",
-    "set_description": "Test Description",
-    "set_id": "01HN0GKK384ZQa03MWRZSR549K",
-    "set_modification_date": "2024-01-25 14:32:57.704165",
-    "set_name": "Test Set",
-    "username": "testuser@test.com"
-  },
-  {
-    "category_name": "english",
-    "organization_name": "",
-    "set_description": "Test Description",
-    "set_id": "01HN0GKK384vQW03MWRZSR549K",
-    "set_modification_date": "2024-01-25 14:32:57.704165",
-    "set_name": "Test Set",
-    "username": "testuser@test.com"
-  },
+  // {
+  //   "category_name": "Test Category",
+  //   "organization_name": "Test Organization",
+  //   "set_description": "Test Description",
+  //   "set_id": "01HN0GKK384ZQW03MWRZSR549K",
+  //   "set_modification_date": "2024-01-25 14:32:57.704165",
+  //   "set_name": "Test Set",
+  //   "username": "testuser@test.com"
+  // },
 ];
 
 const mockCategories = [
@@ -59,6 +33,7 @@ const mockCategories = [
   }
 ]
 
+
 export const MainPage: React.FC = () => {
   const [setCards, setSetCards] = useState([]);
   // const [exploreCards, setExploreCards] = useState(10);
@@ -66,6 +41,7 @@ export const MainPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [allCategories, setAllCategories] = useState([]);
+  const [title,setTitle] = useState('Разгледай')
   const handleLoadRecent = () => {
     setPage(page + 1);
   };
@@ -101,7 +77,7 @@ export const MainPage: React.FC = () => {
     // ]);
   }, [page]);
 
-  const changeCategory = (id: string) => {
+  const changeCategory = (id: string, name: string) => {
     //ask ivan if they start from 0 or 1  
     // setPage(1);
     //this should work when backend is ready
@@ -114,6 +90,7 @@ export const MainPage: React.FC = () => {
     //   setSetCards(newCards);
     // });
     setSetCards(mockSets);
+    setTitle(name)
 
     //this calls for the subcategories
     // instance.get(`/sub-cats/${id}`).then((response) => {
@@ -140,32 +117,36 @@ export const MainPage: React.FC = () => {
       <div className="category-wrapper">
       {allCategories.map((category) => (
         <div key={category.category_id}>
-          <a href={`#`} onClick={() => changeCategory(category.category_id)}>
+          <p onClick={() => changeCategory(category.category_id, category.category_name)}>
             {category.category_name}
-          </a>
+          </p>
         </div>
       ))}
       </div>
       <div className="set-wrapper">
-        <h2 className="category-title">Разгледай</h2>
+        <h2 className="category-title">{title}</h2>
         <div className="sets">
-          {setCards.map((card) => (
-            <SetCard
-              key={card.set_id}
-              id={card.set_id}
-              title={card.set_name}
-              description={card.set_description}
-              institution={card.organization_name}
-              image={"/logo.jpg"}
-              creator_name={card.username}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              isSelected={selectSet === card.set_id}
-              category={card.category_name}
-            />
-          ))}
+        {setCards.length > 0 ? (
+    setCards.map((card) => (
+      <SetCard
+        key={card.set_id}
+        id={card.set_id}
+        title={card.set_name}
+        description={card.set_description}
+        institution={card.organization_name}
+        image={"/logo.jpg"}
+        creator_name={card.username}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        isSelected={selectSet === card.set_id}
+        category={card.category_name}
+      />
+    ))
+  ) : (
+    <p>No sets available.</p>
+  )}
         </div>
-        {page < totalPages &&  <MoreBtn onClick={handleLoadRecent} />}
+        {page < totalPages && setCards.length > 0 && <MoreBtn onClick={handleLoadRecent} />}
       </div>
     </Dashboard>
   );
