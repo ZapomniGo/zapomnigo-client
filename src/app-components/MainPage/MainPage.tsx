@@ -5,7 +5,59 @@ import SetCard from "../SetCard/SetCard";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
 
+const mockSets = [
+  {
+    "category_name": "english",
+    "organization_name": "",
+    "set_description": "Test Description",
+    "set_id": "01HN0GKK384ZQW03MWRZSR549K",
+    "set_modification_date": "2024-01-25 14:32:57.704165",
+    "set_name": "Test Set",
+    "username": "testuser@test.com"
+  },
+  {
+    "category_name": "english",
+    "organization_name": "",
+    "set_description": "Test Description",
+    "set_id": "01HN0GK3384ZQW03MWRZSR549K",
+    "set_modification_date": "2024-01-25 14:32:57.704165",
+    "set_name": "Test Set",
+    "username": "testuser@test.com"
+  },
+  {
+    "category_name": "english",
+    "organization_name": "",
+    "set_description": "Test Description",
+    "set_id": "01HN0GKK384ZQa03MWRZSR549K",
+    "set_modification_date": "2024-01-25 14:32:57.704165",
+    "set_name": "Test Set",
+    "username": "testuser@test.com"
+  },
+  {
+    "category_name": "english",
+    "organization_name": "",
+    "set_description": "Test Description",
+    "set_id": "01HN0GKK384vQW03MWRZSR549K",
+    "set_modification_date": "2024-01-25 14:32:57.704165",
+    "set_name": "Test Set",
+    "username": "testuser@test.com"
+  },
+];
 
+const mockCategories = [
+  {
+    category_id: '01HJKREA25THZE70QVPWN6W1E6',
+    category_name: '1st Grade',
+  },
+  {
+    category_id: '01HJKREA25THZE70QVPWN6W1E6',
+    category_name: '2nd Grade',
+  },
+  {
+    category_id: '01HJKREA25THZE70QVPWN6W1E6',
+    category_name: '3rd Grade',
+  }
+]
 
 export const MainPage: React.FC = () => {
   const [setCards, setSetCards] = useState([]);
@@ -18,22 +70,61 @@ export const MainPage: React.FC = () => {
     setPage(page + 1);
   };
 
+  
+
 
   useEffect(() => {
+    //ask ivan if they start from 0 or 1  
+    // setPage(1);
     instance.get(
       `/sets?page=${page}&size=20&sort_by_date=false&ascending=true`
-      // `/sets?page=${page}&size=20&sort_by_date=false&ascending=true?category_id=01HJKREA25THZE70QVPWN6W1E6`
       ).then((response) => {
       setTotalPages(response.data.total_pages);
       const newCards = [...setCards];
       response.data.sets.forEach(card => newCards.push(card));
-      setSetCards(newCards);
+      setSetCards(newCards);      
+      console.log(response.data)
+
     });
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
       console.log(response.data)
     });
+
+
+    //for testing only remove after
+    // setAllCategories(prevCategories => [
+    //   ...prevCategories,
+    //   { category_id: 'Enadsadsaglish', category_name: 'English' },
+    //   { category_id: 'Maasdasdath', category_name: 'Math' },
+    //   { category_id: 'Sciasdasdasdasdence', category_name: 'Science' },
+    // ]);
   }, [page]);
+
+  const changeCategory = (id: string) => {
+    //ask ivan if they start from 0 or 1  
+    // setPage(1);
+    //this should work when backend is ready
+    // instance.get(
+    //   `/sets?page=${page}&size=20&sort_by_date=false&ascending=true?category_id=${id}`
+    //   ).then((response) => {
+    //   setTotalPages(response.data.total_pages);
+    //   const newCards = [...setCards];
+    //   response.data.sets.forEach(card => newCards.push(card));
+    //   setSetCards(newCards);
+    // });
+    setSetCards(mockSets);
+
+    //this calls for the subcategories
+    // instance.get(`/sub-cats/${id}`).then((response) => {
+    //   setAllCategories(response.data.categories);
+    //   console.log(response.data);
+    // });
+
+    setAllCategories(mockCategories)
+  }
+
+
 
 
   const handleMouseEnter = (id: string) => {
@@ -49,9 +140,8 @@ export const MainPage: React.FC = () => {
       <div className="category-wrapper">
       {allCategories.map((category) => (
         <div key={category.category_id}>
-          <a href={`/app/${category.category_name}`}>
-          {category.category_name}
-
+          <a href={`#`} onClick={() => changeCategory(category.category_id)}>
+            {category.category_name}
           </a>
         </div>
       ))}
@@ -77,57 +167,6 @@ export const MainPage: React.FC = () => {
         </div>
         {page < totalPages &&  <MoreBtn onClick={handleLoadRecent} />}
       </div>
-        {/* 
-      <div className="set-wrapper">
-        <h2 className="category-title">Explore</h2>
-        <div className="sets">
-          {setCards.map((card) => (
-
-              <SetCard
-                key={card.set_id}
-                id={card.set_id}
-                title={card.set_name}
-                description={card.set_description}
-                institution={card.organization_name}
-                image={'src/app-components/Navigation/logo.png'}
-                creator_name={card.username}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                isSelected={selectSet === card.set_id}
-              />
-            ))}
-        </div>
-        {recentCards <
-          setCards.filter((card) => card.category_name === "recent").length && (
-          <MoreBtn onClick={handleLoadRecent} />
-        )} */}
-
-      {/* <div className="set-wrapper">
-        <h2 className="category-title">Разгледай</h2>
-        <div className="sets">
-          {setCards
-            .filter((card) => card.category === "explore")
-            .slice(0, exploreCards)
-            .map((card) => (
-              <SetCard
-                key={card.id}
-                id={card.id}
-                title={card.title}
-                description={card.description}
-                institution={card.institution}
-                image={card.image}
-                creator_name={card.creator_name}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                isSelected={selectSet === card.id}
-              />
-            ))}
-        </div>
-        {exploreCards <
-          setCards.filter((card) => card.category === "explore").length && (
-          <MoreBtn onClick={handleLoadExplore} />
-        )}
-      </div> */}
     </Dashboard>
   );
 };
