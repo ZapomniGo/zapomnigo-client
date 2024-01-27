@@ -16,8 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import { toast, ToastContainer } from "react-toastify";
 import { FaPlus } from "react-icons/fa6";
-import { all } from "axios";
 import { LoadingAnimation } from "../LoadingAnimation/LoadingAnimtation";
+import { TbSettings } from "react-icons/tb";
 
 export const SetPage = () => {
   const navigate = useNavigate();
@@ -30,6 +30,12 @@ export const SetPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
+  const [settings, setSettings] = useState(false);
+
+  const viewSettings = () => {
+    setSettings(!settings);
+    console.log(settings)
+  }
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -333,6 +339,31 @@ export const SetPage = () => {
           </center>
         )}
       </>
+      <div className="settings" >
+        {settings && 
+        <div className="settings-menu">
+          <p className="title">Режими на учене</p>
+          <div className="settings-option">
+            <span>Тест 1</span>
+            <input type="checkbox" id="switch" /><label for="switch"></label>
+          </div>
+          <div className="settings-option">
+            <span>Тест 1</span>
+            <input type="checkbox" id="switch2" /><label for="switch2"></label>
+          </div>
+          <div className="settings-option">
+            <span>Тест 1</span>
+            <input type="checkbox" id="switch3" /><label for="switch3"></label>
+          </div>
+          <div className="settings-option">
+            <span>Тест 1</span>
+            <input type="checkbox" id="switch4" /><label for="switch4"></label>
+          </div>
+        </div>
+        }
+        <TbSettings onClick={viewSettings} />
+      </div>
+      
       <div style={{ marginBottom: "5vmax" }}></div>
     </Dashboard>
   );

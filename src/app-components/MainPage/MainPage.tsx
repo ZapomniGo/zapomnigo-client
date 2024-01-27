@@ -5,6 +5,8 @@ import SetCard from "../SetCard/SetCard";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
 import { LoadingAnimation } from "../LoadingAnimation/LoadingAnimtation";
+import { FaRegFolderClosed } from "react-icons/fa6";
+
 //this we should receive from backend when calling for categories/subcategories
 const mockSets = [
   // {
@@ -36,28 +38,48 @@ const mockCategories = [
 
 export const MainPage: React.FC = () => {
   const [setCards, setSetCards] = useState([]);
+  const [folderCards, setFolderCards] = useState([]);
   // const [exploreCards, setExploreCards] = useState(10);
   const [selectSet, setSelectSet] = useState<string | null>(null);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [pageSet, setPageSet] = useState(1);
+  const [pageFolder, setPageFolder] = useState(1);
+  const [totalSetPages, setTotalSetPages] = useState(1);
+  const [totalFolderPages, setTotalFolderPages] = useState(1);
   const [allCategories, setAllCategories] = useState([]);
   const [title,setTitle] = useState('Разгледай')
   const [isLoading, setIsLoading] = useState(false);
+  const [triggerEffect, setTriggerEffect] = useState(false);
+
 
   const handleLoadRecent = () => {
-    setPage(page + 1);
+    setPageSet(pageSet + 1);
   };
 
   
-
+ const resetSets = () => {
+  setSetCards([]);
+  setIsLoading(true);
+  instance.get(
+    `/sets?page=${pageSet}&size=20&sort_by_date=true&ascending=false`
+    ).then((response) => {
+    setTotalSetPages(response.data.total_pages);
+    const newCards = [];
+    response.data.sets.forEach(card => newCards.push(card));
+    console.log(newCards)
+    setSetCards(newCards);
+    console.log(response.data)
+    setIsLoading(false);
+  });
+  setTitle('Разгледай')
+}
 
   useEffect(() => {
-    //ask ivan if they start from 0 or 1  
-    setPage(1);
+
+    setPageSet(1);
     instance.get(
-      `/sets?page=${page}&size=20&sort_by_date=true&ascending=false`
+      `/sets?page=${pageSet}&size=20&sort_by_date=true&ascending=false`
       ).then((response) => {
-      setTotalPages(response.data.total_pages);
+      setTotalSetPages(response.data.total_pages);
       const newCards = [...setCards];
       response.data.sets.forEach(card => newCards.push(card));
       setSetCards(newCards);      
@@ -68,19 +90,28 @@ export const MainPage: React.FC = () => {
       setAllCategories(response.data.categories);
       console.log(response.data)
     });
-
-  }, [page]);
+    
+    setPageFolder(1);
+    instance.get(`/folders`)
+    .then((response) => {
+      setTotalFolderPages(response.data.total_pages);
+      const newFolderCards = [...folderCards];
+      response.data.folders.forEach(card => newFolderCards.push(card));
+      setFolderCards(newFolderCards);
+      console.log(response.data)
+    });
+  }, [pageSet]);
 
   const changeCategory = (id: string, name: string) => {
     //ask ivan if they start from 0 or 1  
-    setPage(1);
+    setPageSet(1);
     //this should work when backend is ready
     setSetCards([]);
     setIsLoading(true);
     instance.get(
-      `/sets?page=${page}&size=20&sort_by_date=false&ascending=true&category_id=${id}`
+      `/sets?page=${pageSet}&size=20&sort_by_date=false&ascending=true&category_id=${id}`
       ).then((response) => {
-      setTotalPages(response.data.total_pages);
+      setTotalSetPages(response.data.total_pages);
       const newCards = [];
       response.data.sets.forEach(card => newCards.push(card));
       console.log(newCards)
@@ -120,7 +151,9 @@ export const MainPage: React.FC = () => {
           </p>
         </div>
       ))}
-      <div className="category-btn" onClick={() => changeCategory('', 'Разгледай')}> X </div>
+      <div className="category-btn" onClick={() => {
+        resetSets() // Toggle triggerEffect state
+      }}> X </div>
       </div>
       <div className="set-wrapper">
         <h2 className="category-title">{title}</h2>
@@ -147,7 +180,39 @@ export const MainPage: React.FC = () => {
           <p>No sets available.</p>
         )}
         </div>
-        {!isLoading && page < totalPages && setCards.length > 0 && <MoreBtn onClick={handleLoadRecent} />}
+        {!isLoading && pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={handleLoadRecent} />}
+      </div>
+      <div className="set-wrapper">
+        <h2 className="category-title">{title}</h2>
+        <div className="sets">
+        {isLoading ? (
+          <LoadingAnimation />
+          ) : folderCards.length > 0 ? (
+            folderCards.map((card) => (
+              <SetCard
+              key={card.folder_id}
+              id={card.folder_id}
+              title={card.folder_title}
+              description={card.folder_description}
+              category={card.category_name}
+              subcategory={card.subcategory_name}
+              image={"/logo.jpg"}
+              creator_name={card.username}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              isSelected={selectSet === card.set_id}
+              icon={<FaRegFolderClosed />}
+              type={"folder"}
+            />
+          ))
+        ) : (
+          <p>No sets available.</p>
+        )}
+        </div>
+        {!isLoading && pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={handleLoadRecent} />}
+          
+          
+        
       </div>
     </Dashboard>
   );
