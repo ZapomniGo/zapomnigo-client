@@ -7,6 +7,8 @@ import { useParams } from "react-router-dom";
 import { MdOutlineFlip } from "react-icons/md";
 import { FaArrowRotateLeft } from "react-icons/fa6";
 import { toast } from "react-toastify";
+import { LoadingAnimation } from "../LoadingAnimation/LoadingAnimtation";
+
 const Flip = () => {
   const { id } = useParams();
   const [flashcards, setFlashcards] = React.useState([]);
@@ -85,7 +87,7 @@ const Flip = () => {
       ) : (
         <center>
           {" "}
-          <h1 className="loadingBanner">Зареждане...</h1>
+          <LoadingAnimation />
         </center>
       )}
     </>

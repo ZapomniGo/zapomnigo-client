@@ -23,13 +23,13 @@ export const SetPage = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [flashcards, setFlashcards] = useState("");
-  const [sortingOrder, setSortingOrder] = useState<string>("");
   const [username, setUsername] = useState("");
   const [creator, setCreator] = useState("no one yet");
   const [page, setPage] = useState(1);
   const { id } = useParams<{ id: string }>();
   const [totalPages, setTotalPages] = useState(1);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -45,8 +45,65 @@ export const SetPage = () => {
   };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortingOrder(event.target.value);
+    setSelectedValue(event.target.value);
+    setPage(1);
+    setFlashcards("");
+
+    instance
+    .get(`/sets/${id}?page=${page}&size=20&sort_by_date=false&ascending=${event.target.value}`)
+
+      .then((response) => {
+        setTotalPages(response.data.total_pages);
+        const newFlashcards = response.data.set.flashcards;
+
+        setFlashcards({
+          ...response.data.set,
+          flashcards: newFlashcards,
+        });
+        setUsername(response.data.set.username);
+      })
+      .catch((error) => {
+        console.error(error);
+      }
+      );
   };
+
+  useEffect(() => {
+    if (id.length === 0 || id.length !== 26 || id.includes(" ")) {
+      setFlashcards({
+        set_name: "Хм, това тесте не съществува",
+        set_description: "Провери дали си въвел правилния линк",
+        set_category: "",
+        flashcards: [],
+        username: "все още никого :<",
+        organization_name: "",
+      });
+      return;
+    }
+
+    instance
+      .get(`/sets/${id}?page=${page}&size=20`)
+      .then((response) => {
+        setTotalPages(response.data.total_pages);
+        const newFlashcards = response.data.set.flashcards;
+        let updatedFlashcards = [];
+        if (flashcards && Array.isArray(flashcards.flashcards)) {
+          updatedFlashcards = [...flashcards.flashcards, ...newFlashcards];
+        } else {
+          updatedFlashcards = [...newFlashcards];
+        }
+        setFlashcards({
+          ...response.data.set,
+          flashcards: updatedFlashcards,
+        });
+        setUsername(response.data.set.username);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [id, page]);
+
+
 
   const Export = () => {
     if (!token) {
@@ -136,42 +193,7 @@ export const SetPage = () => {
         toast("Копирането не се поддържа от браузъра :(");
       });
   };
-  useEffect(() => {
-    if (id.length === 0 || id.length !== 26 || id.includes(" ")) {
-      setFlashcards({
-        set_name: "Хм, това тесте не съществува",
-        set_description: "Провери дали си въвел правилния линк",
-        set_category: "",
-        flashcards: [],
-        username: "все още никого :<",
-        organization_name: "",
-      });
-      return;
-    }
-
-    instance
-      .get(`/sets/${id}?page=${page}&size=20`)
-      .then((response) => {
-        setTotalPages(response.data.total_pages);
-        const newFlashcards = response.data.set.flashcards;
-        let updatedFlashcards = [];
-        if (flashcards && Array.isArray(flashcards.flashcards)) {
-          updatedFlashcards = [...flashcards.flashcards, ...newFlashcards];
-        } else {
-          updatedFlashcards = [...newFlashcards];
-        }
-        setFlashcards({
-          ...response.data.set,
-          flashcards: updatedFlashcards,
-        });
-        setUsername(response.data.set.username);
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [id, page]);
-
+ 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     setToken(token || null);
@@ -180,14 +202,8 @@ export const SetPage = () => {
       const decodedToken: { username: string; institution: string } =
         jwtDecode(token);
       setCreator(decodedToken.username);
-      console.log(creator);
     }
   }, []);
-
-  const SortFunct = (order) => {
-    
-
-  }
 
   return (
     <Dashboard>
@@ -246,10 +262,6 @@ export const SetPage = () => {
                     Редактирай
                   </a>
                 )}
-                {/* <a href="#">
-                  <RiPencilLine />
-                  Редактирай
-                </a> */}
                 {localStorage.getItem("access_token") && (
                   <a onClick={DuplicateSet} href="#">
                     <FaRegCopy />
@@ -282,10 +294,10 @@ export const SetPage = () => {
                 </h2>
                 {flashcards.flashcards.length !== 1 ? (
                   <>
-                    <select onChange={handleFilterChange}>
+                    <select onChange={handleFilterChange} value={selectedValue}>
                       <option value="">По подразбиране</option>
-                      <option value="a-z">По азбучен ред(А-Я)</option>
-                      <option value="z-a">По азбучен ред(Я-А)</option>
+                      <option value="true">По азбучен ред(А-Я)</option>
+                      <option value="false">По азбучен ред(Я-А)</option>
                     </select>
                   </>
                 ) : (
