@@ -42,7 +42,7 @@ export const MainPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [allCategories, setAllCategories] = useState([]);
   const [title,setTitle] = useState('Разгледай')
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLoadRecent = () => {
     setPage(page + 1);
@@ -76,6 +76,7 @@ export const MainPage: React.FC = () => {
     setPage(1);
     //this should work when backend is ready
     setSetCards([]);
+    setIsLoading(true);
     instance.get(
       `/sets?page=${page}&size=20&sort_by_date=false&ascending=true&category_id=${id}`
       ).then((response) => {
@@ -85,6 +86,7 @@ export const MainPage: React.FC = () => {
       console.log(newCards)
       setSetCards(newCards);
       console.log(response.data)
+      setIsLoading(false);
     });
     setTitle(name)
 
@@ -118,6 +120,7 @@ export const MainPage: React.FC = () => {
           </p>
         </div>
       ))}
+      <div className="category-btn" onClick={() => changeCategory('', 'Разгледай')}> X </div>
       </div>
       <div className="set-wrapper">
         <h2 className="category-title">{title}</h2>
