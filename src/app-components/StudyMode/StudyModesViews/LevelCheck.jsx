@@ -1,7 +1,15 @@
 import React from "react";
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 const LevelCheck = (props) => {
   const [flipOpen, setFlipOpen] = React.useState(false);
+  const [showResults, setShowResults] = React.useState(false);
+  const [selectedAnswer, setSelectedAnswer] = React.useState();
+  const VerifyMyAnswerInternally = (answerOption) => {
+    //answer object has everything you need for styling
+    let answerObject = props.VerifyCorrectness(answerOption, 1, false);
+    setSelectedAnswer(answerObject);
+    setShowResults(true);
+  };
   return (
     <div>
       <h2>Знаеш ли отговора на:</h2>
@@ -15,19 +23,29 @@ const LevelCheck = (props) => {
         <>
           <button
             onClick={() => {
-              props.VerifyCorrectness(props.currentFlashcardDefinition, 3);
+              VerifyMyAnswerInternally(props.currentFlashcardDefinition);
             }}
           >
             Да
           </button>
           <button
+            disabled={showResults}
             onClick={() => {
-              props.VerifyCorrectness(false, 3);
+              VerifyMyAnswerInternally(false);
             }}
           >
             Не
           </button>
         </>
+      )}
+      {showResults && (
+        <p>Верният отговор е{parse(selectedAnswer.correctAnswer)}</p>
+      )}
+
+      {showResults && (
+        <button onClick={() => props.VerifyCorrectness(selectedAnswer, 1)}>
+          Следваща
+        </button>
       )}
     </div>
   );

@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import parse from "html-react-parser";
 const FreeInput = (props) => {
   const [answer, setAnswer] = React.useState("");
+  const [selectedAnswer, setSelectedAnswer] = React.useState();
+  const [showResults, setShowResults] = React.useState(false);
+  const [correctAnswer, setCorrectAnswer] = React.useState();
   //on enter press submit the flashcard
   useEffect(() => {
     const handleEnterPress = (e) => {
@@ -18,6 +21,15 @@ const FreeInput = (props) => {
   React.useEffect(() => {
     setAnswer("");
   }, [props.currentFlashcardTerm]);
+
+  const VerifyMyAnswerInternally = (answerOption) => {
+    //answer object has everything you need for styling
+    let answerObject = props.VerifyCorrectness(answerOption, 1, false);
+    setCorrectAnswer(answerObject.correctAnswer);
+    setSelectedAnswer(answerOption);
+    setShowResults(true);
+  };
+
   return (
     <div>
       <div>{parse(props.currentFlashcardTerm)}</div>
@@ -27,9 +39,28 @@ const FreeInput = (props) => {
         placeholder="Отговор"
         type="text"
       />
-      <button onClick={() => props.VerifyCorrectness(answer, 2)}>
+      {showResults && (
+        <p>
+          Верният отговор е: <span>{parse(correctAnswer)}</span>
+        </p>
+      )}
+      <button
+        onClick={() => VerifyMyAnswerInternally(answer, 2)}
+        className={showResults ? "disabled" : ""}
+      >
         Провери
       </button>
+      <button
+        className={showResults ? "disabled" : ""}
+        onClick={() => VerifyMyAnswerInternally(false)}
+      >
+        Не знам
+      </button>
+      {showResults && (
+        <button onClick={() => props.VerifyCorrectness(selectedAnswer, 1)}>
+          Следваща
+        </button>
+      )}
     </div>
   );
 };

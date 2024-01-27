@@ -17,8 +17,6 @@ const MultipleChoice = (props) => {
     answerOptions = Array.from(answerOptionsSet);
     answerOptions.sort(() => Math.random() - 0.5);
     setAnswerOptions(answerOptions);
-    console.log("all answerOptions are: ", answerOptions);
-    console.log("correct answer is: ", props.currentFlashcardDefinition);
   }, [
     props.currentFlashcardTerm,
     props.flashcards,
@@ -59,7 +57,7 @@ const MultipleChoice = (props) => {
               <button
                 key={Math.random()}
                 onClick={() => {
-                  VerifyMyAnswerInternally(answerOption, 1, false);
+                  VerifyMyAnswerInternally(answerOption);
                 }}
                 disabled={selectedAnswer}
               >

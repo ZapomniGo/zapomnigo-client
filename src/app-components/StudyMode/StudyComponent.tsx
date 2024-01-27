@@ -15,7 +15,7 @@ import LearnSettings from "./utils/LearnSettings";
 
 import defaultSetup from "./configs/defaultSetup.json";
 
-//TODO: persists LevelCheck, FreeInput
+//TODO: verify image is not an answer/ auto term/definition detection
 
 const StudyComponent = () => {
   //original is what we get from the server
@@ -187,12 +187,14 @@ const StudyComponent = () => {
   const ChooseStudyMode = (flashcard) => {
     //Multiple Choice is 1
     //FreeInput is 2
-    //--------------
     //Evaluate answer is 3
+    //--------------------
     //If the confidence level of a flashcard is less than the average confidence
     //level of all flashcards, then we will study it in multiple choice mode, if not,
     //then we will study it in free input mode. Finally, if the length of the definition
     //it too large for either, we are going to choose evaluate mode
+    //if the current mode is disallowed, then we will upgrade to the next mode, if no
+    //mode is allowed, then we will use all available modes
 
     let averageConfidence = 0;
     let totalConfidence = 0;
@@ -253,8 +255,9 @@ const StudyComponent = () => {
         }
       }
     }
-    if(!allowedStudyModes.length){
-      return chosenStudyMode
+
+    if (!allowedStudyModes.length) {
+      return chosenStudyMode;
     }
   };
   //this function will verify the correctness of the user's answer
@@ -334,11 +337,24 @@ const StudyComponent = () => {
         console.error(err);
       });
   };
+  //TODO: Waiting Vankata on this one
+  const InformServerAboutSetStudied = () => {
+    instance
+      .put(`/sets/${id}/study`)
+      .then((res) => {})
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   const EndStudyMode = () => {
     setStudyMode(-1);
     alert("You have finished studying!");
   };
+
+  const AutoTermDefinitionDetection = () => {
+
+  }
 
   return (
     <>
