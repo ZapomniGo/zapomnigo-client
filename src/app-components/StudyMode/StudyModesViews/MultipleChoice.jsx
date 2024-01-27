@@ -10,7 +10,11 @@ const MultipleChoice = (props) => {
     let answerOptions = [];
     let answerOptionsSet = new Set();
     answerOptionsSet.add(props.currentFlashcardDefinition);
-    while (answerOptionsSet.size < 4) {
+    if(props.flashcards.length < 2){
+      alert("Няма достатъчно картички за да се използва този режим. Моля изберете друг!")
+      return;
+    }
+    while (answerOptionsSet.size < props.flashcards.length-1) {
       let randomIndex = Math.floor(Math.random() * props.flashcards.length);
       answerOptionsSet.add(props.flashcards[randomIndex].definition);
     }

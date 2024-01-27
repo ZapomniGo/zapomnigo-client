@@ -51,8 +51,28 @@ const StudyComponent = () => {
         if (newFlashcards.length > 0) {
           let tempFlashcards = newFlashcards.map((flashcard) => {
             flashcard.seen = 0;
+            if (
+              flashcard.definition.includes("<img") ||
+              flashcard.definition.includes("<video") ||
+              flashcard.definition.includes("ql-formula")
+            ) {
+              //make sure there are no images/formulas/videos in the term as well
+              if (
+                !(
+                  flashcard.term.includes("<img") ||
+                  flashcard.term.includes("<video") ||
+                  flashcard.term.includes("ql-formula")
+                )
+              ) {
+                let temp = flashcard.term;
+                flashcard.term = flashcard.definition;
+                flashcard.definition = temp;
+              }
+            }
+
             return flashcard;
           });
+          console.log(tempFlashcards);
           setFlashcards(tempFlashcards);
           setOriginalFlashcards(newFlashcards);
           GeneratePrompt(newFlashcards);
@@ -136,6 +156,10 @@ const StudyComponent = () => {
     setCurrentFlashcardDefinition(minConfidenceCards[randomIndex].definition);
 
     let choice = ChooseStudyMode(minConfidenceCards[randomIndex]);
+    if (flashcardsInside.length === 1) {
+      EndStudyMode();
+      return;
+    }
     setStudyMode(choice);
   };
   //this function makes sure the flashcards are not repeated
@@ -232,11 +256,45 @@ const StudyComponent = () => {
       if (chosenStudyMode == 1 && allowedStudyModes.includes(1)) {
         return 1;
       } else if (chosenStudyMode == 2 && allowedStudyModes.includes(2)) {
+        if (
+          (flashcard.definition.contains("<img") ||
+            flashcard.definition.contains("<video") ||
+            flashcard.definition.contains("ql-formula")) &&
+          (flashcard.term.contains("<img>") ||
+            flashcard.term.contains("<video>") ||
+            flashcard.term.contains("ql-formula"))
+        ) {
+          return 3;
+        }
+        if (
+          flashcard.definition.contains("<img") ||
+          flashcard.definition.contains("<video") ||
+          flashcard.definition.contains("ql-formula")
+        ) {
+          return 2;
+        }
         return 2;
       } else if (chosenStudyMode == 3 && allowedStudyModes.includes(3)) {
         return 3;
       } else if (!allowedStudyModes.includes(1) && chosenStudyMode == 1) {
         if (allowedStudyModes.includes(2)) {
+          if (
+            (flashcard.definition.contains("<img") ||
+              flashcard.definition.contains("<video") ||
+              flashcard.definition.contains("ql-formula")) &&
+            (flashcard.term.contains("<img>") ||
+              flashcard.term.contains("<video>") ||
+              flashcard.term.contains("ql-formula"))
+          ) {
+            return 3;
+          }
+          if (
+            flashcard.definition.contains("<img") ||
+            flashcard.definition.contains("<video") ||
+            flashcard.definition.contains("ql-formula")
+          ) {
+            return 2;
+          }
           return 2;
         } else if (allowedStudyModes.includes(3)) {
           return 3;
@@ -251,6 +309,23 @@ const StudyComponent = () => {
         if (allowedStudyModes.includes(1)) {
           return 1;
         } else if (allowedStudyModes.includes(2)) {
+          if (
+            (flashcard.definition.contains("<img") ||
+              flashcard.definition.contains("<video") ||
+              flashcard.definition.contains("ql-formula")) &&
+            (flashcard.term.contains("<img>") ||
+              flashcard.term.contains("<video>") ||
+              flashcard.term.contains("ql-formula"))
+          ) {
+            return 3;
+          }
+          if (
+            flashcard.definition.contains("<img") ||
+            flashcard.definition.contains("<video") ||
+            flashcard.definition.contains("ql-formula")
+          ) {
+            return 2;
+          }
           return 2;
         }
       }
@@ -349,12 +424,7 @@ const StudyComponent = () => {
 
   const EndStudyMode = () => {
     setStudyMode(-1);
-    alert("You have finished studying!");
   };
-
-  const AutoTermDefinitionDetection = () => {
-
-  }
 
   return (
     <>
