@@ -1,5 +1,4 @@
 {
-  "maxSeeFlashcards": 2,
   "enableNegatives": true,
   "negatives": [
     "Опаа",
@@ -19,5 +18,8 @@
     "Всички завиждат",
     "Звяр",
     "Aйнщайн завижда"
-  ]
+  ],
+  "minSeen": 1,
+  "maxSeen": 5,
+  "allowedModes": [1,2,3] 
 }

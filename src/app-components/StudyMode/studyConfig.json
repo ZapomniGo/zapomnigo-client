@@ -1,5 +1,0 @@
-{
-  "minSeen": 1,
-  "maxSeen": 5,
-  "allowedModes": ["MultipleChoice", "FreeResponse"]
-}

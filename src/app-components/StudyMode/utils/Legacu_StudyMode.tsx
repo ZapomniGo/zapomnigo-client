@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import instance from "../../app-utils/axios";
+import instance from "../../../app-utils/axios";
 import React from "react";
 import { jwtDecode } from "jwt-decode";
 import parse from "html-react-parser";
-import Dashboard from "../Dashboard/Dashboard";
+import Dashboard from "../../Dashboard/Dashboard";
 
 const StudyComponent = () => {
   const [flashcards, setFlashcards] = useState<

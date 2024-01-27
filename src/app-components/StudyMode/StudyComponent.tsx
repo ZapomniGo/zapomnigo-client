@@ -11,7 +11,11 @@ import FreeInput from "./StudyModesViews/FreeInput";
 import LevelCheck from "./StudyModesViews/LevelCheck";
 import FinishedView from "./StudyModesViews/FinishedView";
 import { toast, ToastContainer } from "react-toastify";
-import studySetup from "./studySetup.json";
+import LearnSettings from "./utils/LearnSettings";
+
+import defaultSetup from "./configs/defaultSetup.json";
+
+//TODO: persists LevelCheck, FreeInput
 
 const StudyComponent = () => {
   //original is what we get from the server
@@ -26,6 +30,10 @@ const StudyComponent = () => {
   const [pastFlashcardsIndexes, setPastFlashcardsIndexes] = useState([]);
   //this is the study mode -> 1 is multiple choice, 2 is free input; 0 starting; -1 is finished
   const [studyMode, setStudyMode] = useState(0);
+  // set the allowed study modes
+  const [allowedStudyModes, setAllowedStudyModes] = useState(
+    defaultSetup.allowedModes ? defaultSetup.allowedModes : [1, 2, 3]
+  );
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -66,7 +74,7 @@ const StudyComponent = () => {
     //Make sure that not all flashcards have been studied
     let allFlashcardsHaveBeenStudied = true;
     flashcardsInside.forEach((flashcard) => {
-      if (Number(flashcard.seen) < studySetup.maxSeeFlashcards) {
+      if (Number(flashcard.seen) < defaultSetup.maxSeen) {
         allFlashcardsHaveBeenStudied = false;
       }
     });
@@ -154,7 +162,7 @@ const StudyComponent = () => {
     }
 
     allFlashcards.forEach((flashcard) => {
-      if (Number(flashcard.seen) < studySetup.maxSeeFlashcards) {
+      if (Number(flashcard.seen) < defaultSetup.minSeen) {
         allFlashcardsHaveBeenStudied = false;
       }
     });
@@ -189,6 +197,7 @@ const StudyComponent = () => {
     let averageConfidence = 0;
     let totalConfidence = 0;
     let flashcardsCopy = [...flashcards];
+    let chosenStudyMode = 0;
     flashcardsCopy.forEach((flashcard) => {
       totalConfidence += flashcard.confidence;
     });
@@ -206,12 +215,42 @@ const StudyComponent = () => {
       flashcard.definition.length > 100 ||
       flashcard.term.length > 100
     ) {
-      return 1;
+      chosenStudyMode = 1;
     } else {
       if (Math.random() > 0.2) {
-        return 2;
+        chosenStudyMode = 2;
       } else {
+        chosenStudyMode = 3;
+      }
+    }
+    if (allowedStudyModes.includes(chosenStudyMode)) {
+      return chosenStudyMode;
+    } else {
+      //check which study mode is not allowed and upgrade to the next one
+      if (chosenStudyMode == 1 && allowedStudyModes.includes(1)) {
+        return 1;
+      } else if (chosenStudyMode == 2 && allowedStudyModes.includes(2)) {
+        return 2;
+      } else if (chosenStudyMode == 3 && allowedStudyModes.includes(3)) {
         return 3;
+      } else if (!allowedStudyModes.includes(1) && chosenStudyMode == 1) {
+        if (allowedStudyModes.includes(2)) {
+          return 2;
+        } else if (allowedStudyModes.includes(3)) {
+          return 3;
+        }
+      } else if (!allowedStudyModes.includes(2) && chosenStudyMode == 2) {
+        if (allowedStudyModes.includes(3)) {
+          return 3;
+        } else if (allowedStudyModes.includes(1)) {
+          return 1;
+        }
+      } else if (!allowedStudyModes.includes(3) && chosenStudyMode == 3) {
+        if (allowedStudyModes.includes(1)) {
+          return 1;
+        } else if (allowedStudyModes.includes(2)) {
+          return 2;
+        }
       }
     }
   };
@@ -240,10 +279,10 @@ const StudyComponent = () => {
     GeneratePrompt(flashcardsCopy);
 
     if (isCorrect) {
-      if (studySetup.enablePositives) {
+      if (defaultSetup.enablePositives) {
         toast(
-          studySetup.positives[
-            Math.floor(Math.random() * studySetup.positives.length)
+          defaultSetup.positives[
+            Math.floor(Math.random() * defaultSetup.positives.length)
           ]
         );
       }
@@ -262,10 +301,10 @@ const StudyComponent = () => {
       flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
       setFlashcards(flashcardsCopy);
     } else {
-      if (studySetup.enableNegatives) {
+      if (defaultSetup.enableNegatives) {
         toast(
-          studySetup.negatives[
-            Math.floor(Math.random() * studySetup.negatives.length)
+          defaultSetup.negatives[
+            Math.floor(Math.random() * defaultSetup.negatives.length)
           ]
         );
       }
@@ -333,6 +372,12 @@ const StudyComponent = () => {
               />
             )}
           </div>
+          {studyMode != -1 && (
+            <LearnSettings
+              setAllowedModes={setAllowedStudyModes}
+              allowedModes={allowedStudyModes}
+            />
+          )}
         </div>
       </Dashboard>
     </>
