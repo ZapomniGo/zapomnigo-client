@@ -40,14 +40,23 @@ const ForgetPassword = () => {
       (password1.length < 8 || password1.length > 40)
     ) {
       setMessage("Паролата трябва да е между 8 и 40 символа");
-    } else if (typeof password1 === "string" && !/[A-Z]/.test(password1)) {
+      return false;
+    }
+    if (!/[A-Z]/.test(password1)) {
       setMessage("Паролата трябва да съдържа поне една главна буква");
-    } else if (typeof password1 === "string" && !/[a-z]/.test(password1)) {
+      return false;
+    }
+    if (!/[a-z]/.test(password1)) {
       setMessage("Паролата трябва да съдържа поне една малка буква");
-    } else if (typeof password1 === "string" && !/\d/.test(password1)) {
+      return false;
+    }
+    if (!/\d/.test(password1)) {
       setMessage("Паролата трябва да съдържа поне една цифра");
-    } else if (typeof password1 === "string" && !/[\W_]/.test(password1)) {
+      return false;
+    }
+    if (!/[\W_]/.test(password1)) {
       setMessage("Паролата трябва да съдържа поне един специален символ");
+      return false;
     }
     instance
       .post("/forgot-password", { new_password: password1, token: token })
