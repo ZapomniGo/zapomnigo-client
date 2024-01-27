@@ -253,6 +253,9 @@ const StudyComponent = () => {
         }
       }
     }
+    if(!allowedStudyModes.length){
+      return chosenStudyMode
+    }
   };
   //this function will verify the correctness of the user's answer
   //
