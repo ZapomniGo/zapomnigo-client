@@ -60,7 +60,8 @@ export const Folders: React.FC = () => {
               id={card.folder_id}
               title={card.folder_title}
               description={card.folder_description}
-              institution={card.organization}
+              category={card.category_name}
+              subcategory={card.subcategory_name}
               image={"/logo.jpg"}
               creator_name={card.username}
               onMouseEnter={handleMouseEnter}

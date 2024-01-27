@@ -51,7 +51,7 @@ export const MainPage: React.FC = () => {
 
   useEffect(() => {
     //ask ivan if they start from 0 or 1  
-    // setPage(1);
+    setPage(1);
     instance.get(
       `/sets?page=${page}&size=20&sort_by_date=false&ascending=true`
       ).then((response) => {
@@ -67,39 +67,23 @@ export const MainPage: React.FC = () => {
       console.log(response.data)
     });
 
-
-    //for testing only remove after
-    // setAllCategories(prevCategories => [
-    //   ...prevCategories,
-    //   { category_id: 'Enadsadsaglish', category_name: 'English' },
-    //   { category_id: 'Maasdasdath', category_name: 'Math' },
-    //   { category_id: 'Sciasdasdasdasdence', category_name: 'Science' },
-    //   { category_id: 'Enadsadsaglish', category_name: 'English' },
-    //   { category_id: 'Maasdasdath', category_name: 'Math' },
-    //   { category_id: 'Sciasdasdasdasdence', category_name: 'Science' },
-    //   { category_id: 'Enadsadsaglish', category_name: 'English' },
-    //   { category_id: 'Maasdasdath', category_name: 'Math' },
-    //   { category_id: 'Sciasdasdasdasdence', category_name: 'Science' },
-    //   { category_id: 'Enadsadsaglish', category_name: 'English' },
-    //   { category_id: 'Maasdasdath', category_name: 'Math' },
-    //   { category_id: 'Sciasdasdasdasdence', category_name: 'Science' },
-
-    // ]);
   }, [page]);
 
   const changeCategory = (id: string, name: string) => {
     //ask ivan if they start from 0 or 1  
-    // setPage(1);
+    setPage(1);
     //this should work when backend is ready
-    // instance.get(
-    //   `/sets?page=${page}&size=20&sort_by_date=false&ascending=true?category_id=${id}`
-    //   ).then((response) => {
-    //   setTotalPages(response.data.total_pages);
-    //   const newCards = [...setCards];
-    //   response.data.sets.forEach(card => newCards.push(card));
-    //   setSetCards(newCards);
-    // });
-    setSetCards(mockSets);
+    setSetCards([]);
+    instance.get(
+      `/sets?page=${page}&size=20&sort_by_date=false&ascending=true&category_id=${id}`
+      ).then((response) => {
+      setTotalPages(response.data.total_pages);
+      const newCards = [];
+      response.data.sets.forEach(card => newCards.push(card));
+      console.log(newCards)
+      setSetCards(newCards);
+      console.log(response.data)
+    });
     setTitle(name)
 
     //this calls for the subcategories
@@ -126,8 +110,8 @@ export const MainPage: React.FC = () => {
     <Dashboard>
       <div className="category-wrapper">
       {allCategories.map((category) => (
-        <div key={category.category_id} className="category-btn">
-          <p onClick={() => changeCategory(category.category_id, category.category_name)}>
+        <div key={category.category_id} className="category-btn" onClick={() => changeCategory(category.category_id, category.category_name)}>
+          <p >
             {category.category_name}
           </p>
         </div>

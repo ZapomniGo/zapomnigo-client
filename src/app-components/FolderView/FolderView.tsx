@@ -34,8 +34,8 @@ export const FolderView: React.FC = () => {
       .get(`/folders/${id}/sets`)
       .then((response) => {
         setSetCards(response.data.sets);
-        setTitle(response.data.folder_title);
-        setCreator(response.data.folder_creator);
+        setTitle(response.data.folder.folder_title);
+        setCreator(response.data.folder.username);
       })
       .catch((error) => {
         if (error.response.status === 404) {
@@ -59,6 +59,12 @@ export const FolderView: React.FC = () => {
   const handleMouseLeave = () => {
     setSelectSet(null);
   };
+
+  const handleDelete = () => {
+    instance.delete(`/folders/${id}`).then((response) => {
+      window.location.href = "/app/folders";
+    });
+  }
 
   return (
     <Dashboard>
@@ -85,6 +91,8 @@ export const FolderView: React.FC = () => {
                 <a href={`/app/edit-folder/${id}`}>
                   <FaPen />
                 </a>
+                <button onClick={handleDelete}>Delete</button>
+
               </div>
             ))}
         </div>
