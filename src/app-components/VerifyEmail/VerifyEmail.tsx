@@ -6,26 +6,39 @@ import { emailPattern } from "./../Forms/Registration/utils";
 import { useLocation } from "react-router-dom";
 import { Background } from "../Forms/FormsBackground/Background";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const VerifyEmail = () => {
+  const navigate = useNavigate();
   const query = new URLSearchParams(useLocation().search);
   const token = query.get("token");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-
+  const [lastSent, setLastSent] = useState(localStorage.getItem("lastSent"));
   const sendEmail = () => {
+    if (Date.now() - lastSent < 60000) {
+      setMessage("Изчакай 1 минута преди да поискаш нов код");
+      return;
+    }
     if (!emailPattern.test(email)) {
       setMessage("Невалиден имейл");
       return;
     }
     instance
-      .post("/send-email?verification=false", { email })
+      .post("/send-email?verification=true", { email })
       .then((res) => {
         setMessage("Имейлът е изпратен! Проверете пощата си.");
+        setLastSent(Date.now());
+        localStorage.setItem("lastSent", Date.now().toString());
       })
       .catch((err) => {
         setMessage("Нещо се обърка. Поискайте нов код.");
       });
   };
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      navigate("/app/");
+    }
+  }, []);
   useEffect(() => {
     if (token) {
       instance
