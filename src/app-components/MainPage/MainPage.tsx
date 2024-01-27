@@ -4,7 +4,7 @@ import { Dashboard } from "../Dashboard/Dashboard";
 import SetCard from "../SetCard/SetCard";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
-
+import { LoadingAnimation } from "../LoadingAnimation/LoadingAnimtation";
 //this we should receive from backend when calling for categories/subcategories
 const mockSets = [
   // {
@@ -55,7 +55,7 @@ export const MainPage: React.FC = () => {
     //ask ivan if they start from 0 or 1  
     setPage(1);
     instance.get(
-      `/sets?page=${page}&size=20&sort_by_date=false&ascending=true`
+      `/sets?page=${page}&size=20&sort_by_date=true&ascending=false`
       ).then((response) => {
       setTotalPages(response.data.total_pages);
       const newCards = [...setCards];
@@ -126,7 +126,7 @@ export const MainPage: React.FC = () => {
         <h2 className="category-title">{title}</h2>
         <div className="sets">
         {isLoading ? (
-            <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
+          <LoadingAnimation />
           ) : setCards.length > 0 ? (
             setCards.map((card) => (
             <SetCard

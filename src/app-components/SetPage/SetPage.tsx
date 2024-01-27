@@ -17,6 +17,7 @@ import { MoreBtn } from "../MoreBtn/MoreBtn";
 import { toast, ToastContainer } from "react-toastify";
 import { FaPlus } from "react-icons/fa6";
 import { all } from "axios";
+import { LoadingAnimation } from "../LoadingAnimation/LoadingAnimtation";
 
 export const SetPage = () => {
   const navigate = useNavigate();
@@ -183,6 +184,11 @@ export const SetPage = () => {
     }
   }, []);
 
+  const SortFunct = (order) => {
+    
+
+  }
+
   return (
     <Dashboard>
       <>
@@ -272,7 +278,7 @@ export const SetPage = () => {
               <div className="cards-info-header">
                 <h2>
                   Флашкарти (
-                  {flashcards ? flashcards.flashcards.length : "Зареждане..."})
+                  {flashcards ? flashcards.flashcards.length : <LoadingAnimation />})
                 </h2>
                 {flashcards.flashcards.length !== 1 ? (
                   <>
@@ -311,7 +317,7 @@ export const SetPage = () => {
         ) : (
           <center>
             {" "}
-            <h1 className="loadingBanner">Зареждане...</h1>
+            <LoadingAnimation />
           </center>
         )}
       </>

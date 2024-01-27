@@ -18,7 +18,8 @@ export const Flashcard: React.FC<FlashcardProps> = ({ flashcard }) => {
         <div className='description'>
             <p>{parse(flashcard.definition)}</p>
         </div>
-      {/* {flashcard.image && 
+        {/* leave for future image implementation 
+      {flashcard.image && 
         <div className='image'>
             <img src={flashcard.image} alt={flashcard.term} />
         </div>
