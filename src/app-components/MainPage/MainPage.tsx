@@ -42,6 +42,8 @@ export const MainPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [allCategories, setAllCategories] = useState([]);
   const [title,setTitle] = useState('Разгледай')
+  const [isLoading, setIsLoading] = useState(true);
+
   const handleLoadRecent = () => {
     setPage(page + 1);
   };
@@ -120,27 +122,29 @@ export const MainPage: React.FC = () => {
       <div className="set-wrapper">
         <h2 className="category-title">{title}</h2>
         <div className="sets">
-        {setCards.length > 0 ? (
-    setCards.map((card) => (
-      <SetCard
-        key={card.set_id}
-        id={card.set_id}
-        title={card.set_name}
-        description={card.set_description}
-        institution={card.organization_name}
-        image={"/logo.jpg"}
-        creator_name={card.username}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        isSelected={selectSet === card.set_id}
-        category={card.category_name}
-      />
-    ))
-  ) : (
-    <p>No sets available.</p>
-  )}
+        {isLoading ? (
+            <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
+          ) : setCards.length > 0 ? (
+            setCards.map((card) => (
+            <SetCard
+              key={card.set_id}
+              id={card.set_id}
+              title={card.set_name}
+              description={card.set_description}
+              institution={card.organization_name}
+              image={"/logo.jpg"}
+              creator_name={card.username}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              isSelected={selectSet === card.set_id}
+              category={card.category_name}
+            />
+          ))
+        ) : (
+          <p>No sets available.</p>
+        )}
         </div>
-        {page < totalPages && setCards.length > 0 && <MoreBtn onClick={handleLoadRecent} />}
+        {!isLoading && page < totalPages && setCards.length > 0 && <MoreBtn onClick={handleLoadRecent} />}
       </div>
     </Dashboard>
   );
