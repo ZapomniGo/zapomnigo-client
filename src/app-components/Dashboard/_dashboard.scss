@@ -23,6 +23,25 @@
     .category-title {
       margin-left: 10px;
       margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      a{
+        display: flex;
+      }
+      a:hover{
+        cursor: pointer;
+      }
+      svg{
+        width: 30px;
+        margin: 5px 0 5px 20px;
+        cursor: pointer;
+      }
+      .delete{
+        svg{
+          width: 35px !important;
+
+        }
+      }
     }
 
     .sets {

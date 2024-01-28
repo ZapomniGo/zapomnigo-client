@@ -92,7 +92,7 @@ export const FolderView: React.FC = () => {
         <h2 className="category-title">
           {title}                                  
           <a href={`/app/edit-folder/${id}`}><FaPen /></a>              
-          <a onClick={handleDelete}><MdDeleteOutline /></a>
+          <a onClick={handleDelete} className="delete"><MdDeleteOutline /></a>
         </h2>
         {/* namali font weigth */}
         <h4 className="category-title">{desciption}</h4>
@@ -121,18 +121,6 @@ export const FolderView: React.FC = () => {
               </div>
             ))}
         </div>
-        <div className="settings" >
-        {settings && 
-        <div className="settings-menu">
-          <p>Настройки</p>
-            <div className="settings-item">
-              <p>Изтрий папка</p>
-              <button onClick={handleDelete}>Изтрий</button>
-              </div>
-        </div>
-        }
-        <TbSettings onClick={viewSettings} />
-      </div>
       </div>
     </Dashboard>
   );
