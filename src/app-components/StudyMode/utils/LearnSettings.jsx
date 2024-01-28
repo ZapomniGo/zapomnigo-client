@@ -1,15 +1,16 @@
 import React, { useState } from "react";
+import { TbSettings } from "react-icons/tb";
 
 const LearnSettings = (props) => {
   const [toggleOpen, setToggleOpen] = useState(false);
 
   return (
     <div>
-      <div onClick={() => setToggleOpen((prev) => !prev)}>Отвори</div>
+      <div onClick={() => setToggleOpen((prev) => !prev)}><TbSettings/></div>
       {toggleOpen && (
         <div>
           <h3>Настройки на режим учи</h3>
-          <label>Избираем отговор</label>
+          <p>Избираем отговор</p>
           {!props.allowedModes.length && <b>Избери поне един режим :)</b>}
 
           <p>
@@ -27,7 +28,7 @@ const LearnSettings = (props) => {
               )
             }
           /><label for="switch1"></label>
-          <label>Свободен отговор</label>
+          <p>Свободен отговор</p>
           <p>Това е режим със свободен отговор</p>
           <input
             type="checkbox"
@@ -41,7 +42,7 @@ const LearnSettings = (props) => {
               )
             }
           /><label for="switch2"></label>
-          <label>Самоизпитване</label>
+          <p>Самоизпитване</p>
           <p>
             Това е режим, в който платформата те пита дали знаеш
             термина/дефиницията
