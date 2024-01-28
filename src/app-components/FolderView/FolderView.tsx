@@ -7,7 +7,10 @@ import instance from "../../app-utils/axios";
 import { useParams } from "react-router";
 import { FaPen } from "react-icons/fa";
 import { jwtDecode } from "jwt-decode";
+import { TbSettings } from "react-icons/tb";
+
 export const FolderView: React.FC = () => {
+
   const { id } = useParams<{ id: string }>();
   const [setCards, setSetCards] = useState([]);
   const [recentCards, setRecentCards] = useState(10);
@@ -17,8 +20,16 @@ export const FolderView: React.FC = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [creator, setCreator] = useState("no one yet");
   const [user, setUser] = useState("");
+  const [settings, setSettings] = useState(false);
+
+  const viewSettings = () => {
+    setSettings(!settings);
+    console.log(settings)
+  }
+
 
   useEffect(() => {
+  
     if (localStorage.getItem("access_token")) {
       const decodedToken = jwtDecode(localStorage.getItem("access_token"));
       setIsAdmin(decodedToken.admin);
@@ -91,11 +102,21 @@ export const FolderView: React.FC = () => {
                 <a href={`/app/edit-folder/${id}`}>
                   <FaPen />
                 </a>
-                <button onClick={handleDelete}>Delete</button>
-
               </div>
             ))}
         </div>
+        <div className="settings" >
+        {settings && 
+        <div className="settings-menu">
+          <p>Настройки</p>
+            <div className="settings-item">
+              <p>Изтрий папка</p>
+              <button onClick={handleDelete}>Изтрий</button>
+              </div>
+        </div>
+        }
+        <TbSettings onClick={viewSettings} />
+      </div>
       </div>
     </Dashboard>
   );
