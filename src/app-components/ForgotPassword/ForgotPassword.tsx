@@ -12,10 +12,21 @@ const ForgetPassword = () => {
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [email, setEmail] = useState("");
+  const [lastSent2, setLastSent2] = useState(localStorage.getItem("lastSent2"));
   const navigate = useNavigate();
   const query = new URLSearchParams(useLocation().search);
   const token = query.get("token");
+  React.useEffect(() => {
+    //if the user is already logged in, redirect to home page
+    if (localStorage.getItem("access_token")) {
+      navigate("/app/");
+    }
+  }, []);
   const handleSubmit = () => {
+    if (Date.now() - lastSent2 < 60000) {
+      setMessage("Изчакай 1 минута преди да поискаш нов код");
+      return;
+    }
     if (!token) {
       if (!emailPattern.test(email)) {
         setMessage("Моля, въведете валиден имейл адрес");
@@ -25,6 +36,8 @@ const ForgetPassword = () => {
         .post("/send-email?verification=false", { email: email })
         .then(() => {
           setMessage("Изпратихме ти имейл с линк за промяна на паролата");
+          setLastSent2(Date.now());
+          localStorage.setItem("lastSent2", Date.now());
         })
         .catch((err) => {
           setMessage("Такъв потребител не съществува :(");
@@ -40,14 +53,23 @@ const ForgetPassword = () => {
       (password1.length < 8 || password1.length > 40)
     ) {
       setMessage("Паролата трябва да е между 8 и 40 символа");
-    } else if (typeof password1 === "string" && !/[A-Z]/.test(password1)) {
+      return false;
+    }
+    if (!/[A-Z]/.test(password1)) {
       setMessage("Паролата трябва да съдържа поне една главна буква");
-    } else if (typeof password1 === "string" && !/[a-z]/.test(password1)) {
+      return false;
+    }
+    if (!/[a-z]/.test(password1)) {
       setMessage("Паролата трябва да съдържа поне една малка буква");
-    } else if (typeof password1 === "string" && !/\d/.test(password1)) {
+      return false;
+    }
+    if (!/\d/.test(password1)) {
       setMessage("Паролата трябва да съдържа поне една цифра");
-    } else if (typeof password1 === "string" && !/[\W_]/.test(password1)) {
+      return false;
+    }
+    if (!/[\W_]/.test(password1)) {
       setMessage("Паролата трябва да съдържа поне един специален символ");
+      return false;
     }
     instance
       .post("/forgot-password", { new_password: password1, token: token })
@@ -91,7 +113,7 @@ const ForgetPassword = () => {
           <div className="verifyContainer">
             <h1>Забравена парола</h1>
             <p>
-              Въведи имейл адреса, с който сте се регистрирал и ние ще ти пратим
+              Въведи имейл адреса, с който сте се регистрирал и ние ще ти изпратим
               линк
             </p>
             <input
@@ -99,7 +121,12 @@ const ForgetPassword = () => {
               type="text"
               placeholder="Имейл"
             />
-            <button onClick={handleSubmit} className="button">
+            <button
+              onClick={handleSubmit}
+              className={
+                "button " + (Date.now() - lastSent2 < 60000) && "disabled"
+              }
+            >
               Изпрати
             </button>
             {message.length ? <p className="msg">{message}</p> : ""}

@@ -8,8 +8,12 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
-  const navigationSliceManager = useAppSelector((state) => state.navigationReducer);
-
+  const navigationSliceManager = useAppSelector(
+    (state) => state.navigationReducer
+  );
+  useEffect(() => {
+    document.title = "ЗапомниГо | Платформата, която ти помага да запомняш";
+  }, []);
 
   useEffect(() => {
     if (navigationSliceManager.open) {
@@ -33,4 +37,4 @@ export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;

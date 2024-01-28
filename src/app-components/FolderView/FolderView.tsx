@@ -47,6 +47,7 @@ export const FolderView: React.FC = () => {
         setSetCards(response.data.sets);
         setTitle(response.data.folder.folder_title);
         setCreator(response.data.folder.username);
+        document.title = `${response.data.folder.folder_title} | ЗапомниГо`;
       })
       .catch((error) => {
         if (error.response.status === 404) {

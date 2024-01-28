@@ -202,6 +202,7 @@ input[type="submit"] {
   background-color: $secondary-color;
   color: #fff;
   border: none;
+  word-break: keep-all;
   &:focus {
     outline: none;
     border: 1px solid $secondary-color;
