@@ -55,27 +55,34 @@ export const MainPage: React.FC = () => {
 
 
   const handleLoadRecentSet = (category) => {
-    setPageSet(pageSet + 1);
-    setIsSetLoading(true)
+    const newPageSet = pageSet + 1;
+    setPageSet(newPageSet);
+      setIsSetLoading(true)
+    console.log(category)
+    console.log(newPageSet)
     instance.get(
-      `/sets?page=${pageSet}&size=10&sort_by_date=false&ascending=true&category_id=${category}`
+      `/sets?page=${newPageSet}&size=2&sort_by_date=false&ascending=true&category_id=${category}`
       ).then((response) => {
       setTotalSetPages(response.data.total_pages);
       const newCards = [...setCards];
       response.data.sets.forEach(card => newCards.push(card));
       setSetCards(newCards);
+      console.log(response.data)
       setTimeout(() => {
         setIsSetLoading(false);
       }, 250);
+      // console.log(pageSet)
 
     });
+    
   };
 
   const handleLoadRecentFolder = (category) => {
-    setPageFolder(pageFolder + 1);
+    const newPageFolder = pageFolder + 1;
+    setPageFolder(newPageFolder);
     setIsFolderLoading(true)
 
-    instance.get(`/folders?page=${pageFolder}&size=10&sort_by_date=true&ascending=true&category_id=${category}`)
+    instance.get(`/folders?page=${newPageFolder}&size=10&sort_by_date=true&ascending=true&category_id=${category}`)
     .then((response) => {
       setTotalFolderPages(response.data.total_pages);
       const newFolderCards = [...folderCards];
@@ -158,6 +165,7 @@ export const MainPage: React.FC = () => {
     setSetCards([]);
     setIsFolderLoading(true);
     setIsSetLoading(true);
+    setPageSet(1);
     instance.get(
       `/sets?page=1&size=10&sort_by_date=false&ascending=true&category_id=${id}`
       ).then((response) => {
@@ -170,6 +178,7 @@ export const MainPage: React.FC = () => {
       }, 250);
     });
 
+    setPageFolder(1);
     setFolderCards([]);
     instance.get(`/folders?page=1&size=10&sort_by_date=true&ascending=true&category_id=${id}`)
     .then((response) => {
@@ -240,10 +249,10 @@ export const MainPage: React.FC = () => {
             />
           ))
         ) : (
-          <p>No sets available.</p>
+          <LoadingAnimation/>
         )}
         </div>
-        {!isFolderLoading && pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentSet(category)} />}
+        {!isSetLoading && pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentSet(category)} />}
       </div>
       <div className="set-wrapper">
       <h2 className="category-title">{title} папки:</h2>
@@ -269,7 +278,7 @@ export const MainPage: React.FC = () => {
             />
           ))
         ) : (
-          <p>No sets available.</p>
+          <LoadingAnimation/>
         )}
         </div>
         {!isFolderLoading && pageFolder < totalFolderPages && folderCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentFolder(category)} />}
