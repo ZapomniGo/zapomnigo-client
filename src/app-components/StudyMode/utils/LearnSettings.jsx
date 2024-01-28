@@ -6,15 +6,14 @@ const LearnSettings = (props) => {
 
   return (
     <div className="settings">
-      <div onClick={() => setToggleOpen((prev) => !prev)}><TbSettings/></div>
       {toggleOpen && (
         <div className="settings-menu">
           <h3>Настройки на режим учи</h3>
-          <p className="title">Избираем отговор</p>
           {!props.allowedModes.length && <b>Избери поне един режим :)</b>}
+          <p className="title">Избираем отговор:</p>
           <div className="settings-option">
             <span>
-              Това е режим с четири избираеми отговора, един, от които е верен
+              Това е режим с четири избираеми отговора, един, от които е верен:
             </span>
             <input
               type="checkbox"
@@ -30,9 +29,9 @@ const LearnSettings = (props) => {
             /><label for="switch1"></label>
           </div>
           
-          <p className="title">Свободен отговор</p>
+          <p className="title">Свободен отговор:</p>
           <div className="settings-option">
-            <span>Това е режим със свободен отговор</span>
+            <span>Това е режим със свободен отговор:</span>
             <input
               type="checkbox"
               id="switch2"
@@ -47,11 +46,11 @@ const LearnSettings = (props) => {
             /><label for="switch2"></label>
           </div>
 
-          <p className="title">Самоизпитване</p>
+          <p className="title">Самоизпитване:</p>
           <div className="settings-option">
             <span>
               Това е режим, в който платформата те пита дали знаеш
-              термина/дефиницията
+              термина/дефиницията:
             </span>
             <input
               type="checkbox"
@@ -68,6 +67,7 @@ const LearnSettings = (props) => {
           </div>
         </div>
       )}
+      <div onClick={() => setToggleOpen((prev) => !prev)}><TbSettings/></div>
     </div>
   );
 };
