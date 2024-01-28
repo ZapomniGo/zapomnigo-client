@@ -17,6 +17,7 @@ const LearnSettings = (props) => {
           </p>
           <input
             type="checkbox"
+            id="switch1"
             checked={props.allowedModes.includes(1)}
             onChange={() =>
               props.setAllowedModes((prev) =>
@@ -25,11 +26,12 @@ const LearnSettings = (props) => {
                   : [...prev, 1]
               )
             }
-          />
+          /><label for="switch1"></label>
           <label>Свободен отговор</label>
           <p>Това е режим със свободен отговор</p>
           <input
             type="checkbox"
+            id="switch2"
             checked={props.allowedModes.includes(2)}
             onChange={() =>
               props.setAllowedModes((prev) =>
@@ -38,7 +40,7 @@ const LearnSettings = (props) => {
                   : [...prev, 2]
               )
             }
-          />
+          /><label for="switch2"></label>
           <label>Самоизпитване</label>
           <p>
             Това е режим, в който платформата те пита дали знаеш
@@ -46,6 +48,7 @@ const LearnSettings = (props) => {
           </p>
           <input
             type="checkbox"
+            id="switch3"
             checked={props.allowedModes.includes(3)}
             onChange={() =>
               props.setAllowedModes((prev) =>
@@ -54,7 +57,7 @@ const LearnSettings = (props) => {
                   : [...prev, 3]
               )
             }
-          />
+          /> <label for="switch3"></label>
         </div>
       )}
     </div>
