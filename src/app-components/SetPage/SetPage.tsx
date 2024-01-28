@@ -339,31 +339,6 @@ export const SetPage = () => {
           </center>
         )}
       </>
-      <div className="settings" >
-        {settings && 
-        <div className="settings-menu">
-          <p className="title">Режими на учене</p>
-          <div className="settings-option">
-            <span>Тест 1</span>
-            <input type="checkbox" id="switch" /><label for="switch"></label>
-          </div>
-          <div className="settings-option">
-            <span>Тест 1</span>
-            <input type="checkbox" id="switch2" /><label for="switch2"></label>
-          </div>
-          <div className="settings-option">
-            <span>Тест 1</span>
-            <input type="checkbox" id="switch3" /><label for="switch3"></label>
-          </div>
-          <div className="settings-option">
-            <span>Тест 1</span>
-            <input type="checkbox" id="switch4" /><label for="switch4"></label>
-          </div>
-        </div>
-        }
-        <TbSettings onClick={viewSettings} />
-      </div>
-      
       <div style={{ marginBottom: "5vmax" }}></div>
     </Dashboard>
   );

@@ -6,6 +6,7 @@ import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
 import { LoadingAnimation } from "../LoadingAnimation/LoadingAnimtation";
 import { FaRegFolderClosed } from "react-icons/fa6";
+import { RxCrossCircled } from "react-icons/rx";
 
 //this we should receive from backend when calling for categories/subcategories
 const mockSets = [
@@ -176,8 +177,9 @@ export const MainPage: React.FC = () => {
       const newFolderCards = [];
       response.data.folders.forEach(card => newFolderCards.push(card));
       setFolderCards(newFolderCards);
-      setIsFolderLoading(false);
-    });
+      setTimeout(() => {
+        setIsFolderLoading(false);
+      }, 250);    });
     setTitle(name);
     setCategory(id);
 
@@ -212,13 +214,12 @@ export const MainPage: React.FC = () => {
           </p>
         </div>
       ))}
-      <div className="category-btn" onClick={() => {
-        resetSets() // Toggle triggerEffect state
-      }}> X </div>
+      <div className="reset-btn" onClick={() => {
+        resetSets()
+      }}> <RxCrossCircled/> </div>
       </div>
       <div className="set-wrapper">
-        <h2 className="category-title">{title} Сетове:</h2>
-        <h2 className="category-title"></h2>
+        <h2 className="category-title">{title} тестета:</h2>
         <div className="sets">
         {isSetLoading ? (
           <LoadingAnimation />
@@ -245,8 +246,8 @@ export const MainPage: React.FC = () => {
         {!isFolderLoading && pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentSet(category)} />}
       </div>
       <div className="set-wrapper">
-      <h2 className="category-title">{title} Папки:</h2>
-        <div className="sets">
+      <h2 className="category-title">{title} папки:</h2>
+        <div className="sets folders">
         {isFolderLoading ? (
           <LoadingAnimation />
           ) : folderCards.length > 0 ? (

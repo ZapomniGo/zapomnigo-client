@@ -8,6 +8,9 @@ import { useParams } from "react-router";
 import { FaPen } from "react-icons/fa";
 import { jwtDecode } from "jwt-decode";
 import { TbSettings } from "react-icons/tb";
+import { MdDeleteOutline } from "react-icons/md";
+
+
 
 export const FolderView: React.FC = () => {
 
@@ -17,6 +20,7 @@ export const FolderView: React.FC = () => {
   // const [exploreCards, setExploreCards] = useState(10);
   const [selectSet, setSelectSet] = useState<string | null>(null);
   const [title, setTitle] = useState("");
+  const [desciption, setDesciption] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [creator, setCreator] = useState("no one yet");
   const [user, setUser] = useState("");
@@ -46,6 +50,7 @@ export const FolderView: React.FC = () => {
       .then((response) => {
         setSetCards(response.data.sets);
         setTitle(response.data.folder.folder_title);
+        setDesciption(response.data.folder.folder_description)
         setCreator(response.data.folder.username);
         document.title = `${response.data.folder.folder_title} | ЗапомниГо`;
       })
@@ -73,6 +78,9 @@ export const FolderView: React.FC = () => {
   };
 
   const handleDelete = () => {
+    if (!window.confirm("Сигурни ли сте, че искате да изтриете тази папка?")) {
+      return;
+    }
     instance.delete(`/folders/${id}`).then((response) => {
       window.location.href = "/app/folders";
     });
@@ -81,7 +89,14 @@ export const FolderView: React.FC = () => {
   return (
     <Dashboard>
       <div className="set-wrapper">
-        <h2 className="category-title">{title}</h2>
+        <h2 className="category-title">
+          {title}                                  
+          <a href={`/app/edit-folder/${id}`}><FaPen /></a>              
+          <a onClick={handleDelete}><MdDeleteOutline /></a>
+        </h2>
+        {/* namali font weigth */}
+        <h4 className="category-title">{desciption}</h4>
+
         <div className="sets">
           {setCards.map((card) => (
             <SetCard
