@@ -3,13 +3,12 @@
   position: relative;
   align-self: center;
   width: 100%;
-
+  min-height: 100vh;
   background: $body-color;
   transition: $tran-05;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
-  justify-content: center;
  
   .set-wrapper {
     flex-wrap: wrap;

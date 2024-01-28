@@ -24,7 +24,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
   }, [navigationSliceManager.open]);
 
   return (
-    <ContainerComponent open={navigationSliceManager.open}>z
+    <ContainerComponent open={navigationSliceManager.open}>
       <section className="card-section">
         <div className="category">{children}</div>
       </section>
