@@ -47,79 +47,140 @@ export const MainPage: React.FC = () => {
   const [totalFolderPages, setTotalFolderPages] = useState(1);
   const [allCategories, setAllCategories] = useState([]);
   const [title,setTitle] = useState('Разгледай')
-  const [isLoading, setIsLoading] = useState(false);
-  const [triggerEffect, setTriggerEffect] = useState(false);
+  const [category, setCategory] = useState('');
+  const [isFolderLoading, setIsFolderLoading] = useState(false);
+  const [isSetLoading, setIsSetLoading] = useState(false);
 
 
-  const handleLoadRecent = () => {
+
+  const handleLoadRecentSet = (category) => {
     setPageSet(pageSet + 1);
-  };
-
-  
- const resetSets = () => {
-  setSetCards([]);
-  setIsLoading(true);
-  instance.get(
-    `/sets?page=${pageSet}&size=20&sort_by_date=true&ascending=false`
-    ).then((response) => {
-    setTotalSetPages(response.data.total_pages);
-    const newCards = [];
-    response.data.sets.forEach(card => newCards.push(card));
-    console.log(newCards)
-    setSetCards(newCards);
-    console.log(response.data)
-    setIsLoading(false);
-  });
-  setTitle('Разгледай')
-}
-
-  useEffect(() => {
-
-    setPageSet(1);
+    setIsSetLoading(true)
     instance.get(
-      `/sets?page=${pageSet}&size=20&sort_by_date=true&ascending=false`
+      `/sets?page=${pageSet}&size=10&sort_by_date=false&ascending=true&category_id=${category}`
       ).then((response) => {
       setTotalSetPages(response.data.total_pages);
       const newCards = [...setCards];
       response.data.sets.forEach(card => newCards.push(card));
-      setSetCards(newCards);      
-      console.log(response.data)
+      setSetCards(newCards);
+      setTimeout(() => {
+        setIsSetLoading(false);
+      }, 250);
 
     });
-    instance.get("/categories").then((response) => {
-      setAllCategories(response.data.categories);
-      console.log(response.data)
-    });
-    
-    setPageFolder(1);
-    instance.get(`/folders`)
+  };
+
+  const handleLoadRecentFolder = (category) => {
+    setPageFolder(pageFolder + 1);
+    setIsFolderLoading(true)
+
+    instance.get(`/folders?page=${pageFolder}&size=10&sort_by_date=true&ascending=true&category_id=${category}`)
     .then((response) => {
       setTotalFolderPages(response.data.total_pages);
       const newFolderCards = [...folderCards];
       response.data.folders.forEach(card => newFolderCards.push(card));
       setFolderCards(newFolderCards);
-      console.log(response.data)
+      setTimeout(() => {
+        setIsFolderLoading(false);
+      }, 250);
+
     });
-  }, [pageSet]);
+  };
+
+  
+
+  //used to reset sets and folders
+  //reset works
+ const resetSets = () => {
+  setPageSet(1);
+  setIsFolderLoading(true);
+  setIsSetLoading(true);
+  instance.get(
+    `/sets?page=${pageSet}&size=10&sort_by_date=true&ascending=false`
+    ).then((response) => {
+    setTotalSetPages(response.data.total_pages);
+    const newCards = [];
+    response.data.sets.forEach(card => newCards.push(card));
+    setSetCards(newCards);
+    setTimeout(() => {
+      setIsSetLoading(false);
+    }, 250);  });
+  setTitle('Разгледай')
+
+  instance.get("/categories").then((response) => {
+    setAllCategories(response.data.categories);
+  });
+
+  setPageFolder(1);
+  instance.get(`/folders?page=${pageFolder}&size=10&sort_by_date=true&ascending=false`)
+  .then((response) => {
+    setTotalFolderPages(response.data.total_pages);
+    const newFolderCards = [];
+    response.data.folders.forEach(card => newFolderCards.push(card));
+    setFolderCards(newFolderCards);
+    setTimeout(() => {
+      setIsFolderLoading(false);
+    }, 250);
+  });
+}
+
+
+//used for inital load for sets and folders
+  useEffect(() => {
+
+    setPageSet(1);
+    instance.get(
+      `/sets?page=${pageSet}&size=10&sort_by_date=true&ascending=false`
+      ).then((response) => {
+      setTotalSetPages(response.data.total_pages);
+      const newCards = [...setCards];
+      response.data.sets.forEach(card => newCards.push(card));
+      setSetCards(newCards);      
+
+    });
+    instance.get("/categories").then((response) => {
+      setAllCategories(response.data.categories);
+    });
+    
+    setPageFolder(1);
+    instance.get(`/folders?page=${pageFolder}&size=10&sort_by_date=true&ascending=false`)
+    .then((response) => {
+      setTotalFolderPages(response.data.total_pages);
+      const newFolderCards = [...folderCards];
+      response.data.folders.forEach(card => newFolderCards.push(card));
+      setFolderCards(newFolderCards);
+    });
+  }, []);
 
   const changeCategory = (id: string, name: string) => {
-    //ask ivan if they start from 0 or 1  
-    setPageSet(1);
     //this should work when backend is ready
     setSetCards([]);
-    setIsLoading(true);
+    setIsFolderLoading(true);
+    setIsSetLoading(true);
     instance.get(
-      `/sets?page=${pageSet}&size=20&sort_by_date=false&ascending=true&category_id=${id}`
+      `/sets?page=1&size=10&sort_by_date=false&ascending=true&category_id=${id}`
       ).then((response) => {
       setTotalSetPages(response.data.total_pages);
       const newCards = [];
       response.data.sets.forEach(card => newCards.push(card));
-      console.log(newCards)
       setSetCards(newCards);
-      console.log(response.data)
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsSetLoading(false);
+      }, 250);
     });
-    setTitle(name)
+
+    setFolderCards([]);
+    instance.get(`/folders?page=1&size=10&sort_by_date=true&ascending=true&category_id=${id}`)
+    .then((response) => {
+      setTotalFolderPages(response.data.total_pages);
+      const newFolderCards = [];
+      response.data.folders.forEach(card => newFolderCards.push(card));
+      setFolderCards(newFolderCards);
+      setIsFolderLoading(false);
+    });
+    setTitle(name);
+    setCategory(id);
+
 
     //this calls for the subcategories
     // instance.get(`/sub-cats/${id}`).then((response) => {
@@ -127,7 +188,7 @@ export const MainPage: React.FC = () => {
     //   console.log(response.data);
     // });
 
-    setAllCategories(mockCategories)
+    // setAllCategories(mockCategories)
   }
 
 
@@ -158,7 +219,7 @@ export const MainPage: React.FC = () => {
       <div className="set-wrapper">
         <h2 className="category-title">{title}</h2>
         <div className="sets">
-        {isLoading ? (
+        {isSetLoading ? (
           <LoadingAnimation />
           ) : setCards.length > 0 ? (
             setCards.map((card) => (
@@ -180,12 +241,12 @@ export const MainPage: React.FC = () => {
           <p>No sets available.</p>
         )}
         </div>
-        {!isLoading && pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={handleLoadRecent} />}
+        {!isFolderLoading && pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentSet(category)} />}
       </div>
       <div className="set-wrapper">
         <h2 className="category-title">{title}</h2>
         <div className="sets">
-        {isLoading ? (
+        {isFolderLoading ? (
           <LoadingAnimation />
           ) : folderCards.length > 0 ? (
             folderCards.map((card) => (
@@ -209,7 +270,7 @@ export const MainPage: React.FC = () => {
           <p>No sets available.</p>
         )}
         </div>
-        {!isLoading && pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={handleLoadRecent} />}
+        {!isFolderLoading && pageFolder < totalFolderPages && folderCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentFolder(category)} />}
           
           
         
