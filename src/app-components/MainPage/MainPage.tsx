@@ -217,7 +217,8 @@ export const MainPage: React.FC = () => {
       }}> X </div>
       </div>
       <div className="set-wrapper">
-        <h2 className="category-title">{title}</h2>
+        <h2 className="category-title">{title} Сетове:</h2>
+        <h2 className="category-title"></h2>
         <div className="sets">
         {isSetLoading ? (
           <LoadingAnimation />
@@ -244,7 +245,7 @@ export const MainPage: React.FC = () => {
         {!isFolderLoading && pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentSet(category)} />}
       </div>
       <div className="set-wrapper">
-        <h2 className="category-title">{title}</h2>
+      <h2 className="category-title">{title} Папки:</h2>
         <div className="sets">
         {isFolderLoading ? (
           <LoadingAnimation />
