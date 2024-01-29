@@ -36,10 +36,10 @@
             flex-direction: column;
             img{
               margin-left: 10px;
-              max-width: 60%;
+              max-width: 50%;
             }
           }
-          font-size: 40px !important;
+          font-size: 35px !important;
 
         }
         .term-text {
@@ -81,10 +81,18 @@
           }
         }
 
-        &:hover {
-          background-color: orange !important;
-          color: #fff !important;
-          box-shadow: none !important;
+
+      }
+    }
+
+    @media screen and (min-width: 1000px) {
+      .option{
+        button{
+          &:hover {
+            background-color: orange !important;
+            color: #fff !important;
+            box-shadow: none;
+          }
         }
       }
     }
@@ -124,10 +132,20 @@
 @media screen and (max-width: 1000px){
   .study-wrapper {
     #flashcard{
+      // &:hover {
+      //   background-color: orange !important;
+      //   color: #fff !important;
+      //   box-shadow: none !important;
+      // }
       .term{
         p{
           align-items: center;
+          font-size: 15px !important;
+          img{
+            max-width: 100%;
+          }
         }
+
       }
     }
     button{
@@ -151,8 +169,9 @@
             }
         }
         .answer-options{
-            grid-template-columns: repeat(1, 1fr);
-            grid-template-rows: repeat(4, 1fr);
+          display: flex ;
+          flex-direction: column;
+
             width: 100%;
         }
         #flashcard{
@@ -164,22 +183,27 @@
   }
     
 }
-
+.lvl-check,
 .free-input{
+  padding: 20px;
   .term{
+    font-size: 30px;
+    padding-left: 5px;
     img{
       border-radius: 5px;
-      width: 100% ;
+      width: 50% ;
     }
   }
   .correct-answer{
+    padding-left: 5px;
+    padding: 5px;
+    font-size: 20px;
     img{
       border-radius: 5px;
-      width: 100% ;
+      width: 50% ;
     }
   }
 }
-
 
 
 .settings{
@@ -292,4 +316,5 @@
     }
   }
   
+
 }

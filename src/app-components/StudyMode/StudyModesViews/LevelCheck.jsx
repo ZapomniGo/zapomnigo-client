@@ -11,11 +11,11 @@ const LevelCheck = (props) => {
     setShowResults(true);
   };
   return (
-    <div>
-      <h2>Знаеш ли отговора на:</h2>
-      <h3>{parse(props.currentFlashcardTerm)}</h3>
+    <div className="lvl-check">
+      <h2 className="title">Знаеш ли отговора на:</h2>
+      <h3 className="term">{parse(props.currentFlashcardTerm)}</h3>
       {flipOpen ? (
-        <h3>{parse(props.currentFlashcardDefinition)}</h3>
+        <p className="correct-answer">Верният отговор е:{parse(props.currentFlashcardDefinition)}</p>
       ) : (
         <button onClick={() => setFlipOpen(true)}>Покажи</button>
       )}
