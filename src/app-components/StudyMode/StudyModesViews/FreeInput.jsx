@@ -45,7 +45,7 @@ const FreeInput = (props) => {
         className="answer-input"
       />
       {showResults && (
-        <p  
+        <p className="correct-answer" 
         >
           Верният отговор е: <span>{parse(correctAnswer)}</span>
         </p>
