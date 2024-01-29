@@ -22,6 +22,7 @@ const LevelCheck = (props) => {
       {flipOpen && (
         <>
           <button
+            disabled={showResults}
             onClick={() => {
               // setFlipOpen(false); 
               VerifyMyAnswerInternally(props.currentFlashcardDefinition);
@@ -39,9 +40,6 @@ const LevelCheck = (props) => {
             Не
           </button>
         </>
-      )}
-      {showResults && (
-        <p>Верният отговор е{parse(selectedAnswer.correctAnswer)}</p>
       )}
 
       {showResults && (
