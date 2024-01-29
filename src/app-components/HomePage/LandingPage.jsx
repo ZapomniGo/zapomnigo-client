@@ -47,7 +47,7 @@ const HomePage = () => {
       <section id="backgroundForm">
         <Background />
         <div id="center-center">
-          <Tilty className="tilty" glare={false} max={20}>
+          <Tilty className="tilty" glare={false} max={20} reverse={true}>
             <h1 id="header">ЗапомниГо</h1>
             <h2 id="mainSubTitle">Платформата, която ти помага да запомняш</h2>
             <center>

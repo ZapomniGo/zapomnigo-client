@@ -74,8 +74,13 @@ const VerifyEmail = () => {
             type="text"
             placeholder="Имейл"
           />
-          <button onClick={sendEmail} className="button">
-            Изпрати отново
+          <button
+            onClick={sendEmail}
+            className={
+              "button " + (Date.now() - lastSent < 60000) && "disabled"
+            }
+          >
+            Изпрати
           </button>
           {message.length ? <p className="msg">{message}</p> : ""}
         </div>
