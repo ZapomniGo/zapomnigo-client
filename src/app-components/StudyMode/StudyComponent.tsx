@@ -249,6 +249,10 @@ const StudyComponent = () => {
         chosenStudyMode = 3;
       }
     }
+
+    console.log("chosen study mode is " + chosenStudyMode);
+    console.log("allowed study modes are " + allowedStudyModes);
+    
     if (allowedStudyModes.includes(chosenStudyMode)) {
       return chosenStudyMode;
     } else {
@@ -257,19 +261,19 @@ const StudyComponent = () => {
         return 1;
       } else if (chosenStudyMode == 2 && allowedStudyModes.includes(2)) {
         if (
-          (flashcard.definition.contains("<img") ||
-            flashcard.definition.contains("<video") ||
-            flashcard.definition.contains("ql-formula")) &&
-          (flashcard.term.contains("<img>") ||
-            flashcard.term.contains("<video>") ||
-            flashcard.term.contains("ql-formula"))
+          (flashcard.definition.includes("<img") ||
+            flashcard.definition.includes("<video") ||
+            flashcard.definition.includes("ql-formula")) &&
+          (flashcard.term.includes("<img>") ||
+            flashcard.term.includes("<video>") ||
+            flashcard.term.includes("ql-formula"))
         ) {
           return 3;
         }
         if (
-          flashcard.definition.contains("<img") ||
-          flashcard.definition.contains("<video") ||
-          flashcard.definition.contains("ql-formula")
+          flashcard.definition.includes("<img") ||
+          flashcard.definition.includes("<video") ||
+          flashcard.definition.includes("ql-formula")
         ) {
           return 2;
         }
@@ -279,19 +283,19 @@ const StudyComponent = () => {
       } else if (!allowedStudyModes.includes(1) && chosenStudyMode == 1) {
         if (allowedStudyModes.includes(2)) {
           if (
-            (flashcard.definition.contains("<img") ||
-              flashcard.definition.contains("<video") ||
-              flashcard.definition.contains("ql-formula")) &&
-            (flashcard.term.contains("<img>") ||
-              flashcard.term.contains("<video>") ||
-              flashcard.term.contains("ql-formula"))
+            (flashcard.definition.includes("<img") ||
+              flashcard.definition.includes("<video") ||
+              flashcard.definition.includes("ql-formula")) &&
+            (flashcard.term.includes("<img>") ||
+              flashcard.term.includes("<video>") ||
+              flashcard.term.includes("ql-formula"))
           ) {
             return 3;
           }
           if (
-            flashcard.definition.contains("<img") ||
-            flashcard.definition.contains("<video") ||
-            flashcard.definition.contains("ql-formula")
+            flashcard.definition.includes("<img") ||
+            flashcard.definition.includes("<video") ||
+            flashcard.definition.includes("ql-formula")
           ) {
             return 2;
           }
@@ -310,19 +314,19 @@ const StudyComponent = () => {
           return 1;
         } else if (allowedStudyModes.includes(2)) {
           if (
-            (flashcard.definition.contains("<img") ||
-              flashcard.definition.contains("<video") ||
-              flashcard.definition.contains("ql-formula")) &&
-            (flashcard.term.contains("<img>") ||
-              flashcard.term.contains("<video>") ||
-              flashcard.term.contains("ql-formula"))
+            (flashcard.definition.includes("<img") ||
+              flashcard.definition.includes("<video") ||
+              flashcard.definition.includes("ql-formula")) &&
+            (flashcard.term.includes("<img>") ||
+              flashcard.term.includes("<video>") ||
+              flashcard.term.includes("ql-formula"))
           ) {
             return 3;
           }
           if (
-            flashcard.definition.contains("<img") ||
-            flashcard.definition.contains("<video") ||
-            flashcard.definition.contains("ql-formula")
+            flashcard.definition.includes("<img") ||
+            flashcard.definition.includes("<video") ||
+            flashcard.definition.includes("ql-formula")
           ) {
             return 2;
           }
