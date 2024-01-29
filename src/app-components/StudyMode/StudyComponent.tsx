@@ -429,7 +429,7 @@ const StudyComponent = () => {
   return (
     <>
       <ToastContainer />
-      <Dashboard>
+      {/* <Dashboard> */}
         <div className="study-component">
           <div className="study-wrapper">
             {studyMode === 1 && (
@@ -468,7 +468,7 @@ const StudyComponent = () => {
             />
           )}
         </div>
-      </Dashboard>
+      {/* </Dashboard> */}
     </>
   );
 };

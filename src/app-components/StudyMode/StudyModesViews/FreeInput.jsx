@@ -18,6 +18,10 @@ const FreeInput = (props) => {
     };
   }, [answer]);
 
+  useEffect(() => {
+    console.log(showResults);
+  }, [showResults]);
+
   React.useEffect(() => {
     setAnswer("");
   }, [props.currentFlashcardTerm]);
@@ -31,33 +35,40 @@ const FreeInput = (props) => {
   };
 
   return (
-    <div>
-      <div>{parse(props.currentFlashcardTerm)}</div>
+    <div className="free-input">
+      <div className="term">{parse(props.currentFlashcardTerm)}</div>
       <input
         onChange={(e) => setAnswer(e.target.value)}
         value={answer}
         placeholder="Отговор"
         type="text"
+        className="answer-input"
       />
       {showResults && (
-        <p>
+        <p  
+        >
           Верният отговор е: <span>{parse(correctAnswer)}</span>
         </p>
       )}
-      <button
-        onClick={() => VerifyMyAnswerInternally(answer, 2)}
-        className={showResults ? "disabled" : ""}
-      >
-        Провери
-      </button>
-      <button
-        className={showResults ? "disabled" : ""}
-        onClick={() => VerifyMyAnswerInternally(false)}
-      >
-        Не знам
-      </button>
+      {!showResults && (
+        <button
+          onClick={() => VerifyMyAnswerInternally(answer, 2)}
+          className={showResults ? "disabled check" : "check"}
+        >
+          Провери
+        </button>
+      )}
+      
+      {!showResults && (
+        <button
+          className={showResults ? "disabled dont-know" : "dont-know"}
+          onClick={() => VerifyMyAnswerInternally(false)}
+        >
+          Не знам
+        </button>
+      )}
       {showResults && (
-        <button onClick={() => props.VerifyCorrectness(selectedAnswer, 1)}>
+        <button onClick={() => { setShowResults(false); props.VerifyCorrectness(selectedAnswer, 1);}} className="next" >
           Следваща
         </button>
       )}
