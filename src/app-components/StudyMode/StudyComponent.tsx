@@ -252,7 +252,7 @@ const StudyComponent = () => {
 
     console.log("chosen study mode is " + chosenStudyMode);
     console.log("allowed study modes are " + allowedStudyModes);
-    
+
     if (allowedStudyModes.includes(chosenStudyMode)) {
       return chosenStudyMode;
     } else {
@@ -344,12 +344,13 @@ const StudyComponent = () => {
   const VerifyCorrectness = (
     answer,
     studyMode,
-    submitAnswerInstantly = true
+    submitAnswerInstantly = true,
+    forceTrue = false
   ) => {
     let isCorrect;
     let flashcardsCopy = [...flashcards];
 
-    if (convert(answer) == convert(currentFlashcardDefinition)) {
+    if (convert(answer) == convert(currentFlashcardDefinition) || forceTrue) {
       isCorrect = true;
     } else {
       isCorrect = false;
@@ -434,44 +435,44 @@ const StudyComponent = () => {
     <>
       <ToastContainer />
       {/* <Dashboard> */}
-        <div className="study-component">
-          <div className="study-wrapper">
-            {studyMode === 1 && (
-              <MultipleChoice
-                currentFlashcardTerm={currentFlashcardTerm}
-                currentFlashcardDefinition={currentFlashcardDefinition}
-                flashcards={flashcards}
-                VerifyCorrectness={VerifyCorrectness}
-              />
-            )}
-            {studyMode === 2 && (
-              <FreeInput
-                currentFlashcardTerm={currentFlashcardTerm}
-                currentFlashcardDefinition={currentFlashcardDefinition}
-                VerifyCorrectness={VerifyCorrectness}
-              />
-            )}
-            {studyMode === 3 && (
-              <LevelCheck
-                currentFlashcardTerm={currentFlashcardTerm}
-                currentFlashcardDefinition={currentFlashcardDefinition}
-                VerifyCorrectness={VerifyCorrectness}
-              />
-            )}
-            {studyMode == -1 && (
-              <FinishedView
-                pastFlashcardsIndexes={pastFlashcardsIndexes}
-                flashcards={flashcards}
-              />
-            )}
-          </div>
-          {studyMode != -1 && (
-            <LearnSettings
-              setAllowedModes={setAllowedStudyModes}
-              allowedModes={allowedStudyModes}
+      <div className="study-component">
+        <div className="study-wrapper">
+          {studyMode === 1 && (
+            <MultipleChoice
+              currentFlashcardTerm={currentFlashcardTerm}
+              currentFlashcardDefinition={currentFlashcardDefinition}
+              flashcards={flashcards}
+              VerifyCorrectness={VerifyCorrectness}
+            />
+          )}
+          {studyMode === 2 && (
+            <FreeInput
+              currentFlashcardTerm={currentFlashcardTerm}
+              currentFlashcardDefinition={currentFlashcardDefinition}
+              VerifyCorrectness={VerifyCorrectness}
+            />
+          )}
+          {studyMode === 3 && (
+            <LevelCheck
+              currentFlashcardTerm={currentFlashcardTerm}
+              currentFlashcardDefinition={currentFlashcardDefinition}
+              VerifyCorrectness={VerifyCorrectness}
+            />
+          )}
+          {studyMode == -1 && (
+            <FinishedView
+              pastFlashcardsIndexes={pastFlashcardsIndexes}
+              flashcards={flashcards}
             />
           )}
         </div>
+        {studyMode != -1 && (
+          <LearnSettings
+            setAllowedModes={setAllowedStudyModes}
+            allowedModes={allowedStudyModes}
+          />
+        )}
+      </div>
       {/* </Dashboard> */}
     </>
   );

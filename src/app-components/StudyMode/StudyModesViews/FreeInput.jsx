@@ -45,8 +45,7 @@ const FreeInput = (props) => {
         className="answer-input"
       />
       {showResults && (
-        <p className="correct-answer" 
-        >
+        <p className="correct-answer">
           Верният отговор е: <span>{parse(correctAnswer)}</span>
         </p>
       )}
@@ -58,7 +57,18 @@ const FreeInput = (props) => {
           Провери
         </button>
       )}
-      
+      {showResults && !selectedAnswer.isCorrect ? (
+        <button
+          onClick={() => {
+            props.VerifyCorrectness("", 2, true, true);
+            setShowResults(false);
+          }}
+        >
+          Отговорът ми е верен
+        </button>
+      ) : (
+        ""
+      )}
       {!showResults && (
         <button
           className={showResults ? "disabled dont-know" : "dont-know"}
@@ -68,7 +78,13 @@ const FreeInput = (props) => {
         </button>
       )}
       {showResults && (
-        <button onClick={() => { setShowResults(false); props.VerifyCorrectness(selectedAnswer, 1);}} className="next" >
+        <button
+          onClick={() => {
+            setShowResults(false);
+            props.VerifyCorrectness(selectedAnswer, 1);
+          }}
+          className="next"
+        >
           Следваща
         </button>
       )}
