@@ -44,7 +44,7 @@ const LevelCheck = (props) => {
 
       {showResults && (
         <button onClick={() => {              setShowResults(false); setFlipOpen(false); 
-          props.VerifyCorrectness(selectedAnswer, 1)}}>
+          props.VerifyCorrectness(selectedAnswer.givenAnswer, 1)}}>
           Следваща
         </button>
       )}
