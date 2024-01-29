@@ -10,11 +10,15 @@ const MultipleChoice = (props) => {
     let answerOptions = [];
     let answerOptionsSet = new Set();
     answerOptionsSet.add(props.currentFlashcardDefinition);
-    if(props.flashcards.length < 2){
-      alert("Няма достатъчно картички за да се използва този режим. Моля изберете друг!")
+    if (props.flashcards.length < 2) {
+      alert(
+        "Няма достатъчно картички за да се използва този режим. Моля изберете друг!"
+      );
       return;
     }
-    while (answerOptionsSet.size < props.flashcards.length-1) {
+    let answerOptionsCount =
+      props.flashcards.length - 1 > 4 ? 4 : props.flashcards.length - 1;
+    while (answerOptionsSet.size < answerOptionsCount) {
       let randomIndex = Math.floor(Math.random() * props.flashcards.length);
       answerOptionsSet.add(props.flashcards[randomIndex].definition);
     }
@@ -71,11 +75,11 @@ const MultipleChoice = (props) => {
           );
         })}
         <div className="btn">
-        {!selectedAnswer ? (
+          {!selectedAnswer ? (
             <button onClick={() => props.VerifyCorrectness(false, 1)}>
-            {" "}
-            Не знам{" "}
-          </button>
+              {" "}
+              Не знам{" "}
+            </button>
           ) : null}
         </div>
         <div className="btn">
