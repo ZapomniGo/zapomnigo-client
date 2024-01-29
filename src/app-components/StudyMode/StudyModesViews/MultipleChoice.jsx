@@ -74,7 +74,7 @@ const MultipleChoice = (props) => {
             </div>
           );
         })}
-        <div className="btn">
+        <div className="btn donkno">
           {!selectedAnswer ? (
             <button onClick={() => props.VerifyCorrectness(false, 1)}>
               {" "}
