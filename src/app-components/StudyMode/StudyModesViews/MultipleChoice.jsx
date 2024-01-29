@@ -17,7 +17,7 @@ const MultipleChoice = (props) => {
       return;
     }
     let answerOptionsCount =
-      props.flashcards.length - 1 > 4 ? 4 : props.flashcards.length - 1;
+      props.flashcards.length - 2 > 4 ? 4 : props.flashcards.length - 2;
     while (answerOptionsSet.size < answerOptionsCount) {
       let randomIndex = Math.floor(Math.random() * props.flashcards.length);
       answerOptionsSet.add(props.flashcards[randomIndex].definition);
@@ -37,10 +37,6 @@ const MultipleChoice = (props) => {
     setSelectedAnswer(answerOption);
     setShowResults(true);
   };
-  useEffect(() => {
-    setSelectedAnswer();
-    setShowResults(false);
-  }, [props.currentFlashcardTerm]);
   return (
     <div>
       <div id="flashcard" className={"no-image-flashcard"}>
@@ -84,7 +80,13 @@ const MultipleChoice = (props) => {
         </div>
         <div className="btn">
           {selectedAnswer ? (
-            <button onClick={() => props.VerifyCorrectness(selectedAnswer, 1)}>
+            <button
+              onClick={() => {
+                props.VerifyCorrectness(selectedAnswer, 1);
+                setSelectedAnswer();
+                setShowResults(false);
+              }}
+            >
               Следваща
             </button>
           ) : null}

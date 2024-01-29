@@ -54,14 +54,16 @@ const StudyComponent = () => {
             if (
               flashcard.definition.includes("<img") ||
               flashcard.definition.includes("<video") ||
-              flashcard.definition.includes("ql-formula")
+              flashcard.definition.includes("ql-formula") ||
+              flashcard.term.includes("<iframe")
             ) {
               //make sure there are no images/formulas/videos in the term as well
               if (
                 !(
                   flashcard.term.includes("<img") ||
                   flashcard.term.includes("<video") ||
-                  flashcard.term.includes("ql-formula")
+                  flashcard.term.includes("ql-formula") ||
+                  flashcard.term.includes("<iframe")
                 )
               ) {
                 let temp = flashcard.term;
@@ -261,19 +263,22 @@ const StudyComponent = () => {
         return 1;
       } else if (chosenStudyMode == 2 && allowedStudyModes.includes(2)) {
         if (
-          (flashcard.definition.includes("<img") ||
+          ((flashcard.definition.includes("<img") ||
             flashcard.definition.includes("<video") ||
-            flashcard.definition.includes("ql-formula")) &&
-          (flashcard.term.includes("<img>") ||
-            flashcard.term.includes("<video>") ||
-            flashcard.term.includes("ql-formula"))
+            flashcard.definition.includes("ql-formula") ||
+            flashcard.term.includes("<iframe")) &&
+            (flashcard.term.includes("<img>") ||
+              flashcard.term.includes("<video>") ||
+              flashcard.term.includes("ql-formula"))) ||
+          flashcard.term.includes("<iframe")
         ) {
           return 3;
         }
         if (
           flashcard.definition.includes("<img") ||
           flashcard.definition.includes("<video") ||
-          flashcard.definition.includes("ql-formula")
+          flashcard.definition.includes("ql-formula") ||
+          flashcard.term.includes("<iframe")
         ) {
           return 2;
         }
@@ -285,17 +290,20 @@ const StudyComponent = () => {
           if (
             (flashcard.definition.includes("<img") ||
               flashcard.definition.includes("<video") ||
-              flashcard.definition.includes("ql-formula")) &&
+              flashcard.definition.includes("ql-formula") ||
+              flashcard.term.includes("<iframe")) &&
             (flashcard.term.includes("<img>") ||
               flashcard.term.includes("<video>") ||
-              flashcard.term.includes("ql-formula"))
+              flashcard.term.includes("ql-formula") ||
+              flashcard.term.includes("<iframe"))
           ) {
             return 3;
           }
           if (
             flashcard.definition.includes("<img") ||
             flashcard.definition.includes("<video") ||
-            flashcard.definition.includes("ql-formula")
+            flashcard.definition.includes("ql-formula") ||
+            flashcard.term.includes("<iframe")
           ) {
             return 2;
           }
@@ -316,17 +324,20 @@ const StudyComponent = () => {
           if (
             (flashcard.definition.includes("<img") ||
               flashcard.definition.includes("<video") ||
-              flashcard.definition.includes("ql-formula")) &&
+              flashcard.definition.includes("ql-formula") ||
+              flashcard.term.includes("<iframe")) &&
             (flashcard.term.includes("<img>") ||
               flashcard.term.includes("<video>") ||
-              flashcard.term.includes("ql-formula"))
+              flashcard.term.includes("ql-formula") ||
+              flashcard.term.includes("<iframe"))
           ) {
             return 3;
           }
           if (
             flashcard.definition.includes("<img") ||
             flashcard.definition.includes("<video") ||
-            flashcard.definition.includes("ql-formula")
+            flashcard.definition.includes("ql-formula") ||
+            flashcard.term.includes("<iframe")
           ) {
             return 2;
           }
