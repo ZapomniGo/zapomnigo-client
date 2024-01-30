@@ -31,6 +31,20 @@ const MultipleChoice = (props) => {
     props.currentFlashcardDefinition,
   ]);
 
+  useEffect(() => {
+    const handleEnterPress = (e) => {
+      if (e.keyCode === 13) {
+        props.VerifyCorrectness(selectedAnswer, 1);
+        setSelectedAnswer();
+        setShowResults(false);
+      }
+    };
+    document.addEventListener("keydown", handleEnterPress);
+    return () => {
+      document.removeEventListener("keydown", handleEnterPress);
+    };
+  }, [showResults]);
+
   const VerifyMyAnswerInternally = (answerOption) => {
     //answer object has everything you need for styling
     let answerObject = props.VerifyCorrectness(answerOption, 1, false);
