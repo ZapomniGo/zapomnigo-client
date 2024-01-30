@@ -147,7 +147,7 @@ export const SetPage = () => {
     }
 
     instance
-      .get(`/sets/${id}?page=${page}&size=20`)
+      .get(`/sets/${id}?page=${page}&size=200`)
       .then((response) => {
         document.title = response.data.set.set_name + " | ЗапомниГо";
         setTotalPages(response.data.total_pages);
