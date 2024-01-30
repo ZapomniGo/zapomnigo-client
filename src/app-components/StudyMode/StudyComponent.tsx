@@ -74,9 +74,8 @@ const StudyComponent = () => {
 
             return flashcard;
           });
-          console.log(tempFlashcards);
           setFlashcards(tempFlashcards);
-          setOriginalFlashcards(newFlashcards);
+          setOriginalFlashcards(tempFlashcards);
           GeneratePrompt(newFlashcards);
         }
       })
