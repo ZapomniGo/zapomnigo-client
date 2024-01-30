@@ -16,9 +16,12 @@ const MultipleChoice = (props) => {
       );
       return;
     }
-
-    while (answerOptionsSet.size < 4) {
-      let randomIndex = Math.floor(Math.random() * props.originalFlashacards.length);
+    const numOptions =
+      props.flashcards.length < 4 ? props.flashcards.length : 4;
+    while (answerOptionsSet.size < numOptions) {
+      let randomIndex = Math.floor(
+        Math.random() * props.originalFlashacards.length
+      );
       answerOptionsSet.add(props.originalFlashacards[randomIndex].definition);
     }
     answerOptions = Array.from(answerOptionsSet);
