@@ -26,9 +26,10 @@ const LearnSettings = (props) => {
                     : [...prev, 1]
                 )
               }
-            /><label for="switch1"></label>
+            />
+            <label for="switch1"></label>
           </div>
-          
+
           <p className="title">Свободен отговор:</p>
           <div className="settings-option">
             <span>Това е режим със свободен отговор:</span>
@@ -43,7 +44,8 @@ const LearnSettings = (props) => {
                     : [...prev, 2]
                 )
               }
-            /><label for="switch2"></label>
+            />
+            <label for="switch2"></label>
           </div>
 
           <p className="title">Самоизпитване:</p>
@@ -63,15 +65,20 @@ const LearnSettings = (props) => {
                     : [...prev, 3]
                 )
               }
-            /> <label for="switch3"></label>
+            />{" "}
+            <label for="switch3"></label>
           </div>
         </div>
       )}
-            {toggleOpen ? (
-              <div onClick={() => setToggleOpen((prev) => !prev)}><TbSettings/></div>
-            ) : (
-              <div onClick={() => setToggleOpen((prev) => !prev)} className="open"><TbSettings/></div>
-            )}
+      {toggleOpen ? (
+        <div onClick={() => setToggleOpen((prev) => !prev)}>
+          <TbSettings />
+        </div>
+      ) : (
+        <div onClick={() => setToggleOpen((prev) => !prev)} className="open">
+          <TbSettings />
+        </div>
+      )}
     </div>
   );
 };

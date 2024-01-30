@@ -16,8 +16,9 @@ const MultipleChoice = (props) => {
       );
       return;
     }
-
-    while (answerOptionsSet.size < props.originalFlashacards.length - 2) {
+    let numberOfAnswerOptions =
+      props.flashcards.length - 1 < 4 ? props.flashcards.length - 1 : 4;
+    while (answerOptionsSet.size < numberOfAnswerOptions) {
       let randomIndex = Math.floor(
         Math.random() * props.originalFlashacards.length
       );
