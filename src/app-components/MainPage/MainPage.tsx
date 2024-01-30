@@ -8,39 +8,10 @@ import { LoadingAnimation } from "../LoadingAnimation/LoadingAnimtation";
 import { FaRegFolderClosed } from "react-icons/fa6";
 import { RxCrossCircled } from "react-icons/rx";
 
-//this we should receive from backend when calling for categories/subcategories
-const mockSets = [
-  // {
-  //   "category_name": "Test Category",
-  //   "organization_name": "Test Organization",
-  //   "set_description": "Test Description",
-  //   "set_id": "01HN0GKK384ZQW03MWRZSR549K",
-  //   "set_modification_date": "2024-01-25 14:32:57.704165",
-  //   "set_name": "Test Set",
-  //   "username": "testuser@test.com"
-  // },
-];
-
-const mockCategories = [
-  {
-    category_id: '01HJKREA25THZE70QVPWN6W1E6',
-    category_name: '1st Grade',
-  },
-  {
-    category_id: '01HJKREA25THZE70QVPWN6W1E6',
-    category_name: '2nd Grade',
-  },
-  {
-    category_id: '01HJKREA25THZE70QVPWN6W1E6',
-    category_name: '3rd Grade',
-  }
-]
-
 
 export const MainPage: React.FC = () => {
   const [setCards, setSetCards] = useState([]);
   const [folderCards, setFolderCards] = useState([]);
-  // const [exploreCards, setExploreCards] = useState(10);
   const [selectSet, setSelectSet] = useState<string | null>(null);
   const [pageSet, setPageSet] = useState(1);
   const [pageFolder, setPageFolder] = useState(1);
@@ -48,9 +19,14 @@ export const MainPage: React.FC = () => {
   const [totalFolderPages, setTotalFolderPages] = useState(1);
   const [allCategories, setAllCategories] = useState([]);
   const [title,setTitle] = useState('Разгледай')
+  const [categoryID, setCategoryID] = useState('');
   const [category, setCategory] = useState('');
   const [isFolderLoading, setIsFolderLoading] = useState(false);
   const [isSetLoading, setIsSetLoading] = useState(false);
+  const [subCategories, setSubCategories] = useState([]);
+  const [selectedSubCategory, setSelectedSubCategory] = useState('');
+  const [hasSets, setHasSets] = useState(true);
+  const [hasFolders, setHasFolders] = useState(true);
 
 
 
@@ -58,10 +34,10 @@ export const MainPage: React.FC = () => {
     const newPageSet = pageSet + 1;
     setPageSet(newPageSet);
       setIsSetLoading(true)
-    console.log(category)
-    console.log(newPageSet)
+      console.log(category)
+      console.log(newPageSet)
     instance.get(
-      `/sets?page=${newPageSet}&size=2&sort_by_date=false&ascending=true&category_id=${category}`
+      `/sets?page=${newPageSet}&size=20&sort_by_date=false&ascending=true&category_id=${category}`
       ).then((response) => {
       setTotalSetPages(response.data.total_pages);
       const newCards = [...setCards];
@@ -100,36 +76,76 @@ export const MainPage: React.FC = () => {
   //used to reset sets and folders
   //reset works
  const resetSets = () => {
-  setPageSet(1);
-  setIsFolderLoading(true);
-  setIsSetLoading(true);
-  instance.get(
-    `/sets?page=${pageSet}&size=10&sort_by_date=true&ascending=false`
-    ).then((response) => {
-    setTotalSetPages(response.data.total_pages);
-    const newCards = [];
-    response.data.sets.forEach(card => newCards.push(card));
-    setSetCards(newCards);
-    setTimeout(() => {
-      setIsSetLoading(false);
-    }, 250);  });
-  setTitle('Разгледай')
 
-  instance.get("/categories").then((response) => {
-    setAllCategories(response.data.categories);
-  });
+  if(selectedSubCategory !== ''){
+    setSelectedSubCategory('');
+    setPageSet(1);
+    setTitle(category)
+    setIsFolderLoading(true);
+    setIsSetLoading(true);
+    setAllCategories([]);
+    instance.get(
+      `/sets?page=1&size=10&sort_by_date=false&ascending=true&category_id=${categoryID}`
+      ).then((response) => {
+      setTotalSetPages(response.data.total_pages);
+      const newCards = [];
+      response.data.sets.forEach(card => newCards.push(card));
+      setSetCards(newCards);
+      setHasSets(true);
+      setTimeout(() => {
+        setIsSetLoading(false);
+      }, 250);  
+    });
+  
+ 
+    setPageFolder(1);
+    instance.get(`/folders?page=${pageFolder}&size=10&sort_by_date=true&ascending=false&category_id=${categoryID}`)
+    .then((response) => {
+      setTotalFolderPages(response.data.total_pages);
+      const newFolderCards = [];
+      response.data.folders.forEach(card => newFolderCards.push(card));
+      setFolderCards(newFolderCards);
+      setHasFolders(true);
+      setTimeout(() => {
+        setIsFolderLoading(false);
+      }, 250);
+    });
+  } else{
+    setPageSet(1);
+    setIsFolderLoading(true);
+    setIsSetLoading(true);
+    setSubCategories([]);
+    instance.get(
+      `/sets?page=1&size=10&sort_by_date=false&ascending=true&category_id=`
+      ).then((response) => {
+      setTotalSetPages(response.data.total_pages);
+      const newCards = [];
+      response.data.sets.forEach(card => newCards.push(card));
+      setSetCards(newCards);
+      setHasSets(true);
+      setTimeout(() => {
+        setIsSetLoading(false);
+      }, 250);  });
+    setTitle('Разгледай')
+  
+    instance.get("/categories").then((response) => {
+      setAllCategories(response.data.categories);
+    });
+  
+    setPageFolder(1);
+    instance.get(`/folders?page=${pageFolder}&size=10&sort_by_date=true&ascending=false&category_id=`)
+    .then((response) => {
+      setTotalFolderPages(response.data.total_pages);
+      const newFolderCards = [];
+      response.data.folders.forEach(card => newFolderCards.push(card));
+      setFolderCards(newFolderCards);
+      setHasFolders(true);
+      setTimeout(() => {
+        setIsFolderLoading(false);
+      }, 250);
+    });
+  }
 
-  setPageFolder(1);
-  instance.get(`/folders?page=${pageFolder}&size=10&sort_by_date=true&ascending=false`)
-  .then((response) => {
-    setTotalFolderPages(response.data.total_pages);
-    const newFolderCards = [];
-    response.data.folders.forEach(card => newFolderCards.push(card));
-    setFolderCards(newFolderCards);
-    setTimeout(() => {
-      setIsFolderLoading(false);
-    }, 250);
-  });
 }
 
 
@@ -144,6 +160,7 @@ export const MainPage: React.FC = () => {
       const newCards = [...setCards];
       response.data.sets.forEach(card => newCards.push(card));
       setSetCards(newCards);      
+      setHasSets(true);
 
     });
     instance.get("/categories").then((response) => {
@@ -157,6 +174,7 @@ export const MainPage: React.FC = () => {
       const newFolderCards = [...folderCards];
       response.data.folders.forEach(card => newFolderCards.push(card));
       setFolderCards(newFolderCards);
+      setHasFolders(true);
     });
   }, []);
 
@@ -173,6 +191,7 @@ export const MainPage: React.FC = () => {
       const newCards = [];
       response.data.sets.forEach(card => newCards.push(card));
       setSetCards(newCards);
+      setHasSets(true);
       setTimeout(() => {
         setIsSetLoading(false);
       }, 250);
@@ -186,24 +205,76 @@ export const MainPage: React.FC = () => {
       const newFolderCards = [];
       response.data.folders.forEach(card => newFolderCards.push(card));
       setFolderCards(newFolderCards);
+      setHasFolders(true)
       setTimeout(() => {
         setIsFolderLoading(false);
       }, 250);    });
     setTitle(name);
-    setCategory(id);
+    setCategoryID(id);
+    setCategory(name)
+    
 
 
     //this calls for the subcategories
-    // instance.get(`/sub-cats/${id}`).then((response) => {
-    //   setAllCategories(response.data.categories);
-    //   console.log(response.data);
-    // });
-
-    // setAllCategories(mockCategories)
+    instance.get(`/categories/${id}/subcategories`).then((response) => {
+      setAllCategories([]);
+      console.log(response.data.subcategories)
+      setSubCategories(response.data.subcategories);
+    });
   }
 
 
 
+  const changeSubCategory = (id: string, name: string) => {
+    //this should work when backend is ready
+    setSetCards([]);
+    setSelectedSubCategory(id);
+    setIsFolderLoading(true);
+    setIsSetLoading(true);
+    setPageSet(1);
+    console.log("here")
+    instance
+    .get(`/sets?page=1&size=10&sort_by_date=false&ascending=true&category_id=${categoryID}&subcategory_id=${id}`)
+    .then((response) => {
+        console.log("sets")
+        setTotalSetPages(response.data.total_pages);
+        const newCards = [];
+        response.data.sets.forEach(card => newCards.push(card));
+        setSetCards(newCards);
+        setHasSets(true);
+        setTimeout(() => {
+          setIsSetLoading(false);
+        }, 250);
+      })
+      .catch((error) => {
+        console.log(error.response.status);
+        if (error.response.status === 404) {
+          setHasSets(false); // Update hasSets if a 404 error is received
+        }
+        setIsSetLoading(false);
+      });
+
+    setPageFolder(1);
+    setFolderCards([]);
+    instance.get(`/folders?page=1&size=10&sort_by_date=true&ascending=true&category_id=${categoryID}&subcategory_id=${id}`)
+    .then((response) => {
+      setTotalFolderPages(response.data.total_pages);
+      const newFolderCards = [];
+      response.data.folders.forEach(card => newFolderCards.push(card));
+      setFolderCards(newFolderCards);
+      setIsFolderLoading(false);
+      setHasFolders(true);
+    })
+    .catch((error) => {
+      console.log(error.response.status);
+      if (error.response.status === 404) {
+        setHasFolders(false); // Update hasSets if a 404 error is received
+      }
+      setIsFolderLoading(false);
+    });
+
+    setTitle(name);
+  }
 
   const handleMouseEnter = (id: string) => {
     setSelectSet(id);
@@ -215,14 +286,22 @@ export const MainPage: React.FC = () => {
 
   return (
     <Dashboard>
+
       <div className="category-wrapper">
-      {allCategories.map((category) => (
+      {allCategories && allCategories.map((category) => (
         <div key={category.category_id} className="category-btn" onClick={() => changeCategory(category.category_id, category.category_name)}>
           <p >
             {category.category_name}
           </p>
         </div>
       ))}
+      {subCategories && subCategories.map((subCategories) => (
+              <div key={subCategories.subcategory_id} className="category-btn" onClick={() => changeSubCategory(subCategories.subcategory_id, subCategories.subcategory_name)}>
+              <p >
+                {subCategories.subcategory_name}
+              </p>
+            </div>
+          ))} 
       <div className="reset-btn" onClick={() => {
         resetSets()
       }}> <RxCrossCircled/> </div>
@@ -230,9 +309,10 @@ export const MainPage: React.FC = () => {
       <div className="set-wrapper">
         <h2 className="category-title">{title} тестета:</h2>
         <div className="sets">
-        {isSetLoading ? (
-          <LoadingAnimation />
-          ) : setCards.length > 0 ? (
+        <div className="sets">
+      {isSetLoading ? (
+        <LoadingAnimation />
+        ) :setCards.length > 0 ? (
             setCards.map((card) => (
             <SetCard
               key={card.set_id}
@@ -249,8 +329,9 @@ export const MainPage: React.FC = () => {
             />
           ))
         ) : (
-          <LoadingAnimation/>
+          <p>No available sets</p>
         )}
+        </div>
         </div>
         {!isSetLoading && pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentSet(category)} />}
       </div>
@@ -278,10 +359,10 @@ export const MainPage: React.FC = () => {
             />
           ))
         ) : (
-          <LoadingAnimation/>
+          <p>No available Folders</p>
         )}
         </div>
-        {!isFolderLoading && pageFolder < totalFolderPages && folderCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentFolder(category)} />}
+        {!isFolderLoading && pageFolder < totalFolderPages && folderCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentFolder(categoryID)} />}
           
           
         
