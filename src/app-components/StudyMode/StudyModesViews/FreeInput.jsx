@@ -60,18 +60,20 @@ const FreeInput = (props) => {
             </button>
           </div>
         )}
-        {!showResults && (
+        {!showResults && answer ? (
           <button
             onClick={() => VerifyMyAnswerInternally(answer, 2)}
             className={showResults ? "disabled check" : "check"}
           >
             Провери
           </button>
+        ) : (
+          ""
         )}
       </div>
       <div style={{ display: "flex" }}>
         {showResults && !selectedAnswer.isCorrect ? (
-          <button 
+          <button
             onClick={() => {
               props.VerifyCorrectness("", 2, true, true);
               setShowResults(false);

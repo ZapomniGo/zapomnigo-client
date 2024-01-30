@@ -8,12 +8,20 @@ const FinishedView = (props) => {
     <section className="finished-view">
       Машина, железен си 💪 Свърши ученето на {props.flashcards.length}{" "}
       флашкарти, минавайки през тях {props.pastFlashcardsIndexes.length} пъти
+      <br />
       <button
         onClick={() => {
           navigate(-1);
         }}
       >
-        Начало
+        Върни ме в сета
+      </button>
+      <button
+        onClick={() => {
+          window.location.reload();
+        }}
+      >
+        Учи отново
       </button>
     </section>
   );
