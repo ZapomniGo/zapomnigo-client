@@ -16,11 +16,10 @@ const MultipleChoice = (props) => {
       );
       return;
     }
-    let answerOptionsCount =
-      props.flashcards.length - 2 > 4 ? 4 : props.flashcards.length - 2;
-    while (answerOptionsSet.size < answerOptionsCount) {
-      let randomIndex = Math.floor(Math.random() * props.flashcards.length);
-      answerOptionsSet.add(props.flashcards[randomIndex].definition);
+
+    while (answerOptionsSet.size < 4) {
+      let randomIndex = Math.floor(Math.random() * props.originalFlashacards.length);
+      answerOptionsSet.add(props.originalFlashacards[randomIndex].definition);
     }
     answerOptions = Array.from(answerOptionsSet);
     answerOptions.sort(() => Math.random() - 0.5);
