@@ -107,7 +107,7 @@ export const SetPage = () => {
     instance
       .delete(`/sets/${id}`)
       .then((response) => {
-        navigate("/app");
+        navigate(`/app/sets/${username}`);
       })
       .catch((error) => {
         console.log(error);
