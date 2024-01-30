@@ -286,7 +286,6 @@ export const CreateSet = () => {
         onImport={handleOnImportFlashcards}
         isOpen={isModalOpen}
         onClose={() => {
-          console.log("closed");
           setIsModalOpen(false);
         }}
       />
