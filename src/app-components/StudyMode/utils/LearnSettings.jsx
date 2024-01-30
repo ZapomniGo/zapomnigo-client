@@ -67,7 +67,11 @@ const LearnSettings = (props) => {
           </div>
         </div>
       )}
-      <div onClick={() => setToggleOpen((prev) => !prev)}><TbSettings/></div>
+            {toggleOpen ? (
+              <div onClick={() => setToggleOpen((prev) => !prev)}><TbSettings/></div>
+            ) : (
+              <div onClick={() => setToggleOpen((prev) => !prev)} className="open"><TbSettings/></div>
+            )}
     </div>
   );
 };

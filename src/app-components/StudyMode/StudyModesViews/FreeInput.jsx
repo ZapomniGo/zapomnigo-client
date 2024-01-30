@@ -49,6 +49,17 @@ const FreeInput = (props) => {
           Верният отговор е: <span>{parse(correctAnswer)}</span>
         </p>
       )}
+      <div className="vert-flex">
+      {!showResults && (
+        <div className="donkno">
+          <button
+            className={showResults ? "disabled" : ""}
+            onClick={() => VerifyMyAnswerInternally(false)}
+          >
+            Не знам
+          </button>
+        </div>
+      )}
       {!showResults && (
         <button
           onClick={() => VerifyMyAnswerInternally(answer, 2)}
@@ -57,6 +68,7 @@ const FreeInput = (props) => {
           Провери
         </button>
       )}
+      </div>
       {showResults && !selectedAnswer.isCorrect ? (
         <button
           onClick={() => {
@@ -69,16 +81,7 @@ const FreeInput = (props) => {
       ) : (
         ""
       )}
-      {!showResults && (
-        <div className="donkno">
-          <button
-            className={showResults ? "disabled" : ""}
-            onClick={() => VerifyMyAnswerInternally(false)}
-          >
-            Не знам
-          </button>
-        </div>
-      )}
+
       {showResults && (
         <button
           onClick={() => {
