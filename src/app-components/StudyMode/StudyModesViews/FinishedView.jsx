@@ -6,7 +6,7 @@ const FinishedView = (props) => {
   const navigate = useNavigate();
   return (
     <section className="finished-view">
-      Машина, железен си 💪 Свърши ученето на {props.flashcards.length}{" "}
+      Машина, железен си! Свърши ученето на {props.flashcards.length}{" "}
       флашкарти, минавайки през тях {props.pastFlashcardsIndexes.length} пъти
       <br />
       <button
