@@ -144,6 +144,8 @@ export const MainPage: React.FC = () => {
         setIsFolderLoading(false);
       }, 250);
     });
+    setCategoryID('');
+    setSubCategories([]);
   }
 
 }
@@ -302,9 +304,11 @@ export const MainPage: React.FC = () => {
               </p>
             </div>
           ))} 
-      <div className="reset-btn" onClick={() => {
-        resetSets()
-      }}> <RxCrossCircled/> </div>
+      {(categoryID || selectedSubCategory) && (
+        <div className="reset-btn" onClick={resetSets}>
+          <RxCrossCircled/>
+        </div>
+      )}
       </div>
       <div className="set-wrapper">
         <h2 className="category-title">{title} тестета:</h2>
