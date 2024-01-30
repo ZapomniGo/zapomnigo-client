@@ -28,12 +28,19 @@ export const EditFolder = () => {
 
     useEffect(() => {
         
-        instance.get(`/folders/${id}/sets`).then((response) => {
+        instance
+          .get(`/folders/${id}/sets`)
+          .then((response) => {
             setSetCards(response.data.sets);
             folder.folder_title = response.data.folder_title;
             folder.folder_description = response.data.folder_description;
             setInstitution({name: response.data.organization_name, id: ""});
             setCategory({name: response.data.category_name, id: ""});
+          })
+          .catch((error) => {
+            if (error.response.status === 404) {
+              window.location.href = "/app/not-found";
+            }
           });
           
 

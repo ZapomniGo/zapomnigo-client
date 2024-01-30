@@ -40,7 +40,7 @@ export const FolderView: React.FC = () => {
       })
       .catch((error) => {
         if (error.response.status === 404) {
-          setTitle("Няма такава папка :<");
+          window.location.href = "/app/not-found";
         }
       });
   }, []);
