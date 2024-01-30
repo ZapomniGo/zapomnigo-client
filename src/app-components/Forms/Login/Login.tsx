@@ -18,7 +18,7 @@ const validateForm = (data: LoginData): LoginErrorRecord => {
     password: {
       hasError: data.password.length === 0,
       message:
-        data.password.length === 0 ? "Моля, въведете валидна парола" : "",
+        data.password.length === 0 ? "Хм, паролата не е валидна" : "",
     },
   };
 };

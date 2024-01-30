@@ -13,9 +13,9 @@
   svg:hover {
     color: orange;
   }
-  .btnGroup{
-    position:fixed;
-    bottom:1vmax;
+  .btnGroup {
+    position: fixed;
+    bottom: 1vmax;
   }
   #flip-flip-icon {
     position: fixed;
@@ -33,6 +33,7 @@
     color: gray;
   }
   #card {
+    margin-bottom:10vmax;
     margin-top: 20px;
     width: 40%;
     p {
@@ -101,9 +102,15 @@
 @media screen and (max-width: 1000px) {
   .counter {
     top: 8vmax !important;
-    font-size:3vmax !important;
+    font-size: 3vmax !important;
   }
   #wrapper {
+    svg {
+      font-size: 4vmax !important;
+      margin: 1.5vmax !important;
+      margin-left: 2vmax !important;
+      margin-right: 2vmax !important;
+    }
     font-size: 15px;
 
     #card {
@@ -112,12 +119,7 @@
       width: 80%;
     }
   }
-  svg{
-    font-size:4vmax !important;
-    margin:1.5vmax !important;
-    margin-left:2vmax !important;
-    margin-right:2vmax !important;
-  }
+
   #flip-flip-icon {
     position: fixed;
     bottom: 1vmax;

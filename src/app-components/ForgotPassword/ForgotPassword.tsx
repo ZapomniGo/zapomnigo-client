@@ -29,7 +29,7 @@ const ForgetPassword = () => {
     }
     if (!token) {
       if (!emailPattern.test(email)) {
-        setMessage("Моля, въведете валиден имейл адрес");
+        setMessage("Хм, имейлът не е валиден");
         return;
       }
       instance
