@@ -130,26 +130,20 @@
   }
 }
 
-.donkno {
-  button {
-    border: none;
-    background-color: #fff !important;
-    color: gray !important;
-  }
-  button:active, button:focus {
-    outline: 0 !important;
-    border: none !important;
-    box-shadow: none !important;
-    -moz-outline-style: none !important;
-  }
-  .donkno:hover{
-    button{
-      background-color: #fff !important;
-      color: gray !important;
-      box-shadow: none !important;
-    }
+.lvl-check{
+
+  button{
+    padding: 10px 0 !important;
+    height: 100%;
+    width: 19% !important;  
   }
 }
+
+.button-wrapper{
+  display: flex;
+}
+
+
 
 @media screen and (max-width: 1000px){
   .study-wrapper {
@@ -168,6 +162,26 @@
     button{
       padding: 10px 0 !important;
       font-size: 1.2rem !important;
+    }
+  }
+  .donkno {
+    button {
+      border: none;
+      background-color: #fff !important;
+      color: gray !important;
+    }
+    button:active, button:focus {
+      outline: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      -moz-outline-style: none !important;
+    }
+    .donkno:hover{
+      button{
+        background-color: #fff !important;
+        color: gray !important;
+        box-shadow: none !important;
+      }
     }
   }
 }
@@ -210,6 +224,9 @@
       border-radius: 5px;
       width: 50% ;
     }
+  }
+  button{
+    width: 97% !important;
   }
   .correct-answer{
     padding-left: 5px;
