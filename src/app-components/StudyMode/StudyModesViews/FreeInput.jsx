@@ -70,12 +70,14 @@ const FreeInput = (props) => {
         ""
       )}
       {!showResults && (
+        <div className="donkno">
         <button
-          className={showResults ? "disabled dont-know" : "dont-know"}
+          className={showResults ? "disabled" : ""}
           onClick={() => VerifyMyAnswerInternally(false)}
         >
           Не знам
         </button>
+        </div>
       )}
       {showResults && (
         <button

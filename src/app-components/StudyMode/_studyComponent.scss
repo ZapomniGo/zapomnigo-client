@@ -130,25 +130,27 @@
   }
 }
 
-.donkno{
-  button{
+.donkno {
+  button {
+    border: none;
     background-color: #fff !important;
     color: gray !important;
+  }
+  button:active, button:focus {
+    outline: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    -moz-outline-style: none !important; // For Firefox
   }
 }
 
 @media screen and (max-width: 1000px){
   .study-wrapper {
     #flashcard{
-      // &:hover {
-      //   background-color: orange !important;
-      //   color: #fff !important;
-      //   box-shadow: none !important;
-      // }
       .term{
         p{
           align-items: center;
-          font-size: 15px !important;
+          font-size: 17px !important;
           img{
             max-width: 100%;
           }
