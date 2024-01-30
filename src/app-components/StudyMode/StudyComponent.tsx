@@ -36,7 +36,11 @@ const StudyComponent = () => {
     defaultSetup.allowedModes ? defaultSetup.allowedModes : [1, 2, 3]
   );
   const { id } = useParams<{ id: string }>();
-  const [id2, setId2] = useState(id);
+  const [idHolder, setIdHolder] = useState(id);
+
+  useEffect(() => {
+    setIdHolder(id);
+  }, [id]);
 
   useEffect(() => {
     if (id!.length === 0 || id!.length !== 26 || id!.includes(" ")) {
@@ -465,17 +469,18 @@ const StudyComponent = () => {
               VerifyCorrectness={VerifyCorrectness}
             />
           )}
-          {studyMode === -1 && (
+          {studyMode === 3 && (
             <LevelCheck
               currentFlashcardTerm={currentFlashcardTerm}
               currentFlashcardDefinition={currentFlashcardDefinition}
               VerifyCorrectness={VerifyCorrectness}
             />
           )}
-          {studyMode == 3 && (
+          {studyMode == -1 && (
             <FinishedView
               pastFlashcardsIndexes={pastFlashcardsIndexes}
               flashcards={flashcards}
+              id={idHolder}
             />
           )}
         </div>
@@ -483,7 +488,6 @@ const StudyComponent = () => {
           <LearnSettings
             setAllowedModes={setAllowedStudyModes}
             allowedModes={allowedStudyModes}
-            id = {id2}
           />
         )}
       </div>
