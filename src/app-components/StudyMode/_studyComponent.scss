@@ -140,7 +140,14 @@
     outline: 0 !important;
     border: none !important;
     box-shadow: none !important;
-    -moz-outline-style: none !important; // For Firefox
+    -moz-outline-style: none !important;
+  }
+  .donkno:hover{
+    button{
+      background-color: #fff !important;
+      color: gray !important;
+      box-shadow: none !important;
+    }
   }
 }
 
