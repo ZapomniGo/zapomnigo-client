@@ -73,7 +73,6 @@
         p{
           display: flex;
           flex-direction: column;
-          align-items: center;
           img{
             border-radius: 5px;
             max-width: 70%;
@@ -230,7 +229,7 @@
 .free-input{
   padding: 20px;
   .donkno{
-    display: contents;
+    display: contents !important;
   }
   .term{
     font-size: 30px;
@@ -238,7 +237,6 @@
     p{
       display: flex;
       flex-direction: column;
-      align-items: center;
     }
     img{
       margin: 8px 0;

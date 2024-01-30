@@ -50,49 +50,51 @@ const FreeInput = (props) => {
         </p>
       )}
       <div className="vert-flex">
-      {!showResults && (
-        <div className="donkno">
+        {!showResults && (
+          <div className="donkno">
+            <button
+              className={showResults ? "disabled" : ""}
+              onClick={() => VerifyMyAnswerInternally(false)}
+            >
+              Не знам
+            </button>
+          </div>
+        )}
+        {!showResults && (
           <button
-            className={showResults ? "disabled" : ""}
-            onClick={() => VerifyMyAnswerInternally(false)}
+            onClick={() => VerifyMyAnswerInternally(answer, 2)}
+            className={showResults ? "disabled check" : "check"}
           >
-            Не знам
+            Провери
           </button>
-        </div>
-      )}
-      {!showResults && (
-        <button
-          onClick={() => VerifyMyAnswerInternally(answer, 2)}
-          className={showResults ? "disabled check" : "check"}
-        >
-          Провери
-        </button>
-      )}
+        )}
       </div>
-      {showResults && !selectedAnswer.isCorrect ? (
-        <button
-          onClick={() => {
-            props.VerifyCorrectness("", 2, true, true);
-            setShowResults(false);
-          }}
-        >
-          Отговорът ми е верен
-        </button>
-      ) : (
-        ""
-      )}
+      <div style={{ display: "flex" }}>
+        {showResults && !selectedAnswer.isCorrect ? (
+          <button 
+            onClick={() => {
+              props.VerifyCorrectness("", 2, true, true);
+              setShowResults(false);
+            }}
+          >
+            Отговорът ми е верен
+          </button>
+        ) : (
+          ""
+        )}
 
-      {showResults && (
-        <button
-          onClick={() => {
-            setShowResults(false);
-            props.VerifyCorrectness(selectedAnswer, 1);
-          }}
-          className="next"
-        >
-          Следваща
-        </button>
-      )}
+        {showResults && (
+          <button
+            onClick={() => {
+              setShowResults(false);
+              props.VerifyCorrectness(selectedAnswer, 1);
+            }}
+            className="next"
+          >
+            Следваща
+          </button>
+        )}
+      </div>
     </div>
   );
 };

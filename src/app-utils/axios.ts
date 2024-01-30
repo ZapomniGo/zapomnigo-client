@@ -65,6 +65,8 @@ instance.interceptors.response.use(
         .catch((error) => {
           return Promise.reject(error);
         });
+    } else if (error.response.status === 500) {
+      window.location.href = "/app/login";
     }
 
     return Promise.reject(error);
