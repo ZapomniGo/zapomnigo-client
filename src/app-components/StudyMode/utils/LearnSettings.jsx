@@ -5,7 +5,7 @@ const LearnSettings = (props) => {
   const [toggleOpen, setToggleOpen] = useState(false);
 
   return (
-    <div className="settings">
+    <div className="settings-study">
       {toggleOpen && (
         <div className="settings-menu">
           <h3>Настройки на режим учи</h3>

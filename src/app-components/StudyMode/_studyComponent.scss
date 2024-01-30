@@ -83,6 +83,7 @@
 
 
       }
+
     }
 
     @media screen and (min-width: 1000px) {
@@ -217,6 +218,9 @@
 .lvl-check,
 .free-input{
   padding: 20px;
+  .donkno{
+    display: contents;
+  }
   .term{
     font-size: 30px;
     padding-left: 5px;
@@ -226,7 +230,7 @@
     }
   }
   button{
-    width: 97% !important;
+    width: 19% !important;
   }
   .correct-answer{
     padding-left: 5px;
@@ -240,7 +244,7 @@
 }
 
 
-.settings{
+.settings-study{
   display: block;
   position: fixed;
   bottom: 35px;
@@ -257,7 +261,7 @@
 }
 
 
-.settings{
+.settings-study{
   .settings-menu{
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
@@ -306,7 +310,7 @@
     }
     
     input:checked + label {
-      background: #bada55;
+      background: $secondary-color;
     }
     
     input:checked + label:after {
@@ -328,6 +332,12 @@
   }
 }
 @media screen and (max-width: 1000px) {
+  .lvl-check,
+  .free-input{
+    button{
+      width: 97% !important;
+    }
+  }
   .free-input{
     input{
       height: 4vmax;
@@ -338,7 +348,7 @@
       padding: 10px !important;
     }
   }
-  .settings{
+  .settings-study{
     .settings-menu{
       width: 250px !important;
     }
