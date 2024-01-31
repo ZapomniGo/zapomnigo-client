@@ -59,7 +59,7 @@ export const EditSet = () => {
     instance.get("/organizations").then((response) => {
       setAllInstitutions(response.data.organizations);
     });
-    instance.get(`/sets/${id}`).then((response) => {
+    instance.get(`/sets/${id}?size=2000`).then((response) => {
       loadFlashcards(response.data.set.flashcards);
       setTitle(response.data.set.set_name);
       setDescription(response.data.set.set_description);
@@ -180,6 +180,8 @@ export const EditSet = () => {
     const url = "http://www.google.com/search?q=" + query;
     window.open(url, "_blank");
   };
+
+  useEffect(() => console.log(flashcards.length), [flashcards]);
 
   return (
     <Dashboard>
