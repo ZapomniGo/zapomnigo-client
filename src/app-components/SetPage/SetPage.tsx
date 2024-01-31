@@ -107,7 +107,7 @@ export const SetPage = () => {
     instance
       .delete(`/sets/${id}`)
       .then((response) => {
-        navigate("/app");
+        navigate(`/app/sets/${username}`);
       })
       .catch((error) => {
         console.log(error);
@@ -135,19 +135,12 @@ export const SetPage = () => {
   };
   useEffect(() => {
     if (id.length === 0 || id.length !== 26 || id.includes(" ")) {
-      setFlashcards({
-        set_name: "Хм, това тесте не съществува",
-        set_description: "Провери дали си въвел правилния линк",
-        set_category: "",
-        flashcards: [],
-        username: "все още никого :<",
-        organization_name: "",
-      });
+        window.location.href = "/app/not-found";
       return;
     }
 
     instance
-      .get(`/sets/${id}?page=${page}&size=20`)
+      .get(`/sets/${id}?page=${page}&size=200`)
       .then((response) => {
         document.title = response.data.set.set_name + " | ЗапомниГо";
         setTotalPages(response.data.total_pages);
@@ -166,6 +159,9 @@ export const SetPage = () => {
         console.log(response);
       })
       .catch((error) => {
+        if(error.response.status === 404){
+          window.location.href = "/app/not-found";
+        }
         console.error(error);
       });
   }, [id, page]);

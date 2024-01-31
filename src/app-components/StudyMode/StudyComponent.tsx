@@ -44,6 +44,7 @@ const StudyComponent = () => {
 
   useEffect(() => {
     if (id!.length === 0 || id!.length !== 26 || id!.includes(" ")) {
+      window.location.href = "/app/not-found";
       return;
     }
     if (!localStorage.getItem("access_token")) {
@@ -53,6 +54,7 @@ const StudyComponent = () => {
     instance
       .get(`/sets/${id}/study`)
       .then((res) => {
+        console.log(res)
         const newFlashcards = res.data.flashcards;
         if (newFlashcards.length > 0) {
           let tempFlashcards = newFlashcards.map((flashcard) => {
@@ -86,6 +88,9 @@ const StudyComponent = () => {
         }
       })
       .catch((err) => {
+        if(err.response.status === 404){
+          window.location.href = "/app/not-found";
+        }
         console.error(err);
       });
   }, [id]);

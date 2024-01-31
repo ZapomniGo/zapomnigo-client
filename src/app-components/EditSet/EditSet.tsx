@@ -364,7 +364,7 @@ export const EditSet = () => {
         </div>
       </div>
       <FlashcardImportModal
-        onImport={() => handleOnImportFlashcards()}
+        onImport={handleOnImportFlashcards}
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);

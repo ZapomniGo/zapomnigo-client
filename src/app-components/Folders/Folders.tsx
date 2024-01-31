@@ -22,10 +22,20 @@ export const Folders: React.FC = () => {
   }
 
   useEffect(() => {
-    instance.get(`/users/${userID}/folders`).then((response) => {
+    instance.
+    get(`/users/${userID}/folders`)
+    .then((response) => {
       console.log(response);
       setSetCards(response.data.folders);
-    });
+    })
+    .catch((error) => {
+      console.log(error);
+      if(error.response.status === 404){
+        window.location.href = "/app/not-found";
+      }
+      console.error(error);
+    })
+
   }, []);
 
   const handleLoadRecent = () => {

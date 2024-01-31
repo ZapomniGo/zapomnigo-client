@@ -19,8 +19,11 @@ const Flip = () => {
         //to check if any flashcards are present in the set/set is valid
         setFlashcards(res.data.set.flashcards);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        if(error.response.status === 404){
+          window.location.href = "/app/not-found";
+        }
+        console.error(error);
       });
   }, []);
   const previous = () => {
