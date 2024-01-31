@@ -181,8 +181,6 @@ export const EditSet = () => {
     window.open(url, "_blank");
   };
 
-  useEffect(() => console.log(flashcards.length), [flashcards]);
-
   return (
     <Dashboard>
       <ToastContainer />
