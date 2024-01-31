@@ -14,7 +14,7 @@ const FinishedView = (props) => {
           navigate(-1);
         }}
       >
-        Върни ме в сета
+        Върни ме в тестето
       </button>
       <button
         onClick={() => {
