@@ -59,13 +59,20 @@ export const EditSet = () => {
     instance.get("/organizations").then((response) => {
       setAllInstitutions(response.data.organizations);
     });
-    instance.get(`/sets/${id}`).then((response) => {
-      loadFlashcards(response.data.set.flashcards);
-      setTitle(response.data.set.set_name);
-      setDescription(response.data.set.set_description);
-      setInstitution({ name: response.data.set.organization_name, id: "" });
-      setCategory({ name: response.data.set.category_name, id: "" });
-    });
+    instance
+      .get(`/sets/${id}`)
+      .then((response) => {
+        loadFlashcards(response.data.set.flashcards);
+        setTitle(response.data.set.set_name);
+        setDescription(response.data.set.set_description);
+        setInstitution({ name: response.data.set.organization_name, id: "" });
+        setCategory({ name: response.data.set.category_name, id: "" });
+      })
+      .catch((error) => {
+        if (error.response.status === 404) {
+          window.location.href = "/app/not-found";
+        }
+      });
   }, []);
   const isEmpty = (string: string) => {
     if (string.length === 0) {
