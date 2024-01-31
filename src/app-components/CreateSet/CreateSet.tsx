@@ -22,7 +22,7 @@ export const CreateSet = () => {
   const [allCategories, setAllCategories] = useState([]);
   const [category, setCategory] = useState("");
   const [subcategories, setSubcategories] = useState([]);
-  const [institution, setInstitution] = useState("");
+  // const [institution, setInstitution] = useState("");
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
 
 
@@ -196,7 +196,7 @@ export const CreateSet = () => {
               >
                 <option value="">Без подкатегория</option>
                 {subcategories.map((subcategories, index) => (
-                  <option key={index} value={subcategories.subcategory_name}>
+                  <option key={index} value={subcategories.subcategory_id}>
                     {subcategories.subcategory_name}
                   </option>
                 ))}
