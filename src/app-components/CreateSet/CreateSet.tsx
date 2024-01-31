@@ -21,8 +21,10 @@ export const CreateSet = () => {
   const [description, setDescription] = useState("");
   const [allCategories, setAllCategories] = useState([]);
   const [category, setCategory] = useState("");
-  const [allInstitutions, setAllInstitutions] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
   const [institution, setInstitution] = useState("");
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
+
 
   const {
     flashcards,
@@ -40,9 +42,10 @@ export const CreateSet = () => {
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
     });
-    instance.get("/organizations").then((response) => {
-      setAllInstitutions(response.data.organizations);
-    });
+    //disable subcategories if setallcategories is empty
+    // instance.get("/organizations").then((response) => {
+    //   setAllInstitutions(response.data.organizations);
+    // });
   }, []);
   const isEmpty = (string: string) => {
     if (!string) return true;
@@ -111,29 +114,42 @@ export const CreateSet = () => {
       return;
     }
     // check if the tags are not empty
-    instance
-      .post("/sets", {
-        set_name: title,
-        set_description: description,
-        flashcards: flashcards,
-        set_category: category,
-        organization_id: institution,
-      })
-      .then((response) => {
-        toast("Добре дошъл в новото си тесте");
-        navigate("/app/set/" + response.data.set_id);
-        window.scrollTo(0, 0);
-      })
-      .catch((error) => {
-        toast("Възникна грешка");
-        console.log(error);
-      });
+    console.log(selectedSubCategory)
+    // instance
+    //   .post("/sets", {
+    //     set_name: title,
+    //     set_description: description,
+    //     flashcards: flashcards,
+    //     set_category: category,
+    //     //pitai vankata dali e subcategory_id
+    //     organization_id: institution,
+    //     subcategory_id: selectedSubCategory,
+    //   })
+    //   .then((response) => {
+    //     toast("Добре дошъл в новото си тесте");
+    //     navigate("/app/set/" + response.data.set_id);
+    //     window.scrollTo(0, 0);
+    //   })
+    //   .catch((error) => {
+    //     toast("Възникна грешка");
+    //     console.log(error);
+    //   });
   };
 
   const search = (query: string) => {
     const url = "http://www.google.com/search?q=" + convert(query);
     window.open(url, "_blank");
   };
+
+  const changeSubcategories = (category_id: string) => {
+    console.log(category_id)
+    instance
+    .get(`/categories/${category_id}/subcategories`)
+    .then((response) => {
+      console.log(response.data.subcategories);
+      setSubcategories(response.data.subcategories);
+    })
+  }
 
   return (
     <Dashboard>
@@ -160,7 +176,7 @@ export const CreateSet = () => {
             </div>
             <div className="tags">
               <select
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(e) => {setCategory(e.target.value); changeSubcategories(e.target.value);}}
                 defaultValue={""}
                 id="categories"
                 name="categories"
@@ -173,15 +189,15 @@ export const CreateSet = () => {
                 ))}
               </select>
               <select
-                onChange={(e) => setInstitution(e.target.value)}
+                onChange={(e) => setSelectedSubCategory(e.target.value)}
                 defaultValue=""
                 id="institution"
                 name="institution"
               >
-                <option value="">Без институция</option>
-                {allInstitutions.map((institution, index) => (
-                  <option key={index} value={institution.organization_id}>
-                    {institution.organization_name}
+                <option value="">Без подкатегория</option>
+                {subcategories.map((subcategories, index) => (
+                  <option key={index} value={subcategories.subcategory_name}>
+                    {subcategories.subcategory_name}
                   </option>
                 ))}
               </select>
