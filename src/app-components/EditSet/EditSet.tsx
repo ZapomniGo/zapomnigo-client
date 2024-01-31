@@ -60,7 +60,7 @@ export const EditSet = () => {
       setAllInstitutions(response.data.organizations);
     });
     instance
-      .get(`/sets/${id}`)
+      .get(`/sets/${id}?size=2000`)
       .then((response) => {
         loadFlashcards(response.data.set.flashcards);
         setTitle(response.data.set.set_name);
@@ -325,14 +325,14 @@ export const EditSet = () => {
               </div>{" "}
               <div key={index} className="flashcard">
                 <Editor
-                  placeholder={"Term"}
+                  placeholder={"Термин"}
                   value={flashcard.term}
                   onChange={(value: string) =>
                     handleChangeFlashcard(index, "term", value)
                   }
                 />
                 <Editor
-                  placeholder={"Definition"}
+                  placeholder={"Дефиниция"}
                   value={flashcard.definition}
                   onChange={(value: string) =>
                     handleChangeFlashcard(index, "definition", value)
