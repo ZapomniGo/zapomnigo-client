@@ -14,18 +14,21 @@ export const CreateFolder = () => {
   }
 
   const [allCategories, setAllCategories] = useState([]);
-  const [allInstitutions, setAllInstitutions] = useState([]);
+  // const [allInstitutions, setAllInstitutions] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
+
+  
   const [folder, setFolder] = useState<{
     folder_title: string;
     folder_description: string;
     sets: Set[];
-    organization_id: string;
+    subcategory_id: string;
     category_id: string;
   }>({
     folder_title: "",
     folder_description: "",
     sets: [],
-    organization_id: "",
+    subcategory_id: "",
     category_id: "",
   });
   const [setCards, setSetCards] = useState([]);
@@ -38,9 +41,9 @@ export const CreateFolder = () => {
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
     });
-    instance.get("/organizations").then((response) => {
-      setAllInstitutions(response.data.organizations);
-    });
+    // instance.get("/organizations").then((response) => {
+    //   setAllInstitutions(response.data.organizations);
+    // });
   }, []);
 
   const handleChangeFolder = (key: string, value: string) => {
@@ -52,19 +55,19 @@ export const CreateFolder = () => {
     const selectedSetIds = folder.sets.map((set) => set.set_id.toString());
     // Use selectedSetIds when making your request
     const folderToSubmit = { ...folder, sets: selectedSetIds };
-
-    instance
-      .post("/folders", folderToSubmit)
-      .then((response) => {
-        console.log(response);
-        toast("Добре дошъл в новата си папка");
-        navigate("/app/folder/" + response.data.folder_id);
-        window.scrollTo(0, 0);
-      })
-      .catch((error) => {
-        toast("Възникна грешка");
-        console.log(error);
-      });
+    console.log(folderToSubmit)
+    // instance
+    //   .post("/folders", folderToSubmit)
+    //   .then((response) => {
+    //     console.log(response);
+    //     toast("Добре дошъл в новата си папка");
+    //     navigate("/app/folder/" + response.data.folder_id);
+    //     window.scrollTo(0, 0);
+    //   })
+    //   .catch((error) => {
+    //     toast("Възникна грешка");
+    //     console.log(error);
+    //   });
 
     console.log(folderToSubmit);
   };
@@ -101,6 +104,16 @@ export const CreateFolder = () => {
     unavailableSetIds.includes(set.set_id.toString())
   );
 
+  const changeSubcategories = (category_id: string) => {
+    console.log(category_id)
+    instance
+    .get(`/categories/${category_id}/subcategories`)
+    .then((response) => {
+      console.log(response.data.subcategories);
+      setSubcategories(response.data.subcategories);
+    })
+  }
+
   return (
     <Dashboard>
       <ToastContainer />
@@ -127,14 +140,12 @@ export const CreateFolder = () => {
             </div>
             <div className="tags">
               <select
-                onChange={(e) =>
-                  handleChangeFolder("category_id", e.target.value)
-                }
+                onChange={(e) => {handleChangeFolder("category_id", e.target.value); changeSubcategories(e.target.value);}}
                 defaultValue={""}
                 id="categories"
                 name="categories"
               >
-                <option value="">Без категория</option>
+                <option value="">Без събкатегория</option>
                 {allCategories.map((category, index) => (
                   <option key={index} value={category.category_id}>
                     {category.category_name}
@@ -142,17 +153,16 @@ export const CreateFolder = () => {
                 ))}
               </select>
               <select
-                onChange={(e) =>
-                  handleChangeFolder("organization_id", e.target.value)
+                onChange={(e) => { handleChangeFolder("subcategory_id", e.target.value);}
                 }
                 defaultValue=""
-                id="institution"
-                name="institution"
+                id="subcategory"
+                name="subcategory"
               >
                 <option value="">Без институция</option>
-                {allInstitutions.map((institution, index) => (
-                  <option key={index} value={institution.organization_id}>
-                    {institution.organization_name}
+                {subcategories.map((subcategory, index) => (
+                  <option key={index} value={subcategory.subcategory_id}>
+                    {subcategory.subcategory_name}
                   </option>
                 ))}
               </select>

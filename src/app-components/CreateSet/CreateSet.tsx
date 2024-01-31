@@ -22,8 +22,9 @@ export const CreateSet = () => {
   const [allCategories, setAllCategories] = useState([]);
   const [category, setCategory] = useState("");
   const [subcategories, setSubcategories] = useState([]);
-  // const [institution, setInstitution] = useState("");
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
+    // const [institution, setInstitution] = useState("");
+
 
 
   const {
@@ -115,25 +116,25 @@ export const CreateSet = () => {
     }
     // check if the tags are not empty
     console.log(selectedSubCategory)
-    // instance
-    //   .post("/sets", {
-    //     set_name: title,
-    //     set_description: description,
-    //     flashcards: flashcards,
-    //     set_category: category,
-    //     //pitai vankata dali e subcategory_id
-    //     organization_id: institution,
-    //     subcategory_id: selectedSubCategory,
-    //   })
-    //   .then((response) => {
-    //     toast("Добре дошъл в новото си тесте");
-    //     navigate("/app/set/" + response.data.set_id);
-    //     window.scrollTo(0, 0);
-    //   })
-    //   .catch((error) => {
-    //     toast("Възникна грешка");
-    //     console.log(error);
-    //   });
+    instance
+      .post("/sets", {
+        set_name: title,
+        set_description: description,
+        flashcards: flashcards,
+        set_category: category,
+        //pitai vankata dali e subcategory_id
+        // organization_id: institution,
+        subcategory_id: selectedSubCategory,
+      })
+      .then((response) => {
+        toast("Добре дошъл в новото си тесте");
+        navigate("/app/set/" + response.data.set_id);
+        window.scrollTo(0, 0);
+      })
+      .catch((error) => {
+        toast("Възникна грешка");
+        console.log(error);
+      });
   };
 
   const search = (query: string) => {
