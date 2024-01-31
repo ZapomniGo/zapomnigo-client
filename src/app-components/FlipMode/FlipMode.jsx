@@ -6,6 +6,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { MdOutlineFlip } from "react-icons/md";
 import { FaArrowRotateLeft } from "react-icons/fa6";
+import { MdFlipCameraAndroid } from "react-icons/md";
 import { toast } from "react-toastify";
 const Flip = () => {
   const { id } = useParams();
@@ -80,7 +81,7 @@ const Flip = () => {
 
           <center className="btnGroup">
             {flashcards.length > 1 && <FaArrowLeft onClick={previous} />}
-           <MdOutlineFlip onClick={() => setIsHidden(!isHidden)} />
+           <MdFlipCameraAndroid onClick={() => setIsHidden(!isHidden)} />
             {flashcards.length > 1 && <FaArrowRight onClick={next} />}
           </center>
           <FaArrowRotateLeft id="flip-flip-icon" onClick={changeTermAndDefintion}/>
