@@ -12,7 +12,7 @@ import LevelCheck from "./StudyModesViews/LevelCheck";
 import FinishedView from "./StudyModesViews/FinishedView";
 import { toast, ToastContainer } from "react-toastify";
 import LearnSettings from "./utils/LearnSettings";
-
+import { LP, LN, SP, SN, MN, MP } from "../../app-utils/soundManager";
 import defaultSetup from "./configs/defaultSetup.json";
 
 //TODO: verify image is not an answer/ auto term/definition detection
@@ -54,7 +54,7 @@ const StudyComponent = () => {
     instance
       .get(`/sets/${id}/study`)
       .then((res) => {
-        console.log(res)
+        console.log(res);
         const newFlashcards = res.data.flashcards;
         if (newFlashcards.length > 0) {
           let tempFlashcards = newFlashcards.map((flashcard) => {
@@ -88,7 +88,7 @@ const StudyComponent = () => {
         }
       })
       .catch((err) => {
-        if(err.response.status === 404){
+        if (err.response.status === 404) {
           window.location.href = "/app/not-found";
         }
         console.error(err);
@@ -386,6 +386,7 @@ const StudyComponent = () => {
     GeneratePrompt(flashcardsCopy);
 
     if (isCorrect) {
+      LP.play();
       if (defaultSetup.enablePositives) {
         toast(
           defaultSetup.positives[
@@ -408,6 +409,7 @@ const StudyComponent = () => {
       flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
       setFlashcards(flashcardsCopy);
     } else {
+      LN.play();
       if (defaultSetup.enableNegatives) {
         toast(
           defaultSetup.negatives[
@@ -450,6 +452,7 @@ const StudyComponent = () => {
 
   const EndStudyMode = () => {
     setStudyMode(-1);
+    LP.play();
   };
 
   return (

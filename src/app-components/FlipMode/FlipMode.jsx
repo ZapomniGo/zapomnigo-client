@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { MdOutlineFlip } from "react-icons/md";
 import { FaArrowRotateLeft } from "react-icons/fa6";
 import { MdFlipCameraAndroid } from "react-icons/md";
+import { FO, FC } from "../../app-utils/soundManager";
 import { toast } from "react-toastify";
 const Flip = () => {
   const { id } = useParams();
@@ -21,13 +22,14 @@ const Flip = () => {
         setFlashcards(res.data.set.flashcards);
       })
       .catch((error) => {
-        if(error.response.status === 404){
+        if (error.response.status === 404) {
           window.location.href = "/app/not-found";
         }
         console.error(error);
       });
   }, []);
   const previous = () => {
+    FC.play();
     setIsHidden(true);
     if (counter > 0) {
       setCounter((prev) => prev - 1);
@@ -36,6 +38,7 @@ const Flip = () => {
     }
   };
   const next = () => {
+    FC.play();
     setIsHidden(true);
     if (counter < flashcards.length - 1) {
       setCounter((prev) => prev + 1);
@@ -54,12 +57,11 @@ const Flip = () => {
         };
       });
     });
-  }
-
-
+  };
   useEffect(() => {
-    console.log(isHidden);
-  }, [isHidden]);
+    FC.pause();
+    FO.pause();
+  }, []);
 
   return (
     <>
@@ -81,10 +83,18 @@ const Flip = () => {
 
           <center className="btnGroup">
             {flashcards.length > 1 && <FaArrowLeft onClick={previous} />}
-           <MdFlipCameraAndroid onClick={() => setIsHidden(!isHidden)} />
+            <MdFlipCameraAndroid
+              onClick={() => {
+                isHidden ? FO.play() : FC.play();
+                setIsHidden(!isHidden);
+              }}
+            />
             {flashcards.length > 1 && <FaArrowRight onClick={next} />}
           </center>
-          <FaArrowRotateLeft id="flip-flip-icon" onClick={changeTermAndDefintion}/>
+          <FaArrowRotateLeft
+            id="flip-flip-icon"
+            onClick={changeTermAndDefintion}
+          />
         </section>
       ) : (
         <center>
