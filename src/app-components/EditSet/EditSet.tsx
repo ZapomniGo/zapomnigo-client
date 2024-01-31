@@ -318,14 +318,14 @@ export const EditSet = () => {
               </div>{" "}
               <div key={index} className="flashcard">
                 <Editor
-                  placeholder={"Term"}
+                  placeholder={"Термин"}
                   value={flashcard.term}
                   onChange={(value: string) =>
                     handleChangeFlashcard(index, "term", value)
                   }
                 />
                 <Editor
-                  placeholder={"Definition"}
+                  placeholder={"Дефиниция"}
                   value={flashcard.definition}
                   onChange={(value: string) =>
                     handleChangeFlashcard(index, "definition", value)
