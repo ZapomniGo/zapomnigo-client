@@ -59,20 +59,13 @@ export const EditSet = () => {
     instance.get("/organizations").then((response) => {
       setAllInstitutions(response.data.organizations);
     });
-    instance
-      .get(`/sets/${id}`)
-      .then((response) => {
-        loadFlashcards(response.data.set.flashcards);
-        setTitle(response.data.set.set_name);
-        setDescription(response.data.set.set_description);
-        setInstitution({ name: response.data.set.organization_name, id: "" });
-        setCategory({ name: response.data.set.category_name, id: "" });
-      })
-      .catch((error) => {
-        if (error.response.status === 404) {
-          window.location.href = "/app/not-found";
-        }
-      });
+    instance.get(`/sets/${id}?size=2000`).then((response) => {
+      loadFlashcards(response.data.set.flashcards);
+      setTitle(response.data.set.set_name);
+      setDescription(response.data.set.set_description);
+      setInstitution({ name: response.data.set.organization_name, id: "" });
+      setCategory({ name: response.data.set.category_name, id: "" });
+    });
   }, []);
   const isEmpty = (string: string) => {
     if (string.length === 0) {
@@ -325,14 +318,14 @@ export const EditSet = () => {
               </div>{" "}
               <div key={index} className="flashcard">
                 <Editor
-                  placeholder={"Term"}
+                  placeholder={"Термин"}
                   value={flashcard.term}
                   onChange={(value: string) =>
                     handleChangeFlashcard(index, "term", value)
                   }
                 />
                 <Editor
-                  placeholder={"Definition"}
+                  placeholder={"Дефиниция"}
                   value={flashcard.definition}
                   onChange={(value: string) =>
                     handleChangeFlashcard(index, "definition", value)
