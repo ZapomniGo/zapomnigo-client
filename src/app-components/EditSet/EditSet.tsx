@@ -154,7 +154,7 @@ export const EditSet = () => {
 
       if (flashcardElement) {
         const yOffset =
-          flashcardElement.getBoundingClientRect().top + window.pageYOffset;
+          flashcardElement.getBoundingClientRect().top + window.scrollY;
         window.scrollTo({ top: yOffset, behavior: "smooth" });
       }
 
