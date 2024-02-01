@@ -16,6 +16,8 @@ export const CreateFolder = () => {
   const [allCategories, setAllCategories] = useState([]);
   // const [allInstitutions, setAllInstitutions] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
+  const [allSubcategories, setAllSubcategories] = useState([]);
+  const [subcategory, setSubcategory] = useState({ name: "", id: "" });
 
   
   const [folder, setFolder] = useState<{
@@ -56,18 +58,18 @@ export const CreateFolder = () => {
     // Use selectedSetIds when making your request
     const folderToSubmit = { ...folder, sets: selectedSetIds };
     console.log(folderToSubmit)
-    // instance
-    //   .post("/folders", folderToSubmit)
-    //   .then((response) => {
-    //     console.log(response);
-    //     toast("Добре дошъл в новата си папка");
-    //     navigate("/app/folder/" + response.data.folder_id);
-    //     window.scrollTo(0, 0);
-    //   })
-    //   .catch((error) => {
-    //     toast("Възникна грешка");
-    //     console.log(error);
-    //   });
+    instance
+      .post("/folders", folderToSubmit)
+      .then((response) => {
+        console.log(response);
+        toast("Добре дошъл в новата си папка");
+        navigate("/app/folder/" + response.data.folder_id);
+        window.scrollTo(0, 0);
+      })
+      .catch((error) => {
+        toast("Възникна грешка");
+        console.log(error);
+      });
 
     console.log(folderToSubmit);
   };
@@ -114,6 +116,10 @@ export const CreateFolder = () => {
     })
   }
 
+  const resetSubcategory = () => {
+    setSubcategories([]);
+  }
+
   return (
     <Dashboard>
       <ToastContainer />
@@ -140,7 +146,7 @@ export const CreateFolder = () => {
             </div>
             <div className="tags">
               <select
-                onChange={(e) => {handleChangeFolder("category_id", e.target.value); changeSubcategories(e.target.value);}}
+                onChange={(e) => {handleChangeFolder("category_id", e.target.value); changeSubcategories(e.target.value); resetSubcategory()}}
                 defaultValue={""}
                 id="categories"
                 name="categories"

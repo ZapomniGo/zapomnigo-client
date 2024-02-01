@@ -151,6 +151,10 @@ export const CreateSet = () => {
     });
   }
 
+  const resetSubcategory = () => {
+    setAllSubcategories([]);
+  }
+
   return (
     <Dashboard>
       <ToastContainer />
@@ -176,7 +180,7 @@ export const CreateSet = () => {
             </div>
             <div className="tags">
               <select
-                onChange={(e) => {setCategory(e.target.value); getSubcategories(e.target.value)}}
+                onChange={(e) => {setCategory(e.target.value); getSubcategories(e.target.value); resetSubcategory()}}
                 defaultValue={""}
                 id="categories"
                 name="categories"
