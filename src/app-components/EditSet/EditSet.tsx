@@ -34,8 +34,8 @@ export const EditSet = () => {
   const [allCategories, setAllCategories] = useState([]);
   const [category, setCategory] = useState({ name: "", id: "" });
   const [subcategory, setSubcategory] = useState({ name: "", id: "" });
-  const navigate = useNavigate();
   const [allSubcategories, setAllSubcategories] = useState([]);
+  const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
 
@@ -157,7 +157,6 @@ export const EditSet = () => {
       toast("Някоя от картите е с поле с повече от 10000 символа");
       return;
     }
-    console.log(subcategoryIdRef.current)
     //check if the tags are not empty
     instance
       .put(`/sets/${id}`, {

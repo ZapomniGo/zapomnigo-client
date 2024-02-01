@@ -14,31 +14,33 @@ export const EditFolder = () => {
   }
     
   const [allCategories, setAllCategories] = useState([]);
-  const [allInstitutions, setAllInstitutions] = useState([]);
+  // const [allInstitutions, setAllInstitutions] = useState([]);
   //change ids to names after backend is fixed also change the select in option
-  const [folder, setFolder] = useState<{ folder_title: string; folder_description: string; sets: Set[], organization_name: string, category_name: string }>({ folder_title: '', folder_description: '', sets: [], organization_name: '', category_name: '' }); 
+  const [folder, setFolder] = useState<{ folder_title: string; folder_description: string; sets: Set[], subcategory_name: string, category_name: string }>({ folder_title: '', folder_description: '', sets: [], subcategory_name: '', category_name: '' }); 
   const [setCards, setSetCards] = useState([]);
   const [allSets, setAllSets] = useState([]);
   const [uniqueSets, setUniqueSets] = useState([]);
   const [category, setCategory] = useState({ name: "", id: "" });
-  const [institution, setInstitution] = useState({ name: "", id: "" });
+  const [institution, setInstitution] = useState({ name: "", id: "" })
+  const [subcategory, setSubcategory] = useState({ name: "", id: "" });
+  const [allSubcategories, setAllSubcategories] = useState([]);
+
   const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
 
     useEffect(() => {
-        
         instance.get(`/folders/${id}/sets`).then((response) => {
             setSetCards(response.data.sets);
-            folder.folder_title = response.data.folder_title;
-            folder.folder_description = response.data.folder_description;
-            setInstitution({name: response.data.organization_name, id: ""});
-            setCategory({name: response.data.category_name, id: ""});
+            folder.folder_title = response.data.folder.folder_title;
+            folder.folder_description = response.data.folder.folder_description;
+            // setInstitution({name: response.data.folder.organization_name, id: ""});
+            setCategory({name: response.data.folder.category_name, id: ""});
+            setSubcategory({ name: response.data.folder.subcategory_name, id: "" });
           });
           
 
           instance.get("/sets").then((response) => {
-
             setAllSets(response.data.sets);
           });
 
@@ -65,7 +67,7 @@ export const EditFolder = () => {
         ...folder, 
         sets: selectedSetIds, 
         category_id: category.id ? category.id : categoryIdRef.current, 
-        organization_id: institution.id  ? institution.id : institutionIdRef.current
+        subcategory_id: subcategoryIdRef.current
       };
       instance
       .put(`/folders/${id}`, folderToSubmit)
@@ -78,6 +80,38 @@ export const EditFolder = () => {
       });
       
     }
+
+    const getSubcategories = (category_id) => {
+      instance.get(`/categories/${category_id}/subcategories`).then((response) => {
+        setAllSubcategories(response.data.subcategories);
+        console.log(response.data.subcategories)
+      });
+    }
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+
+  useEffect(() => {
+    console.log(category)
+    if (category.name && allCategories.length > 0) {
+      console.log("inuseeffect")
+      const matchingCategory = allCategories.find(
+        (cat) => cat.category_name === category.name
+      );
+      if (matchingCategory) {
+        setSelectedCategoryId(matchingCategory.category_id);
+      }
+    }
+  }, [category, allCategories]);
+  
+  useEffect(() => {
+    if (selectedCategoryId) {
+      getSubcategories(selectedCategoryId);
+    }
+  }, [selectedCategoryId]);
+
+  const resetSubcategory = () => {
+    setAllSubcategories([]);
+  }
 
     const handleSelectSet = (selectedSet) => {
 
@@ -107,7 +141,7 @@ export const EditFolder = () => {
 
 
     const categoryIdRef = useRef(null);
-    const institutionIdRef = useRef(null);
+    const subcategoryIdRef = useRef(null);
     
     useEffect(() => {
       if (category && category.name && allCategories.length > 0) {
@@ -117,16 +151,13 @@ export const EditFolder = () => {
         }
       }
     
-      if (institution && institution.name && allInstitutions.length > 0) {
-        const selectedInstitution = allInstitutions.find((inst) => inst.organization_name === institution.name);
-        if (selectedInstitution) {
-          institutionIdRef.current = selectedInstitution.organization_id;
+      if (subcategory && subcategory.name && allSubcategories.length > 0) {
+        const selectedSubcategory = allSubcategories.find((inst) => inst.subcategory_name === subcategory.name);
+        if (selectedSubcategory) {
+          subcategoryIdRef.current = selectedSubcategory.subcategory_id;
         }
       }
-    }, [allCategories, allInstitutions]);
-
-
-
+    }, [allCategories, allSubcategories, subcategory]);
 
   return (
     <Dashboard>
@@ -159,6 +190,8 @@ export const EditFolder = () => {
               onChange={(e) => {
                 const selectedCategory = allCategories.find((cat) => cat.category_id === e.target.value);
                 setCategory({ name: selectedCategory ? selectedCategory.category_name : "", id: selectedCategory ? selectedCategory.category_id : "" });
+                resetSubcategory();
+                getSubcategories(selectedCategory.category_id);
               }}
             >
               <option value="">Категория</option>
@@ -172,14 +205,20 @@ export const EditFolder = () => {
 
             <select
               onChange={(e) => {
-                const selectedInstitution = allInstitutions.find((cat) => cat.organization_id === e.target.value);
-                setInstitution({ name: selectedInstitution ? selectedInstitution.organization_name : "", id: selectedInstitution ? selectedInstitution.organization_id : "" });
-              }}
+                const selectedSubcategory = allSubcategories.find((cat) => cat.subcategory_id === e.target.value);
+                setSubcategory({
+                  name: selectedSubcategory
+                    ? selectedSubcategory.subcategory_name
+                    : "",
+                  id: selectedSubcategory
+                    ? selectedSubcategory.subcategory_id
+                    : "",
+                });              }}
             >
               <option value="">Организация</option>
-              {allInstitutions.map((allInst, index) => (
-                <option key={index} value={allInst.organization_id} selected={category && institution.name === allInst.organization_name}>
-                  {allInst.organization_name}
+              {allSubcategories.map((allSubc, index) => (
+                <option key={index} value={allSubc.subcategory_id} selected={subcategory && subcategory.name === allSubc.subcategory_name}>
+                  {allSubc.subcategory_name}
                 </option>
               ))}
             </select>
@@ -194,7 +233,7 @@ export const EditFolder = () => {
                     id={card.set_id}
                     title={card.set_name}
                     description={card.set_description}
-                    institution={card.organization_name}
+                    institution={card.subcategory_name}
                     image={'/logo.jpg'}
                     creator_name={card.username}
                     isAvb={false} 
@@ -218,7 +257,7 @@ export const EditFolder = () => {
                 id={card.set_id}
                 title={card.set_name}
                 description={card.set_description}
-                institution={card.organization_name}
+                institution={card.subcategory_name}
                 image={'/logo.jpg'}
                 creator_name={card.username}
                 isAvb={true} 

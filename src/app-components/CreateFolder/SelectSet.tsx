@@ -20,9 +20,13 @@ export const SelectSet = ({
           {title.length > 56 ? title.substring(0, 56) + "..." : title}
         </div>
         <div className="select-set-description">
-          {description.length > 120
-            ? description.substring(0, 120) + "..."
-            : description}
+          {description ? (
+              description.length > 99
+                ? description.substring(0, 102) + "..."
+                : description
+            ) : (
+              "" 
+            )}
         </div>
         <div className="select-set-creator">
           <div className="image">

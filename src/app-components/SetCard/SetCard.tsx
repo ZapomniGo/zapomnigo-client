@@ -60,12 +60,12 @@ const SetCard: React.FC<SetCardProps> = ({
 
       <div className={`set-description ${isSelected ? "open" : "close"}`}>
       {description ? (
-    description.length > 99
-      ? description.substring(0, 102) + "..."
-      : description
-  ) : (
-    "" // Replace with what you want to display when there's no description
-  )}
+        description.length > 99
+          ? description.substring(0, 102) + "..."
+          : description
+      ) : (
+        "" 
+      )}
       </div>
       <div className={`set-creator  ${isSelected ? "open" : "close"}`}>
         <div className="image">
