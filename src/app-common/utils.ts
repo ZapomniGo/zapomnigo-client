@@ -96,6 +96,9 @@ const scrollToElement = (id: string) => {
     element!.getBoundingClientRect().top +
     window.scrollY -
     (viewportHeight - elementHeight!) / 2;
+
+  element!.setAttribute("data-border", "red-border");
+
   window.scrollTo({ top: yOffset, behavior: "smooth" });
 };
 
