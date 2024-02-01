@@ -15,26 +15,20 @@ import { useNavigate } from "react-router-dom";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import { toast, ToastContainer } from "react-toastify";
 import { FaPlus } from "react-icons/fa6";
-import { LoadingAnimation } from "../LoadingAnimation/LoadingAnimtation";
-import { TbSettings } from "react-icons/tb";
+import { all } from "axios";
 
 export const SetPage = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [flashcards, setFlashcards] = useState("");
+  const [sortingOrder, setSortingOrder] = useState<string>("");
   const [username, setUsername] = useState("");
   const [creator, setCreator] = useState("no one yet");
   const [page, setPage] = useState(1);
   const { id } = useParams<{ id: string }>();
   const [totalPages, setTotalPages] = useState(1);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [selectedValue, setSelectedValue] = useState("");
-  const [settings, setSettings] = useState(false);
-
-  const viewSettings = () => {
-    setSettings(!settings);
-    console.log(settings)
-  }
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -51,65 +45,8 @@ export const SetPage = () => {
   };
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedValue(event.target.value);
-    setPage(1);
-    setFlashcards("");
-
-    instance
-    .get(`/sets/${id}?page=${page}&size=20&sort_by_date=false&ascending=${event.target.value}`)
-
-      .then((response) => {
-        setTotalPages(response.data.total_pages);
-        const newFlashcards = response.data.set.flashcards;
-
-        setFlashcards({
-          ...response.data.set,
-          flashcards: newFlashcards,
-        });
-        setUsername(response.data.set.username);
-      })
-      .catch((error) => {
-        console.error(error);
-      }
-      );
+    setSortingOrder(event.target.value);
   };
-
-  useEffect(() => {
-    if (id.length === 0 || id.length !== 26 || id.includes(" ")) {
-      setFlashcards({
-        set_name: "Хм, това тесте не съществува",
-        set_description: "Провери дали си въвел правилния линк",
-        set_category: "",
-        flashcards: [],
-        username: "все още никого :<",
-        organization_name: "",
-      });
-      return;
-    }
-
-    instance
-      .get(`/sets/${id}?page=${page}&size=20`)
-      .then((response) => {
-        setTotalPages(response.data.total_pages);
-        const newFlashcards = response.data.set.flashcards;
-        let updatedFlashcards = [];
-        if (flashcards && Array.isArray(flashcards.flashcards)) {
-          updatedFlashcards = [...flashcards.flashcards, ...newFlashcards];
-        } else {
-          updatedFlashcards = [...newFlashcards];
-        }
-        setFlashcards({
-          ...response.data.set,
-          flashcards: updatedFlashcards,
-        });
-        setUsername(response.data.set.username);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [id, page]);
-
-
 
   const Export = () => {
     if (!token) {
@@ -155,8 +92,6 @@ export const SetPage = () => {
       .then((response) => {
         toast("Добре дошъл в новото си идентично тесте!");
         navigate(`/app/set/${response.data.set_id}`);
-        //maybe think of something else
-        window.location.reload();
       })
       .catch((error) => {
         toast("Имаше грешка при копирането, пробвай отново по-късно");
@@ -199,7 +134,51 @@ export const SetPage = () => {
         toast("Копирането не се поддържа от браузъра :(");
       });
   };
- 
+  useEffect(() => {
+    if (id.length === 0 || id.length !== 26 || id.includes(" ")) {
+      window.location.href = "/app/not-found";
+      return;
+    }
+
+    getSet();
+  }, [id, page]);
+
+  const getSet = (newFl = false) => {
+    instance
+      .get(`/sets/${id}?page=${page}&size=250` + sortingOrder)
+      .then((response) => {
+        document.title = response.data.set.set_name + " | ЗапомниГо";
+        setTotalPages(response.data.total_pages);
+        const newFlashcards = response.data.set.flashcards;
+        let updatedFlashcards = [];
+        if (flashcards && Array.isArray(flashcards.flashcards) && !newFl) {
+          updatedFlashcards = [...flashcards.flashcards, ...newFlashcards];
+        } else {
+          updatedFlashcards = [...newFlashcards];
+        }
+
+        if (newFl) {
+          setPage(1);
+        }
+        setFlashcards({
+          ...response.data.set,
+          flashcards: updatedFlashcards,
+        });
+        setUsername(response.data.set.username);
+        setTotalItems(response.data.total_items);
+      })
+      .catch((error) => {
+        if (error.response.status === 404) {
+          window.location.href = "/app/not-found";
+        }
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    getSet(true);
+  }, [sortingOrder]);
+
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     setToken(token || null);
@@ -208,6 +187,7 @@ export const SetPage = () => {
       const decodedToken: { username: string; institution: string } =
         jwtDecode(token);
       setCreator(decodedToken.username);
+      console.log(creator);
     }
   }, []);
 
@@ -294,21 +274,18 @@ export const SetPage = () => {
             </div>
             <div className="cards-info">
               <div className="cards-info-header">
-                <h2>
-                  Флашкарти (
-                  {flashcards ? flashcards.flashcards.length : <LoadingAnimation />})
-                </h2>
-                {flashcards.flashcards.length !== 1 ? (
-                  <>
-                    <select onChange={handleFilterChange} value={selectedValue}>
-                      <option value="">По подразбиране</option>
-                      <option value="true">По азбучен ред(А-Я)</option>
-                      <option value="false">По азбучен ред(Я-А)</option>
-                    </select>
-                  </>
-                ) : (
-                  ""
-                )}
+                <h2>Флашкарти ({flashcards ? totalItems : "Зареждане..."})</h2>
+                <select onChange={handleFilterChange}>
+                  <option value="&sort_by_date=true&ascending=false">
+                    По подразбиране
+                  </option>
+                  <option value="&sort_by_date=false&ascending=true">
+                    По азбучен ред(А-Я)
+                  </option>
+                  <option value="&sort_by_date=false&ascending=false">
+                    По азбучен ред(Я-А)
+                  </option>
+                </select>
               </div>
               {flashcards.flashcards.map((flashcard) => (
                 <Flashcard key={flashcard.flashcard_id} flashcard={flashcard} />
@@ -337,7 +314,7 @@ export const SetPage = () => {
         ) : (
           <center>
             {" "}
-            <LoadingAnimation />
+            <h1 className="loadingBanner">Зареждане...</h1>
           </center>
         )}
       </>
