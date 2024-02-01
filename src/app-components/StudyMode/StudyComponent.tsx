@@ -96,10 +96,7 @@ const StudyComponent = () => {
   }, [id]);
 
   //this function will generate a prompt for the user to study
-  const GeneratePrompt = (flashcardsInside) => {
-    // Handle case of no flashcards
-    if (flashcardsInside.length === 0) return null;
-
+  const GeneratePrompt = (flashcardsInside = flashcards) => {
     // Helper function to retrieve confidence - treating null as 0
     const getConfidence = (flashcard) => flashcard.confidence || 0;
 
@@ -463,6 +460,9 @@ const StudyComponent = () => {
         <div className="study-wrapper">
           {studyMode === 1 && (
             <MultipleChoice
+              setStudyModes={setStudyMode}
+              GeneratePrompt={GeneratePrompt}
+              studyModes={allowedStudyModes}
               currentFlashcardTerm={currentFlashcardTerm}
               currentFlashcardDefinition={currentFlashcardDefinition}
               flashcards={flashcards}

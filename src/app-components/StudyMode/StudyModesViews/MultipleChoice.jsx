@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import parse from "html-react-parser";
+import { useNavigate } from "react-router";
+
 const MultipleChoice = (props) => {
+  const navigate = useNavigate();
+
   const [answerOptions, setAnswerOptions] = React.useState([]);
   const [selectedAnswer, setSelectedAnswer] = React.useState();
   const [showResults, setShowResults] = React.useState(false);
@@ -18,7 +22,15 @@ const MultipleChoice = (props) => {
     }
     let numberOfAnswerOptions =
       props.flashcards.length - 1 < 4 ? props.flashcards.length - 1 : 4;
+    let index = 0;
     while (answerOptionsSet.size < numberOfAnswerOptions) {
+      if (index > 1000) {
+        alert("Това тесте не е пригодено за режим учене");
+        navigate(-1);
+        break;
+        return;
+      }
+      index++;
       let randomIndex = Math.floor(
         Math.random() * props.originalFlashacards.length
       );
