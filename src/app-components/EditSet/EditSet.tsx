@@ -116,6 +116,10 @@ export const EditSet = () => {
   }, [allCategories, allInstitutions]);
 
   const handleSubmit = () => {
+    const emptyFlashcard = flashcards.find(
+      (flashcard) => isEmpty(flashcard.term) || isEmpty(flashcard.definition)
+    );
+
     if (title.length === 0) {
       toast("Оп, май пропусна заглавие");
       return;
@@ -143,12 +147,18 @@ export const EditSet = () => {
       return;
     }
     //check if each flashcard has a term and a description using isEmpty function
-    if (flashcards.find((flashcard) => isEmpty(flashcard.term))) {
-      toast("Някоя от картите няма термин");
-      return;
-    }
-    if (flashcards.find((flashcard) => isEmpty(flashcard.definition))) {
-      toast("Някоя от картите няма дефиниция");
+    if (emptyFlashcard) {
+      const flashcardElement = document.getElementById(
+        emptyFlashcard.flashcard_id
+      );
+
+      if (flashcardElement) {
+        const yOffset =
+          flashcardElement.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({ top: yOffset, behavior: "smooth" });
+      }
+
+      toast("Моля попълнете празното поле на флашкартата");
       return;
     }
     //check if any flashcard has more than 2000 characters
@@ -323,7 +333,11 @@ export const EditSet = () => {
                   )}
                 </div>
               </div>{" "}
-              <div key={index} className="flashcard">
+              <div
+                key={index}
+                className="flashcard"
+                id={flashcard.flashcard_id}
+              >
                 <Editor
                   placeholder={"Термин"}
                   value={flashcard.term}
