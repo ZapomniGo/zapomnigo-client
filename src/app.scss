@@ -196,7 +196,7 @@ input[type="submit"] {
   cursor: pointer;
   min-height: 2.5vmax;
   margin: 0.5vmax;
-  padding: 0 0.7vmax;
+  padding: .5vmax;
   border-radius: 0.2em;
   font-size: 1.2vmax;
   background-color: $secondary-color;
@@ -322,9 +322,10 @@ input[type="submit"]:hover {
 }
 svg.single {
   color: gray;
-  width: 2.5vw !important;
-  height: 2.5vh !important;
+  width: 4vw !important;
+  height: 4vh !important;
 }
+
 #wrapperForm {
   height: 100vh;
   width: 100vw;
@@ -408,6 +409,10 @@ svg.single {
 @media screen and (orientation: portrait) {
   .link {
     font-size: 2vmax !important;
+  }
+  svg.single {
+    width: 6vw !important;
+    height: 6vh !important;
   }
   #wrapperForm {
     .title {

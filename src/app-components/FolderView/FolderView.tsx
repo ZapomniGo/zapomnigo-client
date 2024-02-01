@@ -41,6 +41,7 @@ export const FolderView: React.FC = () => {
     } else {
       setIsAdmin(false);
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
   useEffect(() => {
     // instance.get(`/users/${userID}/sets`).then((response) => {
@@ -56,7 +57,7 @@ export const FolderView: React.FC = () => {
       })
       .catch((error) => {
         if (error.response.status === 404) {
-          setTitle("Няма такава папка :<");
+          window.location.href = "/app/not-found";
         }
       });
   }, []);

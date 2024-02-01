@@ -8,7 +8,6 @@ import { FiShare2 } from "react-icons/fi";
 import { FiDownload } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegCopy } from "react-icons/fa6";
-//get the id from the url
 import { useParams } from "react-router-dom";
 import instance from "../../app-utils/axios";
 import { jwtDecode } from "jwt-decode";
@@ -44,6 +43,7 @@ export const SetPage = () => {
     } else {
       setIsAdmin(false);
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const handleLoadRecent = () => {
@@ -173,7 +173,7 @@ export const SetPage = () => {
     instance
       .delete(`/sets/${id}`)
       .then((response) => {
-        navigate("/app");
+        navigate(`/app/sets/${username}`);
       })
       .catch((error) => {
         console.log(error);
@@ -330,7 +330,9 @@ export const SetPage = () => {
                 ""
               )}
             </div>
-            {page < totalPages && <MoreBtn onClick={handleLoadRecent} />}
+            {flashcards.flashcards.length < totalItems && page < totalPages && (
+              <MoreBtn onClick={handleLoadRecent} />
+            )}
           </div>
         ) : (
           <center>

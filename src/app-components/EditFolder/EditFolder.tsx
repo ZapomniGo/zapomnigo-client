@@ -36,7 +36,12 @@ export const EditFolder = () => {
             folder.folder_description = response.data.folder.folder_description;
             // setInstitution({name: response.data.folder.organization_name, id: ""});
             setCategory({name: response.data.folder.category_name, id: ""});
-            setSubcategory({ name: response.data.folder.subcategory_name, id: "" });
+            setSubcategory({ name: response.data.folder.subcategory_name, id: "" })
+        })
+        .catch((error) => {
+          if (error.response.status === 404) {
+            window.location.href = "/app/not-found";
+          }
           });
           
 

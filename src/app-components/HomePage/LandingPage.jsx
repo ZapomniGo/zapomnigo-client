@@ -4,8 +4,26 @@ import { useNavigate } from "react-router-dom";
 import { useRef, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Tilty from "react-tilty";
+import { useState } from "react";
 const HomePage = () => {
   const navigate = useNavigate();
+  const [isTiltyEnabled, setIsTiltyEnabled] = useState(window.innerWidth > 1000);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setIsTiltyEnabled(window.innerWidth > 1000);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  
+  
   React.useEffect(() => {
     if (localStorage.getItem("access_token")) {
       navigate("/app");
@@ -47,8 +65,9 @@ const HomePage = () => {
       <section id="backgroundForm">
         <Background />
         <div id="center-center">
-          <Tilty className="tilty" glare={false} max={20}>
-            <h1 id="header">ЗапомниГо</h1>
+          {isTiltyEnabled ? (
+            <Tilty className="tilty" glare={false} max={9} reverse={true}>
+              <h1 id="header">ЗапомниГо</h1>
             <h2 id="mainSubTitle">Платформата, която ти помага да запомняш</h2>
             <center>
               {" "}
@@ -56,7 +75,19 @@ const HomePage = () => {
                 Разгледай
               </button>
             </center>
-          </Tilty>
+            </Tilty>
+          ) : (
+            <div className="">
+              <h1 id="header">ЗапомниГо</h1>
+            <h2 id="mainSubTitle">Платформата, която ти помага да запомняш</h2>
+            <center>
+              {" "}
+              <button onClick={() => navigate("/app")} id="look-in">
+                Разгледай
+              </button>
+            </center>
+            </div>
+          )}
         </div>
       </section>
     </div>

@@ -1,14 +1,31 @@
-.load-more{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 1rem;
-    .load-more-btn{
-      border: 2px solid $text-color;
-      border-radius: 50%;
-      padding: 5px;
-      display: flex;
-      cursor: pointer;
-    }
-}
+.load-more {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1rem;
 
+  .load-more-btn {
+    border-radius: 50%;
+    padding: 5px;
+    display: flex;
+    cursor: pointer;
+    color: gray;
+    font-size: 2.5vmax;
+    animation: buttonAnimation 1.5s infinite ease-in-out;
+    &:hover {
+      color: orange;
+    }
+  }
+
+  @keyframes buttonAnimation {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(5px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+}

@@ -70,7 +70,7 @@ export const CreateSet = () => {
   const handleSubmit = () => {
     //check if the title is not empty
     if (title.length === 0) {
-      toast("Моля въведете заглавие");
+      toast("Оп, май пропусна заглавие");
       return;
     }
     if (title.length > 100) {
@@ -81,13 +81,9 @@ export const CreateSet = () => {
       toast("Описанието трябва да е под 1000 символа");
       return;
     }
-    if (description.length === 0) {
-      toast("Моля въведете описание");
-      return;
-    }
     //check if the flashcards are not empty
     if (flashcards.length === 0) {
-      toast("Моля въведете поне една карта");
+      toast("Поне една карта трябва да се въведе");
       return;
     }
     //check if the flashcards are not empty
@@ -129,7 +125,7 @@ export const CreateSet = () => {
       })
       .then((response) => {
         toast("Добре дошъл в новото си тесте");
-        // navigate("/app/set/" + response.data.set_id);
+        navigate("/app/set/" + response.data.set_id);
         window.scrollTo(0, 0);
       })
       .catch((error) => {
@@ -306,7 +302,6 @@ export const CreateSet = () => {
         onImport={handleOnImportFlashcards}
         isOpen={isModalOpen}
         onClose={() => {
-          console.log("closed");
           setIsModalOpen(false);
         }}
       />

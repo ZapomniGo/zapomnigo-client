@@ -3,32 +3,48 @@ import { useParams } from "react-router";
 import instance from "../../app-utils/axios";
 import React from "react";
 import { jwtDecode } from "jwt-decode";
-import parse from "html-react-parser";
+import { convert } from "html-to-text";
 import Dashboard from "../Dashboard/Dashboard";
+//Copmonents for study mode
+import MultipleChoice from "./StudyModesViews/MultipleChoice";
+import FreeInput from "./StudyModesViews/FreeInput";
+import LevelCheck from "./StudyModesViews/LevelCheck";
+import FinishedView from "./StudyModesViews/FinishedView";
+import { toast, ToastContainer } from "react-toastify";
+import LearnSettings from "./utils/LearnSettings";
+import { LP, LN, SP, SN, MN, MP } from "../../app-utils/soundManager";
+import defaultSetup from "./configs/defaultSetup.json";
+
+//TODO: verify image is not an answer/ auto term/definition detection
 
 const StudyComponent = () => {
-  const [flashcards, setFlashcards] = useState<
-    {
-      confidence: number;
-      definition: string;
-      flashcard_id: string;
-      term: string;
-    }[]
-  >([]);
-  const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
-  const [previousFlashcardIndex, setPreviousFlashcardIndex] = useState(-1);
-  const [correctDefinition, setCorrectDefinition] = useState("");
-  const [shuffledDefinitions, setShuffledDefinitions] = useState<string[]>([]);
-  const [username, setUsername] = useState("");
-  const [userId, setUserId] = useState("");
-  const [token, setToken] = useState<string | null>(null);
-  const [showNextButton, setShowNextButton] = useState(false);
-  const [selectedDefinition, setSelectedDefinition] = useState(null);
+  //original is what we get from the server
+  const [originalFlashcards, setOriginalFlashcards] = useState([]);
+  //flashcards is what we will be using to study -> they are going to be dynamically changed based on the user's performance
+  const [flashcards, setFlashcards] = useState([]);
+  //this is the current flashcard that the user is studying
+  const [currentFlashcardTerm, setCurrentFlashcardTerm] = useState();
+  const [currentFlashcardDefinition, setCurrentFlashcardDefinition] =
+    useState();
+  //this is an array with all the flashcards that the user has studied
+  const [pastFlashcardsIndexes, setPastFlashcardsIndexes] = useState([]);
+  //this is the study mode -> 1 is multiple choice, 2 is free input; 0 starting; -1 is finished
+  const [studyMode, setStudyMode] = useState(0);
+  // set the allowed study mode
 
+  const [allowedStudyModes, setAllowedStudyModes] = useState(
+    defaultSetup.allowedModes ? defaultSetup.allowedModes : [1, 2, 3]
+  );
   const { id } = useParams<{ id: string }>();
+  const [idHolder, setIdHolder] = useState(id);
+
+  useEffect(() => {
+    setIdHolder(id);
+  }, [id]);
 
   useEffect(() => {
     if (id!.length === 0 || id!.length !== 26 || id!.includes(" ")) {
+      window.location.href = "/app/not-found";
       return;
     }
     if (!localStorage.getItem("access_token")) {
@@ -38,169 +54,454 @@ const StudyComponent = () => {
     instance
       .get(`/sets/${id}/study`)
       .then((res) => {
+        console.log(res);
         const newFlashcards = res.data.flashcards;
-
         if (newFlashcards.length > 0) {
-          setFlashcards(newFlashcards);
-          setCurrentFlashcardIndex(0);
-          setCorrectDefinition(newFlashcards[0].definition);
-          shuffleDefinitions(newFlashcards[0].definition);
+          let tempFlashcards = newFlashcards.map((flashcard) => {
+            flashcard.seen = 0;
+            if (
+              flashcard.definition.includes("<img") ||
+              flashcard.definition.includes("<video") ||
+              flashcard.definition.includes("ql-formula") ||
+              flashcard.term.includes("<iframe")
+            ) {
+              //make sure there are no images/formulas/videos in the term as well
+              if (
+                !(
+                  flashcard.term.includes("<img") ||
+                  flashcard.term.includes("<video") ||
+                  flashcard.term.includes("ql-formula") ||
+                  flashcard.term.includes("<iframe")
+                )
+              ) {
+                let temp = flashcard.term;
+                flashcard.term = flashcard.definition;
+                flashcard.definition = temp;
+              }
+            }
+
+            return flashcard;
+          });
+          setFlashcards(tempFlashcards);
+          setOriginalFlashcards(tempFlashcards);
+          GeneratePrompt(newFlashcards);
         }
       })
       .catch((err) => {
+        if (err.response.status === 404) {
+          window.location.href = "/app/not-found";
+        }
         console.error(err);
       });
   }, [id]);
 
-  useEffect(() => {
-    ensureDifferentFlashcard();
-  }, [flashcards]);
+  //this function will generate a prompt for the user to study
+  const GeneratePrompt = (flashcardsInside = flashcards) => {
+    // Helper function to retrieve confidence - treating null as 0
+    const getConfidence = (flashcard) => flashcard.confidence || 0;
 
-  useEffect(() => {
-    shuffleDefinitions(correctDefinition);
-  }, [correctDefinition]);
-
-  useEffect(() => {
-    if (flashcards.length > 0 && currentFlashcardIndex < flashcards.length) {
-      setCorrectDefinition(flashcards[currentFlashcardIndex].definition);
-      shuffleDefinitions(flashcards[currentFlashcardIndex].definition);
+    //Make sure that not all flashcards have been studied
+    let allFlashcardsHaveBeenStudied = true;
+    flashcardsInside.forEach((flashcard) => {
+      if (Number(flashcard.seen) < defaultSetup.maxSeen) {
+        allFlashcardsHaveBeenStudied = false;
+      }
+    });
+    if (allFlashcardsHaveBeenStudied) {
+      // This means that all flashcards have been studied
+      EndStudyMode();
+      return false;
     }
-  }, [currentFlashcardIndex, flashcards]);
 
-  useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    setToken(token || null);
+    // Initialize minimum confidence to the first flashcard's confidence
+    let minConfidence = getConfidence(flashcardsInside[0]);
 
-    if (token) {
-      const decodedToken: {
-        username: string;
-        institution: string;
-        sub: string;
-      } = jwtDecode(token);
-      setUsername(decodedToken.username);
-      setUserId(decodedToken.sub);
+    // Array to store flashcards with the minimum confidence
+    let minConfidenceCards = [];
+
+    flashcardsInside.forEach((flashcard) => {
+      let confidence = getConfidence(flashcard);
+      if (confidence < minConfidence) {
+        // If a new minimum confidence, update and clear array
+        minConfidence = confidence;
+        minConfidenceCards = [flashcard];
+      } else if (confidence === minConfidence || minConfidence === null) {
+        // If equal to minimum confidence or minimum confidence is null, add to array. This indicates that there are multiple flashcards with the same minimum confidence or that the set hasn't been studied
+        minConfidenceCards.push(flashcard);
+      }
+    });
+
+    // Check if there are 4 or fewer flashcards or only 1 or 2 flashcards below average confidence
+    if (flashcardsInside.length <= 3 || minConfidenceCards.length <= 2) {
+      minConfidenceCards = flashcardsInside;
     }
-  }, []);
 
-  const ensureDifferentFlashcard = () => {
-    if (flashcards.length === 0) {
+    // Select a random flashcard from those with the minimum confidence
+    let randomIndex = Math.floor(Math.random() * minConfidenceCards.length);
+    if (minConfidenceCards.length === 1) {
+      //include all flashcards
+      minConfidenceCards = flashcardsInside;
+      randomIndex = Math.floor(Math.random() * minConfidenceCards.length);
+    } else if (!EnsureNoRepeat(randomIndex)) {
+      GeneratePrompt(flashcards);
+      return false;
+    }
+
+    //Let's make sure the flashcard has not been seen too many times
+    if (HasFlashcardBeenSeenTooManyTime(minConfidenceCards[randomIndex])) {
+      GeneratePrompt(flashcardsInside);
+      return false;
+    } else if (
+      //null means that all flashcards have been studied and we need to end the study mode
+      HasFlashcardBeenSeenTooManyTime(minConfidenceCards[randomIndex]) == null
+    ) {
+      return false;
+    }
+
+    //phew, the flashcard has not been studied as last flashcard, so we can study it
+    //update the past flashcards indexes to make sure we know that we have studied this flashcard
+    setPastFlashcardsIndexes([...pastFlashcardsIndexes, randomIndex]);
+    setCurrentFlashcardTerm(minConfidenceCards[randomIndex].term);
+    setCurrentFlashcardDefinition(minConfidenceCards[randomIndex].definition);
+
+    let choice = ChooseStudyMode(minConfidenceCards[randomIndex]);
+    if (flashcardsInside.length === 1) {
+      EndStudyMode();
       return;
     }
-
-    let nextIndex;
-    do {
-      nextIndex = Math.floor(Math.random() * flashcards.length);
-    } while (nextIndex === previousFlashcardIndex);
-
-    setCurrentFlashcardIndex(nextIndex);
+    setStudyMode(choice);
   };
-
-  const shuffleDefinitions = (correctDefinition: string) => {
-    const allDefinitions = flashcards
-      .map((card) => card.definition)
-      .filter((def) => def !== correctDefinition);
-
-    const shuffled = shuffleArray(allDefinitions.slice(0, 3));
-    const randomIndex = Math.floor(Math.random() * 4);
-    shuffled.splice(randomIndex, 0, correctDefinition);
-
-    setShuffledDefinitions(shuffled);
-  };
-
-  const shuffleArray = (array) => {
-    const shuffledArray = [...array];
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [
-        shuffledArray[j],
-        shuffledArray[i],
-      ];
+  //this function makes sure the flashcards are not repeated
+  const EnsureNoRepeat = (indexChosen) => {
+    //if fewer than 2 flashcards have been studied, then we can study any flashcard
+    if (pastFlashcardsIndexes.length < 2) {
+      return true;
     }
-    return shuffledArray;
+    //if the last flashcard studied is the same as the one we are about to study, then we need to choose another flashcard
+    if (
+      pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1] === indexChosen
+    ) {
+      return false;
+    }
+    return true;
   };
-
-  const handleAnswerButtonClick = (definition: string) => {
-    const isCorrect = definition === correctDefinition ? 1 : 0;
-    setSelectedDefinition(definition);
-
-    const updatedFlashcard = {
-      correctness: isCorrect,
-      username: username,
-      user_id: userId,
-    };
-
-    if (flashcards[currentFlashcardIndex]) {
-      instance
-        .put(
-          `/flashcards/${flashcards[currentFlashcardIndex].flashcard_id}/study`,
-          updatedFlashcard
-        )
-        .catch((err) => console.error(err));
+  const HasFlashcardBeenSeenTooManyTime = (flashcard) => {
+    let allFlashcards = [...flashcards];
+    //make sure that not all flashcards have been studied
+    let allFlashcardsHaveBeenStudied = true;
+    if (allFlashcards.length === 0) {
+      //this means react hasn't updated the flashcards yet
+      return false;
     }
 
-    setShowNextButton(true);
+    allFlashcards.forEach((flashcard) => {
+      if (Number(flashcard.seen) < defaultSetup.minSeen) {
+        allFlashcardsHaveBeenStudied = false;
+      }
+    });
+    if (allFlashcardsHaveBeenStudied) {
+      // This means that all flashcards have been studied
+      EndStudyMode();
+      return null;
+    } else {
+      //Finally, check the individual flashcard since we are sure that not all flashcards have been studied
+      if (Number(flashcard.seen) >= 3) {
+        //Remove the flashcard from the array
+        let arrCopy = [...flashcards];
+        console.log(arrCopy);
+        arrCopy.splice(arrCopy.indexOf(flashcard), 1);
+        setFlashcards(arrCopy);
+        return true;
+      }
+      return false;
+    }
+  };
+  //this function dyanmically chooses the study mode based on the user's performance/number of flashcards
+  const ChooseStudyMode = (flashcard) => {
+    //Multiple Choice is 1
+    //FreeInput is 2
+    //Evaluate answer is 3
+    //--------------------
+    //If the confidence level of a flashcard is less than the average confidence
+    //level of all flashcards, then we will study it in multiple choice mode, if not,
+    //then we will study it in free input mode. Finally, if the length of the definition
+    //it too large for either, we are going to choose evaluate mode
+    //if the current mode is disallowed, then we will upgrade to the next mode, if no
+    //mode is allowed, then we will use all available modes
+
+    let averageConfidence = 0;
+    let totalConfidence = 0;
+    let flashcardsCopy = [...flashcards];
+    let chosenStudyMode = 0;
+    flashcardsCopy.forEach((flashcard) => {
+      totalConfidence += flashcard.confidence;
+    });
+    averageConfidence = totalConfidence / flashcardsCopy.length;
+    if (averageConfidence == null || isNaN(averageConfidence)) {
+      averageConfidence = 0;
+    }
+    if (flashcard.confidence == null) {
+      flashcard.confidence = 0;
+    }
+    console.log("average confidence is " + averageConfidence);
+    console.log("flashcard confidence is " + flashcard.confidence);
+    if (
+      flashcard.confidence <= averageConfidence ||
+      flashcard.definition.length > 100 ||
+      flashcard.term.length > 100
+    ) {
+      chosenStudyMode = 1;
+    } else {
+      if (Math.random() > 0.2) {
+        chosenStudyMode = 2;
+      } else {
+        chosenStudyMode = 3;
+      }
+    }
+
+    console.log("chosen study mode is " + chosenStudyMode);
+    console.log("allowed study modes are " + allowedStudyModes);
+
+    if (allowedStudyModes.includes(chosenStudyMode)) {
+      return chosenStudyMode;
+    } else {
+      //check which study mode is not allowed and upgrade to the next one
+      if (chosenStudyMode == 1 && allowedStudyModes.includes(1)) {
+        return 1;
+      } else if (chosenStudyMode == 2 && allowedStudyModes.includes(2)) {
+        if (
+          ((flashcard.definition.includes("<img") ||
+            flashcard.definition.includes("<video") ||
+            flashcard.definition.includes("ql-formula") ||
+            flashcard.term.includes("<iframe")) &&
+            (flashcard.term.includes("<img>") ||
+              flashcard.term.includes("<video>") ||
+              flashcard.term.includes("ql-formula"))) ||
+          flashcard.term.includes("<iframe")
+        ) {
+          return 3;
+        }
+        if (
+          flashcard.definition.includes("<img") ||
+          flashcard.definition.includes("<video") ||
+          flashcard.definition.includes("ql-formula") ||
+          flashcard.term.includes("<iframe")
+        ) {
+          return 2;
+        }
+        return 2;
+      } else if (chosenStudyMode == 3 && allowedStudyModes.includes(3)) {
+        return 3;
+      } else if (!allowedStudyModes.includes(1) && chosenStudyMode == 1) {
+        if (allowedStudyModes.includes(2)) {
+          if (
+            (flashcard.definition.includes("<img") ||
+              flashcard.definition.includes("<video") ||
+              flashcard.definition.includes("ql-formula") ||
+              flashcard.term.includes("<iframe")) &&
+            (flashcard.term.includes("<img>") ||
+              flashcard.term.includes("<video>") ||
+              flashcard.term.includes("ql-formula") ||
+              flashcard.term.includes("<iframe"))
+          ) {
+            return 3;
+          }
+          if (
+            flashcard.definition.includes("<img") ||
+            flashcard.definition.includes("<video") ||
+            flashcard.definition.includes("ql-formula") ||
+            flashcard.term.includes("<iframe")
+          ) {
+            return 2;
+          }
+          return 2;
+        } else if (allowedStudyModes.includes(3)) {
+          return 3;
+        }
+      } else if (!allowedStudyModes.includes(2) && chosenStudyMode == 2) {
+        if (allowedStudyModes.includes(3)) {
+          return 3;
+        } else if (allowedStudyModes.includes(1)) {
+          return 1;
+        }
+      } else if (!allowedStudyModes.includes(3) && chosenStudyMode == 3) {
+        if (allowedStudyModes.includes(1)) {
+          return 1;
+        } else if (allowedStudyModes.includes(2)) {
+          if (
+            (flashcard.definition.includes("<img") ||
+              flashcard.definition.includes("<video") ||
+              flashcard.definition.includes("ql-formula") ||
+              flashcard.term.includes("<iframe")) &&
+            (flashcard.term.includes("<img>") ||
+              flashcard.term.includes("<video>") ||
+              flashcard.term.includes("ql-formula") ||
+              flashcard.term.includes("<iframe"))
+          ) {
+            return 3;
+          }
+          if (
+            flashcard.definition.includes("<img") ||
+            flashcard.definition.includes("<video") ||
+            flashcard.definition.includes("ql-formula") ||
+            flashcard.term.includes("<iframe")
+          ) {
+            return 2;
+          }
+          return 2;
+        }
+      }
+    }
+
+    if (!allowedStudyModes.length) {
+      return chosenStudyMode;
+    }
+  };
+  //this function will verify the correctness of the user's answer
+  //
+  const VerifyCorrectness = (
+    answer,
+    studyMode,
+    submitAnswerInstantly = true,
+    forceTrue = false
+  ) => {
+    let isCorrect;
+    let flashcardsCopy = [...flashcards];
+
+    if (convert(answer) == convert(currentFlashcardDefinition) || forceTrue) {
+      isCorrect = true;
+    } else {
+      isCorrect = false;
+    }
+    if (!submitAnswerInstantly) {
+      return {
+        correctAnswer: currentFlashcardDefinition,
+        givenAnswer: answer,
+        isCorrect: isCorrect,
+      };
+    }
+    GeneratePrompt(flashcardsCopy);
+
+    if (isCorrect) {
+      SP.play();
+      if (defaultSetup.enablePositives) {
+        toast(
+          defaultSetup.positives[
+            Math.floor(Math.random() * defaultSetup.positives.length)
+          ]
+        );
+      }
+      //   alert("Correct!");
+      InformServerAboutFlashcard(
+        flashcards[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]]
+          .flashcard_id,
+        1
+      );
+      //check if flashcard is above average confidence
+      //update the seen indicator
+      flashcardsCopy[
+        pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]
+      ].seen += 1;
+      //update the correctness
+      flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
+      setFlashcards(flashcardsCopy);
+    } else {
+      SN.play();
+      if (defaultSetup.enableNegatives) {
+        toast(
+          defaultSetup.negatives[
+            Math.floor(Math.random() * defaultSetup.negatives.length)
+          ]
+        );
+      }
+
+      //   alert("Incorrect!");
+      InformServerAboutFlashcard(
+        flashcards[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]]
+          .flashcard_id,
+        0
+      );
+      //update the correctness
+      flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
+      //Don't go to the next flashcard if the answer is wrong
+    }
+  };
+  //this function will inform the server about the flashcard's correctness
+  const InformServerAboutFlashcard = (flashcardId, correctness) => {
+    instance
+      .put(`/flashcards/${flashcardId}/study`, {
+        correctness: correctness,
+      })
+      .then((res) => {})
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+  const InformServerAboutSetStudied = () => {
+    instance
+      .post(`/sets/${id}/study`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
-  const handleNextButtonClick = () => {
-    const nextIndex = currentFlashcardIndex + 1;
-    setPreviousFlashcardIndex(currentFlashcardIndex);
-    ensureDifferentFlashcard();
-    if (flashcards[nextIndex]) {
-      setCorrectDefinition(flashcards[nextIndex].definition);
-      shuffleDefinitions(flashcards[nextIndex].definition);
-    }
-    setShowNextButton(false);
-    setSelectedDefinition(null);
+  const EndStudyMode = () => {
+    InformServerAboutSetStudied();
+    setStudyMode(-1);
+    SP.play();
   };
 
   return (
     <>
-      <Dashboard>
-        <div className="study-component">
-          <div className="study-wrapper">
-            {flashcards.length > 0 && (
-              <div id="flashcard" className={"no-image-flashcard"}>
-                <div className={`term `}>
-                  {/* <p className="term-text">Термин:</p> */}
-                  <h3>{parse(flashcards[currentFlashcardIndex].term)}</h3>
-                </div>
-              </div>
-            )}
-
-            <div className="answer-options">
-              {shuffledDefinitions.slice(0, 4).map((definition, index) => (
-                <div
-                  className={`option ${
-                    selectedDefinition &&
-                    (definition === correctDefinition
-                      ? "correct"
-                      : definition === selectedDefinition
-                      ? "incorrect"
-                      : "")
-                  }`}
-                  key={index + Math.random()}
-                >
-                  <button
-                    disabled={showNextButton}
-                    key={index}
-                    onClick={() => handleAnswerButtonClick(definition)}
-                  >
-                    {parse(definition)}
-                  </button>
-                </div>
-              ))}
-            </div>
-            {showNextButton && (
-              <button
-                className="next-button"
-                onClick={() => handleNextButtonClick()}
-              >
-                Следваща карта
-              </button>
-            )}
-          </div>
+      <ToastContainer />
+      {/* <Dashboard> */}
+      <div className="study-component">
+        <div className="study-wrapper">
+          {studyMode === 1 && (
+            <MultipleChoice
+              setStudyModes={setStudyMode}
+              GeneratePrompt={GeneratePrompt}
+              studyModes={allowedStudyModes}
+              currentFlashcardTerm={currentFlashcardTerm}
+              currentFlashcardDefinition={currentFlashcardDefinition}
+              flashcards={flashcards}
+              VerifyCorrectness={VerifyCorrectness}
+              originalFlashacards={originalFlashcards}
+            />
+          )}
+          {studyMode === 2 && (
+            <FreeInput
+              currentFlashcardTerm={currentFlashcardTerm}
+              currentFlashcardDefinition={currentFlashcardDefinition}
+              VerifyCorrectness={VerifyCorrectness}
+            />
+          )}
+          {studyMode === 3 && (
+            <LevelCheck
+              currentFlashcardTerm={currentFlashcardTerm}
+              currentFlashcardDefinition={currentFlashcardDefinition}
+              VerifyCorrectness={VerifyCorrectness}
+            />
+          )}
+          {studyMode == -1 && (
+            <FinishedView
+              pastFlashcardsIndexes={pastFlashcardsIndexes}
+              flashcards={flashcards}
+              id={idHolder}
+            />
+          )}
         </div>
-      </Dashboard>
+        {studyMode != -1 && (
+          <LearnSettings
+            setAllowedModes={setAllowedStudyModes}
+            allowedModes={allowedStudyModes}
+          />
+        )}
+      </div>
+      {/* </Dashboard> */}
     </>
   );
 };

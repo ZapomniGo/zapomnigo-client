@@ -36,7 +36,8 @@ export const EditSet = () => {
   const [subcategory, setSubcategory] = useState({ name: "", id: "" });
   const [allSubcategories, setAllSubcategories] = useState([]);
   const navigate = useNavigate();
-
+  const [allInstitutions, setAllInstitutions] = useState([]);
+  const [filter, setFilter] = useState("");
   const { id } = useParams<{ id: string }>();
 
   const {
@@ -59,12 +60,17 @@ export const EditSet = () => {
     // instance.get("/organizations").then((response) => {
     //   setAllInstitutions(response.data.organizations);
     // });
-    instance.get(`/sets/${id}`).then((response) => {
+    instance.get(`/sets/${id}?size=2000` + filter).then((response) => {
       loadFlashcards(response.data.set.flashcards);
       setTitle(response.data.set.set_name);
       setDescription(response.data.set.set_description);
       setSubcategory({ name: response.data.set.subcategory_name, id: "" });
       setCategory({ name: response.data.set.category_name, id: "" });
+    })
+    .catch((error) => {
+      if (error.response.status === 404) {
+        window.location.href = "/app/not-found";
+      }
     });
   }, []);
   const isEmpty = (string: string) => {
@@ -112,7 +118,7 @@ export const EditSet = () => {
 
   const handleSubmit = () => {
     if (title.length === 0) {
-      toast("Моля въведете заглавие");
+      toast("Оп, май пропусна заглавие");
       return;
     }
     if (title.length > 100) {
@@ -124,12 +130,12 @@ export const EditSet = () => {
       return;
     }
     if (description.length === 0) {
-      toast("Моля въведете описание");
+      toast("Оп, май пропусна описание");
       return;
     }
     //check if the flashcards are not empty
     if (flashcards.length === 0) {
-      toast("Моля въведете поне една карта");
+      toast("Поне една карта трябва да се въведе");
       return;
     }
     //check if the flashcards are not empty
@@ -352,14 +358,14 @@ export const EditSet = () => {
               </div>{" "}
               <div key={index} className="flashcard">
                 <Editor
-                  placeholder={"Term"}
+                  placeholder={"Термин"}
                   value={flashcard.term}
                   onChange={(value: string) =>
                     handleChangeFlashcard(index, "term", value)
                   }
                 />
                 <Editor
-                  placeholder={"Definition"}
+                  placeholder={"Дефиниция"}
                   value={flashcard.definition}
                   onChange={(value: string) =>
                     handleChangeFlashcard(index, "definition", value)
@@ -391,7 +397,7 @@ export const EditSet = () => {
         </div>
       </div>
       <FlashcardImportModal
-        onImport={() => handleOnImportFlashcards()}
+        onImport={handleOnImportFlashcards}
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);
