@@ -121,18 +121,26 @@ export const EditSet = () => {
     );
 
     if (title.length === 0) {
+      const yOffset = document.getElementById("titleInput")?.offsetTop;
+      window.scrollTo({ top: yOffset, behavior: "smooth" });
       toast("Оп, май пропусна заглавие");
       return;
     }
     if (title.length > 100) {
+      const yOffset = document.getElementById("titleInput")?.offsetTop;
+      window.scrollTo({ top: yOffset, behavior: "smooth" });
       toast("Заглавието трябва да е под 100 символа");
       return;
     }
     if (description.length > 1000) {
+      const yOffset = document.getElementById("descriptionInput")?.offsetTop;
+      window.scrollTo({ top: yOffset, behavior: "smooth" });
       toast("Описанието трябва да е под 1000 символа");
       return;
     }
     if (description.length === 0) {
+      const yOffset = document.getElementById("titleInput")?.offsetTop;
+      window.scrollTo({ top: yOffset, behavior: "smooth" });
       toast("Оп, май пропусна описание");
       return;
     }
@@ -169,6 +177,16 @@ export const EditSet = () => {
           flashcard.definition.replace(/<[^>]+>/g, "").length > 10000
       )
     ) {
+      const flashcard = flashcards.find((flashcard) =>
+        flashcard.term.replace(/<[^>]+>/g, "").length > 10000 ||
+        flashcard.definition.replace(/<[^>]+>/g, "").length > 10000
+          ? flashcard.flashcard_id
+          : ""
+      );
+      const yOffset = document.getElementById(
+        flashcard?.flashcard_id
+      )?.offsetTop;
+      window.scrollTo({ top: yOffset, behavior: "smooth" });
       toast("Някоя от картите е с поле с повече от 10000 символа");
       return;
     }
@@ -212,6 +230,7 @@ export const EditSet = () => {
             className="title"
             minLength={1}
             maxLength={100}
+            id="titleInput"
           />
           <div className="other-info">
             <div className="description">
@@ -219,6 +238,7 @@ export const EditSet = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Описание"
+                id="descriptionInput"
               />
             </div>
             <div className="tags">
