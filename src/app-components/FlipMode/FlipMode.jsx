@@ -27,6 +27,7 @@ const Flip = () => {
         }
         console.error(error);
       });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
   const previous = () => {
     FC.play();

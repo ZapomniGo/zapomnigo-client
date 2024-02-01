@@ -383,7 +383,7 @@ const StudyComponent = () => {
     GeneratePrompt(flashcardsCopy);
 
     if (isCorrect) {
-      LP.play();
+      SP.play();
       if (defaultSetup.enablePositives) {
         toast(
           defaultSetup.positives[
@@ -406,7 +406,7 @@ const StudyComponent = () => {
       flashcardsCopy[pastFlashcardsIndexes[pastFlashcardsIndexes.length - 1]];
       setFlashcards(flashcardsCopy);
     } else {
-      LN.play();
+      SN.play();
       if (defaultSetup.enableNegatives) {
         toast(
           defaultSetup.negatives[
@@ -437,19 +437,21 @@ const StudyComponent = () => {
         console.error(err);
       });
   };
-  //TODO: Waiting Vankata on this one
   const InformServerAboutSetStudied = () => {
     instance
-      .put(`/sets/${id}/study`)
-      .then((res) => {})
+      .post(`/sets/${id}/study`)
+      .then((res) => {
+        console.log(res);
+      })
       .catch((err) => {
         console.error(err);
       });
   };
 
   const EndStudyMode = () => {
+    InformServerAboutSetStudied();
     setStudyMode(-1);
-    LP.play();
+    SP.play();
   };
 
   return (

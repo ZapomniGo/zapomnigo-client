@@ -7,6 +7,7 @@ import { RiPencilLine } from "react-icons/ri";
 import { FiShare2 } from "react-icons/fi";
 import { FiDownload } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
+
 import { FaRegCopy } from "react-icons/fa6";
 //get the id from the url
 import { useParams } from "react-router-dom";
@@ -29,6 +30,7 @@ export const SetPage = () => {
   const { id } = useParams<{ id: string }>();
   const [totalPages, setTotalPages] = useState(1);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -37,6 +39,7 @@ export const SetPage = () => {
     } else {
       setIsAdmin(false);
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const handleLoadRecent = () => {
@@ -156,7 +159,7 @@ export const SetPage = () => {
           flashcards: updatedFlashcards,
         });
         setUsername(response.data.set.username);
-        console.log(response);
+        setTotalItems(response.data.total_items);
       })
       .catch((error) => {
         if(error.response.status === 404){
@@ -267,7 +270,7 @@ export const SetPage = () => {
               <div className="cards-info-header">
                 <h2>
                   Флашкарти (
-                  {flashcards ? flashcards.flashcards.length : "Зареждане..."})
+                  {flashcards ? totalItems : "Зареждане..."})
                 </h2>
                 {flashcards.flashcards.length !== 1 ? (
                   <>

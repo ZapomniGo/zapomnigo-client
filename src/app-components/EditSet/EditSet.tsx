@@ -53,6 +53,8 @@ export const EditSet = () => {
   } = useFlashcards();
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
     });
