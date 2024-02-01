@@ -7,9 +7,7 @@ import { RiPencilLine } from "react-icons/ri";
 import { FiShare2 } from "react-icons/fi";
 import { FiDownload } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
-
 import { FaRegCopy } from "react-icons/fa6";
-//get the id from the url
 import { useParams } from "react-router-dom";
 import instance from "../../app-utils/axios";
 import { jwtDecode } from "jwt-decode";
@@ -138,21 +136,29 @@ export const SetPage = () => {
   };
   useEffect(() => {
     if (id.length === 0 || id.length !== 26 || id.includes(" ")) {
-        window.location.href = "/app/not-found";
+      window.location.href = "/app/not-found";
       return;
     }
 
+    getSet();
+  }, [id, page]);
+
+  const getSet = (newFl = false) => {
     instance
-      .get(`/sets/${id}?page=${page}&size=200`)
+      .get(`/sets/${id}?page=${page}&size=250` + sortingOrder)
       .then((response) => {
         document.title = response.data.set.set_name + " | ЗапомниГо";
         setTotalPages(response.data.total_pages);
         const newFlashcards = response.data.set.flashcards;
         let updatedFlashcards = [];
-        if (flashcards && Array.isArray(flashcards.flashcards)) {
+        if (flashcards && Array.isArray(flashcards.flashcards) && !newFl) {
           updatedFlashcards = [...flashcards.flashcards, ...newFlashcards];
         } else {
           updatedFlashcards = [...newFlashcards];
+        }
+
+        if (newFl) {
+          setPage(1);
         }
         setFlashcards({
           ...response.data.set,
@@ -162,12 +168,16 @@ export const SetPage = () => {
         setTotalItems(response.data.total_items);
       })
       .catch((error) => {
-        if(error.response.status === 404){
+        if (error.response.status === 404) {
           window.location.href = "/app/not-found";
         }
         console.error(error);
       });
-  }, [id, page]);
+  };
+
+  useEffect(() => {
+    getSet(true);
+  }, [sortingOrder]);
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -238,10 +248,6 @@ export const SetPage = () => {
                     Редактирай
                   </a>
                 )}
-                {/* <a href="#">
-                  <RiPencilLine />
-                  Редактирай
-                </a> */}
                 {localStorage.getItem("access_token") && (
                   <a onClick={DuplicateSet} href="#">
                     <FaRegCopy />
@@ -268,21 +274,18 @@ export const SetPage = () => {
             </div>
             <div className="cards-info">
               <div className="cards-info-header">
-                <h2>
-                  Флашкарти (
-                  {flashcards ? totalItems : "Зареждане..."})
-                </h2>
-                {flashcards.flashcards.length !== 1 ? (
-                  <>
-                    <select onChange={handleFilterChange}>
-                      <option value="">По подразбиране</option>
-                      <option value="a-z">По азбучен ред(А-Я)</option>
-                      <option value="z-a">По азбучен ред(Я-А)</option>
-                    </select>
-                  </>
-                ) : (
-                  ""
-                )}
+                <h2>Флашкарти ({flashcards ? totalItems : "Зареждане..."})</h2>
+                <select onChange={handleFilterChange}>
+                  <option value="&sort_by_date=true&ascending=false">
+                    По подразбиране
+                  </option>
+                  <option value="&sort_by_date=false&ascending=true">
+                    По азбучен ред(А-Я)
+                  </option>
+                  <option value="&sort_by_date=false&ascending=false">
+                    По азбучен ред(Я-А)
+                  </option>
+                </select>
               </div>
               {flashcards.flashcards.map((flashcard) => (
                 <Flashcard key={flashcard.flashcard_id} flashcard={flashcard} />
@@ -304,7 +307,9 @@ export const SetPage = () => {
                 ""
               )}
             </div>
-            {page < totalPages && <MoreBtn onClick={handleLoadRecent} />}
+            {flashcards.flashcards.length < totalItems && page < totalPages && (
+              <MoreBtn onClick={handleLoadRecent} />
+            )}
           </div>
         ) : (
           <center>
