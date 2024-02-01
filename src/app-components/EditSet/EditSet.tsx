@@ -16,7 +16,7 @@ import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { jwtDecode } from "jwt-decode";
-import { submitCheck } from "../../app-common/utils";
+import { submitCheck, isEmpty } from "../../app-common/utils";
 
 export const EditSet = () => {
   useEffect(() => {
@@ -75,23 +75,6 @@ export const EditSet = () => {
         }
       });
   }, []);
-  const isEmpty = (string: string) => {
-    if (string.length === 0) {
-      return true;
-    }
-    if (
-      string.replace(/<[^>]+>/g, "").length === 0 &&
-      !(
-        string.includes("<img") ||
-        string.includes("<video") ||
-        string.includes("<audio") ||
-        string.includes("<iframe")
-      )
-    ) {
-      return true;
-    }
-    return false;
-  };
 
   const categoryIdRef = useRef(null);
   const institutionIdRef = useRef(null);

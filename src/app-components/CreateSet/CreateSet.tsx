@@ -14,7 +14,8 @@ import instance from "../../app-utils/axios";
 import FlashcardImportModal from "../ImportModal/FlashcardImportModal";
 import { useNavigate } from "react-router-dom";
 import { convert } from "html-to-text";
-import { submitCheck } from "../../app-common/utils";
+import { submitCheck, isEmpty } from "../../app-common/utils";
+
 export const CreateSet = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,24 +46,7 @@ export const CreateSet = () => {
       setAllInstitutions(response.data.organizations);
     });
   }, []);
-  const isEmpty = (string: string) => {
-    if (!string) return true;
-    if (string.length === 0) {
-      return true;
-    }
-    if (
-      string.replace(/<[^>]+>/g, "").length === 0 &&
-      !(
-        string.includes("<img") ||
-        string.includes("<video") ||
-        string.includes("<audio") ||
-        string.includes("<iframe")
-      )
-    ) {
-      return true;
-    }
-    return false;
-  };
+
   const handleSubmit = () => {
     if (submitCheck(title, description, flashcards)) return;
 
