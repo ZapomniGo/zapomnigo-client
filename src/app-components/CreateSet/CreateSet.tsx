@@ -21,8 +21,9 @@ export const CreateSet = () => {
   const [description, setDescription] = useState("");
   const [allCategories, setAllCategories] = useState([]);
   const [category, setCategory] = useState("");
-  const [subcategories, setSubcategories] = useState([]);
-  const [selectedSubCategory, setSelectedSubCategory] = useState("");
+  const [allSubcategories, setAllSubcategories] = useState([]);
+  const [subcategory, setSubcategory] = useState({ name: "", id: "" });
+
     // const [institution, setInstitution] = useState("");
 
 
@@ -115,7 +116,7 @@ export const CreateSet = () => {
       return;
     }
     // check if the tags are not empty
-    console.log(selectedSubCategory)
+    console.log(subcategory)
     instance
       .post("/sets", {
         set_name: title,
@@ -124,11 +125,11 @@ export const CreateSet = () => {
         set_category: category,
         //pitai vankata dali e subcategory_id
         // organization_id: institution,
-        subcategory_id: selectedSubCategory,
+        set_subcategory: subcategory,
       })
       .then((response) => {
         toast("Добре дошъл в новото си тесте");
-        navigate("/app/set/" + response.data.set_id);
+        // navigate("/app/set/" + response.data.set_id);
         window.scrollTo(0, 0);
       })
       .catch((error) => {
@@ -142,14 +143,12 @@ export const CreateSet = () => {
     window.open(url, "_blank");
   };
 
-  const changeSubcategories = (category_id: string) => {
-    console.log(category_id)
-    instance
-    .get(`/categories/${category_id}/subcategories`)
-    .then((response) => {
-      console.log(response.data.subcategories);
-      setSubcategories(response.data.subcategories);
-    })
+
+  const getSubcategories = (category_id) => {
+    instance.get(`/categories/${category_id}/subcategories`).then((response) => {
+      setAllSubcategories(response.data.subcategories);
+      console.log(response.data.subcategories)
+    });
   }
 
   return (
@@ -177,7 +176,7 @@ export const CreateSet = () => {
             </div>
             <div className="tags">
               <select
-                onChange={(e) => {setCategory(e.target.value); changeSubcategories(e.target.value);}}
+                onChange={(e) => {setCategory(e.target.value); getSubcategories(e.target.value)}}
                 defaultValue={""}
                 id="categories"
                 name="categories"
@@ -190,15 +189,15 @@ export const CreateSet = () => {
                 ))}
               </select>
               <select
-                onChange={(e) => setSelectedSubCategory(e.target.value)}
+                onChange={(e) => setSubcategory(e.target.value)}
                 defaultValue=""
                 id="institution"
                 name="institution"
               >
                 <option value="">Без подкатегория</option>
-                {subcategories.map((subcategories, index) => (
-                  <option key={index} value={subcategories.subcategory_id}>
-                    {subcategories.subcategory_name}
+                {allSubcategories.map((subcategory, index) => (
+                  <option key={index} value={subcategory.subcategory_id}>
+                    {subcategory.subcategory_name}
                   </option>
                 ))}
               </select>

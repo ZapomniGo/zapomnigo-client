@@ -33,9 +33,9 @@ export const EditSet = () => {
   const [description, setDescription] = useState("");
   const [allCategories, setAllCategories] = useState([]);
   const [category, setCategory] = useState({ name: "", id: "" });
-  const [institution, setInstitution] = useState({ name: "", id: "" });
+  const [subcategory, setSubcategory] = useState({ name: "", id: "" });
   const navigate = useNavigate();
-  const [allInstitutions, setAllInstitutions] = useState([]);
+  const [allSubcategories, setAllSubcategories] = useState([]);
 
   const { id } = useParams<{ id: string }>();
 
@@ -56,14 +56,14 @@ export const EditSet = () => {
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
     });
-    instance.get("/organizations").then((response) => {
-      setAllInstitutions(response.data.organizations);
-    });
+    // instance.get("/organizations").then((response) => {
+    //   setAllInstitutions(response.data.organizations);
+    // });
     instance.get(`/sets/${id}`).then((response) => {
       loadFlashcards(response.data.set.flashcards);
       setTitle(response.data.set.set_name);
       setDescription(response.data.set.set_description);
-      setInstitution({ name: response.data.set.organization_name, id: "" });
+      setSubcategory({ name: response.data.set.subcategory_name, id: "" });
       setCategory({ name: response.data.set.category_name, id: "" });
     });
   }, []);
@@ -86,7 +86,7 @@ export const EditSet = () => {
   };
 
   const categoryIdRef = useRef(null);
-  const institutionIdRef = useRef(null);
+  const subcategoryIdRef = useRef(null);
 
   useEffect(() => {
     if (category && category.name && allCategories.length > 0) {
@@ -98,15 +98,17 @@ export const EditSet = () => {
       }
     }
 
-    if (institution && institution.name && allInstitutions.length > 0) {
-      const selectedInstitution = allInstitutions.find(
-        (inst) => inst.organization_name === institution.name
+    if (subcategory && subcategory.name && allSubcategories.length > 0) {
+      const selectedSubCategory = allSubcategories.find(
+        (inst) => inst.subcategory_name === subcategory.name
       );
-      if (selectedInstitution) {
-        institutionIdRef.current = selectedInstitution.organization_id;
+      console.log(selectedSubCategory)
+      if (selectedSubCategory) {
+        subcategoryIdRef.current = selectedSubCategory.subcategory_id;
+        console.log(subcategoryIdRef.current)
       }
     }
-  }, [allCategories, allInstitutions]);
+  }, [allCategories, allSubcategories, subcategory]);
 
   const handleSubmit = () => {
     if (title.length === 0) {
@@ -155,16 +157,15 @@ export const EditSet = () => {
       toast("Някоя от картите е с поле с повече от 10000 символа");
       return;
     }
+    console.log(subcategoryIdRef.current)
     //check if the tags are not empty
     instance
       .put(`/sets/${id}`, {
         set_name: title,
         set_description: description,
         flashcards: flashcards,
-        category_id: category.id ? category.id : categoryIdRef.current,
-        organization_id: institution.id
-          ? institution.id
-          : institutionIdRef.current,
+        set_category: category.id ? category.id : categoryIdRef.current,
+        set_subcategory: subcategoryIdRef.current,
       })
       .then((response) => {
         toast("Редакцията е готова");
@@ -181,6 +182,38 @@ export const EditSet = () => {
     window.open(url, "_blank");
   };
 
+  const getSubcategories = (category_id) => {
+    instance.get(`/categories/${category_id}/subcategories`).then((response) => {
+      setAllSubcategories(response.data.subcategories);
+      console.log(response.data.subcategories)
+    });
+  }
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+
+  useEffect(() => {
+    console.log(category)
+    if (category.name && allCategories.length > 0) {
+      console.log("inuseeffect")
+      const matchingCategory = allCategories.find(
+        (cat) => cat.category_name === category.name
+      );
+      if (matchingCategory) {
+        setSelectedCategoryId(matchingCategory.category_id);
+      }
+    }
+  }, [category, allCategories]);
+  
+  useEffect(() => {
+    if (selectedCategoryId) {
+      getSubcategories(selectedCategoryId);
+    }
+  }, [selectedCategoryId]);
+
+  const resetSubcategory = () => {
+    setAllSubcategories([]);
+  }
+  
   return (
     <Dashboard>
       <ToastContainer />
@@ -210,6 +243,8 @@ export const EditSet = () => {
                   const selectedCategory = allCategories.find(
                     (cat) => cat.category_id === e.target.value
                   );
+                  resetSubcategory();
+                  getSubcategories(selectedCategory.category_id);
                   setCategory({
                     name: selectedCategory
                       ? selectedCategory.category_name
@@ -234,29 +269,29 @@ export const EditSet = () => {
 
               <select
                 onChange={(e) => {
-                  const selectedInstitution = allInstitutions.find(
-                    (cat) => cat.organization_id === e.target.value
+                  const selectedSubcategory = allSubcategories.find(
+                    (cat) => cat.subcategory_id === e.target.value
                   );
-                  setInstitution({
-                    name: selectedInstitution
-                      ? selectedInstitution.organization_name
+                  setSubcategory({
+                    name: selectedSubcategory
+                      ? selectedSubcategory.subcategory_name
                       : "",
-                    id: selectedInstitution
-                      ? selectedInstitution.organization_id
+                    id: selectedSubcategory
+                      ? selectedSubcategory.subcategory_id
                       : "",
                   });
                 }}
               >
-                <option value="">Организация</option>
-                {allInstitutions.map((allInst, index) => (
+                <option value="">Подкатегория</option>
+                {allSubcategories.map((allSubc, index) => (
                   <option
                     key={index}
-                    value={allInst.organization_id}
+                    value={allSubc.subcategory_id}
                     selected={
-                      category && institution.name === allInst.organization_name
+                      subcategory && subcategory.name === allSubc.subcategory_name
                     }
                   >
-                    {allInst.organization_name}
+                    {allSubc.subcategory_name}
                   </option>
                 ))}
               </select>

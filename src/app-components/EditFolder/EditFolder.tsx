@@ -46,10 +46,10 @@ export const EditFolder = () => {
         .then((response) => {
           setAllCategories(response.data.categories);
         })
-      instance.get("/organizations")
-      .then((response) =>{
-          setAllInstitutions(response.data.organizations);
-        })
+      // instance.get("/organizations")
+      // .then((response) =>{
+      //     setAllInstitutions(response.data.organizations);
+      //   })
     }, []);
 
     const handleChangeFolder = (key: string, value: string) => {

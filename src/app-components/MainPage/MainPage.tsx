@@ -37,7 +37,7 @@ export const MainPage: React.FC = () => {
       console.log(category)
       console.log(newPageSet)
     instance.get(
-      `/sets?page=${newPageSet}&size=20&sort_by_date=false&ascending=true&category_id=${category}`
+      `/sets?page=${newPageSet}&size=10&sort_by_date=false&ascending=true&category_id=${category}`
       ).then((response) => {
       setTotalSetPages(response.data.total_pages);
       const newCards = [...setCards];
@@ -235,6 +235,7 @@ export const MainPage: React.FC = () => {
     setIsSetLoading(true);
     setPageSet(1);
     console.log("here")
+
     instance
     .get(`/sets?page=1&size=10&sort_by_date=false&ascending=true&category_id=${categoryID}&subcategory_id=${id}`)
     .then((response) => {
@@ -337,7 +338,7 @@ export const MainPage: React.FC = () => {
         )}
         </div>
         </div>
-        {!isSetLoading && pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentSet(category)} />}
+        {!isSetLoading && pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentSet(categoryID)} />}
       </div>
       <div className="set-wrapper">
       <h2 className="category-title">{title} папки:</h2>
