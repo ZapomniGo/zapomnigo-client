@@ -166,7 +166,7 @@ export const EditSet = () => {
         window.scrollTo({ top: yOffset, behavior: "smooth" });
       }
 
-      toast("Моля попълнете празното поле на флашкартата");
+      toast("Моля, попълнете празното поле на флашкартата");
       return;
     }
     //check if any flashcard has more than 2000 characters

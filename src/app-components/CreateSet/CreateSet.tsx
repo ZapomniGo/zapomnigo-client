@@ -63,20 +63,31 @@ export const CreateSet = () => {
     return false;
   };
   const handleSubmit = () => {
-    //check if the title is not empty
+    const emptyFlashcard = flashcards.find(
+      (flashcard) => isEmpty(flashcard.term) || isEmpty(flashcard.definition)
+    );
+
     if (title.length === 0) {
+      const yOffset = document.getElementById("titleInput")?.offsetTop;
+      window.scrollTo({ top: yOffset, behavior: "smooth" });
       toast("Оп, май пропусна заглавие");
       return;
     }
     if (title.length > 100) {
+      const yOffset = document.getElementById("titleInput")?.offsetTop;
+      window.scrollTo({ top: yOffset, behavior: "smooth" });
       toast("Заглавието трябва да е под 100 символа");
       return;
     }
     if (description.length > 1000) {
+      const yOffset = document.getElementById("descriptionInput")?.offsetTop;
+      window.scrollTo({ top: yOffset, behavior: "smooth" });
       toast("Описанието трябва да е под 1000 символа");
       return;
     }
     if (description.length === 0) {
+      const yOffset = document.getElementById("titleInput")?.offsetTop;
+      window.scrollTo({ top: yOffset, behavior: "smooth" });
       toast("Оп, май пропусна описание");
       return;
     }
@@ -91,12 +102,18 @@ export const CreateSet = () => {
       return;
     }
     //check if each flashcard has a term and a description using isEmpty function
-    if (flashcards.find((flashcard) => isEmpty(flashcard.term))) {
-      toast("Някоя от картите няма термин");
-      return;
-    }
-    if (flashcards.find((flashcard) => isEmpty(flashcard.definition))) {
-      toast("Някоя от картите няма дефиниция");
+    if (emptyFlashcard) {
+      const flashcardElement = document.getElementById(
+        emptyFlashcard.flashcard_id
+      );
+
+      if (flashcardElement) {
+        const yOffset =
+          flashcardElement.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: yOffset, behavior: "smooth" });
+      }
+
+      toast("Моля, попълнете празното поле на флашкартата");
       return;
     }
     //check if any flashcard has more than 2000 characters
@@ -107,26 +124,37 @@ export const CreateSet = () => {
           flashcard.definition.replace(/<[^>]+>/g, "").length > 10000
       )
     ) {
+      const flashcard = flashcards.find((flashcard) =>
+        flashcard.term.replace(/<[^>]+>/g, "").length > 10000 ||
+        flashcard.definition.replace(/<[^>]+>/g, "").length > 10000
+          ? flashcard.flashcard_id
+          : ""
+      );
+      const yOffset = document.getElementById(
+        flashcard?.flashcard_id
+      )?.offsetTop;
+      window.scrollTo({ top: yOffset, behavior: "smooth" });
       toast("Някоя от картите е с поле с повече от 10000 символа");
       return;
     }
-    // check if the tags are not empty
+    //check if the tags are not empty
     instance
-      .post("/sets", {
+      .put(`/sets/${id}`, {
         set_name: title,
         set_description: description,
         flashcards: flashcards,
-        set_category: category,
-        organization_id: institution,
+        category_id: category.id ? category.id : categoryIdRef.current,
+        organization_id: institution.id
+          ? institution.id
+          : institutionIdRef.current,
       })
       .then((response) => {
-        toast("Добре дошъл в новото си тесте");
-        navigate("/app/set/" + response.data.set_id);
+        toast("Редакцията е готова");
+        navigate("/app/set/" + id);
         window.scrollTo(0, 0);
       })
       .catch((error) => {
         toast("Възникна грешка");
-        console.log(error);
       });
   };
 
@@ -149,6 +177,7 @@ export const CreateSet = () => {
             className="title"
             minLength={1}
             maxLength={100}
+            id="titleInput"
           />
           <div className="other-info">
             <div className="description">
@@ -156,6 +185,7 @@ export const CreateSet = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Описание"
+                id="descriptionInput"
               />
             </div>
             <div className="tags">
@@ -241,7 +271,11 @@ export const CreateSet = () => {
                   )}
                 </div>
               </div>{" "}
-              <div key={index} className="flashcard">
+              <div
+                key={index}
+                className="flashcard"
+                id={flashcard.flashcard_id}
+              >
                 <Editor
                   placeholder={"Термин"}
                   value={flashcard.term}
