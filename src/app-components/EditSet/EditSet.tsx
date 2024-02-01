@@ -16,6 +16,7 @@ import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { jwtDecode } from "jwt-decode";
+import { submitCheck } from "../../app-common/utils";
 
 export const EditSet = () => {
   useEffect(() => {
@@ -116,80 +117,8 @@ export const EditSet = () => {
   }, [allCategories, allInstitutions]);
 
   const handleSubmit = () => {
-    const emptyFlashcard = flashcards.find(
-      (flashcard) => isEmpty(flashcard.term) || isEmpty(flashcard.definition)
-    );
+    if (!submitCheck(title, description, flashcards)) return;
 
-    if (title.length === 0) {
-      const yOffset = document.getElementById("titleInput")?.offsetTop;
-      window.scrollTo({ top: yOffset, behavior: "smooth" });
-      toast("Оп, май пропусна заглавие");
-      return;
-    }
-    if (title.length > 100) {
-      const yOffset = document.getElementById("titleInput")?.offsetTop;
-      window.scrollTo({ top: yOffset, behavior: "smooth" });
-      toast("Заглавието трябва да е под 100 символа");
-      return;
-    }
-    if (description.length > 1000) {
-      const yOffset = document.getElementById("descriptionInput")?.offsetTop;
-      window.scrollTo({ top: yOffset, behavior: "smooth" });
-      toast("Описанието трябва да е под 1000 символа");
-      return;
-    }
-    if (description.length === 0) {
-      const yOffset = document.getElementById("titleInput")?.offsetTop;
-      window.scrollTo({ top: yOffset, behavior: "smooth" });
-      toast("Оп, май пропусна описание");
-      return;
-    }
-    //check if the flashcards are not empty
-    if (flashcards.length === 0) {
-      toast("Поне една карта трябва да се въведе");
-      return;
-    }
-    //check if the flashcards are not empty
-    if (flashcards.length > 3000) {
-      toast("Картите трябва да са под 3000");
-      return;
-    }
-    //check if each flashcard has a term and a description using isEmpty function
-    if (emptyFlashcard) {
-      const flashcardElement = document.getElementById(
-        emptyFlashcard.flashcard_id
-      );
-
-      if (flashcardElement) {
-        const yOffset =
-          flashcardElement.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({ top: yOffset, behavior: "smooth" });
-      }
-
-      toast("Моля, попълнете празното поле на флашкартата");
-      return;
-    }
-    //check if any flashcard has more than 2000 characters
-    if (
-      flashcards.find(
-        (flashcard) =>
-          flashcard.term.replace(/<[^>]+>/g, "").length > 10000 ||
-          flashcard.definition.replace(/<[^>]+>/g, "").length > 10000
-      )
-    ) {
-      const flashcard = flashcards.find((flashcard) =>
-        flashcard.term.replace(/<[^>]+>/g, "").length > 10000 ||
-        flashcard.definition.replace(/<[^>]+>/g, "").length > 10000
-          ? flashcard.flashcard_id
-          : ""
-      );
-      const yOffset = document.getElementById(
-        flashcard?.flashcard_id
-      )?.offsetTop;
-      window.scrollTo({ top: yOffset, behavior: "smooth" });
-      toast("Някоя от картите е с поле с повече от 10000 символа");
-      return;
-    }
     //check if the tags are not empty
     instance
       .put(`/sets/${id}`, {
@@ -201,12 +130,12 @@ export const EditSet = () => {
           ? institution.id
           : institutionIdRef.current,
       })
-      .then((response) => {
+      .then(() => {
         toast("Редакцията е готова");
         navigate("/app/set/" + id);
         window.scrollTo(0, 0);
       })
-      .catch((error) => {
+      .catch(() => {
         toast("Възникна грешка");
       });
   };
