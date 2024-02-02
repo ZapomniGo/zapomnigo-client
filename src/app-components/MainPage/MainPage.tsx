@@ -328,8 +328,59 @@ export const MainPage: React.FC = () => {
     setSelectSet(null);
   };
 
+  const [isAccordionVisible, setIsAccordionVisible] = useState(true);
+
+  const handleAccordionClick = () => {
+    setIsAccordionVisible(!isAccordionVisible);
+  };
+
+  
   return (
     <Dashboard>
+
+{isAccordionVisible ? (
+    <div className="accordion" onClick={handleAccordionClick}>
+      <button className="accordion">Категорий</button>
+    </div>
+  ) : (
+    <>
+    <div className="accordion" onClick={handleAccordionClick}>
+    <button className="accordion">Категорий</button>
+  </div>
+    <div className="panel">
+    <div className="category-wrapper">
+      {allCategories && allCategories.map((category) => (
+        <div key={category.category_id} className="category-btn" onClick={() => changeCategory(category.category_id, category.category_name)}>
+          <p >
+            {category.category_name}
+          </p>
+        </div>
+      ))}
+      {subCategories && subCategories.map((subCategories) => (
+              // <div key={subCategories.subcategory_id} className="category-btn" onClick={() => changeSubCategory(subCategories.subcategory_id, subCategories.subcategory_name)}>
+              <div
+              key={subCategories.id}
+              className={selectedSubCategory === subCategories.subcategory_id ? 'selected category-btn' : 'category-btn'}
+              onClick={() => {
+                handleSubcategoryClick(subCategories)
+                changeSubCategory(subCategories.subcategory_id, subCategories.subcategory_name)
+              }}
+            >
+              <p >
+                {subCategories.subcategory_name}
+              </p>
+            </div>
+          ))} 
+      {(categoryID || selectedSubCategory) && (
+        <div className="reset-btn" onClick={resetSets}>
+          <RxCrossCircled/>
+        </div>
+      )}
+      </div>
+
+    </div>
+    </>
+)}
       {isCategoryLoading ? (
         <LoadingAnimation />
     ) : (

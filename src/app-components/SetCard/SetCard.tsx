@@ -85,8 +85,8 @@ const SetCard: React.FC<SetCardProps> = ({
       {category ? (
           <div className={`set-category ${isSelected ? "open" : "close"}`}>
             <a className="miniLabel">
-              {category.length > 10
-                ? category.substring(0, 21) + "..."
+              {category.length > 40
+                ? category.substring(0, 40) + "..."
                 : category}
             </a>
           </div>
@@ -96,8 +96,8 @@ const SetCard: React.FC<SetCardProps> = ({
       {subcategory ? (
           <div className={`set-category ${isSelected ? "open" : "close"}`}>
             <a className="miniLabel">
-              {subcategory.length > 10
-                ? subcategory.substring(0, 21) + "..."
+              {subcategory.length > 40
+                ? subcategory.substring(0, 40) + "..."
                 : subcategory}
             </a>
           </div>

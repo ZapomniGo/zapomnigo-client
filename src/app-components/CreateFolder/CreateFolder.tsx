@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { SelectSet } from "./SelectSet";
 import { useNavigate } from "react-router-dom";
+import { MoreBtn } from "../MoreBtn/MoreBtn";
 
 export const CreateFolder = () => {
   const navigate = useNavigate();
@@ -37,8 +38,11 @@ export const CreateFolder = () => {
   const [availableSets, setAvailableSets] = useState({});
 
   useEffect(() => {
-    instance.get("/sets").then((response) => {
+    instance.get("/sets?page=1&size=20&sort_by_date=false&ascending=true&category_id=").then((response) => {
       setSetCards(response.data.sets);
+      setTotalSetPages(response.data.total_pages);
+
+
     });
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
@@ -115,6 +119,25 @@ export const CreateFolder = () => {
       setSubcategories(response.data.subcategories);
     })
   }
+  const [pageSet, setPageSet] = useState(1);
+  const [totalSetPages, setTotalSetPages] = useState(1);
+
+  const handleLoadRecentSet = () => {
+    const newPageSet = pageSet + 1;
+    setPageSet(newPageSet);
+    instance.get(
+      `/sets?page=${newPageSet}&size=20&sort_by_date=false&ascending=true&category_id=`
+      ).then((response) => {
+        console.log(response.data)
+      setTotalSetPages(response.data.total_pages);
+      const newCards = [...setCards];
+      response.data.sets.forEach(card => newCards.push(card));
+      setSetCards(newCards);
+
+    });
+    
+  };
+
 
   const resetSubcategory = () => {
     setSubcategories([]);
@@ -219,6 +242,8 @@ export const CreateFolder = () => {
                 />
               ))}
           </div>
+          { pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentSet()} />}
+
         </div>
       </div>
     </Dashboard>
