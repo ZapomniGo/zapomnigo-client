@@ -32,7 +32,6 @@ export const MainPage: React.FC = () => {
   // const [selectedSubcategory, setSelectedSubcategory] = useState(null);
 
   const handleSubcategoryClick = (subcategory) => {
-    console.log(subcategory.subcategory_name);
     setSelectedSubCategory(subcategory);
   };
 
@@ -40,8 +39,6 @@ export const MainPage: React.FC = () => {
     const newPageSet = pageSet + 1;
     setPageSet(newPageSet);
       setIsSetLoading(true)
-      console.log(category)
-      console.log(newPageSet)
     instance.get(
       `/sets?page=${newPageSet}&size=10&sort_by_date=false&ascending=true&category_id=${category}`
       ).then((response) => {
@@ -49,12 +46,9 @@ export const MainPage: React.FC = () => {
       const newCards = [...setCards];
       response.data.sets.forEach(card => newCards.push(card));
       setSetCards(newCards);
-      console.log(response.data)
       setTimeout(() => {
         setIsSetLoading(false);
       }, 250);
-      // console.log(pageSet)
-
     });
     
   };
@@ -103,7 +97,6 @@ export const MainPage: React.FC = () => {
       }, 250)
     })
     .catch((error) => {
-      console.log(error.response.status);
       if (error.response.status === 404) {
         setHasSets(false); // Update hasSets if a 404 error is received
       }
@@ -125,7 +118,6 @@ export const MainPage: React.FC = () => {
       }, 250);
     })
     .catch((error) => {
-      console.log(error.response.status);
       if (error.response.status === 404) {
         setHasFolders(false); // Update hasSets if a 404 error is received
       }
@@ -234,7 +226,6 @@ export const MainPage: React.FC = () => {
       }, 250);
     })
     .catch((error) => {
-      console.log(error.response.status);
       if (error.response.status === 404) {
         setHasSets(false); 
       }
@@ -255,7 +246,6 @@ export const MainPage: React.FC = () => {
       }, 250);
     })
     .catch((error) => {
-      console.log(error.response.status);
       if (error.response.status === 404) {
         setHasFolders(false);
       }
@@ -271,7 +261,6 @@ export const MainPage: React.FC = () => {
     //this calls for the subcategories
     instance.get(`/categories/${id}/subcategories`).then((response) => {
       setAllCategories([]);
-      console.log(response.data.subcategories)
       setSubCategories(response.data.subcategories);
       setTimeout(() => {
         setIsCategoryLoading(false);
@@ -288,12 +277,11 @@ export const MainPage: React.FC = () => {
     setIsFolderLoading(true);
     setIsSetLoading(true);
     setPageSet(1);
-    console.log("here")
+  
 
     instance
     .get(`/sets?page=1&size=10&sort_by_date=false&ascending=true&category_id=${categoryID}&subcategory_id=${id}`)
     .then((response) => {
-        console.log("sets")
         setTotalSetPages(response.data.total_pages);
         const newCards = [];
         response.data.sets.forEach(card => newCards.push(card));
@@ -304,7 +292,6 @@ export const MainPage: React.FC = () => {
         }, 250);
       })
       .catch((error) => {
-        console.log(error.response.status);
         if (error.response.status === 404) {
           setHasSets(false); // Update hasSets if a 404 error is received
         }
@@ -384,7 +371,6 @@ export const MainPage: React.FC = () => {
       {isSetLoading ? (
         <LoadingAnimation />
         ) :setCards.length > 0 ? (
-          console.log(setCards.length),
             setCards.map((card) => (
             <SetCard
               key={card.set_id}
