@@ -80,7 +80,7 @@ const SetCard: React.FC<SetCardProps> = ({
           </p>
         </div>        
       </div>
-      <div className="categories">
+      <div className="categories" style={{paddingBottom:category && "10px"}}>
 
       {category ? (
           <div className={`set-category ${isSelected ? "open" : "close"}`}>
