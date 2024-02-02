@@ -111,10 +111,10 @@ export const EditSet = () => {
       const selectedSubCategory = allSubcategories.find(
         (inst) => inst.subcategory_name === subcategory.name
       );
-      console.log(selectedSubCategory)
-      if (selectedSubCategory) {
-        subcategoryIdRef.current = selectedSubCategory.subcategory_id;
-        console.log(subcategoryIdRef.current)
+      if (selectedSubCategory.categorory_id === undefined) {
+        subcategoryIdRef.current = null;
+      } else {
+        subcategoryIdRef.current = selectedSubCategory.category_id;
       }
     }
   }, [allCategories, allSubcategories, subcategory]);
@@ -179,7 +179,7 @@ export const EditSet = () => {
       })
       .then((response) => {
         toast("Редакцията е готова");
-        // navigate("/app/set/" + id);
+        navigate("/app/set/" + id);
         window.scrollTo(0, 0);
       })
       .catch((error) => {
