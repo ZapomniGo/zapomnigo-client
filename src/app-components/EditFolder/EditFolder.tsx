@@ -87,6 +87,7 @@ export const EditFolder = () => {
     }
 
     const getSubcategories = (category_id) => {
+      console.log("here")
       instance.get(`/categories/${category_id}/subcategories`).then((response) => {
         setAllSubcategories(response.data.subcategories);
         console.log(response.data.subcategories)
@@ -220,7 +221,7 @@ export const EditFolder = () => {
                     : "",
                 });              }}
             >
-              <option value="">Организация</option>
+              <option value="">Събкатекогия</option>
               {allSubcategories.map((allSubc, index) => (
                 <option key={index} value={allSubc.subcategory_id} selected={subcategory && subcategory.name === allSubc.subcategory_name}>
                   {allSubc.subcategory_name}

@@ -317,7 +317,7 @@ export const MainPage: React.FC = () => {
       setIsFolderLoading(false);
     });
 
-    setTitle(category + "/" + name);
+    setTitle(category + " " + name);
   }
 
   const handleMouseEnter = (id: string) => {

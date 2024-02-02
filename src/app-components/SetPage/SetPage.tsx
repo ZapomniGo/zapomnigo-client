@@ -274,7 +274,9 @@ export const SetPage = () => {
             </div>
             <div className="cards-info">
               <div className="cards-info-header">
-                <h2>Флашкарти ({flashcards ? totalItems : "Зареждане..."})</h2>
+              <h2>Флашкарти ({flashcards ? totalItems : "Зареждане..."})</h2>
+
+                {flashcards.flashcards.length > 1 ? (
                 <select onChange={handleFilterChange}>
                   <option value="&sort_by_date=true&ascending=false">
                     По подразбиране
@@ -286,6 +288,9 @@ export const SetPage = () => {
                     По азбучен ред(Я-А)
                   </option>
                 </select>
+                ) : (
+                  " " 
+                )}
               </div>
               {flashcards.flashcards.map((flashcard) => (
                 <Flashcard key={flashcard.flashcard_id} flashcard={flashcard} />
