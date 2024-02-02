@@ -24,9 +24,7 @@ export const CreateSet = () => {
   const [allSubcategories, setAllSubcategories] = useState([]);
   const [subcategory, setSubcategory] = useState({ name: "", id: "" });
 
-    // const [institution, setInstitution] = useState("");
-
-
+  // const [institution, setInstitution] = useState("");
 
   const {
     flashcards,
@@ -112,25 +110,21 @@ export const CreateSet = () => {
       return;
     }
     // check if the tags are not empty
-    console.log(subcategory)
     instance
       .post("/sets", {
         set_name: title,
         set_description: description,
         flashcards: flashcards,
         set_category: category,
-        //pitai vankata dali e subcategory_id
-        // organization_id: institution,
-        set_subcategory: subcategory,
+        set_subcategory: subcategory.id,
       })
       .then((response) => {
         toast("Добре дошъл в новото си тесте");
-        navigate("/app/set/" + response.data.set_id);
+          navigate("/app/set/" + response.data.set_id);
         window.scrollTo(0, 0);
       })
       .catch((error) => {
         toast("Възникна грешка");
-        console.log(error);
       });
   };
 
@@ -139,17 +133,17 @@ export const CreateSet = () => {
     window.open(url, "_blank");
   };
 
-
   const getSubcategories = (category_id) => {
-    instance.get(`/categories/${category_id}/subcategories`).then((response) => {
-      setAllSubcategories(response.data.subcategories);
-      console.log(response.data.subcategories)
-    });
-  }
+    instance
+      .get(`/categories/${category_id}/subcategories`)
+      .then((response) => {
+        setAllSubcategories(response.data.subcategories);
+      });
+  };
 
   const resetSubcategory = () => {
     setAllSubcategories([]);
-  }
+  };
 
   return (
     <Dashboard>
@@ -176,7 +170,11 @@ export const CreateSet = () => {
             </div>
             <div className="tags">
               <select
-                onChange={(e) => {setCategory(e.target.value); getSubcategories(e.target.value); resetSubcategory()}}
+                onChange={(e) => {
+                  setCategory(e.target.value);
+                  getSubcategories(e.target.value);
+                  resetSubcategory();
+                }}
                 defaultValue={""}
                 id="categories"
                 name="categories"
