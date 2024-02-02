@@ -99,9 +99,7 @@ export const EditSet = () => {
       const selectedCategory = allCategories.find(
         (cat) => cat.category_name === category.name
       );
-      if (selectedCategory) {
-        categoryIdRef.current = selectedCategory.category_id;
-      }
+      categoryIdRef.current = selectedCategory.category_id;
     }
 
     if (subcategory && subcategory.name && allSubcategories.length > 0) {
@@ -163,6 +161,8 @@ export const EditSet = () => {
       toast("Някоя от картите е с поле с повече от 10000 символа");
       return;
     }
+
+    console.log(subcategoryIdRef.current)
     //check if the tags are not empty
     instance
       .put(`/sets/${id}`, {
@@ -174,7 +174,7 @@ export const EditSet = () => {
       })
       .then((response) => {
         toast("Редакцията е готова");
-        navigate("/app/set/" + id);
+        // navigate("/app/set/" + id);
         window.scrollTo(0, 0);
       })
       .catch((error) => {
@@ -274,6 +274,7 @@ export const EditSet = () => {
 
               <select
                 onChange={(e) => {
+                  console.log(e.target.value)
                   const selectedSubcategory = allSubcategories.find(
                     (cat) => cat.subcategory_id === e.target.value
                   );
