@@ -7,6 +7,9 @@ import instance from "../../app-utils/axios";
 import { LoadingAnimation } from "../LoadingAnimation/LoadingAnimtation";
 import { FaRegFolderClosed } from "react-icons/fa6";
 import { RxCrossCircled } from "react-icons/rx";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
+
 
 
 export const MainPage: React.FC = () => {
@@ -334,18 +337,64 @@ export const MainPage: React.FC = () => {
     setIsAccordionVisible(!isAccordionVisible);
   };
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
   
   return (
     <Dashboard>
 
-{isAccordionVisible ? (
-    <div className="accordion" onClick={handleAccordionClick}>
-      <button className="accordion">Категорий</button>
+{windowWidth >= 1000 ? (
+  <>
+          {isCategoryLoading ? (
+        <LoadingAnimation />
+    ) : (
+      <div className="category-wrapper">
+      {allCategories && allCategories.map((category) => (
+        <div key={category.category_id} className="category-btn" onClick={() => changeCategory(category.category_id, category.category_name)}>
+          <p >
+            {category.category_name}
+          </p>
+        </div>
+      ))}
+      {subCategories && subCategories.map((subCategories) => (
+              // <div key={subCategories.subcategory_id} className="category-btn" onClick={() => changeSubCategory(subCategories.subcategory_id, subCategories.subcategory_name)}>
+              <div
+              key={subCategories.id}
+              className={selectedSubCategory === subCategories.subcategory_id ? 'selected category-btn' : 'category-btn'}
+              onClick={() => {
+                handleSubcategoryClick(subCategories)
+                changeSubCategory(subCategories.subcategory_id, subCategories.subcategory_name)
+              }}
+            >
+              <p >
+                {subCategories.subcategory_name}
+              </p>
+            </div>
+          ))} 
+      {(categoryID || selectedSubCategory) && (
+        <div className="reset-btn" onClick={resetSets}>
+          <RxCrossCircled/>
+        </div>
+      )}
+      </div>
+    )}
+  </>
+) : (
+        <>
+          {isAccordionVisible ? (
+    <div className="accordion" >
+      <button className="" onClick={handleAccordionClick}>Категорий <IoIosArrowDown/></button>
     </div>
   ) : (
     <>
-    <div className="accordion" onClick={handleAccordionClick}>
-    <button className="accordion">Категорий</button>
+    <div className="accordion" >
+    <button className="" onClick={handleAccordionClick}>Категорий <IoIosArrowUp/></button>
   </div>
     <div className="panel">
     <div className="category-wrapper">
@@ -381,39 +430,11 @@ export const MainPage: React.FC = () => {
     </div>
     </>
 )}
-      {isCategoryLoading ? (
-        <LoadingAnimation />
-    ) : (
-      <div className="category-wrapper">
-      {allCategories && allCategories.map((category) => (
-        <div key={category.category_id} className="category-btn" onClick={() => changeCategory(category.category_id, category.category_name)}>
-          <p >
-            {category.category_name}
-          </p>
-        </div>
-      ))}
-      {subCategories && subCategories.map((subCategories) => (
-              // <div key={subCategories.subcategory_id} className="category-btn" onClick={() => changeSubCategory(subCategories.subcategory_id, subCategories.subcategory_name)}>
-              <div
-              key={subCategories.id}
-              className={selectedSubCategory === subCategories.subcategory_id ? 'selected category-btn' : 'category-btn'}
-              onClick={() => {
-                handleSubcategoryClick(subCategories)
-                changeSubCategory(subCategories.subcategory_id, subCategories.subcategory_name)
-              }}
-            >
-              <p >
-                {subCategories.subcategory_name}
-              </p>
-            </div>
-          ))} 
-      {(categoryID || selectedSubCategory) && (
-        <div className="reset-btn" onClick={resetSets}>
-          <RxCrossCircled/>
-        </div>
-      )}
-      </div>
-    )}
+        </>
+)}
+
+
+
 
       <div className="set-wrapper">
         <h2 className="category-title">{title} тестета:</h2>
