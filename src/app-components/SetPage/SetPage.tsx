@@ -219,8 +219,8 @@ export const SetPage = () => {
                 ) : (
                   ""
                 )}
-                {flashcards.organization_name ? (
-                  <p className="category">{flashcards.organization_name}</p>
+                {flashcards.subcategory_name ? (
+                  <p className="category">{flashcards.subcategory_name}</p>
                 ) : (
                   ""
                 )}

@@ -26,7 +26,8 @@ const SetCard: React.FC<SetCardProps> = ({
   isSelected,
   category,
   icon,
-  type
+  type,
+  subcategory
 }) => {
   const displayDescription = () => {
     let n = 120;
@@ -77,24 +78,27 @@ const SetCard: React.FC<SetCardProps> = ({
               ? creator_name.substring(0, 21) + "..."
               : creator_name}
           </p>
-        </div>
-        {institution ? (
-          <div className={`set-institution ${isSelected ? "open" : "close"}`}>
-            <a href="#">
-              {institution.length > 10
-                ? institution.substring(0, 21) + "..."
-                : institution}
-            </a>
-          </div>
-        ) : (
-          ""
-        )}
-        {category ? (
+        </div>        
+      </div>
+      <div className="categories">
+
+      {category ? (
           <div className={`set-category ${isSelected ? "open" : "close"}`}>
             <a className="miniLabel">
               {category.length > 10
                 ? category.substring(0, 21) + "..."
                 : category}
+            </a>
+          </div>
+        ) : (
+          ""
+        )}
+      {subcategory ? (
+          <div className={`set-category ${isSelected ? "open" : "close"}`}>
+            <a className="miniLabel">
+              {subcategory.length > 10
+                ? subcategory.substring(0, 21) + "..."
+                : subcategory}
             </a>
           </div>
         ) : (

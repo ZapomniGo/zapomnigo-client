@@ -384,6 +384,7 @@ export const MainPage: React.FC = () => {
               onMouseLeave={handleMouseLeave}
               isSelected={selectSet === card.set_id}
               category={card.category_name}
+              subcategory={card.subcategory_name}
             />
           ))
         ) : (
