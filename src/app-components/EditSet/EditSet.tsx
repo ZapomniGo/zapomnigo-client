@@ -99,8 +99,13 @@ export const EditSet = () => {
       const selectedCategory = allCategories.find(
         (cat) => cat.category_name === category.name
       );
-      categoryIdRef.current = selectedCategory.category_id;
+      if (selectedCategory.categorory_id === undefined) {
+        categoryIdRef.current = null;
+      } else {
+        categoryIdRef.current = selectedCategory.category_id;
+      }
     }
+    console.log(categoryIdRef.current)
 
     if (subcategory && subcategory.name && allSubcategories.length > 0) {
       const selectedSubCategory = allSubcategories.find(

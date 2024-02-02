@@ -349,12 +349,14 @@ export const MainPage: React.FC = () => {
   return (
     <Dashboard>
 
-{windowWidth >= 1000 ? (
+{windowWidth <= 1000 ? (
   <>
           {isCategoryLoading ? (
         <LoadingAnimation />
     ) : (
       <div className="category-wrapper">
+                <h2 className="category-title">Категории:</h2>
+      <div className="categories">
       {allCategories && allCategories.map((category) => (
         <div key={category.category_id} className="category-btn" onClick={() => changeCategory(category.category_id, category.category_name)}>
           <p >
@@ -382,6 +384,7 @@ export const MainPage: React.FC = () => {
           <RxCrossCircled/>
         </div>
       )}
+      </div>      
       </div>
     )}
   </>
@@ -389,12 +392,12 @@ export const MainPage: React.FC = () => {
         <>
           {isAccordionVisible ? (
     <div className="accordion" >
-      <button className="" onClick={handleAccordionClick}>Категорий <IoIosArrowDown/></button>
+      <button className="" onClick={handleAccordionClick}>Категории <IoIosArrowDown/></button>
     </div>
   ) : (
     <>
     <div className="accordion" >
-    <button className="" onClick={handleAccordionClick}>Категорий <IoIosArrowUp/></button>
+    <button className="" onClick={handleAccordionClick}>Категории <IoIosArrowUp/></button>
   </div>
     <div className="panel">
     <div className="category-wrapper">
