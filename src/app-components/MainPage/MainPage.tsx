@@ -27,6 +27,7 @@ export const MainPage: React.FC = () => {
   const [selectedSubCategory, setSelectedSubCategory] = useState('');
   const [hasSets, setHasSets] = useState(true);
   const [hasFolders, setHasFolders] = useState(true);
+  const [isCategoryLoading, setIsCategoryLoading] = useState(false);
 
   // const [selectedSubcategory, setSelectedSubcategory] = useState(null);
 
@@ -134,6 +135,7 @@ export const MainPage: React.FC = () => {
     setPageSet(1);
     setIsFolderLoading(true);
     setIsSetLoading(true);
+    setIsCategoryLoading(true);
     setSubCategories([]);
     instance.get(
       `/sets?page=1&size=10&sort_by_date=false&ascending=true&category_id=`
@@ -150,6 +152,9 @@ export const MainPage: React.FC = () => {
   
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
+      setTimeout(() => {
+        setIsCategoryLoading(false);
+      }, 250); 
     });
   
     setPageFolder(1);
@@ -183,10 +188,16 @@ export const MainPage: React.FC = () => {
       response.data.sets.forEach(card => newCards.push(card));
       setSetCards(newCards);      
       setHasSets(true);
+      setTimeout(() => {
+        setIsSetLoading(false);
+      }, 250); 
 
     });
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
+      setTimeout(() => {
+        setIsCategoryLoading(false);
+      }, 250); 
     });
     
     setPageFolder(1);
@@ -197,6 +208,9 @@ export const MainPage: React.FC = () => {
       response.data.folders.forEach(card => newFolderCards.push(card));
       setFolderCards(newFolderCards);
       setHasFolders(true);
+      setTimeout(() => {
+        setIsFolderLoading(false);
+      }, 250); 
     });
   }, []);
 
@@ -205,6 +219,7 @@ export const MainPage: React.FC = () => {
     setSetCards([]);
     setIsFolderLoading(true);
     setIsSetLoading(true);
+    setIsCategoryLoading(true);
     setPageSet(1);
     instance.get(
       `/sets?page=1&size=10&sort_by_date=false&ascending=true&category_id=${id}`
@@ -258,6 +273,9 @@ export const MainPage: React.FC = () => {
       setAllCategories([]);
       console.log(response.data.subcategories)
       setSubCategories(response.data.subcategories);
+      setTimeout(() => {
+        setIsCategoryLoading(false);
+      }, 250); 
     });
   }
 
@@ -303,6 +321,7 @@ export const MainPage: React.FC = () => {
       setFolderCards(newFolderCards);
       setIsFolderLoading(false);
       setHasFolders(true);
+
     })
     .catch((error) => {
       if (error.response.status === 404) {
@@ -311,7 +330,7 @@ export const MainPage: React.FC = () => {
       setIsFolderLoading(false);
     });
 
-    setTitle(name);
+    setTitle(category + "/" + name);
   }
 
   const handleMouseEnter = (id: string) => {
@@ -324,7 +343,9 @@ export const MainPage: React.FC = () => {
 
   return (
     <Dashboard>
-
+      {isCategoryLoading ? (
+        <LoadingAnimation />
+    ) : (
       <div className="category-wrapper">
       {allCategories && allCategories.map((category) => (
         <div key={category.category_id} className="category-btn" onClick={() => changeCategory(category.category_id, category.category_name)}>
@@ -354,6 +375,8 @@ export const MainPage: React.FC = () => {
         </div>
       )}
       </div>
+    )}
+
       <div className="set-wrapper">
         <h2 className="category-title">{title} тестета:</h2>
         <div className="sets">
