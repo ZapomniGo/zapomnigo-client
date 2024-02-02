@@ -26,6 +26,7 @@ export const FolderView: React.FC = () => {
     } else {
       setIsAdmin(false);
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
   useEffect(() => {
     // instance.get(`/users/${userID}/sets`).then((response) => {

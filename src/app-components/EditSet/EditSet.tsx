@@ -37,7 +37,7 @@ export const EditSet = () => {
   const [institution, setInstitution] = useState({ name: "", id: "" });
   const navigate = useNavigate();
   const [allInstitutions, setAllInstitutions] = useState([]);
-
+  const [filter, setFilter] = useState("");
   const { id } = useParams<{ id: string }>();
 
   const {
@@ -61,7 +61,7 @@ export const EditSet = () => {
       setAllInstitutions(response.data.organizations);
     });
     instance
-      .get(`/sets/${id}?size=2000`)
+      .get(`/sets/${id}?size=2000` + filter)
       .then((response) => {
         loadFlashcards(response.data.set.flashcards);
         setTitle(response.data.set.set_name);

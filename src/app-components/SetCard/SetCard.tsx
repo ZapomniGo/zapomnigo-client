@@ -59,9 +59,10 @@ const SetCard: React.FC<SetCardProps> = ({
       </div>
 
       <div className={`set-description ${isSelected ? "open" : "close"}`}>
-        {description.length > 99
+        {/* {description.length > 99
           ? description.substring(0, 102) + "..."
-          : description}
+          : description} */}
+          {description}
       </div>
       <div className={`set-creator  ${isSelected ? "open" : "close"}`}>
         <div className="image">
