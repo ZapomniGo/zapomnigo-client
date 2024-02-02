@@ -31,6 +31,10 @@
     color: $text-color;
     background-color: #fff;
   }
+  .selected{
+    background-color: $secondary-color;
+    color: white;
+  }
   .category-btn:hover{
     transition: 0.3s;
     background-color: $secondary-color;

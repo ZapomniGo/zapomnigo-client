@@ -28,7 +28,12 @@ export const MainPage: React.FC = () => {
   const [hasSets, setHasSets] = useState(true);
   const [hasFolders, setHasFolders] = useState(true);
 
+  // const [selectedSubcategory, setSelectedSubcategory] = useState(null);
 
+  const handleSubcategoryClick = (subcategory) => {
+    console.log(subcategory.subcategory_name);
+    setSelectedSubCategory(subcategory);
+  };
 
   const handleLoadRecentSet = (category) => {
     const newPageSet = pageSet + 1;
@@ -94,8 +99,16 @@ export const MainPage: React.FC = () => {
       setHasSets(true);
       setTimeout(() => {
         setIsSetLoading(false);
-      }, 250);  
-    });
+      }, 250)
+    })
+    .catch((error) => {
+      console.log(error.response.status);
+      if (error.response.status === 404) {
+        setHasSets(false); // Update hasSets if a 404 error is received
+      }
+      setIsSetLoading(false);
+    })
+    
   
  
     setPageFolder(1);
@@ -109,7 +122,14 @@ export const MainPage: React.FC = () => {
       setTimeout(() => {
         setIsFolderLoading(false);
       }, 250);
-    });
+    })
+    .catch((error) => {
+      console.log(error.response.status);
+      if (error.response.status === 404) {
+        setHasFolders(false); // Update hasSets if a 404 error is received
+      }
+      setIsFolderLoading(false);
+    })
   } else{
     setPageSet(1);
     setIsFolderLoading(true);
@@ -197,7 +217,14 @@ export const MainPage: React.FC = () => {
       setTimeout(() => {
         setIsSetLoading(false);
       }, 250);
-    });
+    })
+    .catch((error) => {
+      console.log(error.response.status);
+      if (error.response.status === 404) {
+        setHasSets(false); 
+      }
+      setIsSetLoading(false);
+    })
 
     setPageFolder(1);
     setFolderCards([]);
@@ -210,7 +237,16 @@ export const MainPage: React.FC = () => {
       setHasFolders(true)
       setTimeout(() => {
         setIsFolderLoading(false);
-      }, 250);    });
+      }, 250);
+    })
+    .catch((error) => {
+      console.log(error.response.status);
+      if (error.response.status === 404) {
+        setHasFolders(false);
+      }
+      setIsFolderLoading(false);
+    })
+
     setTitle(name);
     setCategoryID(id);
     setCategory(name)
@@ -269,7 +305,6 @@ export const MainPage: React.FC = () => {
       setHasFolders(true);
     })
     .catch((error) => {
-      console.log(error.response.status);
       if (error.response.status === 404) {
         setHasFolders(false); // Update hasSets if a 404 error is received
       }
@@ -299,7 +334,15 @@ export const MainPage: React.FC = () => {
         </div>
       ))}
       {subCategories && subCategories.map((subCategories) => (
-              <div key={subCategories.subcategory_id} className="category-btn" onClick={() => changeSubCategory(subCategories.subcategory_id, subCategories.subcategory_name)}>
+              // <div key={subCategories.subcategory_id} className="category-btn" onClick={() => changeSubCategory(subCategories.subcategory_id, subCategories.subcategory_name)}>
+              <div
+              key={subCategories.id}
+              className={selectedSubCategory === subCategories.subcategory_id ? 'selected category-btn' : 'category-btn'}
+              onClick={() => {
+                handleSubcategoryClick(subCategories)
+                changeSubCategory(subCategories.subcategory_id, subCategories.subcategory_name)
+              }}
+            >
               <p >
                 {subCategories.subcategory_name}
               </p>
@@ -318,6 +361,7 @@ export const MainPage: React.FC = () => {
       {isSetLoading ? (
         <LoadingAnimation />
         ) :setCards.length > 0 ? (
+          console.log(setCards.length),
             setCards.map((card) => (
             <SetCard
               key={card.set_id}
@@ -334,7 +378,7 @@ export const MainPage: React.FC = () => {
             />
           ))
         ) : (
-          <p>No available sets</p>
+          <p>Няма тестета за тази категория</p>
         )}
         </div>
         </div>
@@ -364,7 +408,7 @@ export const MainPage: React.FC = () => {
             />
           ))
         ) : (
-          <p>No available Folders</p>
+          <p>Няма папки за тази категория</p>
         )}
         </div>
         {!isFolderLoading && pageFolder < totalFolderPages && folderCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentFolder(categoryID)} />}
