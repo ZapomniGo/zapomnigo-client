@@ -56,12 +56,24 @@ const useFlashcards = () => {
 
   const handleDuplicateFlashcard = (flashcard_id: string) => {
     setFlashcards((prevFlashcards) => {
-      let duplicate = prevFlashcards.find(
+      const originalIndex = prevFlashcards.findIndex(
         (flashcard) => flashcard.flashcard_id === flashcard_id
       );
 
-      duplicate = { ...duplicate!, flashcard_id: uuidv4() };
-      return duplicate ? [...prevFlashcards, duplicate] : prevFlashcards;
+      if (originalIndex !== -1) {
+        const duplicate = {
+          ...prevFlashcards[originalIndex],
+          flashcard_id: uuidv4(),
+        };
+
+        return [
+          ...prevFlashcards.slice(0, originalIndex + 1),
+          duplicate,
+          ...prevFlashcards.slice(originalIndex + 1),
+        ];
+      }
+
+      return prevFlashcards;
     });
   };
 
@@ -103,7 +115,8 @@ const useFlashcards = () => {
     if (inputString[inputString.length - 1] === delimiter) {
       inputString = inputString.slice(0, inputString.length - 1);
     }
-    let newArr = inputString.split(delimeter2.trim())
+    let newArr = inputString
+      .split(delimeter2.trim())
       .map((item) => item.split(delimiter.trim()));
 
     let newFlashcards = newArr.map((item) => ({
@@ -111,7 +124,10 @@ const useFlashcards = () => {
       definition: item[1],
       flashcard_id: uuidv4(),
     }));
-    if (newFlashcards[newFlashcards.length - 1].term === "" || newFlashcards[newFlashcards.length - 1].definition === "") {
+    if (
+      newFlashcards[newFlashcards.length - 1].term === "" ||
+      newFlashcards[newFlashcards.length - 1].definition === ""
+    ) {
       newFlashcards.pop();
     }
 
