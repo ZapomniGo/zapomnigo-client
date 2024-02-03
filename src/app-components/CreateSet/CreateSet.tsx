@@ -22,7 +22,7 @@ export const CreateSet = () => {
   const [allCategories, setAllCategories] = useState([]);
   const [category, setCategory] = useState("");
   const [allSubcategories, setAllSubcategories] = useState([]);
-  const [subcategory, setSubcategory] = useState({ name: "", id: "" });
+  const [subcategory, setSubcategory] = useState("");
 
   // const [institution, setInstitution] = useState("");
 
@@ -116,7 +116,7 @@ export const CreateSet = () => {
         set_description: description,
         flashcards: flashcards,
         set_category: category,
-        set_subcategory: subcategory.id,
+        set_subcategory: subcategory,
       })
       .then((response) => {
         toast("Добре дошъл в новото си тесте");
@@ -127,6 +127,10 @@ export const CreateSet = () => {
         toast("Възникна грешка");
       });
   };
+
+  useEffect(() => {
+    console.log(subcategory);
+  }, [subcategory])
 
   const search = (query: string) => {
     const url = "http://www.google.com/search?q=" + convert(query);
@@ -187,7 +191,7 @@ export const CreateSet = () => {
                 ))}
               </select>
               <select
-                onChange={(e) => setSubcategory(e.target.value)}
+                onChange={(e) => {setSubcategory(e.target.value); console.log(e.target.value)}}
                 defaultValue=""
                 id="institution"
                 name="institution"

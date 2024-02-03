@@ -365,6 +365,10 @@ export const MainPage: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    console.log(setCards)
+  }, [setCards])
+
   return (
     <Dashboard>
       {windowWidth <= 1000 ? (
