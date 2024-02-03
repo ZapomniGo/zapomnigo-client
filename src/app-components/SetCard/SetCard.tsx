@@ -27,7 +27,7 @@ const SetCard: React.FC<SetCardProps> = ({
   category,
   icon,
   type,
-  subcategory
+  subcategory,
 }) => {
   const displayDescription = () => {
     let n = 120;
@@ -43,30 +43,34 @@ const SetCard: React.FC<SetCardProps> = ({
 
   return (
     <div
-      className={"set-card folder-card"+(isSelected ? " active" : "")}
+      id={id}
+      className={"set-card folder-card" + (isSelected ? " active" : "")}
       onMouseEnter={() => onMouseEnter(id)}
       onMouseLeave={onMouseLeave}
-      onClick={() => type === "folder" ? navigate(`/app/folder/${id}`) : navigate(`/app/set/${id}`)}
-
-      
->
+      onClick={() =>
+        type === "folder"
+          ? navigate(`/app/folder/${id}`)
+          : navigate(`/app/set/${id}`)
+      }
+    >
       <div className={`title-options ${isSelected ? "open" : "close"}`}>
-      <div className={`set-title ${isSelected ? "open" : "close"} folder-title`}>
-        {icon}{title.length > 34 ? title.substring(0, 35) + '...' : title}
-      </div>        
-      {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
+        <div
+          className={`set-title ${isSelected ? "open" : "close"} folder-title`}
+        >
+          {icon}
+          {title.length > 34 ? title.substring(0, 35) + "..." : title}
+        </div>
+        {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
           <SlOptionsVertical />
         </div> */}
       </div>
 
       <div className={`set-description ${isSelected ? "open" : "close"}`}>
-      {description ? (
-        description.length > 99
-          ? description.substring(0, 102) + "..."
-          : description
-      ) : (
-        "" 
-      )}
+        {description
+          ? description.length > 99
+            ? description.substring(0, 102) + "..."
+            : description
+          : ""}
       </div>
       <div className={`set-creator  ${isSelected ? "open" : "close"}`}>
         <div className="image">
@@ -78,11 +82,10 @@ const SetCard: React.FC<SetCardProps> = ({
               ? creator_name.substring(0, 21) + "..."
               : creator_name}
           </p>
-        </div>        
+        </div>
       </div>
-      <div className="categories" style={{paddingBottom:category && "10px"}}>
-
-      {category ? (
+      <div className="categories" style={{ paddingBottom: category && "10px" }}>
+        {category ? (
           <div className={`set-category ${isSelected ? "open" : "close"}`}>
             <a className="miniLabel">
               {category.length > 40
@@ -93,7 +96,7 @@ const SetCard: React.FC<SetCardProps> = ({
         ) : (
           ""
         )}
-      {subcategory ? (
+        {subcategory ? (
           <div className={`set-category ${isSelected ? "open" : "close"}`}>
             <a className="miniLabel">
               {subcategory.length > 40

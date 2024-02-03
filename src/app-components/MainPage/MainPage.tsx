@@ -40,22 +40,23 @@ export const MainPage: React.FC = () => {
     const newPageSet = pageSet + 1;
     setPageSet(newPageSet);
     setIsSetLoading(true);
+
     instance
       .get(
-        `/sets?page=${newPageSet}&size=10&sort_by_date=false&ascending=true&category_id=${category}`
+        `/sets?page=${newPageSet}&size=30&sort_by_date=false&ascending=true&category_id=${category}`
       )
       .then((response) => {
         setTotalSetPages(response.data.total_pages);
         const newCards = [...setCards];
         response.data.sets.forEach((card) => newCards.push(card));
+        let lastCardId = newCards[newCards.length - 1].set_id;
         setSetCards(newCards);
         setTimeout(() => {
           setIsSetLoading(false);
-          //doesn't work for some reason
-          // document
-          //   .querySelector("div.set-wrapper > .sets >div:last-child")
-          //   .scrollIntoView();
         }, 250);
+        setTimeout(() => {
+          document.getElementById(lastCardId).scrollIntoView();
+        }, 500);
       });
   };
 
@@ -63,10 +64,10 @@ export const MainPage: React.FC = () => {
     const newPageFolder = pageFolder + 1;
     setPageFolder(newPageFolder);
     setIsFolderLoading(true);
-
+    let lastFolderId = folderCards[folderCards.length - 1].folder_id;
     instance
       .get(
-        `/folders?page=${newPageFolder}&size=10&sort_by_date=true&ascending=true&category_id=${category}`
+        `/folders?page=${newPageFolder}&size=30&sort_by_date=true&ascending=true&category_id=${category}`
       )
       .then((response) => {
         setTotalFolderPages(response.data.total_pages);
@@ -75,11 +76,10 @@ export const MainPage: React.FC = () => {
         setFolderCards(newFolderCards);
         setTimeout(() => {
           setIsFolderLoading(false);
-          //doesn't work for some reason
-          // document
-          //   .querySelector("div.set-wrapper > div.folder >div:last-child")
-          //   .scrollIntoView();
         }, 250);
+        setTimeout(() => {
+          document.getElementById(lastFolderId).scrollIntoView();
+        }, 500);
       });
   };
 
@@ -570,14 +570,19 @@ export const MainPage: React.FC = () => {
             ))
           ) : (
             <center>
-              <p className="notFound-msg">Една фея ми каза, че такава папка няма :(</p>
+              <p className="notFound-msg">
+                Една фея ми каза, че такава папка няма :(
+              </p>
             </center>
           )}
         </div>
         {!isFolderLoading &&
           pageFolder < totalFolderPages &&
           folderCards.length > 0 && (
-            <MoreBtn className="notFound-msg" onClick={() => handleLoadRecentFolder(categoryID)} />
+            <MoreBtn
+              className="notFound-msg"
+              onClick={() => handleLoadRecentFolder(categoryID)}
+            />
           )}
       </div>
     </Dashboard>

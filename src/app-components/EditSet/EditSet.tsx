@@ -133,10 +133,6 @@ export const EditSet = () => {
       toast("Описанието трябва да е под 1000 символа");
       return;
     }
-    if (description.length === 0) {
-      toast("Оп, май пропусна описание");
-      return;
-    }
     //check if the flashcards are not empty
     if (flashcards.length === 0) {
       toast("Поне една карта трябва да се въведе");

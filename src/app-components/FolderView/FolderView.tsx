@@ -18,26 +18,23 @@ export const FolderView: React.FC = () => {
   const [selectSet, setSelectSet] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
   const [creator, setCreator] = useState("no one yet");
   const [user, setUser] = useState("");
   const [settings, setSettings] = useState(false);
   const [category, setCategory] = useState();
   const [subCategory, setSubCategory] = useState();
-
+  const [isAdmin, setIsAdmin] = useState(false);
   const viewSettings = () => {
     setSettings(!settings);
   };
 
   useEffect(() => {
-    if (localStorage.getItem("access_token")) {
-      const decodedToken = jwtDecode(localStorage.getItem("access_token"));
-      setIsAdmin(decodedToken.admin);
-      setUser(decodedToken.username);
-    } else {
-      setIsAdmin(false);
-    }
     window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsAdmin(
+      localStorage.getItem("access_token")
+        ? jwtDecode(localStorage.getItem("access_token")).admin
+        : false
+    );
   }, []);
   useEffect(() => {
     // instance.get(`/users/${userID}/sets`).then((response) => {
@@ -78,7 +75,7 @@ export const FolderView: React.FC = () => {
   };
 
   const handleDelete = () => {
-    if (!window.confirm("Сигурни ли сте, че искате да изтриете тази папка?")) {
+    if (!window.confirm("Сигурен ли сте, че искаш да изтриеш тази папка?")) {
       return;
     }
     instance.delete(`/folders/${id}`).then((response) => {
@@ -92,26 +89,32 @@ export const FolderView: React.FC = () => {
         <h2 className="category-title">
           <h1 style={{ fontWeight: 900 }}>{title}</h1>
           <div className="btnWrapper">
-            {isAdmin ||
-              (creator === user && (
-                <a href={`/app/edit-folder/${id}`}>
-                  <FaPen />
-                </a>
-              ))}
-            {isAdmin ||
-              (creator === user && (
-                <a onClick={handleDelete} className="delete">
-                  <MdDeleteOutline />
-                </a>
-              ))}
+            {(isAdmin || creator === user) && (
+              <a href={`/app/edit-folder/${id}`}>
+                <FaPen />
+              </a>
+            )}
+            {(isAdmin || creator === user) && (
+              <a onClick={handleDelete} className="delete">
+                <MdDeleteOutline />
+              </a>
+            )}
           </div>
         </h2>
         <div style={{ display: "flex", marginLeft: "1.2vmax" }}>
-          <h6 className="miniLabel">{category}</h6>
-          <h6 className="miniLabel">{subCategory}</h6>
+          {category ? <h6 className="miniLabel">{category}</h6> : " "}
+          {subCategory ? <h6 className="miniLabel">{subCategory}</h6> : " "}
         </div>
         <br /> <br />
-        <h4 style={{ fontWeight: 500,marginBottom:"3vmax", marginLeft: "1.5vmax" }}>{description}</h4>
+        <h4
+          style={{
+            fontWeight: 500,
+            marginBottom: "3vmax",
+            marginLeft: "1.5vmax",
+          }}
+        >
+          {description}
+        </h4>
         <div className="sets">
           {setCards.map((card) => (
             <SetCard

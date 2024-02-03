@@ -20,17 +20,18 @@ const MultipleChoice = (props) => {
       );
       return;
     }
-    console.info(answerOptionsSet);
-    while (answerOptionsSet.length < 4) {
-      let randomIndex = Math.floor(
-        Math.random() * props.originalFlashacards.length
-      );
-      answerOptionsSet.push(props.originalFlashacards[randomIndex].definition);
-      console.log(answerOptionsSet);
+    let numAnswers = Math.min(3, props.flashcards.length - 1);
+    while (answerOptionsSet.length < numAnswers) {
+      let randomIndex = Math.floor(Math.random() * props.flashcards.length);
+      let randomFlashcard = props.flashcards[randomIndex];
+      if (!answerOptionsSet.includes(randomFlashcard.definition)) {
+        answerOptionsSet.push(randomFlashcard.definition);
+      }else{
+        numAnswers--;
+      }
     }
-    answerOptions = Array.from(answerOptionsSet);
-    answerOptions.sort(() => Math.random() - 0.5);
-    setAnswerOptions(answerOptions);
+    answerOptionsSet = answerOptionsSet.sort(() => Math.random() - 0.5);
+    setAnswerOptions(answerOptionsSet);
   }, [
     props.originalFlashacards,
     props.flashcards,
