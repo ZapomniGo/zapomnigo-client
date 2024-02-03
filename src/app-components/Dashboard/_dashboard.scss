@@ -1,4 +1,3 @@
-
 .card-section {
   position: relative;
   align-self: center;
@@ -9,7 +8,7 @@
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
- 
+
   .set-wrapper {
     flex-wrap: wrap;
     display: flex;
@@ -19,57 +18,73 @@
     color: $text-color;
     font-size: 1.75rem;
     margin-top: 1vmax;
-  
+
     .category-title {
-      margin-left: 10px;
       margin-bottom: 10px;
       display: flex;
       align-items: center;
-      a{
+      a {
         display: flex;
       }
-      a:hover{
+      .btnWrapper {
+        position: absolute;
+        right: 1vmax;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 10px;
+        svg {
+          width: 20px;
+          margin: 0 5px;
+          color: gray;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+        svg:hover {
+          color: orange;
+        }
+      }
+      a:hover {
         cursor: pointer;
       }
-      svg{
-        width: 30px;
+      svg {
+        width: 20px;
         margin: 5px 0 5px 20px;
         cursor: pointer;
+        color: gray;
       }
-      .delete{
-        svg{
-          width: 35px !important;
-
+      .delete {
+        svg {
+          width: 30px;
+          color: gray;
         }
       }
     }
 
     .sets {
       display: flex;
-      flex-wrap: wrap;  
-      width: 100%;  
+      flex-wrap: wrap;
+      width: 100%;
     }
-
   }
   .set-card.open {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   }
 }
 
-@media only screen and (max-width: 1000px){    
-  .card-section{
+@media only screen and (max-width: 1000px) {
+  .card-section {
     margin-top: 8vh;
   }
-  .sets{
+  .sets {
     justify-content: center;
     align-items: flex-start;
   }
-  .explore{
+  .explore {
     position: initial;
-    .category{
+    .category {
       user-select: none;
       width: 100%;
-
     }
     .open {
       transition: $tran-03;
@@ -82,44 +97,38 @@
       transition: $tran-02;
       font-size: 1.2rem;
     }
-    .close{
+    .close {
       opacity: 1 !important;
     }
   }
 }
 
-
-
-.content{
+.content {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-@media only screen and (max-width: 1000px){
-  #footer{
+@media only screen and (max-width: 1000px) {
+  #footer {
     margin-top: 20px;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
     width: 100% !important;
     flex-wrap: wrap;
-    .col-2{
+    .col-2 {
       width: 80% !important;
       padding-top: 20px;
       margin: 0 !important;
       align-self: flex-start;
       justify-content: flex-start;
-  
     }
-    .social-media{
+    .social-media {
       margin-right: 0 !important;
     }
   }
-
 }
-
-
 
 // .news{
 //   display: flex;
@@ -131,7 +140,6 @@
 //     height: 200px;
 //     width: 450px;
 //     margin: 40px;
-//     border-radius: 10px;  
+//     border-radius: 10px;
 //   }
 // }
-

@@ -10,30 +10,26 @@ import { jwtDecode } from "jwt-decode";
 import { TbSettings } from "react-icons/tb";
 import { MdDeleteOutline } from "react-icons/md";
 
-
-
 export const FolderView: React.FC = () => {
-
   const { id } = useParams<{ id: string }>();
   const [setCards, setSetCards] = useState([]);
   const [recentCards, setRecentCards] = useState(10);
   // const [exploreCards, setExploreCards] = useState(10);
   const [selectSet, setSelectSet] = useState<string | null>(null);
   const [title, setTitle] = useState("");
-  const [desciption, setDesciption] = useState("");
+  const [description, setDescription] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [creator, setCreator] = useState("no one yet");
   const [user, setUser] = useState("");
   const [settings, setSettings] = useState(false);
+  const [category, setCategory] = useState();
+  const [subCategory, setSubCategory] = useState();
 
   const viewSettings = () => {
     setSettings(!settings);
-    console.log(settings)
-  }
-
+  };
 
   useEffect(() => {
-  
     if (localStorage.getItem("access_token")) {
       const decodedToken = jwtDecode(localStorage.getItem("access_token"));
       setIsAdmin(decodedToken.admin);
@@ -51,9 +47,12 @@ export const FolderView: React.FC = () => {
       .then((response) => {
         setSetCards(response.data.sets);
         setTitle(response.data.folder.folder_title);
-        setDesciption(response.data.folder.folder_description)
+        setDescription(response.data.folder.folder_description);
         setCreator(response.data.folder.username);
         document.title = `${response.data.folder.folder_title} | ЗапомниГо`;
+        setCategory(response.data.folder.category_name);
+        setSubCategory(response.data.folder.subcategory_name);
+        console.log(response.data.folder);
       })
       .catch((error) => {
         if (error.response.status === 404) {
@@ -85,19 +84,34 @@ export const FolderView: React.FC = () => {
     instance.delete(`/folders/${id}`).then((response) => {
       window.location.href = "/app/folders";
     });
-  }
+  };
 
   return (
     <Dashboard>
       <div className="set-wrapper">
         <h2 className="category-title">
-          {title}                                  
-          <a href={`/app/edit-folder/${id}`}><FaPen /></a>              
-          <a onClick={handleDelete} className="delete"><MdDeleteOutline /></a>
+          <h1 style={{ fontWeight: 900 }}>{title}</h1>
+          <div className="btnWrapper">
+            {isAdmin ||
+              (creator === user && (
+                <a href={`/app/edit-folder/${id}`}>
+                  <FaPen />
+                </a>
+              ))}
+            {isAdmin ||
+              (creator === user && (
+                <a onClick={handleDelete} className="delete">
+                  <MdDeleteOutline />
+                </a>
+              ))}
+          </div>
         </h2>
-        {/* namali font weigth */}
-        <h4 className="category-title">{desciption}</h4>
-
+        <div style={{ display: "flex", marginLeft: "1.2vmax" }}>
+          <h6 className="miniLabel">{category}</h6>
+          <h6 className="miniLabel">{subCategory}</h6>
+        </div>
+        <br /> <br />
+        <h4 style={{ fontWeight: 500,marginBottom:"3vmax", marginLeft: "1.5vmax" }}>{description}</h4>
         <div className="sets">
           {setCards.map((card) => (
             <SetCard
@@ -113,14 +127,6 @@ export const FolderView: React.FC = () => {
               isSelected={selectSet === card.set_id}
             />
           ))}
-          {isAdmin ||
-            (creator === user && (
-              <div className="add-set set-card">
-                <a href={`/app/edit-folder/${id}`}>
-                  <FaPen />
-                </a>
-              </div>
-            ))}
         </div>
       </div>
     </Dashboard>
