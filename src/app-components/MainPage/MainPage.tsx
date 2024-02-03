@@ -43,7 +43,11 @@ export const MainPage: React.FC = () => {
 
     instance
       .get(
+<<<<<<< HEAD
         `/sets?page=${newPageSet}&size=30&sort_by_date=false&ascending=true&category_id=${category}`
+=======
+        `/sets?page=${newPageSet}&size=10&sort_by_date=true&ascending=false&category_id=${category}`
+>>>>>>> 6cd403dd2e9720a6600ef899efae3f16bf184bf3
       )
       .then((response) => {
         setTotalSetPages(response.data.total_pages);
@@ -67,7 +71,11 @@ export const MainPage: React.FC = () => {
     let lastFolderId = folderCards[folderCards.length - 1].folder_id;
     instance
       .get(
+<<<<<<< HEAD
         `/folders?page=${newPageFolder}&size=30&sort_by_date=true&ascending=true&category_id=${category}`
+=======
+        `/folders?page=${newPageFolder}&size=10&sort_by_date=true&ascending=false&category_id=${category}`
+>>>>>>> 6cd403dd2e9720a6600ef899efae3f16bf184bf3
       )
       .then((response) => {
         setTotalFolderPages(response.data.total_pages);
@@ -95,7 +103,7 @@ export const MainPage: React.FC = () => {
       setAllCategories([]);
       instance
         .get(
-          `/sets?page=1&size=10&sort_by_date=false&ascending=true&category_id=${categoryID}`
+          `/sets?page=1&size=10&sort_by_date=true&ascending=false&category_id=${categoryID}`
         )
         .then((response) => {
           setTotalSetPages(response.data.total_pages);
@@ -143,7 +151,7 @@ export const MainPage: React.FC = () => {
       setSubCategories([]);
       instance
         .get(
-          `/sets?page=1&size=10&sort_by_date=false&ascending=true&category_id=`
+          `/sets?page=1&size=10&sort_by_date=true&ascending=false`
         )
         .then((response) => {
           setTotalSetPages(response.data.total_pages);
@@ -167,7 +175,7 @@ export const MainPage: React.FC = () => {
       setPageFolder(1);
       instance
         .get(
-          `/folders?page=${pageFolder}&size=10&sort_by_date=true&ascending=false&category_id=`
+          `/folders?page=${pageFolder}&size=10&sort_by_date=true&ascending=false`
         )
         .then((response) => {
           setTotalFolderPages(response.data.total_pages);
@@ -232,7 +240,7 @@ export const MainPage: React.FC = () => {
     setPageSet(1);
     instance
       .get(
-        `/sets?page=1&size=10&sort_by_date=false&ascending=true&category_id=${id}`
+        `/sets?page=1&size=10&sort_by_date=true&ascending=false&category_id=${id}`
       )
       .then((response) => {
         setTotalSetPages(response.data.total_pages);
@@ -255,7 +263,7 @@ export const MainPage: React.FC = () => {
     setFolderCards([]);
     instance
       .get(
-        `/folders?page=1&size=10&sort_by_date=true&ascending=true&category_id=${id}`
+        `/folders?page=1&size=10&sort_by_date=true&ascending=false&category_id=${id}`
       )
       .then((response) => {
         setTotalFolderPages(response.data.total_pages);
@@ -298,7 +306,7 @@ export const MainPage: React.FC = () => {
 
     instance
       .get(
-        `/sets?page=1&size=10&sort_by_date=false&ascending=true&category_id=${categoryID}&subcategory_id=${id}`
+        `/sets?page=1&size=10&sort_by_date=true&ascending=false&category_id=${categoryID}&subcategory_id=${id}`
       )
       .then((response) => {
         setTotalSetPages(response.data.total_pages);
@@ -321,7 +329,7 @@ export const MainPage: React.FC = () => {
     setFolderCards([]);
     instance
       .get(
-        `/folders?page=1&size=10&sort_by_date=true&ascending=true&category_id=${categoryID}&subcategory_id=${id}`
+        `/folders?page=1&size=10&sort_by_date=true&ascending=false&category_id=${categoryID}&subcategory_id=${id}`
       )
       .then((response) => {
         setTotalFolderPages(response.data.total_pages);
@@ -364,6 +372,10 @@ export const MainPage: React.FC = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    console.log(setCards)
+  }, [setCards])
 
   return (
     <Dashboard>
