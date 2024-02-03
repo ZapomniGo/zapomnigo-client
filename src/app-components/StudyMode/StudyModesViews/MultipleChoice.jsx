@@ -12,37 +12,30 @@ const MultipleChoice = (props) => {
   React.useEffect(() => {
     //generate answer options
     let answerOptions = [];
-    let answerOptionsSet = new Set();
-    answerOptionsSet.add(props.currentFlashcardDefinition);
+    let answerOptionsSet = [];
+    answerOptionsSet.push(props.currentFlashcardDefinition);
     if (props.flashcards.length < 2) {
       alert(
-        "Няма достатъчно картички за да се използва този режим. Моля изберете друг!"
+        "Няма достатъчно флашкарти за да се използва този режим. Моля изберете друг!"
       );
       return;
     }
-    let numberOfAnswerOptions =
-      props.flashcards.length - 1 < 4 ? props.flashcards.length - 1 : 4;
-    let index = 0;
-    while (answerOptionsSet.size < numberOfAnswerOptions) {
-      if (index > 1000) {
-        alert("Това тесте не е пригодено за режим учене");
-        navigate(-1);
-        break;
-        return;
-      }
-      index++;
+    console.info(answerOptionsSet);
+    while (answerOptionsSet.length < 4) {
       let randomIndex = Math.floor(
         Math.random() * props.originalFlashacards.length
       );
-      answerOptionsSet.add(props.originalFlashacards[randomIndex].definition);
+      answerOptionsSet.push(props.originalFlashacards[randomIndex].definition);
+      console.log(answerOptionsSet);
     }
     answerOptions = Array.from(answerOptionsSet);
     answerOptions.sort(() => Math.random() - 0.5);
     setAnswerOptions(answerOptions);
   }, [
-    props.currentFlashcardTerm,
+    props.originalFlashacards,
     props.flashcards,
     props.currentFlashcardDefinition,
+    props.currentFlashcardTerm,
   ]);
 
   useEffect(() => {

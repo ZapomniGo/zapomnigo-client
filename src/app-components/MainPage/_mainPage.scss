@@ -13,6 +13,12 @@
     margin-left: 10px;
     margin-bottom: 10px;
   }
+  center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
 }
 
 .category-wrapper {
@@ -45,7 +51,6 @@
     font-size: 20px;
     color: $text-color;
     background-color: #fff;
-    width: 15.49%;
   }
   .selected {
     background-color: $secondary-color;
@@ -84,7 +89,7 @@
     .category-title {
       text-align: center;
       width: 95%;
-      padding:.5vmax;
+      padding: 0.5vmax;
     }
     justify-content: center;
   }
@@ -92,7 +97,9 @@
     margin-left: 50px !important;
   }
 }
-
+.notFound-msg {
+  font-size: 1.7vmax;
+}
 .accordion {
   // background-color: rgb( 235, 239, 255);
   // color: #444;
@@ -130,7 +137,6 @@
     .category-title {
       text-align: center;
       margin-left: 1.5vmax !important;
-
     }
     justify-content: center;
   }

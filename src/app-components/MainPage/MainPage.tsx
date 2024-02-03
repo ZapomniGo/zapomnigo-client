@@ -532,7 +532,12 @@ export const MainPage: React.FC = () => {
                 />
               ))
             ) : (
-              <p>Няма тестета за тази категория</p>
+              <center>
+                <p className="notFound-msg">
+                  Нашата митична търсачка прекоси 9 планини, но дори и в 10-тата
+                  не откри такива тестета :(
+                </p>
+              </center>
             )}
           </div>
         </div>
@@ -564,13 +569,15 @@ export const MainPage: React.FC = () => {
               />
             ))
           ) : (
-            <p>Няма папки за тази категория</p>
+            <center>
+              <p className="notFound-msg">Една фея ми каза, че такава папка няма :(</p>
+            </center>
           )}
         </div>
         {!isFolderLoading &&
           pageFolder < totalFolderPages &&
           folderCards.length > 0 && (
-            <MoreBtn onClick={() => handleLoadRecentFolder(categoryID)} />
+            <MoreBtn className="notFound-msg" onClick={() => handleLoadRecentFolder(categoryID)} />
           )}
       </div>
     </Dashboard>

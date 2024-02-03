@@ -208,7 +208,6 @@ const StudyComponent = () => {
       if (Number(flashcard.seen) >= 3) {
         //Remove the flashcard from the array
         let arrCopy = [...flashcards];
-        console.log(arrCopy);
         arrCopy.splice(arrCopy.indexOf(flashcard), 1);
         setFlashcards(arrCopy);
         return true;
@@ -259,8 +258,6 @@ const StudyComponent = () => {
       }
     }
 
-    console.log("chosen study mode is " + chosenStudyMode);
-    console.log("allowed study modes are " + allowedStudyModes);
 
     if (allowedStudyModes.includes(chosenStudyMode)) {
       return chosenStudyMode;
