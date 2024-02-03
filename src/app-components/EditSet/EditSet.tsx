@@ -95,29 +95,30 @@ export const EditSet = () => {
   const subcategoryIdRef = useRef(null);
 
   useEffect(() => {
-    if (category && category.name && allCategories.length > 0) {
+
       const selectedCategory = allCategories.find(
         (cat) => cat.category_name === category.name
       );
-      if (selectedCategory.categorory_id === undefined) {
+      if(selectedCategory === undefined) {
         categoryIdRef.current = null;
-      } else {
+      } 
+      else{
         categoryIdRef.current = selectedCategory.category_id;
       }
-    }
-    console.log(categoryIdRef.current)
+    
+
 
     if (subcategory && subcategory.name && allSubcategories.length > 0) {
       const selectedSubCategory = allSubcategories.find(
         (inst) => inst.subcategory_name === subcategory.name
       );
-      if (selectedSubCategory.categorory_id === undefined) {
+      if (selectedSubCategory.subcategory_id === undefined) {
         subcategoryIdRef.current = null;
       } else {
-        subcategoryIdRef.current = selectedSubCategory.category_id;
+        subcategoryIdRef.current = selectedSubCategory.subcategory_id;
       }
     }
-  }, [allCategories, allSubcategories, subcategory]);
+  }, [allCategories, subcategory, category]);
 
   const handleSubmit = () => {
     if (title.length === 0) {
@@ -167,7 +168,6 @@ export const EditSet = () => {
       return;
     }
 
-    console.log(subcategoryIdRef.current)
     //check if the tags are not empty
     instance
       .put(`/sets/${id}`, {
@@ -179,7 +179,7 @@ export const EditSet = () => {
       })
       .then((response) => {
         toast("Редакцията е готова");
-        navigate("/app/set/" + id);
+        // navigate("/app/set/" + id);
         window.scrollTo(0, 0);
       })
       .catch((error) => {
@@ -195,16 +195,13 @@ export const EditSet = () => {
   const getSubcategories = (category_id) => {
     instance.get(`/categories/${category_id}/subcategories`).then((response) => {
       setAllSubcategories(response.data.subcategories);
-      console.log(response.data.subcategories)
     });
   }
 
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
   useEffect(() => {
-    console.log(category)
     if (category.name && allCategories.length > 0) {
-      console.log("inuseeffect")
       const matchingCategory = allCategories.find(
         (cat) => cat.category_name === category.name
       );
@@ -254,7 +251,8 @@ export const EditSet = () => {
                     (cat) => cat.category_id === e.target.value
                   );
                   resetSubcategory();
-                  getSubcategories(selectedCategory.category_id);
+
+                  {selectedCategory != undefined && getSubcategories(selectedCategory.category_id)}
                   setCategory({
                     name: selectedCategory
                       ? selectedCategory.category_name
@@ -279,7 +277,6 @@ export const EditSet = () => {
 
               <select
                 onChange={(e) => {
-                  console.log(e.target.value)
                   const selectedSubcategory = allSubcategories.find(
                     (cat) => cat.subcategory_id === e.target.value
                   );
