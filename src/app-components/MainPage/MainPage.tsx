@@ -9,6 +9,7 @@ import { FaRegFolderClosed } from "react-icons/fa6";
 import { RxCrossCircled } from "react-icons/rx";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
 
 export const MainPage: React.FC = () => {
   const [setCards, setSetCards] = useState([]);
@@ -86,6 +87,9 @@ export const MainPage: React.FC = () => {
   //used to reset sets and folders
   //reset works
   const resetSets = () => {
+    if (category && selectedSubCategory === "") {
+      setCategory("");
+    }
     if (selectedSubCategory !== "") {
       setSelectedSubCategory("");
       setPageSet(1);
@@ -142,9 +146,7 @@ export const MainPage: React.FC = () => {
       setIsCategoryLoading(true);
       setSubCategories([]);
       instance
-        .get(
-          `/sets?page=1&size=10&sort_by_date=true&ascending=false`
-        )
+        .get(`/sets?page=1&size=10&sort_by_date=true&ascending=false`)
         .then((response) => {
           setTotalSetPages(response.data.total_pages);
           const newCards = [];
@@ -365,10 +367,6 @@ export const MainPage: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    console.log(setCards)
-  }, [setCards])
-
   return (
     <Dashboard>
       {windowWidth <= 1000 ? (
@@ -390,16 +388,20 @@ export const MainPage: React.FC = () => {
               {isAccordionVisible && (
                 <div className="categories">
                   {allCategories &&
-                    allCategories.map((category) => (
+                    allCategories.map((categorySp) => (
                       <div
-                        key={category.category_id}
-                        className="category-btn"
-                        onClick={() =>
-                          changeCategory(
-                            category.category_id,
-                            category.category_name
-                          )
+                        key={categorySp.category_id}
+                        className={
+                          category == categorySp.category_name
+                            ? "selected category-btn"
+                            : "category-btn"
                         }
+                        onClick={() => {
+                          changeCategory(
+                            categorySp.category_id,
+                            categorySp.category_name
+                          );
+                        }}
                       >
                         <p>{category.category_name}</p>
                       </div>
@@ -420,6 +422,11 @@ export const MainPage: React.FC = () => {
                             subCategories.subcategory_id,
                             subCategories.subcategory_name
                           );
+                          if (
+                            selectedSubCategory === subCategories.subcategory_id
+                          ) {
+                            resetSets();
+                          }
                         }}
                       >
                         <p>{subCategories.subcategory_name}</p>
@@ -427,7 +434,7 @@ export const MainPage: React.FC = () => {
                     ))}
                   {(categoryID || selectedSubCategory) && (
                     <div className="reset-btn" onClick={resetSets}>
-                      <RxCrossCircled />
+                      <IoMdClose />
                     </div>
                   )}
                 </div>
@@ -465,18 +472,22 @@ export const MainPage: React.FC = () => {
               <div className="panel">
                 <div className="category-wrapper">
                   {allCategories &&
-                    allCategories.map((category) => (
+                    allCategories.map((categorySp) => (
                       <div
-                        key={category.category_id}
-                        className="category-btn"
+                        key={categorySp.category_id}
+                        className={
+                          category == categorySp.category_name
+                            ? "selected category-btn"
+                            : "category-btn"
+                        }
                         onClick={() =>
                           changeCategory(
-                            category.category_id,
-                            category.category_name
+                            categorySp.category_id,
+                            categorySp.category_name
                           )
                         }
                       >
-                        <p>{category.category_name}</p>
+                        <p>{categorySp.category_name}</p>
                       </div>
                     ))}
                   {subCategories &&
@@ -495,6 +506,11 @@ export const MainPage: React.FC = () => {
                             subCategories.subcategory_id,
                             subCategories.subcategory_name
                           );
+                          if (
+                            selectedSubCategory === subCategories.subcategory_id
+                          ) {
+                            resetSets();
+                          }
                         }}
                       >
                         <p>{subCategories.subcategory_name}</p>
@@ -502,7 +518,7 @@ export const MainPage: React.FC = () => {
                     ))}
                   {(categoryID || selectedSubCategory) && (
                     <div className="reset-btn" onClick={resetSets}>
-                      <RxCrossCircled />
+                      <IoMdClose />
                     </div>
                   )}
                 </div>
