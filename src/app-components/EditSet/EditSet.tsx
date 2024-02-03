@@ -179,7 +179,7 @@ export const EditSet = () => {
       })
       .then((response) => {
         toast("Редакцията е готова");
-        // navigate("/app/set/" + id);
+        navigate("/app/set/" + id);
         window.scrollTo(0, 0);
       })
       .catch((error) => {
