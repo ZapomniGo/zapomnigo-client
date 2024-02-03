@@ -43,11 +43,7 @@ export const MainPage: React.FC = () => {
 
     instance
       .get(
-<<<<<<< HEAD
         `/sets?page=${newPageSet}&size=30&sort_by_date=false&ascending=true&category_id=${category}`
-=======
-        `/sets?page=${newPageSet}&size=10&sort_by_date=true&ascending=false&category_id=${category}`
->>>>>>> 6cd403dd2e9720a6600ef899efae3f16bf184bf3
       )
       .then((response) => {
         setTotalSetPages(response.data.total_pages);
@@ -71,11 +67,7 @@ export const MainPage: React.FC = () => {
     let lastFolderId = folderCards[folderCards.length - 1].folder_id;
     instance
       .get(
-<<<<<<< HEAD
         `/folders?page=${newPageFolder}&size=30&sort_by_date=true&ascending=true&category_id=${category}`
-=======
-        `/folders?page=${newPageFolder}&size=10&sort_by_date=true&ascending=false&category_id=${category}`
->>>>>>> 6cd403dd2e9720a6600ef899efae3f16bf184bf3
       )
       .then((response) => {
         setTotalFolderPages(response.data.total_pages);
