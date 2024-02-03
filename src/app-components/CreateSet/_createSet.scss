@@ -168,7 +168,7 @@
   }
 }
 .ql-tooltip {
-  border:none !important;
+  border: none !important;
   border-radius: 5px !important;
   opacity: 1 !important;
   z-index: 999 !important;
@@ -178,6 +178,23 @@
   a {
     line-height: 30px;
   }
+}
+.import {
+  background: transparent !important;
+  border-bottom: 1px solid orange !important;
+  margin:0 !important;
+  padding:0 !important;
+  height:auto !important;
+  width:auto !important;
+  color: gray !important;
+  border-bottom:none !important;
+  box-shadow:none !important;
+  border-radius:0 !important; 
+}
+.import:hover {
+  background: transparent !important;
+  border-bottom: 1px solid orange !important;
+  color: orange !important;
 }
 //mobile version
 @media screen and (max-width: 768px) {
@@ -228,7 +245,7 @@
           width: 100%;
         }
       }
-      .submit {
+      .submit::not(.import) {
         width: 100%;
         margin: 0 !important;
         font-size: 2vmax;
@@ -248,7 +265,7 @@
       }
     }
   }
- 
+
   .create-submition {
     width: 80%;
     .submit {

@@ -281,7 +281,7 @@ export const CreateSet = () => {
           </center>
           <div className="create-submition">
             <button
-              className="submit"
+              className="submit import"
               onClick={() => setIsModalOpen(!isModalOpen)}
             >
               Импортирай
