@@ -16,7 +16,7 @@ export const EditFolder = () => {
   const [allCategories, setAllCategories] = useState([]);
   // const [allInstitutions, setAllInstitutions] = useState([]);
   //change ids to names after backend is fixed also change the select in option
-  const [folder, setFolder] = useState<{ folder_title: string; folder_description: string; sets: Set[], subcategory_name: string, category_name: string }>({ folder_title: '', folder_description: '', sets: [], subcategory_name: '', category_name: '' }); 
+  const [folder, setFolder] = useState<{ folder_title: string; folder_description: string; sets: Set[], subcategory_id: string, category_id: string }>({ folder_title: '', folder_description: '', sets: [], subcategory_id: '', category_id: '' }); 
   const [setCards, setSetCards] = useState([]);
   const [allSets, setAllSets] = useState([]);
   const [uniqueSets, setUniqueSets] = useState([]);
@@ -76,6 +76,7 @@ export const EditFolder = () => {
         category_id: category.id ? category.id : categoryIdRef.current, 
         subcategory_id: subcategoryIdRef.current
       };
+      console.log(folderToSubmit)
       instance
       .put(`/folders/${id}`, folderToSubmit)
       .then((response) => {
@@ -152,19 +153,32 @@ export const EditFolder = () => {
     const subcategoryIdRef = useRef(null);
     
     useEffect(() => {
-      if (category && category.name && allCategories.length > 0) {
-        const selectedCategory = allCategories.find((cat) => cat.category_name === category.name);
-        if (selectedCategory) {
-          categoryIdRef.current = selectedCategory.category_id;
-        }
+      // if (category && category.name && allCategories.length > 0) {
+      //   const selectedCategory = allCategories.find((cat) => cat.category_name === category.name);
+      //   if (selectedCategory) {
+      //     categoryIdRef.current = selectedCategory.category_id;
+      //   }
+      // }
+
+      const selectedCategory = allCategories.find((inst) => inst.category_name === category.name);
+      if(selectedCategory === undefined){
+        console.log("undefined")
+        categoryIdRef.current = "";
+      } else{
+        categoryIdRef.current = selectedCategory.category_id;
       }
+      console.log(subcategoryIdRef.current)
     
-      if (subcategory && subcategory.name && allSubcategories.length > 0) {
         const selectedSubcategory = allSubcategories.find((inst) => inst.subcategory_name === subcategory.name);
-        if (selectedSubcategory) {
-          subcategoryIdRef.current = selectedSubcategory.subcategory_id;
-        }
-      }
+          if(selectedSubcategory === undefined){
+            console.log("undefined")
+            subcategoryIdRef.current = "";
+          } else{
+            subcategoryIdRef.current = selectedSubcategory.subcategory_id;
+          }
+          console.log(subcategoryIdRef.current)
+
+ 
     }, [allCategories, allSubcategories, subcategory]);
 
 

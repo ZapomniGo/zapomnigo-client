@@ -99,19 +99,22 @@ export const EditSet = () => {
       const selectedCategory = allCategories.find(
         (cat) => cat.category_name === category.name
       );
-      if (selectedCategory) {
+      if (selectedCategory.categorory_id === undefined) {
+        categoryIdRef.current = null;
+      } else {
         categoryIdRef.current = selectedCategory.category_id;
       }
     }
+    console.log(categoryIdRef.current)
 
     if (subcategory && subcategory.name && allSubcategories.length > 0) {
       const selectedSubCategory = allSubcategories.find(
         (inst) => inst.subcategory_name === subcategory.name
       );
-      console.log(selectedSubCategory)
-      if (selectedSubCategory) {
-        subcategoryIdRef.current = selectedSubCategory.subcategory_id;
-        console.log(subcategoryIdRef.current)
+      if (selectedSubCategory.categorory_id === undefined) {
+        subcategoryIdRef.current = null;
+      } else {
+        subcategoryIdRef.current = selectedSubCategory.category_id;
       }
     }
   }, [allCategories, allSubcategories, subcategory]);
@@ -163,6 +166,8 @@ export const EditSet = () => {
       toast("Някоя от картите е с поле с повече от 10000 символа");
       return;
     }
+
+    console.log(subcategoryIdRef.current)
     //check if the tags are not empty
     instance
       .put(`/sets/${id}`, {
@@ -274,6 +279,7 @@ export const EditSet = () => {
 
               <select
                 onChange={(e) => {
+                  console.log(e.target.value)
                   const selectedSubcategory = allSubcategories.find(
                     (cat) => cat.subcategory_id === e.target.value
                   );
