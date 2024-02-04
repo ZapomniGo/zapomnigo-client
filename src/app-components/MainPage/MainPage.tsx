@@ -369,81 +369,10 @@ export const MainPage: React.FC = () => {
 
   return (
     <Dashboard>
-      {windowWidth <= 1000 ? (
-        <>
-          {isCategoryLoading ? (
-            <LoadingAnimation />
-          ) : (
-            <div className="category-wrapper">
-              <center>
-                {" "}
-                <button
-                  className="category-btn-main"
-                  onClick={handleAccordionClick}
-                >
-                  Категории
-                  {!isAccordionVisible ? <IoIosArrowDown /> : <IoIosArrowUp />}
-                </button>
-              </center>
-              {isAccordionVisible && (
-                <div className="categories">
-                  {allCategories &&
-                    allCategories.map((categorySp) => (
-                      <div
-                        key={categorySp.category_id}
-                        className={
-                          category == categorySp.category_name
-                            ? "selected category-btn"
-                            : "category-btn"
-                        }
-                        onClick={() => {
-                          changeCategory(
-                            categorySp.category_id,
-                            categorySp.category_name
-                          );
-                        }}
-                      >
-                        <p>{category.category_name}</p>
-                      </div>
-                    ))}
-                  {subCategories &&
-                    subCategories.map((subCategories) => (
-                      // <div key={subCategories.subcategory_id} className="category-btn" onClick={() => changeSubCategory(subCategories.subcategory_id, subCategories.subcategory_name)}>
-                      <div
-                        key={subCategories.id}
-                        className={
-                          selectedSubCategory === subCategories.subcategory_id
-                            ? "selected category-btn"
-                            : "category-btn"
-                        }
-                        onClick={() => {
-                          handleSubcategoryClick(subCategories);
-                          changeSubCategory(
-                            subCategories.subcategory_id,
-                            subCategories.subcategory_name
-                          );
-                          if (
-                            selectedSubCategory === subCategories.subcategory_id
-                          ) {
-                            resetSets();
-                          }
-                        }}
-                      >
-                        <p>{subCategories.subcategory_name}</p>
-                      </div>
-                    ))}
-                  {(categoryID || selectedSubCategory) && (
-                    <div className="reset-btn" onClick={resetSets}>
-                      <IoMdClose />
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-        </>
-      ) : (
-        <>
+      {isCategoryLoading ? (
+          <LoadingAnimation />
+        ) : (
+          <>
           {isAccordionVisible ? (
             <div className="accordion">
               <center>
@@ -526,7 +455,8 @@ export const MainPage: React.FC = () => {
             </>
           )}
         </>
-      )}
+        )}
+
 
       <div className="set-wrapper">
         <h2 className="category-title">{title} тестета:</h2>

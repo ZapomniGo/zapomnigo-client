@@ -58,7 +58,7 @@ const SetCard: React.FC<SetCardProps> = ({
           className={`set-title ${isSelected ? "open" : "close"} folder-title`}
         >
           {icon}
-          {title.length > 45 ? title.substring(0, 45) + "..." : title}
+          {title.length > 38 ? title.substring(0, 38) + "..." : title}
         </div>
         {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
           <SlOptionsVertical />
@@ -67,8 +67,8 @@ const SetCard: React.FC<SetCardProps> = ({
 
       <div className={`set-description ${isSelected ? "open" : "close"}`}>
         {description
-          ? description.length > 99
-            ? description.substring(0, 102) + "..."
+          ? description.length > 89
+            ? description.substring(0, 89) + "..."
             : description
           : ""}
       </div>

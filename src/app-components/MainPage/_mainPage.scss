@@ -114,7 +114,19 @@
     margin-right: 0 !important;
   }
   .category-btn {
-    width: 90% !important;
+    display: flex;
+    width: 45% !important;
+    p{
+      display: flex;
+      align-items: center;
+      font-size: 11px;
+    }
+  }
+  .panel{
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    width: 100% !important;
+    margin: 0px !important;
   }
 }
 
@@ -172,4 +184,15 @@
   outline: none !important;
   border: none !important;
   box-shadow: none !important;
+}
+
+
+@media screen and (max-width: 1000px) {
+  .category-wrapper{
+    margin: 0;
+  }
+  .category-btn-main {
+    font-size: 25px !important;
+  }
+  
 }
