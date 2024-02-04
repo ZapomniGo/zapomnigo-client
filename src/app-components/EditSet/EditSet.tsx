@@ -16,6 +16,7 @@ import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { jwtDecode } from "jwt-decode";
+import { all } from "axios";
 
 export const EditSet = () => {
   useEffect(() => {
@@ -106,19 +107,23 @@ export const EditSet = () => {
         categoryIdRef.current = selectedCategory.category_id;
       }
     
-
+    if(subcategory.name === ''){
+      subcategoryIdRef.current = null;
+    }
 
     if (subcategory && subcategory.name && allSubcategories.length > 0) {
       const selectedSubCategory = allSubcategories.find(
         (inst) => inst.subcategory_name === subcategory.name
       );
-      if (selectedSubCategory.subcategory_id === undefined) {
+      if (selectedSubCategory.subcategory_id === '') {
         subcategoryIdRef.current = null;
       } else {
         subcategoryIdRef.current = selectedSubCategory.subcategory_id;
       }
     }
   }, [allCategories, subcategory, category]);
+
+
 
   const handleSubmit = () => {
     if (title.length === 0) {
@@ -163,7 +168,7 @@ export const EditSet = () => {
       toast("Някоя от картите е с поле с повече от 10000 символа");
       return;
     }
-
+    console.log(subcategoryIdRef.current);
 
     //check if the tags are not empty
     instance
@@ -214,11 +219,31 @@ export const EditSet = () => {
       getSubcategories(selectedCategoryId);
     }
   }, [selectedCategoryId]);
+  useEffect(() => {
+    const selectedSubcategory = allSubcategories.find(subcategoryItem => {
+      return subcategoryItem.subcategory_name === subcategory.name;
+    });
+    
+    if (selectedSubcategory) {
+      const selectedSubcategoryId = selectedSubcategory.subcategory_id;
+      setSubcategory({ name: subcategory.name, id: selectedSubcategoryId });
+      console.log(selectedSubcategoryId);
+    }
+  }, [allSubcategories]);
+
+  useEffect(() => {
+    console.log(subcategory)
+  }, [subcategory])
+
 
   const resetSubcategory = () => {
     setAllSubcategories([]);
   }
   
+  useEffect(() => {
+    console.log(allSubcategories);
+  }, [allSubcategories]);
+
   return (
     <Dashboard>
       <ToastContainer />
