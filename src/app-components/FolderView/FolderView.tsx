@@ -11,33 +11,34 @@ import { TbSettings } from "react-icons/tb";
 import { MdDeleteOutline } from "react-icons/md";
 
 export const FolderView: React.FC = () => {
+  const [token, setToken] = useState<string | null>(null);
   const { id } = useParams<{ id: string }>();
   const [setCards, setSetCards] = useState([]);
   const [recentCards, setRecentCards] = useState(10);
-  // const [exploreCards, setExploreCards] = useState(10);
   const [selectSet, setSelectSet] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [creator, setCreator] = useState("no one yet");
   const [user, setUser] = useState("");
-  const [settings, setSettings] = useState(false);
   const [category, setCategory] = useState();
   const [subCategory, setSubCategory] = useState();
   const [isAdmin, setIsAdmin] = useState(false);
-  const viewSettings = () => {
-    setSettings(!settings);
-  };
+
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    setIsAdmin(
-      localStorage.getItem("access_token")
-        ? jwtDecode(localStorage.getItem("access_token")).admin
-        : false
-    );
+    const accessToken = localStorage.getItem("access_token");
+
+    if (accessToken) {
+      const decodedToken = jwtDecode(accessToken);
+      if (decodedToken.admin) {
+        setIsAdmin(true);
+      } else {
+        console.log(decodedToken.username);
+        setCreator(decodedToken.username);
+      }
+    }
   }, []);
   useEffect(() => {
-    // instance.get(`/users/${userID}/sets`).then((response) => {
 
     instance
       .get(`/folders/${id}/sets`)
@@ -45,11 +46,11 @@ export const FolderView: React.FC = () => {
         setSetCards(response.data.sets);
         setTitle(response.data.folder.folder_title);
         setDescription(response.data.folder.folder_description);
-        setCreator(response.data.folder.username);
+        setUser(response.data.folder.username);
         document.title = `${response.data.folder.folder_title} | ЗапомниГо`;
         setCategory(response.data.folder.category_name);
         setSubCategory(response.data.folder.subcategory_name);
-        console.log(response.data.folder);
+        console.log(response.data.folder.username);
       })
       .catch((error) => {
         if (error.response.status === 404) {
