@@ -591,7 +591,7 @@ export const MainPage: React.FC = () => {
           ) : (
             <center>
               <p className="notFound-msg">
-                Една фея ми каза, че такава папка няма :(
+                Бъди първият, който ще въведе папка в тази категория!
               </p>
             </center>
           )}

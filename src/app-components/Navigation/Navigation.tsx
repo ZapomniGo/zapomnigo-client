@@ -94,12 +94,12 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
               onClick={handleHamburgerClick}
             />
           </div>
-          <div className="search-box">
+          {/* <div className="search-box">
             <i className="icon">
               <BiSearch />
             </i>
             <input type="search" placeholder="Търси..." />
-          </div>
+          </div> */}
         </div>
         <nav
           className={`sidebar ${navigationSliceManager.open ? "" : "close"}`}
@@ -129,12 +129,12 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 
           <div className="menu-bar">
             <div className="menu">
-              <li className="search-box">
+              {/* <li className="search-box">
                 <i className="icon">
                   <BiSearch />
                 </i>
                 <input type="search" placeholder="Търси..." />
-              </li>
+              </li> */}
               <ul className="menu-links">
                 <li className="nav-link">
                   <CustomNavLink
