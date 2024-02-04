@@ -164,6 +164,7 @@ export const EditSet = () => {
       return;
     }
 
+
     //check if the tags are not empty
     instance
       .put(`/sets/${id}`, {
@@ -171,7 +172,7 @@ export const EditSet = () => {
         set_description: description,
         flashcards: flashcards,
         set_category: category.id ? category.id : categoryIdRef.current,
-        set_subcategory: subcategoryIdRef.current,
+        set_subcategory: subcategory.id ? subcategory.id : subcategoryIdRef.current,
       })
       .then((response) => {
         toast("Редакцията е готова");
@@ -192,6 +193,7 @@ export const EditSet = () => {
     instance.get(`/categories/${category_id}/subcategories`).then((response) => {
       setAllSubcategories(response.data.subcategories);
     });
+
   }
 
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
