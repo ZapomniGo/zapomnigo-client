@@ -102,15 +102,14 @@ export const FolderView: React.FC = () => {
             )}
           </div>
         </h2>
-        <div style={{ display: "flex", marginLeft: "1.2vmax" }}>
+        <div style={{ display: "flex", marginLeft: "1.2vmax", marginBottom: "1vmax"}}>
           {category ? <h6 className="miniLabel">{category}</h6> : " "}
           {subCategory ? <h6 className="miniLabel">{subCategory}</h6> : " "}
         </div>
-        <br /> <br />
         <h4
           style={{
             fontWeight: 500,
-            marginBottom: "3vmax",
+            marginBottom: "2vmax",
             marginLeft: "1.5vmax",
           }}
         >
