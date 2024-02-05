@@ -20,7 +20,7 @@ const MultipleChoice = (props) => {
       );
       return;
     }
-    let numAnswers = Math.min(3, props.flashcards.length - 1);
+    let numAnswers = 4;
     while (answerOptionsSet.length < numAnswers) {
       let randomIndex = Math.floor(Math.random() * props.flashcards.length);
       let randomFlashcard = props.flashcards[randomIndex];

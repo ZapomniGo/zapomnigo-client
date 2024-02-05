@@ -159,16 +159,16 @@ const StudyComponent = () => {
 
     //phew, the flashcard has not been studied as last flashcard, so we can study it
     //update the past flashcards indexes to make sure we know that we have studied this flashcard
-    setPastFlashcardsIndexes([...pastFlashcardsIndexes, randomIndex]);
-    setCurrentFlashcardTerm(minConfidenceCards[randomIndex].term);
-    setCurrentFlashcardDefinition(minConfidenceCards[randomIndex].definition);
+      setPastFlashcardsIndexes([...pastFlashcardsIndexes, randomIndex]);
+      setCurrentFlashcardTerm(minConfidenceCards[randomIndex].term);
+      setCurrentFlashcardDefinition(minConfidenceCards[randomIndex].definition);
 
-    let choice = ChooseStudyMode(minConfidenceCards[randomIndex]);
-    if (flashcardsInside.length === 1) {
-      EndStudyMode();
-      return;
-    }
-    setStudyMode(choice);
+      let choice = ChooseStudyMode(minConfidenceCards[randomIndex]);
+      if (flashcardsInside.length === 1) {
+        EndStudyMode();
+        return;
+      }
+      setStudyMode(choice);
   };
   //this function makes sure the flashcards are not repeated
   const EnsureNoRepeat = (indexChosen) => {
@@ -257,7 +257,6 @@ const StudyComponent = () => {
       }
     }
 
-
     if (allowedStudyModes.includes(chosenStudyMode)) {
       return chosenStudyMode;
     } else {
@@ -269,10 +268,12 @@ const StudyComponent = () => {
           ((flashcard.definition.includes("<img") ||
             flashcard.definition.includes("<video") ||
             flashcard.definition.includes("ql-formula") ||
+            convert(flashcard.term).length > 100 ||
             flashcard.term.includes("<iframe")) &&
             (flashcard.term.includes("<img>") ||
               flashcard.term.includes("<video>") ||
               flashcard.term.includes("ql-formula"))) ||
+          convert(flashcard.term).length > 100 ||
           flashcard.term.includes("<iframe")
         ) {
           return 3;
@@ -281,7 +282,8 @@ const StudyComponent = () => {
           flashcard.definition.includes("<img") ||
           flashcard.definition.includes("<video") ||
           flashcard.definition.includes("ql-formula") ||
-          flashcard.term.includes("<iframe")
+          flashcard.term.includes("<iframe") ||
+          convert(flashcard.term).length > 100
         ) {
           return 2;
         }
@@ -363,8 +365,11 @@ const StudyComponent = () => {
   ) => {
     let isCorrect;
     let flashcardsCopy = [...flashcards];
-
-    if (convert(answer) == convert(currentFlashcardDefinition) || forceTrue) {
+    if (
+      convert(answer).replace(/ /g, "") ==
+        convert(currentFlashcardDefinition).replace(/ /g, "") ||
+      forceTrue
+    ) {
       isCorrect = true;
     } else {
       isCorrect = false;
@@ -377,7 +382,6 @@ const StudyComponent = () => {
       };
     }
     GeneratePrompt(flashcardsCopy);
-
     if (isCorrect) {
       SP.play();
       if (defaultSetup.enablePositives) {
@@ -436,8 +440,7 @@ const StudyComponent = () => {
   const InformServerAboutSetStudied = () => {
     instance
       .post(`/sets/${id}/study`)
-      .then((res) => {
-      })
+      .then((res) => {})
       .catch((err) => {
         console.error(err);
       });

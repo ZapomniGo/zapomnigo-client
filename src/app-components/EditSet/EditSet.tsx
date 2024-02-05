@@ -37,8 +37,7 @@ export const EditSet = () => {
   const [subcategory, setSubcategory] = useState({ name: "", id: "" });
   const [allSubcategories, setAllSubcategories] = useState([]);
   const navigate = useNavigate();
-  const [allInstitutions, setAllInstitutions] = useState([]);
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState("&sort_by_date=true&ascending=true");
   const { id } = useParams<{ id: string }>();
 
   const {
