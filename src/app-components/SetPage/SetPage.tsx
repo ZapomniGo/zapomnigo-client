@@ -21,7 +21,7 @@ export const SetPage = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [flashcards, setFlashcards] = useState("");
-  const [sortingOrder, setSortingOrder] = useState<string>("");
+  const [sortingOrder, setSortingOrder] = useState<string>("&sort_by_date=true&ascending=true");
   const [username, setUsername] = useState("");
   const [creator, setCreator] = useState("no one yet");
   const [page, setPage] = useState(1);
@@ -277,7 +277,7 @@ export const SetPage = () => {
 
                 {flashcards.flashcards.length > 1 ? (
                 <select onChange={handleFilterChange}>
-                  <option value="&sort_by_date=true&ascending=false">
+                  <option value="&sort_by_date=true&ascending=true">
                     По подразбиране
                   </option>
                   <option value="&sort_by_date=false&ascending=true">
