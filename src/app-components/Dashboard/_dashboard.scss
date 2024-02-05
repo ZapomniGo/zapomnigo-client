@@ -28,24 +28,6 @@
       a {
         display: flex;
       }
-      .btnWrapper {
-        position: absolute;
-        right: 1vmax;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-left: 10px;
-        svg {
-          width: 20px;
-          margin: 0 5px;
-          color: gray;
-          cursor: pointer;
-          transition: 0.3s;
-        }
-        svg:hover {
-          color: orange;
-        }
-      }
       a:hover {
         cursor: pointer;
       }
@@ -60,6 +42,32 @@
           width: 30px;
           color: gray;
         }
+      }
+    }
+    .btnWrapper {
+      right: 1vmax;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 10px;
+      margin-bottom: 10px;
+      svg {
+        // width: 20px;
+        margin: 0 10px;
+        color: gray;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      svg:hover {
+        color: orange;
+      }
+      a{
+        display: flex;
+      }
+      
+      .btnEdit{
+        padding-right: 15px;
+        display: flex;
       }
     }
 

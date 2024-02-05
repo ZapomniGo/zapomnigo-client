@@ -87,7 +87,13 @@ export const FolderView: React.FC = () => {
       <div className="set-wrapper">
         <h2 className="category-title">
           <h1 style={{ fontWeight: 900 }}>{title}</h1>
-          <div className="btnWrapper">
+        </h2>
+        <div className="btnWrapper">
+            <div style={{ display: "flex", marginLeft: "0.2vmax"}}>
+              {category ? <h6 className="miniLabel">{category}</h6> : " "}
+              {subCategory ? <h6 className="miniLabel">{subCategory}</h6> : " "}
+            </div>
+            <div className="btnEdit">
             {(isAdmin || creator === user) && (
               <a href={`/app/edit-folder/${id}`}>
                 <FaPen />
@@ -98,12 +104,9 @@ export const FolderView: React.FC = () => {
                 <MdDeleteOutline />
               </a>
             )}
+            </div>
+
           </div>
-        </h2>
-        <div style={{ display: "flex", marginLeft: "1.2vmax", marginBottom: "1.2vmax"}}>
-          {category ? <h6 className="miniLabel">{category}</h6> : " "}
-          {subCategory ? <h6 className="miniLabel">{subCategory}</h6> : " "}
-        </div>
         <h4
           style={{
             fontWeight: 500,
