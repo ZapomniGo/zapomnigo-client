@@ -254,7 +254,7 @@ export const EditFolder = () => {
                 getSubcategories(selectedCategory.category_id);
               }}
             >
-              <option value="">Категория</option>
+              <option value="">Без категория</option>
               {allCategories.map((allCat, index) => (
                 <option key={index} value={allCat.category_id} selected={category && category.name === allCat.category_name}>
                   {allCat.category_name}
@@ -275,7 +275,7 @@ export const EditFolder = () => {
                     : "",
                 });              }}
             >
-              <option value="">Събкатекогия</option>
+              <option value="">Без подкатекогия</option>
               {allSubcategories.map((allSubc, index) => (
                 <option key={index} value={allSubc.subcategory_id} selected={subcategory && subcategory.name === allSubc.subcategory_name}>
                   {allSubc.subcategory_name}

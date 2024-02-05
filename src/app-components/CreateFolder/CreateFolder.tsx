@@ -201,7 +201,7 @@ export const CreateFolder = () => {
                 id="subcategory"
                 name="subcategory"
               >
-                <option value="">Без събкатегория</option>
+                <option value="">Без подкатегория</option>
                 {subcategories.map((subcategory, index) => (
                   <option key={index} value={subcategory.subcategory_id}>
                     {subcategory.subcategory_name}

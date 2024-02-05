@@ -279,7 +279,7 @@ export const EditSet = () => {
                   });
                 }}
               >
-                <option value="">Категория</option>
+                <option value="">Без категория</option>
                 {allCategories.map((allCat, index) => (
                   <option
                     key={index}
@@ -308,7 +308,7 @@ export const EditSet = () => {
                   });
                 }}
               >
-                <option value="">Подкатегория</option>
+                <option value="">Без подкатегория</option>
                 {allSubcategories.map((allSubc, index) => (
                   <option
                     key={index}
