@@ -5,6 +5,8 @@ import { useRef, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Tilty from "react-tilty";
 import { useState } from "react";
+import { Footer } from "../Footer/Footer";
+
 const HomePage = () => {
   const navigate = useNavigate();
   const [isTiltyEnabled, setIsTiltyEnabled] = useState(window.innerWidth > 1000);
@@ -90,6 +92,8 @@ const HomePage = () => {
           )}
         </div>
       </section>
+      <Footer prop="main-footer" />
+
     </div>
   );
 };
