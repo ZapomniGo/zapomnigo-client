@@ -84,18 +84,27 @@ export const FolderView: React.FC = () => {
 
   return (
     <Dashboard>
-      <div className="set-wrapper">
-        <h2 className="category-title">
+      <div className="set-wrapper folder-wrapper">
+        <h2 className="folder-title">
           <h1 style={{ fontWeight: 900 }}>{title}</h1>
         </h2>
+        <h4
+        className="folder-description"
+          style={{
+            fontWeight: 500,
+            marginBottom: "2vmax",
+          }}
+        >
+          {description}
+        </h4>
         <div className="btnWrapper">
-            <div style={{ display: "flex", marginLeft: "0.2vmax"}}>
-              {category ? <h6 className="miniLabel">{category}</h6> : " "}
-              {subCategory ? <h6 className="miniLabel">{subCategory}</h6> : " "}
+            <div style={{ display: "flex"}}>
+              {category ? <h6 className="miniLabel folderLabel">{category}</h6> : " "}
+              {subCategory ? <h6 className="miniLabel folderLabel">{subCategory}</h6> : " "}
             </div>
             <div className="btnEdit">
             {(isAdmin || creator === user) && (
-              <a href={`/app/edit-folder/${id}`}>
+              <a href={`/app/edit-folder/${id}`} className="pen">
                 <FaPen />
               </a>
             )}
@@ -107,15 +116,7 @@ export const FolderView: React.FC = () => {
             </div>
 
           </div>
-        <h4
-          style={{
-            fontWeight: 500,
-            marginBottom: "2vmax",
-            marginLeft: "1.5vmax",
-          }}
-        >
-          {description}
-        </h4>
+
         <div className="sets">
           {setCards.map((card) => (
             <SetCard

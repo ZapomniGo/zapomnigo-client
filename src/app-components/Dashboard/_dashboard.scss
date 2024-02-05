@@ -49,16 +49,44 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-left: 10px;
+      margin-top: 15px;
       margin-bottom: 10px;
       svg {
-        // width: 20px;
+        width: 60px;
+        height: 40px;
         margin: 0 10px;
         color: gray;
         cursor: pointer;
         transition: 0.3s;
       }
+      .pen{
+        svg {
+          width: 30px;
+          color: gray;
+        }
+      }
+
+      @media screen and (max-width: 1000px) {
+        .miniLabel{
+          font-size: 11px;
+        }
+        svg {
+          width: 50px;
+          height: 30px;
+          margin: 0 10px;
+          color: gray;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+        .pen{
+          svg {
+            width: 20px;
+            color: gray;
+          }
+        }
+      }
       svg:hover {
+        width: 40px;
         color: orange;
       }
       a{
@@ -110,6 +138,9 @@
     .close {
       opacity: 1 !important;
     }
+  }
+  .btnWrapper{
+    margin-left: 10px;
   }
 }
 
