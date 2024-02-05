@@ -29,12 +29,16 @@
   .set-description.open{
     margin-bottom: 12px;
   }
+
   .set-description.close,
   .set-institution.close {
     height: 10%;
     opacity: 0;
     transition: $tran-03;
     overflow: hidden;
+  }
+  .set-description.no-category{
+    height: 28%;
   }
   .categories {
     height: 10%;
@@ -94,8 +98,12 @@
     align-items: flex-start;
     height: 10%;
   }
+  .set-creator.close {
+    height: 17%;
+  }
+
   .set-creator {
-    height: 15%;
+    height: 17%;
     display: flex;
     align-items: center;
     margin-bottom: 0.5vmin;
@@ -190,9 +198,9 @@
       transition: $tran-03;
       opacity: 1;
     }
-    .title-options {
-      height: 30%;
-    }
+    // .title-options {
+    //   height: 30%;
+    // }
     .set-title {
       font-size: 1.2rem !important;
     }
@@ -200,8 +208,8 @@
       transition: $tran-02;
       font-size: 1.2rem;
     }
-    .title-options.open {
-      height: 35%;
+    .title-options.open, .title-options.close {
+    height: 30% !important;
     }
   }
 
@@ -219,9 +227,20 @@
   .close {
     opacity: 1 !important;
   }
-  .set-description {
-    height: 32% !important;
+  .set-description,.set-description.open,.set-description.close{
+    height: 31% !important;
+    margin: 0 !important;
   }
+
+  .set-description.no-category{
+    height: 46% !important;
+  }
+
+
+
+  // .set-creator, .set-creator.close, .set-creator.open {
+  //   height: 25% !important;
+  // }
 }
 
 @media only screen and (max-width: 850px) {

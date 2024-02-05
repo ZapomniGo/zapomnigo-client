@@ -55,7 +55,7 @@ const SetCard: React.FC<SetCardProps> = ({
     >
       <div className={`title-options ${isSelected ? "open" : "close"}`}>
         <div
-          className={`set-title ${isSelected ? "open" : "close"} folder-title`}
+          className={`set-title ${isSelected ? "open" : "close"} folder-title `}
         >
           {icon}
           {title.length > 38 ? title.substring(0, 38) + "..." : title}
@@ -65,7 +65,7 @@ const SetCard: React.FC<SetCardProps> = ({
         </div> */}
       </div>
 
-      <div className={`set-description ${isSelected ? "open" : "close"}`}>
+      <div className={`set-description  ${category ? "" : "no-category"} ${isSelected ? "open" : "close"}`}>
         {description
           ? description.length > 89
             ? description.substring(0, 89) + "..."
@@ -84,6 +84,7 @@ const SetCard: React.FC<SetCardProps> = ({
           </p>
         </div>
       </div>
+      {category ? (
       <div className="categories" style={{ paddingBottom: category && "10px" }}>
         {category ? (
           <div className={`set-category ${isSelected ? "open" : "close"}`}>
@@ -108,6 +109,7 @@ const SetCard: React.FC<SetCardProps> = ({
           ""
         )}
       </div>
+      ) : ""}
     </div>
   );
 };
