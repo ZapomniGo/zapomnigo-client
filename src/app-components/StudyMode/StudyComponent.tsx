@@ -268,10 +268,12 @@ const StudyComponent = () => {
           ((flashcard.definition.includes("<img") ||
             flashcard.definition.includes("<video") ||
             flashcard.definition.includes("ql-formula") ||
+            convert(flashcard.term).length > 100 ||
             flashcard.term.includes("<iframe")) &&
             (flashcard.term.includes("<img>") ||
               flashcard.term.includes("<video>") ||
               flashcard.term.includes("ql-formula"))) ||
+          convert(flashcard.term).length > 100 ||
           flashcard.term.includes("<iframe")
         ) {
           return 3;
@@ -280,7 +282,8 @@ const StudyComponent = () => {
           flashcard.definition.includes("<img") ||
           flashcard.definition.includes("<video") ||
           flashcard.definition.includes("ql-formula") ||
-          flashcard.term.includes("<iframe")
+          flashcard.term.includes("<iframe") ||
+          convert(flashcard.term).length > 100
         ) {
           return 2;
         }
