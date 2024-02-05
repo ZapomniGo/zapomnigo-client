@@ -102,6 +102,10 @@ export const EditSet = () => {
       );
       if(selectedCategory === undefined) {
         categoryIdRef.current = null;
+        if(categoryIdRef.current === null){
+          subcategoryIdRef.current = null;
+          subcategory.name = null;
+        }
       } 
       else{
         categoryIdRef.current = selectedCategory.category_id;
@@ -115,6 +119,7 @@ export const EditSet = () => {
       const selectedSubCategory = allSubcategories.find(
         (inst) => inst.subcategory_name === subcategory.name
       );
+
       if (selectedSubCategory.subcategory_id === '') {
         subcategoryIdRef.current = null;
       } else {
@@ -168,7 +173,6 @@ export const EditSet = () => {
       toast("Някоя от картите е с поле с повече от 10000 символа");
       return;
     }
-    console.log(subcategoryIdRef.current);
 
     //check if the tags are not empty
     instance
@@ -181,7 +185,7 @@ export const EditSet = () => {
       })
       .then((response) => {
         toast("Редакцията е готова");
-        navigate("/app/set/" + id);
+        // navigate("/app/set/" + id);
         window.scrollTo(0, 0);
       })
       .catch((error) => {
@@ -227,22 +231,13 @@ export const EditSet = () => {
     if (selectedSubcategory) {
       const selectedSubcategoryId = selectedSubcategory.subcategory_id;
       setSubcategory({ name: subcategory.name, id: selectedSubcategoryId });
-      console.log(selectedSubcategoryId);
     }
   }, [allSubcategories]);
-
-  useEffect(() => {
-    console.log(subcategory)
-  }, [subcategory])
 
 
   const resetSubcategory = () => {
     setAllSubcategories([]);
   }
-  
-  useEffect(() => {
-    console.log(allSubcategories);
-  }, [allSubcategories]);
 
   return (
     <Dashboard>

@@ -77,6 +77,24 @@ export const EditFolder = () => {
         subcategory_id: subcategoryIdRef.current
       };
       console.log(folderToSubmit)
+
+      if (folderToSubmit.folder_title.length === 0) {
+        toast("Оп, май пропусна заглавие");
+        return;
+      }
+      if (folderToSubmit.folder_title.length > 100) {
+        toast("Заглавието трябва да е под 100 символа");
+        return;
+      }
+      if (folderToSubmit.folder_title.length > 1000) {
+        toast("Описанието трябва да е под 1000 символа");
+        return;
+      }
+      //check if the flashcards are not empty
+      //check if the flashcards are not empty
+
+      //check if each flashcard has a term and a description using isEmpty function
+
       instance
       .put(`/folders/${id}`, folderToSubmit)
       .then((response) => {

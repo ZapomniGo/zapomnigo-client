@@ -61,7 +61,20 @@ export const CreateFolder = () => {
     const selectedSetIds = folder.sets.map((set) => set.set_id.toString());
     // Use selectedSetIds when making your request
     const folderToSubmit = { ...folder, sets: selectedSetIds };
-    console.log(folderToSubmit)
+
+    if (folderToSubmit.folder_title.length === 0) {
+      toast("Оп, май пропусна заглавие");
+      return;
+    }
+    if (folderToSubmit.folder_title.length > 100) {
+      toast("Заглавието трябва да е под 100 символа");
+      return;
+    }
+    if (folderToSubmit.folder_title.length > 1000) {
+      toast("Описанието трябва да е под 1000 символа");
+      return;
+    }
+    
     instance
       .post("/folders", folderToSubmit)
       .then((response) => {
