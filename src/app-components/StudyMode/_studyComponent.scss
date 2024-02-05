@@ -51,7 +51,7 @@
   }
   .answer-options {
     display: grid;
-    padding: 2vmax;
+    padding: 2vmax 2vmax 1vmax 2vmax ;
     grid-template-columns: repeat(2, 1fr);
     // grid-template-rows: repeat(2, 1fr);
     width: 100%;
@@ -70,6 +70,7 @@
         color: gray !important;
         border: 2px solid orange !important;
         p{
+          align-items: center;
           display: flex;
           flex-direction: column;
           img{
@@ -145,6 +146,17 @@
 
 
 @media screen and (max-width: 1000px){
+  .btn{
+    padding: 0 2vmax;
+    justify-content: center !important;
+    width: 100% !important;
+    button{
+      margin: 10px !important;
+      border-radius: 10px !important;
+      width: 100% !important;
+    
+    }
+  }
   .study-component{
     padding-left: 0;
     .study-wrapper {
@@ -175,7 +187,18 @@
 
 }
 
+.gonext{
+  margin-bottom: 1vmax;
+  justify-content: flex-end;
+  width: 97%;
+  button{
+    width: 45%;
+  }
+}
+
 .donkno {
+  width: 53%;
+  margin-bottom: 1vmax;
   button {
     border: none;
     background-color: #fff !important;
