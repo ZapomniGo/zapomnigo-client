@@ -257,7 +257,6 @@ const StudyComponent = () => {
       }
     }
 
-
     if (allowedStudyModes.includes(chosenStudyMode)) {
       return chosenStudyMode;
     } else {
@@ -363,8 +362,11 @@ const StudyComponent = () => {
   ) => {
     let isCorrect;
     let flashcardsCopy = [...flashcards];
-
-    if (convert(answer) == convert(currentFlashcardDefinition) || forceTrue) {
+    if (
+      convert(answer).replace(/ /g, "") ==
+        convert(currentFlashcardDefinition).replace(/ /g, "") ||
+      forceTrue
+    ) {
       isCorrect = true;
     } else {
       isCorrect = false;
@@ -377,7 +379,6 @@ const StudyComponent = () => {
       };
     }
     GeneratePrompt(flashcardsCopy);
-
     if (isCorrect) {
       SP.play();
       if (defaultSetup.enablePositives) {
@@ -436,8 +437,7 @@ const StudyComponent = () => {
   const InformServerAboutSetStudied = () => {
     instance
       .post(`/sets/${id}/study`)
-      .then((res) => {
-      })
+      .then((res) => {})
       .catch((err) => {
         console.error(err);
       });
