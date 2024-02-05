@@ -44,7 +44,7 @@ export const MainPage: React.FC = () => {
 
     instance
       .get(
-        `/sets?page=${newPageSet}&size=30&sort_by_date=false&ascending=true&category_id=${category}`
+        `/sets?page=${newPageSet}&size=10&sort_by_date=true&ascending=true&category_id=${category}`
       )
       .then((response) => {
         setTotalSetPages(response.data.total_pages);
