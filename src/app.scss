@@ -19,6 +19,7 @@ $tran-05: all 0.5s ease;
 
 body {
   animation: fadein 1s;
+  overflow-y: scroll !important;
 }
 
 .lds-ring {
