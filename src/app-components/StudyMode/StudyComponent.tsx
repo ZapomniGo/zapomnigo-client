@@ -54,7 +54,6 @@ const StudyComponent = () => {
     instance
       .get(`/sets/${id}/study`)
       .then((res) => {
-        console.log(res);
         const newFlashcards = res.data.flashcards;
         if (newFlashcards.length > 0) {
           let tempFlashcards = newFlashcards.map((flashcard) => {
@@ -242,8 +241,8 @@ const StudyComponent = () => {
     if (flashcard.confidence == null) {
       flashcard.confidence = 0;
     }
-    console.log("average confidence is " + averageConfidence);
-    console.log("flashcard confidence is " + flashcard.confidence);
+    // console.log("average confidence is " + averageConfidence);
+    // console.log("flashcard confidence is " + flashcard.confidence);
     if (
       flashcard.confidence <= averageConfidence ||
       flashcard.definition.length > 100 ||
@@ -438,7 +437,6 @@ const StudyComponent = () => {
     instance
       .post(`/sets/${id}/study`)
       .then((res) => {
-        console.log(res);
       })
       .catch((err) => {
         console.error(err);

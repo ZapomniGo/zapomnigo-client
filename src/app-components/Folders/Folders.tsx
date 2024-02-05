@@ -23,7 +23,6 @@ export const Folders: React.FC = () => {
 
   useEffect(() => {
     instance.get(`/users/${userID}/folders`).then((response) => {
-      console.log(response);
       setSetCards(response.data.folders);
     });
     window.scrollTo({ top: 0, behavior: "smooth" });

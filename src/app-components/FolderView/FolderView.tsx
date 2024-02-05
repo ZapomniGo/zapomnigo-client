@@ -33,7 +33,6 @@ export const FolderView: React.FC = () => {
       if (decodedToken.admin) {
         setIsAdmin(true);
       } else {
-        console.log(decodedToken.username);
         setCreator(decodedToken.username);
       }
     }
@@ -50,7 +49,6 @@ export const FolderView: React.FC = () => {
         document.title = `${response.data.folder.folder_title} | ЗапомниГо`;
         setCategory(response.data.folder.category_name);
         setSubCategory(response.data.folder.subcategory_name);
-        console.log(response.data.folder.username);
       })
       .catch((error) => {
         if (error.response.status === 404) {
@@ -102,7 +100,7 @@ export const FolderView: React.FC = () => {
             )}
           </div>
         </h2>
-        <div style={{ display: "flex", marginLeft: "1.2vmax", marginBottom: "1vmax"}}>
+        <div style={{ display: "flex", marginLeft: "1.2vmax", marginBottom: "1.2vmax"}}>
           {category ? <h6 className="miniLabel">{category}</h6> : " "}
           {subCategory ? <h6 className="miniLabel">{subCategory}</h6> : " "}
         </div>

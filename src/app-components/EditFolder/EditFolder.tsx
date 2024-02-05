@@ -76,7 +76,6 @@ export const EditFolder = () => {
         category_id: category.id ? category.id : categoryIdRef.current, 
         subcategory_id: subcategoryIdRef.current
       };
-      console.log(folderToSubmit)
 
       if (folderToSubmit.folder_title.length === 0) {
         toast("Оп, май пропусна заглавие");
@@ -108,19 +107,15 @@ export const EditFolder = () => {
     }
 
     const getSubcategories = (category_id) => {
-      console.log("here")
       instance.get(`/categories/${category_id}/subcategories`).then((response) => {
         setAllSubcategories(response.data.subcategories);
-        console.log(response.data.subcategories)
       });
     }
 
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
   useEffect(() => {
-    console.log(category)
     if (category.name && allCategories.length > 0) {
-      console.log("inuseeffect")
       const matchingCategory = allCategories.find(
         (cat) => cat.category_name === category.name
       );
@@ -180,21 +175,17 @@ export const EditFolder = () => {
 
       const selectedCategory = allCategories.find((inst) => inst.category_name === category.name);
       if(selectedCategory === undefined){
-        console.log("undefined")
         categoryIdRef.current = "";
       } else{
         categoryIdRef.current = selectedCategory.category_id;
       }
-      console.log(subcategoryIdRef.current)
     
         const selectedSubcategory = allSubcategories.find((inst) => inst.subcategory_name === subcategory.name);
           if(selectedSubcategory === undefined){
-            console.log("undefined")
             subcategoryIdRef.current = "";
           } else{
             subcategoryIdRef.current = selectedSubcategory.subcategory_id;
           }
-          console.log(subcategoryIdRef.current)
 
  
     }, [allCategories, allSubcategories, subcategory]);
@@ -209,7 +200,6 @@ export const EditFolder = () => {
       instance.get(
         `/sets?page=${newPageSet}&size=20&sort_by_date=false&ascending=true&category_id=`
         ).then((response) => {
-          console.log(response.data)
         setTotalSetPages(response.data.total_pages);
         const newCards = [...uniqueSets];
         response.data.sets.forEach(card => newCards.push(card));

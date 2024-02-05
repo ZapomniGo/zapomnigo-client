@@ -111,7 +111,7 @@ export const SetPage = () => {
         navigate(`/app/sets/${username}`);
       })
       .catch((error) => {
-        console.log(error);
+        toast("Имаше грешка при запазването, пробвай отново по-късно");
       });
   };
 
@@ -187,7 +187,6 @@ export const SetPage = () => {
       const decodedToken: { username: string; institution: string } =
         jwtDecode(token);
       setCreator(decodedToken.username);
-      console.log(creator);
     }
   }, []);
 

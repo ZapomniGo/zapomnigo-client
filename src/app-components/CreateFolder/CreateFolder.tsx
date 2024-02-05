@@ -78,17 +78,14 @@ export const CreateFolder = () => {
     instance
       .post("/folders", folderToSubmit)
       .then((response) => {
-        console.log(response);
         toast("Добре дошъл в новата си папка");
         navigate("/app/folder/" + response.data.folder_id);
         window.scrollTo(0, 0);
       })
       .catch((error) => {
         toast("Възникна грешка");
-        console.log(error);
       });
 
-    console.log(folderToSubmit);
   };
 
   const handleSelectSet = (set) => {
@@ -124,11 +121,9 @@ export const CreateFolder = () => {
   );
 
   const changeSubcategories = (category_id: string) => {
-    console.log(category_id)
     instance
     .get(`/categories/${category_id}/subcategories`)
     .then((response) => {
-      console.log(response.data.subcategories);
       setSubcategories(response.data.subcategories);
     })
   }
@@ -141,7 +136,6 @@ export const CreateFolder = () => {
     instance.get(
       `/sets?page=${newPageSet}&size=20&sort_by_date=false&ascending=true&category_id=`
       ).then((response) => {
-        console.log(response.data)
       setTotalSetPages(response.data.total_pages);
       const newCards = [...setCards];
       response.data.sets.forEach(card => newCards.push(card));

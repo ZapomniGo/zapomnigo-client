@@ -95,7 +95,7 @@ const useFlashcards = () => {
   };
 
   const handleOnImportFlashcards = (importedData, delimiter, delimeter2) => {
-    console.log(importedData, delimiter, delimeter2);
+    // console.log(importedData, delimiter, delimeter2);
     let inputString = importedData;
     if (inputString.length === 0) {
       return;

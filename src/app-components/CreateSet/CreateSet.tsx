@@ -128,9 +128,7 @@ export const CreateSet = () => {
       });
   };
 
-  useEffect(() => {
-    console.log(subcategory);
-  }, [subcategory])
+
 
   const search = (query: string) => {
     const url = "http://www.google.com/search?q=" + convert(query);
@@ -191,7 +189,7 @@ export const CreateSet = () => {
                 ))}
               </select>
               <select
-                onChange={(e) => {setSubcategory(e.target.value); console.log(e.target.value)}}
+                onChange={(e) => {setSubcategory(e.target.value);}}
                 defaultValue=""
                 id="institution"
                 name="institution"
