@@ -198,11 +198,6 @@ export const Registration = () => {
             hasError: true,
             message: "Паролата трябва да съдържа поне една цифра",
           };
-        } else if (typeof value === "string" && !/[\W_]/.test(value)) {
-          errorInfo = {
-            hasError: true,
-            message: "Паролата трябва да съдържа поне един специален символ",
-          };
         }
         break;
       case "repeatPassword":
@@ -331,12 +326,6 @@ export const Registration = () => {
         newErrors.password = {
           hasError: true,
           message: "Паролата трябва да съдържа поне една цифра",
-        };
-        errorsExist = true;
-      } else if (!/[\W_]/.test(userData.password)) {
-        newErrors.password = {
-          hasError: true,
-          message: "Паролата трябва да съдържа поне един специален символ",
         };
         errorsExist = true;
       } else {
