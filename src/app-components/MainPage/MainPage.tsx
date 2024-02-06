@@ -286,6 +286,7 @@ export const MainPage: React.FC = () => {
       .catch((error) => {
         if (error.response.status === 404) {
           setHasFolders(false);
+          setIsCategoryLoading(false)
         }
         setIsFolderLoading(false);
       });
