@@ -92,7 +92,6 @@ export const FolderView: React.FC = () => {
         className="folder-description"
           style={{
             fontWeight: 500,
-            marginBottom: "2vmax",
           }}
         >
           {description}
