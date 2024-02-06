@@ -67,13 +67,7 @@ export const Login = () => {
     ) {
       setBackendError("Грешна парола");
       return;
-    } else if (
-      typeof userData.password === "string" &&
-      !/[\W_]/.test(userData.password)
-    ) {
-      setBackendError("Грешна парола");
-      return;
-    }
+    } 
     try {
       const response = await instance.post(`/login`, userData);
       if (response.status === 200) {

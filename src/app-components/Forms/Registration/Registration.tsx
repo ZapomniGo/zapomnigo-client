@@ -178,8 +178,7 @@ export const Registration = () => {
         if (
           typeof value === "string" &&
           (value.length < 8 || value.length > 40)
-        ) {
-          errorInfo = {
+        ) {          errorInfo = {
             hasError: true,
             message: "Полето за парола трябва да е между 8-40 символа",
           };
