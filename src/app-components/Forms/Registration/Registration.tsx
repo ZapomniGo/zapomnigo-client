@@ -13,6 +13,8 @@ import { RegisterErrorRecord } from "./types";
 import { DataError, UserData } from "../../../app-common/types";
 import instance from "../../../app-utils/axios";
 import { useNavigate } from "react-router-dom";
+import { FaRegEye } from "react-icons/fa";
+
 
 export const Registration = () => {
   const navigate = useNavigate();
@@ -97,7 +99,7 @@ export const Registration = () => {
     }
   };
 
-  const [screenIndex, setScreenIndex] = useState(1);
+  const [screenIndex, setScreenIndex] = useState(2);
   const [errors, setErrors] = useState<RegisterErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<UserData>(initialUserState);
 
@@ -479,16 +481,23 @@ export const Registration = () => {
               <p className="errorText">
                 {errors.email.hasError ? errors.email.message : ""}
               </p>
-              <input
-                type="password"
-                placeholder="Парола"
-                name="password"
-                minLength={8}
-                maxLength={40}
-                value={userData.password}
-                className={errors.password.hasError ? "error" : ""}
-                onChange={(e) => validateField("password", e.target.value)}
-              />
+              <div className="password-test">
+                <input
+                  type="password"
+                  placeholder="Парола"
+                  name="password"
+                  minLength={8}
+                  maxLength={40}
+                  value={userData.password}
+                  className={errors.password.hasError ? "error" : ""}
+                  onChange={(e) => validateField("password", e.target.value)}
+                />
+                <div className="password-svg">
+                <FaRegEye />
+
+                </div>
+              </div>
+
               <p className="errorText">
                 {errors.password.hasError ? errors.password.message : ""}
               </p>

@@ -94,3 +94,26 @@
 //   width: 94.88% !important;
 //   margin-left: 5.1vmax;
 // }
+
+.password-test{
+  display: flex;
+  align-items: center;
+  .password-svg{
+    height: 7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+
+    svg{
+      margin: 0 !important;
+      // height: 3.3rem !important;
+      // right: 0;
+      margin-right: 100px;
+      position: relative;
+      border-bottom: 1px solid red;
+  
+      margin-right: 10px;
+    }
+  }
+}
