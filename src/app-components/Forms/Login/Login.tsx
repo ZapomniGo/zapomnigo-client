@@ -4,6 +4,7 @@ import { LoginData, LoginErrorRecord } from "./types";
 import { initialErrors } from "./utils";
 import instance from "../../../app-utils/axios";
 import { useNavigate } from "react-router-dom";
+import { Footer } from "../../Footer/Footer";
 type ErrorFieldName = keyof LoginErrorRecord;
 
 const validateForm = (data: LoginData): LoginErrorRecord => {
