@@ -225,7 +225,7 @@ export const SetPage = () => {
                 )}
               </div>
               <div className="actions">
-                {localStorage.getItem("access_token") && (
+                {/* {localStorage.getItem("access_token") && ( */}
                   <a
                     onClick={() =>
                       flashcards.flashcards.length >= 4
@@ -236,7 +236,7 @@ export const SetPage = () => {
                     <FaRegLightbulb />
                     Учи
                   </a>
-                )}
+                {/* )} */}
                 <a href={"/app/flip-set/" + id} className="rotate">
                   <MdContentCopy />
                   Прегледай
