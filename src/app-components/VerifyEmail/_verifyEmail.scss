@@ -49,9 +49,8 @@
     background-color: transparent !important;
     color: gray !important;
     font-size: 15px !important;
-    border-bottom: 1px solid gray !important; 
     border-radius: 0 !important;
-
+    border-bottom: solid 1px transparent !important;
   }
   
   .no-email:active{
@@ -66,6 +65,7 @@
   
   .no-email:hover{
     box-shadow: none !important;
+    border-bottom: solid 1px gray !important;
   }
 }
 //make a mobile version

@@ -65,6 +65,55 @@ const Flip = () => {
     FO.pause();
   }, []);
 
+  const flipCard = () => {
+    isHidden ? FO.play() : FC.play();
+    setIsHidden(!isHidden);
+  }
+
+  // window.addEventListener('keydown', function(event) {
+  //   // Check if the right arrow key was pressed
+  //   if (event.key === 'ArrowRight') {
+  //     // Call the next function
+  //     console.log('right')
+  //     next();
+  //   }
+  // });
+
+  const [isKeyPressed, setIsKeyPressed] = React.useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowRight' && !isKeyPressed) {
+        setIsKeyPressed(true);
+        next();
+      }
+
+      if(event.key === 'ArrowLeft' && !isKeyPressed){
+        setIsKeyPressed(true);
+        previous();
+      }
+    };
+
+    const handleKeyUp = (event) => {
+      if (event.key === 'ArrowRight') {
+        setIsKeyPressed(false);
+      }
+      if (event.key === 'ArrowLeft') {
+        setIsKeyPressed(false);
+      }
+    };
+    
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
+
+    // Clean up the event listeners
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [isKeyPressed]);
+
   return (
     <>
       {flashcards.length > 0 ? (
@@ -72,9 +121,15 @@ const Flip = () => {
           <h1 className="counter">
             {counter + 1}/{flashcards.length}
           </h1>
-          <section id="card">
+          <section id="card" 
+            onClick={() => {
+              flipCard();
+            }}
+          >
             <div id="front">
-              <p>{parse(flashcards[counter].term)}</p>
+              <p>
+                {parse(flashcards[counter].term)} 
+              </p>
             </div>
             {!isHidden ? (
               <div id="back">
@@ -82,21 +137,33 @@ const Flip = () => {
               </div>
             ) : null}
           </section>
+          {flashcards.length > 1 && 
+          <div className="arrow-left" onClick={previous}>
+            <FaArrowLeft  />
+          </div>
+          }
+
+          {flashcards.length > 1 && 
+          <div className="arrow-right" onClick={next}>
+            <FaArrowRight  />
+          </div>
+          }
+
 
           <center className="btnGroup">
-            {flashcards.length > 1 && <FaArrowLeft onClick={previous} />}
             <MdFlipCameraAndroid
               onClick={() => {
                 isHidden ? FO.play() : FC.play();
                 setIsHidden(!isHidden);
               }}
             />
-            {flashcards.length > 1 && <FaArrowRight onClick={next} />}
           </center>
-          <FaArrowRotateLeft
-            id="flip-flip-icon"
-            onClick={changeTermAndDefintion}
-          />
+          <div className="rotate-svg">
+            <FaArrowRotateLeft
+              id="flip-flip-icon"
+              onClick={changeTermAndDefintion}
+            />
+          </div>
         </section>
       ) : (
         <center>
