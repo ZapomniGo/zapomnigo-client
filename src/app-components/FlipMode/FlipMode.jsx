@@ -72,6 +72,7 @@ const Flip = () => {
           <h1 className="counter">
             {counter + 1}/{flashcards.length}
           </h1>
+          
           <section id="card">
             <div id="front">
               <p>{parse(flashcards[counter].term)}</p>
