@@ -225,18 +225,16 @@ export const SetPage = () => {
                 )}
               </div>
               <div className="actions">
-                {/* {localStorage.getItem("access_token") && ( */}
-                  <a
-                    onClick={() =>
-                      flashcards.flashcards.length >= 4
-                        ? navigate(`/app/study/${id}`)
-                        : toast("Учи режимът работи с 4 или повече флашкарти!")
-                    }
-                  >
-                    <FaRegLightbulb />
-                    Учи
-                  </a>
-                {/* )} */}
+                <a
+                  onClick={() =>
+                    flashcards.flashcards.length >= 4
+                      ? navigate(`/app/study/${id}`)
+                      : toast("Учи режимът работи с 4 или повече флашкарти!")
+                  }
+                >
+                  <FaRegLightbulb />
+                  Учи
+                </a>
                 <a href={"/app/flip-set/" + id} className="rotate">
                   <MdContentCopy />
                   Прегледай
