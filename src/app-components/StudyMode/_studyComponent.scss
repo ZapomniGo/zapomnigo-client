@@ -385,6 +385,14 @@
   }
 }
 @media screen and (max-width: 1000px) {
+  .finished-view {
+    img {
+      width: 70vw !important;
+    }
+    button{
+      width:100% !important;
+    }
+  }
   .lvl-check,
   .free-input {
     button {

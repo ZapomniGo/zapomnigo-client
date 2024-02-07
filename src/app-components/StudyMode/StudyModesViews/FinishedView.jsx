@@ -2,22 +2,24 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Confetti from "react-confetti";
 const FinishedView = (props) => {
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = React.useState("");
   React.useEffect(() => {
-    axios.get("https://randomfox.ca/floof/").then((response) => {
-      setImageUrl(response.data.image);
+    axios.get("https://api.thecatapi.com/v1/images/search?limit=1").then((response) => {
+      setImageUrl(response.data[0].url);
     });
   }, []);
   return (
     <section className="finished-view">
+      <Confetti numberOfPieces={100} />
       <h2>
         {" "}
         Машина, железен си! Свърши ученето на {props.flashcards.length}{" "}
         флашкарти, минавайки през тях {props.pastFlashcardsIndexes.length} пъти
       </h2>
-      <p>Ето ти лисичка за награда:</p>
+      <p>Ето ти котка за награда:</p>
       <br />
       <center>
         {" "}
