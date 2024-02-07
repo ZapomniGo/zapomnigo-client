@@ -9,6 +9,8 @@
     color: gray;
     transition: 0.3s;
     margin: 1vmax;
+      width: 3vmax !important;
+      height: 3vmax !important;
   }
   svg:hover {
     color: orange;
@@ -129,6 +131,7 @@
     cursor: pointer;
     justify-content: flex-end;
     width: 10%;
+
   }
 
   .rotate-svg{
