@@ -5,6 +5,7 @@ import { MoreBtn } from "../MoreBtn/MoreBtn";
 import instance from "../../app-utils/axios";
 import { jwtDecode } from "jwt-decode";
 import { FaPlus } from "react-icons/fa6";
+import sanitizeSet from "../../app-utils/sanitizeSet";
 
 export const Sets: React.FC = () => {
   const [setCards, setSetCards] = useState([]);
@@ -31,7 +32,8 @@ export const Sets: React.FC = () => {
         setTotalPages(response.data.total_pages);
         const newCards = [...setCards];
         response.data.sets.forEach((card) => newCards.push(card));
-        setSetCards(newCards);
+        let sanitizedCards = sanitizeSet(newCards);
+        setSetCards(sanitizedCards);
       });
   }, [page]);
 
