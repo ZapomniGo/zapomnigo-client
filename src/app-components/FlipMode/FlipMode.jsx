@@ -150,14 +150,14 @@ const Flip = () => {
           }
 
 
-          <center className="btnGroup">
+          {/* <center className="btnGroup">
             <MdFlipCameraAndroid
               onClick={() => {
                 isHidden ? FO.play() : FC.play();
                 setIsHidden(!isHidden);
               }}
             />
-          </center>
+          </center> */}
           <div className="rotate-svg">
             <FaArrowRotateLeft
               id="flip-flip-icon"
