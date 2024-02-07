@@ -4,6 +4,7 @@ import { LoginData, LoginErrorRecord } from "./types";
 import { initialErrors } from "./utils";
 import instance from "../../../app-utils/axios";
 import { useNavigate } from "react-router-dom";
+import { Footer } from "../../Footer/Footer";
 type ErrorFieldName = keyof LoginErrorRecord;
 
 const validateForm = (data: LoginData): LoginErrorRecord => {
@@ -66,13 +67,7 @@ export const Login = () => {
     ) {
       setBackendError("Грешна парола");
       return;
-    } else if (
-      typeof userData.password === "string" &&
-      !/[\W_]/.test(userData.password)
-    ) {
-      setBackendError("Грешна парола");
-      return;
-    }
+    } 
     try {
       const response = await instance.post(`/login`, userData);
       if (response.status === 200) {

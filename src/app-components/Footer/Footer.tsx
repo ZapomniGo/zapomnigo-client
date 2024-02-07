@@ -4,9 +4,9 @@ import { MdEmail } from "react-icons/md";
 import { SiGmail } from "react-icons/si";
 import { RiTwitterXLine } from "react-icons/ri";
 import Tilty from "react-tilty";
-export const Footer = () => {
+export const Footer = ({prop}) => {
   return (
-    <div id="footer">
+    <div id="footer" className={`${prop}`}>
       <div onClick={()=>window.location.replace('https://www.zapomnigo.com')} className="col-1">
           <div className="footer-logo">
           <Tilty reverse={true} glare={true} max={15} maxGlare={0.7}>

@@ -178,8 +178,7 @@ export const Registration = () => {
         if (
           typeof value === "string" &&
           (value.length < 8 || value.length > 40)
-        ) {
-          errorInfo = {
+        ) {          errorInfo = {
             hasError: true,
             message: "Полето за парола трябва да е между 8-40 символа",
           };
@@ -197,11 +196,6 @@ export const Registration = () => {
           errorInfo = {
             hasError: true,
             message: "Паролата трябва да съдържа поне една цифра",
-          };
-        } else if (typeof value === "string" && !/[\W_]/.test(value)) {
-          errorInfo = {
-            hasError: true,
-            message: "Паролата трябва да съдържа поне един специален символ",
           };
         }
         break;
@@ -331,12 +325,6 @@ export const Registration = () => {
         newErrors.password = {
           hasError: true,
           message: "Паролата трябва да съдържа поне една цифра",
-        };
-        errorsExist = true;
-      } else if (!/[\W_]/.test(userData.password)) {
-        newErrors.password = {
-          hasError: true,
-          message: "Паролата трябва да съдържа поне един специален символ",
         };
         errorsExist = true;
       } else {

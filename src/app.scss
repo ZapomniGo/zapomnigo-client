@@ -58,6 +58,12 @@ body {
   }
 }
 
+.loading-animation{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 
 .container {
   display: flex;
@@ -236,11 +242,12 @@ input[type="submit"]:hover {
 }
 
 #backgroundForm {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background-color: #f1f1f1;
   position: relative;
   overflow-x: hidden;
+  margin-bottom: -5vmax;
 
   .spacer {
     position: absolute;
@@ -495,6 +502,7 @@ a {
     opacity: 1;
   }
 }
+
 
 .ReactTags__suggestions {
   position: absolute;

@@ -28,6 +28,7 @@ import {
   landingPage,
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
+import { Footer } from "./app-components/Footer/Footer";
 import { Provider } from "react-redux";
 import { Sets } from "./app-components/Sets/Sets";
 import { store } from "./app-context/store";
@@ -88,11 +89,22 @@ const router = createBrowserRouter([
       },
       {
         path: registerRoute,
-        element: <Registration />,
+        element:<>
+          <Registration />
+          <div className="footer-form-fix">
+          <Footer prop="form-footer" />
+
+          </div>
+        </> 
       },
       {
         path: loginRoute,
-        element: <Login />,
+        element: <>
+        <Login />
+        <div className="footer-form-fix">
+        <Footer prop="form-footer" />
+        </div>
+      </>
       },
       {
         path: createSetRoute,

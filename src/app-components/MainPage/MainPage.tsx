@@ -134,7 +134,11 @@ export const MainPage: React.FC = () => {
           }, 250);
         })
         .catch((error) => {
+          console.log(error.response.status);
           if (error.response.status === 404) {
+            console.log(error.response.status);
+            console.log("error");
+            setIsFolderLoading(false);
             setHasFolders(false); // Update hasSets if a 404 error is received
           }
           setIsFolderLoading(false);
@@ -156,7 +160,13 @@ export const MainPage: React.FC = () => {
           setTimeout(() => {
             setIsSetLoading(false);
           }, 250);
+        })
+        .catch((error) => {
+          setIsSetLoading(false);
+          setHasSets(false);
         });
+
+        
       setTitle("Разгледай");
 
       instance.get("/categories").then((response) => {
@@ -180,6 +190,10 @@ export const MainPage: React.FC = () => {
           setTimeout(() => {
             setIsFolderLoading(false);
           }, 250);
+        })
+        .catch((error) => {
+          setIsFolderLoading(false);
+          setHasFolders(false);
         });
       setCategoryID("");
       setSubCategories([]);
@@ -272,6 +286,7 @@ export const MainPage: React.FC = () => {
       .catch((error) => {
         if (error.response.status === 404) {
           setHasFolders(false);
+          setIsCategoryLoading(false)
         }
         setIsFolderLoading(false);
       });
@@ -351,21 +366,12 @@ export const MainPage: React.FC = () => {
     setSelectSet(null);
   };
 
-  const [isAccordionVisible, setIsAccordionVisible] = useState(
-    window.innerHeight < window.innerWidth
-  );
+  const [isAccordionVisible, setIsAccordionVisible] = useState(true);
 
   const handleAccordionClick = () => {
     setIsAccordionVisible(!isAccordionVisible);
   };
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   return (
     <Dashboard>

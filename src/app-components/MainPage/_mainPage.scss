@@ -21,6 +21,30 @@
   }
 }
 
+.folder-wrapper{
+  .folder-title {
+    font-size: 27px;
+  }
+  .folder-description{
+    margin-top: 15px;
+  }
+
+  @media screen and (max-width: 1000px) {
+    .folder-title {
+      text-align: center;
+      font-size: 3vmax;
+    }
+    .folder-description{
+      text-align: center;
+      font-size: 2.5vmax;
+      margin-left: 10px !important;
+      margin-right: 10px !important;
+
+    }
+
+  }
+}
+
 .category-wrapper {
   display: flex;
   margin-top: 10px;

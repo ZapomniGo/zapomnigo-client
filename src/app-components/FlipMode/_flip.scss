@@ -36,6 +36,7 @@
     margin-bottom:10vmax;
     margin-top: 20px;
     width: 40%;
+
     p {
       display: flex;
       flex-direction: column;
@@ -46,6 +47,11 @@
       margin: 15px 0;
       width: 60%;
       height: auto;
+      user-select: none !important;
+      -webkit-user-drag: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
     }
 
     #front {

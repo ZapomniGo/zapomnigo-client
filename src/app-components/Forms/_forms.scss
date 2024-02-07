@@ -77,3 +77,20 @@
     }
   }
 }
+
+
+.footer-form-fix{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  #footer{
+    width: calc(100vw - 102px);
+    // margin-left: 5.1vmax;
+  }
+}
+
+
+// .form-footer{
+//   width: 94.88% !important;
+//   margin-left: 5.1vmax;
+// }
