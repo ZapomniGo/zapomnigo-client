@@ -6,11 +6,22 @@ import Confetti from "react-confetti";
 const FinishedView = (props) => {
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = React.useState("");
+  const [hideButton, setHideButton] = React.useState(false);
   React.useEffect(() => {
-    axios.get("https://api.thecatapi.com/v1/images/search?limit=1").then((response) => {
-      setImageUrl(response.data[0].url);
-    });
+    axios
+      .get("https://api.thecatapi.com/v1/images/search?limit=1")
+      .then((response) => {
+        setImageUrl(response.data[0].url);
+      });
   }, []);
+  const changeImg = () => {
+    setHideButton(true);
+    axios
+      .get("https://api.thedogapi.com/v1/images/search?limit=1")
+      .then((response) => {
+        setImageUrl(response.data[0].url);
+      });
+  };
   return (
     <section className="finished-view">
       <Confetti numberOfPieces={100} />
@@ -39,6 +50,9 @@ const FinishedView = (props) => {
       >
         Учи отново
       </button>
+      {!hideButton ? (
+        <button onClick={changeImg}>Предпочитам кучета</button>
+      ) : null}
     </section>
   );
 };
