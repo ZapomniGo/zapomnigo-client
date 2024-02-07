@@ -27,7 +27,6 @@ const Flip = () => {
         if (error.response.status === 404) {
           window.location.href = "/app/not-found";
         }
-        console.error(error);
       });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
