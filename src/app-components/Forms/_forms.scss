@@ -95,25 +95,53 @@
 //   margin-left: 5.1vmax;
 // }
 
+input:-webkit-autofill{
+  -webkit-text-fill-color: #000 !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
 .password-test{
   display: flex;
   align-items: center;
   .password-svg{
-    height: 7vh;
+    height: 3vmax;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: red;
+    // background-color: rgb(233	240	253)	;
+    cursor: pointer;
+    border-bottom: 1px solid $secondary-color;
+
+
 
     svg{
+      height: 2vh;
+      width: 3.5vh;
+      padding-right: 5px;
       margin: 0 !important;
       // height: 3.3rem !important;
       // right: 0;
       margin-right: 100px;
       position: relative;
-      border-bottom: 1px solid red;
   
       margin-right: 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 750px){
+  .password-test{
+    .password-svg{
+      height: 7vh;
+      svg{
+        margin-right: 10px;
+      }
     }
   }
 }

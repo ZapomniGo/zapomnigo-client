@@ -14,10 +14,14 @@ import { DataError, UserData } from "../../../app-common/types";
 import instance from "../../../app-utils/axios";
 import { useNavigate } from "react-router-dom";
 import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
+
 
 
 export const Registration = () => {
   const navigate = useNavigate();
+  const [password, setPassword] = useState("password"); 
+
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
       navigate("/app/home");
@@ -396,6 +400,14 @@ export const Registration = () => {
     setSelectedValue(event.target.value);
   };
 
+  const viewPassword = () => {
+    if(password === "password"){
+      setPassword("text")
+    } else if (password === "text"){
+      setPassword("password")
+    }
+  }
+
   return (
     <div id="backgroundForm">
       <Background />
@@ -483,7 +495,7 @@ export const Registration = () => {
               </p>
               <div className="password-test">
                 <input
-                  type="password"
+                  type={password}
                   placeholder="Парола"
                   name="password"
                   minLength={8}
@@ -492,9 +504,8 @@ export const Registration = () => {
                   className={errors.password.hasError ? "error" : ""}
                   onChange={(e) => validateField("password", e.target.value)}
                 />
-                <div className="password-svg">
-                <FaRegEye />
-
+                <div className="password-svg" onClick={viewPassword}>
+                {password === "password" ? <FaRegEye /> : <FaRegEyeSlash />}
                 </div>
               </div>
 

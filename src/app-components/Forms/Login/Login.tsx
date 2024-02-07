@@ -4,8 +4,10 @@ import { LoginData, LoginErrorRecord } from "./types";
 import { initialErrors } from "./utils";
 import instance from "../../../app-utils/axios";
 import { useNavigate } from "react-router-dom";
-import { Footer } from "../../Footer/Footer";
 type ErrorFieldName = keyof LoginErrorRecord;
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
+
 
 const validateForm = (data: LoginData): LoginErrorRecord => {
   return {
@@ -122,6 +124,16 @@ export const Login = () => {
     navigate("/app/forgot-password");
   };
 
+  const [password, setPassword] = useState("password"); 
+
+  const viewPassword = () => {
+    if(password === "password"){
+      setPassword("text")
+    } else if (password === "text"){
+      setPassword("password")
+    }
+  }
+
   return (
     <div id="backgroundForm">
       <Background />
@@ -146,15 +158,20 @@ export const Login = () => {
                 ? errors.email_or_username.message
                 : ""}
             </p>
+            <div className="password-test">
 
             <input
-              type="password"
+              type={password}
               name="password"
               placeholder="Парола"
               value={userData.password}
               onChange={formHandler}
               className={errors.password.hasError ? "error" : ""}
             />
+            <div className="password-svg" onClick={viewPassword}>
+                {password === "password" ? <FaRegEye /> : <FaRegEyeSlash />}
+                </div>
+            </div>
             <a className="link" style={{marginLeft:"0.5vmax"}} onClick={handleForgotPassword}>
               Забравена парола
             </a>
