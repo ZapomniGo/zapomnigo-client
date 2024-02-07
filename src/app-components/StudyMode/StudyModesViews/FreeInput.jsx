@@ -18,8 +18,6 @@ const FreeInput = (props) => {
       document.removeEventListener("keydown", handleEnterPress);
     };
   }, [answer]);
-
-
   React.useEffect(() => {
     setAnswer("");
     setShowResults(false);
