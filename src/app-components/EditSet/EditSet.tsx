@@ -16,6 +16,7 @@ import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { jwtDecode } from "jwt-decode";
+import sanitizeSet from "../../app-utils/sanitizeSet";
 
 export const EditSet = () => {
   useEffect(() => {
@@ -64,7 +65,7 @@ export const EditSet = () => {
       .then((response) => {
         loadFlashcards(response.data.set.flashcards);
         setTitle(response.data.set.set_name);
-        setDescription(response.data.set.set_description);
+        setDescription(response.data.set.set_description || "");
         setSubcategory({ name: response.data.set.subcategory_name, id: "" });
         setCategory({ name: response.data.set.category_name, id: "" });
       })
@@ -159,10 +160,10 @@ export const EditSet = () => {
       document
         .getElementById(problematicFlashcard.flashcard_id)
         .scrollIntoView({
-          behavior: 'auto',
-          block: 'center',
-          inline: 'center'
-      });
+          behavior: "auto",
+          block: "center",
+          inline: "center",
+        });
       return;
     }
     if (flashcards.find((flashcard) => isEmpty(flashcard.definition))) {
@@ -173,10 +174,10 @@ export const EditSet = () => {
       document
         .getElementById(problematicFlashcard.flashcard_id)
         .scrollIntoView({
-          behavior: 'auto',
-          block: 'center',
-          inline: 'center'
-      });
+          behavior: "auto",
+          block: "center",
+          inline: "center",
+        });
 
       return;
     }
@@ -196,19 +197,19 @@ export const EditSet = () => {
       document
         .getElementById(problematicFlashcard.flashcard_id)
         .scrollIntoView({
-          behavior: 'auto',
-          block: 'center',
-          inline: 'center'
-      });
+          behavior: "auto",
+          block: "center",
+          inline: "center",
+        });
       return;
     }
+    let flashcardsFinal = sanitizeSet(flashcards);
 
-    //check if the tags are not empty
     instance
       .put(`/sets/${id}`, {
         set_name: title,
         set_description: description,
-        flashcards: flashcards,
+        flashcards: flashcardsFinal,
         set_category: category.id ? category.id : categoryIdRef.current,
         set_subcategory: subcategory.id
           ? subcategory.id

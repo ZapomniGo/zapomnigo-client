@@ -11,6 +11,7 @@ import { FLASHCARD_DIRECTIONS } from "./types";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import instance from "../../app-utils/axios";
+import sanitizeSet from "../../app-utils/sanitizeSet";
 import FlashcardImportModal from "../ImportModal/FlashcardImportModal";
 import { useNavigate } from "react-router-dom";
 import { convert } from "html-to-text";
@@ -154,12 +155,13 @@ export const CreateSet = () => {
       });
       return;
     }
+    let flashcardsFinal = sanitizeSet(flashcards);
     // check if the tags are not empty
     instance
       .post("/sets", {
         set_name: title,
         set_description: description,
-        flashcards: flashcards,
+        flashcards: flashcardsFinal,
         set_category: category,
         set_subcategory: subcategory,
       })
