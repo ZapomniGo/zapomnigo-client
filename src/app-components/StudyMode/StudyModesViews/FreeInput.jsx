@@ -19,9 +19,6 @@ const FreeInput = (props) => {
     };
   }, [answer]);
 
-  // useEffect(() => {
-  //   console.log(showResults);
-  // }, [showResults]);
 
   React.useEffect(() => {
     setAnswer("");
