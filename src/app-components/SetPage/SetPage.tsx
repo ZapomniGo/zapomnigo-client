@@ -15,13 +15,15 @@ import { useNavigate } from "react-router-dom";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import { toast, ToastContainer } from "react-toastify";
 import { FaPlus } from "react-icons/fa6";
-import { all } from "axios";
+import { FaFontAwesomeFlag } from "react-icons/fa";
 
 export const SetPage = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [flashcards, setFlashcards] = useState("");
-  const [sortingOrder, setSortingOrder] = useState<string>("&sort_by_date=true&ascending=true");
+  const [sortingOrder, setSortingOrder] = useState<string>(
+    "&sort_by_date=true&ascending=true"
+  );
   const [username, setUsername] = useState("");
   const [creator, setCreator] = useState("no one yet");
   const [page, setPage] = useState(1);
@@ -189,6 +191,27 @@ export const SetPage = () => {
       setCreator(decodedToken.username);
     }
   }, []);
+  const report = () => {
+    let reason = prompt("Защо смятате, че това тесте е неподходящо?");
+    if (reason === null) {
+      alert("Не сте въвели причина");
+      return;
+    }
+    if (reason) {
+      instance
+        .post(`/sets/${id}/report`, {
+          reason: reason,
+        })
+        .then((response) => {
+          toast("Благодарим за сигнала!");
+        })
+        .catch((error) => {
+          toast(
+            "Имаше грешка при изпращането на сигнала, пробвай отново по-късно"
+          );
+        });
+    }
+  };
 
   return (
     <Dashboard>
@@ -198,7 +221,8 @@ export const SetPage = () => {
           <div id="set-page">
             <div className="set-info">
               <div className="set-title">
-                <h1>{flashcards.set_name}</h1>
+                <h1>{flashcards.set_name}</h1>{" "}
+                {/* <FaFontAwesomeFlag onClick={report} className="miniReport" /> */}
                 {flashcards && flashcards.organization ? (
                   <div
                     className={`set-institution ${
@@ -271,22 +295,22 @@ export const SetPage = () => {
             </div>
             <div className="cards-info">
               <div className="cards-info-header">
-              <h2>Флашкарти ({flashcards ? totalItems : "Зареждане..."})</h2>
+                <h2>Флашкарти ({flashcards ? totalItems : "Зареждане..."})</h2>
 
                 {flashcards.flashcards.length > 1 ? (
-                <select onChange={handleFilterChange}>
-                  <option value="&sort_by_date=true&ascending=true">
-                    По подразбиране
-                  </option>
-                  <option value="&sort_by_date=false&ascending=true">
-                    По азбучен ред(А-Я)
-                  </option>
-                  <option value="&sort_by_date=false&ascending=false">
-                    По азбучен ред(Я-А)
-                  </option>
-                </select>
+                  <select onChange={handleFilterChange}>
+                    <option value="&sort_by_date=true&ascending=true">
+                      По подразбиране
+                    </option>
+                    <option value="&sort_by_date=false&ascending=true">
+                      По азбучен ред(А-Я)
+                    </option>
+                    <option value="&sort_by_date=false&ascending=false">
+                      По азбучен ред(Я-А)
+                    </option>
+                  </select>
                 ) : (
-                  " " 
+                  " "
                 )}
               </div>
               {flashcards.flashcards.map((flashcard) => (
