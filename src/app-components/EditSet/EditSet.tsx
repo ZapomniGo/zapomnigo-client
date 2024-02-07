@@ -16,7 +16,6 @@ import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { jwtDecode } from "jwt-decode";
-import { all } from "axios";
 
 export const EditSet = () => {
   useEffect(() => {
@@ -60,18 +59,20 @@ export const EditSet = () => {
     // instance.get("/organizations").then((response) => {
     //   setAllInstitutions(response.data.organizations);
     // });
-    instance.get(`/sets/${id}?size=2000` + filter).then((response) => {
-      loadFlashcards(response.data.set.flashcards);
-      setTitle(response.data.set.set_name);
-      setDescription(response.data.set.set_description);
-      setSubcategory({ name: response.data.set.subcategory_name, id: "" });
-      setCategory({ name: response.data.set.category_name, id: "" });
-    })
-    .catch((error) => {
-      if (error.response.status === 404) {
-        window.location.href = "/app/not-found";
-      }
-    });
+    instance
+      .get(`/sets/${id}?size=2000` + filter)
+      .then((response) => {
+        loadFlashcards(response.data.set.flashcards);
+        setTitle(response.data.set.set_name);
+        setDescription(response.data.set.set_description);
+        setSubcategory({ name: response.data.set.subcategory_name, id: "" });
+        setCategory({ name: response.data.set.category_name, id: "" });
+      })
+      .catch((error) => {
+        if (error.response.status === 404) {
+          window.location.href = "/app/not-found";
+        }
+      });
   }, []);
   const isEmpty = (string: string) => {
     if (string.length === 0) {
@@ -95,22 +96,20 @@ export const EditSet = () => {
   const subcategoryIdRef = useRef(null);
 
   useEffect(() => {
-
-      const selectedCategory = allCategories.find(
-        (cat) => cat.category_name === category.name
-      );
-      if(selectedCategory === undefined) {
-        categoryIdRef.current = null;
-        if(categoryIdRef.current === null){
-          subcategoryIdRef.current = null;
-          subcategory.name = null;
-        }
-      } 
-      else{
-        categoryIdRef.current = selectedCategory.category_id;
+    const selectedCategory = allCategories.find(
+      (cat) => cat.category_name === category.name
+    );
+    if (selectedCategory === undefined) {
+      categoryIdRef.current = null;
+      if (categoryIdRef.current === null) {
+        subcategoryIdRef.current = null;
+        subcategory.name = null;
       }
-    
-    if(subcategory.name === ''){
+    } else {
+      categoryIdRef.current = selectedCategory.category_id;
+    }
+
+    if (subcategory.name === "") {
       subcategoryIdRef.current = null;
     }
 
@@ -119,15 +118,13 @@ export const EditSet = () => {
         (inst) => inst.subcategory_name === subcategory.name
       );
 
-      if (selectedSubCategory.subcategory_id === '') {
+      if (selectedSubCategory.subcategory_id === "") {
         subcategoryIdRef.current = null;
       } else {
         subcategoryIdRef.current = selectedSubCategory.subcategory_id;
       }
     }
   }, [allCategories, subcategory, category]);
-
-
 
   const handleSubmit = () => {
     if (title.length === 0) {
@@ -148,20 +145,41 @@ export const EditSet = () => {
       return;
     }
     //check if the flashcards are not empty
-    if (flashcards.length > 3000) {
-      toast("Картите трябва да са под 3000");
+    if (flashcards.length > 2000) {
+      toast("Картите трябва да са под 2000");
       return;
     }
     //check if each flashcard has a term and a description using isEmpty function
     if (flashcards.find((flashcard) => isEmpty(flashcard.term))) {
       toast("Някоя от картите няма термин");
+      let problematicFlashcard = flashcards.find((flashcard) =>
+        isEmpty(flashcard.term)
+      );
+
+      document
+        .getElementById(problematicFlashcard.flashcard_id)
+        .scrollIntoView({
+          behavior: 'auto',
+          block: 'center',
+          inline: 'center'
+      });
       return;
     }
     if (flashcards.find((flashcard) => isEmpty(flashcard.definition))) {
       toast("Някоя от картите няма дефиниция");
+      let problematicFlashcard = flashcards.find((flashcard) =>
+        isEmpty(flashcard.definition)
+      );
+      document
+        .getElementById(problematicFlashcard.flashcard_id)
+        .scrollIntoView({
+          behavior: 'auto',
+          block: 'center',
+          inline: 'center'
+      });
+
       return;
     }
-    //check if any flashcard has more than 2000 characters
     if (
       flashcards.find(
         (flashcard) =>
@@ -170,6 +188,18 @@ export const EditSet = () => {
       )
     ) {
       toast("Някоя от картите е с поле с повече от 10000 символа");
+      let problematicFlashcard = flashcards.find(
+        (flashcard) =>
+          flashcard.term.replace(/<[^>]+>/g, "").length > 10000 ||
+          flashcard.definition.replace(/<[^>]+>/g, "").length > 10000
+      );
+      document
+        .getElementById(problematicFlashcard.flashcard_id)
+        .scrollIntoView({
+          behavior: 'auto',
+          block: 'center',
+          inline: 'center'
+      });
       return;
     }
 
@@ -180,7 +210,9 @@ export const EditSet = () => {
         set_description: description,
         flashcards: flashcards,
         set_category: category.id ? category.id : categoryIdRef.current,
-        set_subcategory: subcategory.id ? subcategory.id : subcategoryIdRef.current,
+        set_subcategory: subcategory.id
+          ? subcategory.id
+          : subcategoryIdRef.current,
       })
       .then((response) => {
         toast("Редакцията е готова");
@@ -193,16 +225,62 @@ export const EditSet = () => {
   };
 
   const search = (query: string) => {
-    const url = "http://www.google.com/search?q=" + query;
-    window.open(url, "_blank");
+    if (query.term === "" && query.definition === "") {
+      toast("Няма термин или дефиниция");
+      return;
+    }
+    const shorterText =
+      query.term.length <= query.definition.length
+        ? query.term
+        : query.definition;
+    if (shorterText.length == 0) {
+      shorterText =
+        query.term.length >= query.definition.length
+          ? query.term
+          : query.definition;
+    }
+
+    if (shorterText.length > 100) {
+      toast("Терминът или дефиницията са прекалено дълги за търсене");
+      return;
+    }
+
+    if (
+      shorterText.includes("<img") ||
+      shorterText.includes("<video") ||
+      shorterText.includes("<audio") ||
+      shorterText.includes("<iframe")
+    ) {
+      //check if the other text doesn't also contain problematic tags
+      const otherText =
+        shorterText === query.term ? query.definition : query.term;
+      if (
+        otherText.includes("<img") ||
+        otherText.includes("<video") ||
+        otherText.includes("<audio") ||
+        otherText.includes("<iframe")
+      ) {
+        toast("Търсенето не е възможно");
+        return;
+      } else {
+        console.log("searching for 1", otherText);
+        const url = "http://www.google.com/search?q=" + convert(otherText);
+        window.open(url, "_blank");
+        return;
+      }
+    } else {
+      console.log("searching for 2", shorterText);
+      const url = "http://www.google.com/search?q=" + convert(shorterText);
+      window.open(url, "_blank");
+    }
   };
-
   const getSubcategories = (category_id) => {
-    instance.get(`/categories/${category_id}/subcategories`).then((response) => {
-      setAllSubcategories(response.data.subcategories);
-    });
-
-  }
+    instance
+      .get(`/categories/${category_id}/subcategories`)
+      .then((response) => {
+        setAllSubcategories(response.data.subcategories);
+      });
+  };
 
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
@@ -216,27 +294,26 @@ export const EditSet = () => {
       }
     }
   }, [category, allCategories]);
-  
+
   useEffect(() => {
     if (selectedCategoryId) {
       getSubcategories(selectedCategoryId);
     }
   }, [selectedCategoryId]);
   useEffect(() => {
-    const selectedSubcategory = allSubcategories.find(subcategoryItem => {
+    const selectedSubcategory = allSubcategories.find((subcategoryItem) => {
       return subcategoryItem.subcategory_name === subcategory.name;
     });
-    
+
     if (selectedSubcategory) {
       const selectedSubcategoryId = selectedSubcategory.subcategory_id;
       setSubcategory({ name: subcategory.name, id: selectedSubcategoryId });
     }
   }, [allSubcategories]);
 
-
   const resetSubcategory = () => {
     setAllSubcategories([]);
-  }
+  };
 
   return (
     <Dashboard>
@@ -269,7 +346,10 @@ export const EditSet = () => {
                   );
                   resetSubcategory();
 
-                  {selectedCategory != undefined && getSubcategories(selectedCategory.category_id)}
+                  {
+                    selectedCategory != undefined &&
+                      getSubcategories(selectedCategory.category_id);
+                  }
                   setCategory({
                     name: selectedCategory
                       ? selectedCategory.category_name
@@ -313,7 +393,8 @@ export const EditSet = () => {
                     key={index}
                     value={allSubc.subcategory_id}
                     selected={
-                      subcategory && subcategory.name === allSubc.subcategory_name
+                      subcategory &&
+                      subcategory.name === allSubc.subcategory_name
                     }
                   >
                     {allSubc.subcategory_name}
@@ -367,16 +448,21 @@ export const EditSet = () => {
                   ) : (
                     ""
                   )}
-                  {!isEmpty(flashcard.term) ? (
+                  {!isEmpty(flashcard.term) ||
+                  !isEmpty(flashcard.definition) ? (
                     <>
-                      <IoSearch onClick={() => search(flashcard.term)} />
+                      <IoSearch onClick={() => search(flashcard)} />
                     </>
                   ) : (
                     ""
                   )}
                 </div>
               </div>{" "}
-              <div key={index} className="flashcard">
+              <div
+                key={index}
+                className="flashcard"
+                id={flashcard.flashcard_id}
+              >
                 <Editor
                   placeholder={"Термин"}
                   value={flashcard.term}

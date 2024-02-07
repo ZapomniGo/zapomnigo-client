@@ -38,6 +38,8 @@ export const CreateSet = () => {
     handleOnImportFlashcards,
   } = useFlashcards();
 
+
+
   useEffect(() => {
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
@@ -81,20 +83,53 @@ export const CreateSet = () => {
     }
     //check if the flashcards are not empty
     if (flashcards.length === 0) {
+      let emptyFlashcard = flashcards.find((flashcard) =>
+        isEmpty(flashcard.term)
+      );
+      document.getElementById(emptyFlashcard.flashcard_id).scrollIntoView({
+        behavior: "auto",
+        block: "center",
+        inline: "center",
+      });
       toast("Поне една карта трябва да се въведе");
       return;
     }
     //check if the flashcards are not empty
     if (flashcards.length > 3000) {
+      let emptyFlashcard = flashcards.find((flashcard) =>
+        isEmpty(flashcard.term)
+      );
+      document.getElementById(emptyFlashcard.flashcard_id).scrollIntoView({
+        behavior: "auto",
+        block: "center",
+        inline: "center",
+      });
+
       toast("Картите трябва да са под 3000");
       return;
     }
     //check if each flashcard has a term and a description using isEmpty function
     if (flashcards.find((flashcard) => isEmpty(flashcard.term))) {
+      let emptyFlashcard = flashcards.find((flashcard) =>
+        isEmpty(flashcard.term)
+      );
+      document.getElementById(emptyFlashcard.flashcard_id).scrollIntoView({
+        behavior: "auto",
+        block: "center",
+        inline: "center",
+      });
       toast("Някоя от картите няма термин");
       return;
     }
     if (flashcards.find((flashcard) => isEmpty(flashcard.definition))) {
+      let emptyFlashcard = flashcards.find((flashcard) =>
+        isEmpty(flashcard.definition)
+      );
+      document.getElementById(emptyFlashcard.flashcard_id).scrollIntoView({
+        behavior: "auto",
+        block: "center",
+        inline: "center",
+      });
       toast("Някоя от картите няма дефиниция");
       return;
     }
@@ -107,6 +142,16 @@ export const CreateSet = () => {
       )
     ) {
       toast("Някоя от картите е с поле с повече от 10000 символа");
+      let longFlashcard = flashcards.find(
+        (flashcard) =>
+          flashcard.term.replace(/<[^>]+>/g, "").length > 10000 ||
+          flashcard.definition.replace(/<[^>]+>/g, "").length > 10000
+      );
+      document.getElementById(longFlashcard.flashcard_id).scrollIntoView({
+        behavior: "auto",
+        block: "center",
+        inline: "center",
+      });
       return;
     }
     // check if the tags are not empty
@@ -120,7 +165,7 @@ export const CreateSet = () => {
       })
       .then((response) => {
         toast("Добре дошъл в новото си тесте");
-          navigate("/app/set/" + response.data.set_id);
+        navigate("/app/set/" + response.data.set_id);
         window.scrollTo(0, 0);
       })
       .catch((error) => {
@@ -128,11 +173,55 @@ export const CreateSet = () => {
       });
   };
 
-
-
   const search = (query: string) => {
-    const url = "http://www.google.com/search?q=" + convert(query);
-    window.open(url, "_blank");
+    if (query.term === "" && query.definition === "") {
+      toast("Няма термин или дефиниция");
+      return;
+    }
+    const shorterText =
+      query.term.length <= query.definition.length
+        ? query.term
+        : query.definition;
+    if (shorterText.length == 0) {
+      shorterText =
+        query.term.length >= query.definition.length
+          ? query.term
+          : query.definition;
+    }
+
+    if (shorterText.length > 100) {
+      toast("Терминът или дефиницията са прекалено дълги за търсене");
+      return;
+    }
+
+    if (
+      shorterText.includes("<img") ||
+      shorterText.includes("<video") ||
+      shorterText.includes("<audio") ||
+      shorterText.includes("<iframe")
+    ) {
+      //check if the other text doesn't also contain problematic tags
+      const otherText =
+        shorterText === query.term ? query.definition : query.term;
+      if (
+        otherText.includes("<img") ||
+        otherText.includes("<video") ||
+        otherText.includes("<audio") ||
+        otherText.includes("<iframe")
+      ) {
+        toast("Търсенето не е възможно");
+        return;
+      } else {
+        console.log("searching for 1", otherText);
+        const url = "http://www.google.com/search?q=" + convert(otherText);
+        window.open(url, "_blank");
+        return;
+      }
+    } else {
+      console.log("searching for 2", shorterText);
+      const url = "http://www.google.com/search?q=" + convert(shorterText);
+      window.open(url, "_blank");
+    }
   };
 
   const getSubcategories = (category_id) => {
@@ -189,7 +278,9 @@ export const CreateSet = () => {
                 ))}
               </select>
               <select
-                onChange={(e) => {setSubcategory(e.target.value);}}
+                onChange={(e) => {
+                  setSubcategory(e.target.value);
+                }}
                 defaultValue=""
                 id="institution"
                 name="institution"
@@ -248,16 +339,21 @@ export const CreateSet = () => {
                   ) : (
                     ""
                   )}
-                  {!isEmpty(flashcard.term) ? (
+                  {!isEmpty(flashcard.term) ||
+                  !isEmpty(flashcard.definition) ? (
                     <>
-                      <IoSearch onClick={() => search(flashcard.term)} />
+                      <IoSearch onClick={() => search(flashcard)} />
                     </>
                   ) : (
                     ""
                   )}
                 </div>
               </div>{" "}
-              <div key={index} className="flashcard">
+              <div
+                key={index}
+                className="flashcard"
+                id={flashcard.flashcard_id}
+              >
                 <Editor
                   placeholder={"Термин"}
                   value={flashcard.term}

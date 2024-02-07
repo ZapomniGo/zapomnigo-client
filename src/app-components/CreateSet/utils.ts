@@ -56,13 +56,33 @@ const useFlashcards = () => {
 
   const handleDuplicateFlashcard = (flashcard_id: string) => {
     setFlashcards((prevFlashcards) => {
-      let duplicate = prevFlashcards.find(
+      const flashcardIndex = prevFlashcards.findIndex(
         (flashcard) => flashcard.flashcard_id === flashcard_id
       );
 
-      duplicate = { ...duplicate!, flashcard_id: uuidv4() };
-      return duplicate ? [...prevFlashcards, duplicate] : prevFlashcards;
+      if (flashcardIndex === -1) {
+        return prevFlashcards;
+      }
+
+      const duplicatedFlashcard = {
+        ...prevFlashcards[flashcardIndex],
+        flashcard_id: uuidv4(),
+      };
+
+      const newFlashcards = [...prevFlashcards];
+      newFlashcards.splice(flashcardIndex + 1, 0, duplicatedFlashcard);
+      //scroll to the new flashcard
+      scrollUserToFlashcard(duplicatedFlashcard.flashcard_id);
+      return newFlashcards;
     });
+  };
+  const scrollUserToFlashcard = (flashcard_id: string) => {
+    setTimeout(() => {
+      const flashcardElement = document.getElementById(flashcard_id);
+      if (flashcardElement) {
+        flashcardElement.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 10);
   };
 
   const handleFlipFlashcard = (flashcard_id: string) => {
@@ -103,7 +123,8 @@ const useFlashcards = () => {
     if (inputString[inputString.length - 1] === delimiter) {
       inputString = inputString.slice(0, inputString.length - 1);
     }
-    let newArr = inputString.split(delimeter2.trim())
+    let newArr = inputString
+      .split(delimeter2.trim())
       .map((item) => item.split(delimiter.trim()));
 
     let newFlashcards = newArr.map((item) => ({
@@ -111,7 +132,10 @@ const useFlashcards = () => {
       definition: item[1],
       flashcard_id: uuidv4(),
     }));
-    if (newFlashcards[newFlashcards.length - 1].term === "" || newFlashcards[newFlashcards.length - 1].definition === "") {
+    if (
+      newFlashcards[newFlashcards.length - 1].term === "" ||
+      newFlashcards[newFlashcards.length - 1].definition === ""
+    ) {
       newFlashcards.pop();
     }
 

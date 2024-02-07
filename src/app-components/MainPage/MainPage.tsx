@@ -79,7 +79,11 @@ export const MainPage: React.FC = () => {
           setIsFolderLoading(false);
         }, 250);
         setTimeout(() => {
-          document.getElementById(lastFolderId).scrollIntoView();
+          document.getElementById(lastFolderId).scrollIntoView({
+            behavior: 'auto',
+            block: 'center',
+            inline: 'center'
+        });
         }, 500);
       });
   };
