@@ -1,0 +1,18 @@
+#wrapperManual {
+  margin-left: 10vmax;
+  margin-right: 10vmax;
+  margin-top: 3vmax;
+}
+@media screen and (max-width: 768px) {
+  #wrapperManual {
+    margin-left: 5vmax;
+    margin-right: 5vmax;
+    padding-top: 10vmax;
+  }
+}
+.flashcard-design-panel {
+  background-color: white;
+  border-radius: 5px;
+  padding: 1vmax;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}

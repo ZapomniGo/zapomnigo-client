@@ -20,10 +20,10 @@
     margin-top: 1vmax;
 
     .category-title {
-      width:95%;
+      width: 95%;
       margin-bottom: 10px;
       display: flex;
-      margin-left:1vmax !important;
+      margin-left: 1vmax !important;
       align-items: center;
       a {
         display: flex;
@@ -59,7 +59,7 @@
         cursor: pointer;
         transition: 0.3s;
       }
-      .pen{
+      .pen {
         svg {
           width: 30px;
           color: gray;
@@ -67,7 +67,7 @@
       }
 
       @media screen and (max-width: 1000px) {
-        .miniLabel{
+        .miniLabel {
           font-size: 11px;
         }
         svg {
@@ -78,7 +78,7 @@
           cursor: pointer;
           transition: 0.3s;
         }
-        .pen{
+        .pen {
           svg {
             width: 20px;
             color: gray;
@@ -88,11 +88,11 @@
       svg:hover {
         color: orange;
       }
-      a{
+      a {
         display: flex;
       }
-      
-      .btnEdit{
+
+      .btnEdit {
         padding-right: 15px;
         display: flex;
       }
@@ -108,7 +108,18 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   }
 }
-
+#question-btn {
+  position: fixed;
+  bottom: 1vmax;
+  right: 1vmax;
+  font-size: 3.5vmax;
+  color: gray;
+  z-index: 100;
+  transition: 0.2s;
+  &:hover {
+    color: orange;
+  }
+}
 @media only screen and (max-width: 1000px) {
   .card-section {
     margin-top: 8vh;
@@ -138,7 +149,7 @@
       opacity: 1 !important;
     }
   }
-  .btnWrapper{
+  .btnWrapper {
     margin-left: 10px;
   }
 }

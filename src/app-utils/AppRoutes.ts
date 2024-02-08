@@ -21,6 +21,7 @@ const folderEdit = "/app/edit-folder/:id";
 const folderCreate = "/app/create-folder";
 const landingPage = "/";
 const flipMode = "/app/flip-set/:id";
+const manual = "/app/manual";
 
 
 export {
@@ -47,4 +48,5 @@ export {
   folderEdit,
   folderCreate,
   landingPage,
+  manual
 };
