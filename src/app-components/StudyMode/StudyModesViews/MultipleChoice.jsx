@@ -14,12 +14,6 @@ const MultipleChoice = (props) => {
     let answerOptions = [];
     let answerOptionsSet = [];
     answerOptionsSet.push(props.currentFlashcardDefinition);
-    if (props.flashcards.length < 2) {
-      alert(
-        "Няма достатъчно флашкарти за да се използва този режим. Моля изберете друг!"
-      );
-      return;
-    }
     let numAnswers = 4;
     while (answerOptionsSet.length < numAnswers) {
       let randomIndex = Math.floor(Math.random() * props.flashcards.length);
@@ -41,11 +35,11 @@ const MultipleChoice = (props) => {
 
   useEffect(() => {
     const handleEnterPress = (e) => {
-      if (e.keyCode === 13) {
-        props.VerifyCorrectness(selectedAnswer, 1);
-        setSelectedAnswer();
-        setShowResults(false);
-      }
+      // if (e.keyCode === 13) {
+      //   props.VerifyCorrectness(selectedAnswer, 1);
+      //   setSelectedAnswer();
+      //   setShowResults(false);
+      // }
     };
     document.addEventListener("keydown", handleEnterPress);
     return () => {
