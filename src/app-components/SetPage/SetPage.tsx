@@ -218,6 +218,25 @@ export const SetPage = () => {
     toast("Това тесте е проверено и одобрено от ЗапомниГо");
   };
 
+  const Study = () => {
+    console.log(token)
+    if(token === null){
+      navigate("/app/login");
+      toast("Трябва да влезете а акаунта си, за да учите")
+    } else{
+      flashcards.flashcards.length >= 4
+        ? navigate(`/app/study/${id}`)
+        : toast("Учи режимът работи с 4 или повече флашкарти!")
+    }
+    
+    
+    
+  }
+
+  useEffect(() => {
+    console.log(setCreator);
+  }, [setCreator]);
+
   return (
     <Dashboard>
       <>
@@ -279,10 +298,7 @@ export const SetPage = () => {
               </div>
               <div className="actions">
                 <a
-                  onClick={() =>
-                    flashcards.flashcards.length >= 4
-                      ? navigate(`/app/study/${id}`)
-                      : toast("Учи режимът работи с 4 или повече флашкарти!")
+                  onClick={() =>{Study();}
                   }
                 >
                   <FaRegLightbulb />
