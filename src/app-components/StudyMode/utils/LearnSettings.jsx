@@ -1,11 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TbSettings } from "react-icons/tb";
 
 const LearnSettings = (props) => {
   const [toggleOpen, setToggleOpen] = useState(false);
+  const [isMsgShown, setIsMsgShown] = useState(true);
+
+  const handleClose = () => {
+    setIsMsgShown(false)
+    localStorage.setItem('settingsMsg', 'true');
+  }
+
+  useEffect(() => {
+    const isMsgShown = localStorage.getItem('settingsMsg');
+    if (isMsgShown) {
+      setIsMsgShown(false);
+    }
+  }, []);
 
   return (
     <div className="settings-study">
+      {isMsgShown && 
+          <div className="msg-box" onClick={handleClose}>
+              <p>Можеш да си избереш режим не учене от тук:</p>
+              <button onClick={handleClose}> X</button>
+          </div>
+      }
+
       {toggleOpen && (
         <div className="settings-menu">
           <h3>Настройки на режим учи</h3>
