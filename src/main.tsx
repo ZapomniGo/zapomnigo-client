@@ -99,12 +99,13 @@ const router = createBrowserRouter([
       },
       {
         path: loginRoute,
-        element: <>
-        <Login />
-        <div className="footer-form-fix">
-        <Footer prop="form-footer" />
-        </div>
-      </>
+        element: 
+        <>
+          <Login />
+          <div className="footer-form-fix">
+          <Footer prop="form-footer" />
+          </div>
+        </>
       },
       {
         path: createSetRoute,
@@ -116,7 +117,13 @@ const router = createBrowserRouter([
       },
       {
         path: verifyEmailRoute,
-        element: <VerifyEmail />,
+        element:
+        <>
+        <VerifyEmail />
+        <div className="footer-form-fix">
+        <Footer prop="form-footer" />
+        </div>
+      </> ,
       },
       {
         path: verifyEmailTokenRoute,

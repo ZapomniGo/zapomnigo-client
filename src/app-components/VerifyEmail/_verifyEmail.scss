@@ -38,6 +38,35 @@
       transition: all 0.3s ease-in-out;
     }
   }
+  .reset-psw{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .no-email{
+    // all: unset !important;
+    padding: 10px;
+    background-color: transparent !important;
+    color: gray !important;
+    font-size: 15px !important;
+    border-radius: 0 !important;
+    border-bottom: solid 1px transparent !important;
+  }
+  
+  .no-email:active{
+    border: none !important;
+    border-bottom: solid 1px gray !important;
+  }
+
+  .no-email:focus{
+    border: none !important;
+    border-bottom: solid 1px gray !important;
+  }
+  
+  .no-email:hover{
+    box-shadow: none !important;
+    border-bottom: solid 1px gray !important;
+  }
 }
 //make a mobile version
 @media (orientation: portrait) {

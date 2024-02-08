@@ -103,7 +103,7 @@ export const Registration = () => {
     }
   };
 
-  const [screenIndex, setScreenIndex] = useState(2);
+  const [screenIndex, setScreenIndex] = useState(1);
   const [errors, setErrors] = useState<RegisterErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<UserData>(initialUserState);
 
@@ -585,7 +585,7 @@ export const Registration = () => {
                 </div> */}
               </div>
               <div className="errorText">{policyError.message}</div>
-              <div className="errorText">{termsError.message}</div>
+              <div className="errorText">{termsErrxor.message}</div>
               <div className="errorText">{backendError}</div>
             </section>
           ) : (

@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { Background } from "../Forms/FormsBackground/Background";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+
 const VerifyEmail = () => {
   const navigate = useNavigate();
   const query = new URLSearchParams(useLocation().search);
@@ -57,6 +58,12 @@ const VerifyEmail = () => {
         });
     }
   }, [token]);
+
+  const [isInputVisible, setIsInputVisible] = useState(false);
+
+  const showInput = () => {
+    setIsInputVisible(!isInputVisible);
+  }
   return (
     <div id="backgroundForm">
       <Background />
@@ -66,9 +73,11 @@ const VerifyEmail = () => {
           <h1>Потвърди си имейла</h1>
           <p>
             Изпратихме ти имейл за потвърждение. Провери пощата си и натисни
-            линка в него. Ако все пак не си получил имейла, можеш да поискаш нов
-            като си въведеш имейла по-долу и натиснеш бутона.
+            линка в него. Ако все пак не си получил имейла, можеш да натиснеш бутона за повторно изпращане.
           </p>
+          {!isInputVisible && <button onClick={showInput} className="no-email">Не съм получил имейл</button>}
+          {isInputVisible && 
+          <div className="reset-psw"> 
           <input
             onChange={(e) => setEmail(e.target.value)}
             type="text"
@@ -83,6 +92,10 @@ const VerifyEmail = () => {
             Изпрати
           </button>
           {message.length ? <p className="msg">{message}</p> : ""}
+          </div>
+          
+          }
+          
         </div>
       </div>
     </div>
