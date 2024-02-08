@@ -158,11 +158,15 @@ input:-webkit-autofill:active{
     }
   }
   .success{
-    color: #009900 !important;
+    color: $secondary-color !important;
   }
   
-  .error{
+  .none{
     color: gray !important;
+  }
+
+  .error{
+    color: red !important;
   }
 
 }
