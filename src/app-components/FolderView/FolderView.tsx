@@ -9,6 +9,8 @@ import { FaPen } from "react-icons/fa";
 import { jwtDecode } from "jwt-decode";
 import { TbSettings } from "react-icons/tb";
 import { MdDeleteOutline } from "react-icons/md";
+import { MdOutlineVerifiedUser } from "react-icons/md";
+import { FaFontAwesomeFlag } from "react-icons/fa";
 
 export const FolderView: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -23,7 +25,7 @@ export const FolderView: React.FC = () => {
   const [category, setCategory] = useState();
   const [subCategory, setSubCategory] = useState();
   const [isAdmin, setIsAdmin] = useState(false);
-
+  const [verified, setVerified] = useState(true);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
@@ -38,7 +40,6 @@ export const FolderView: React.FC = () => {
     }
   }, []);
   useEffect(() => {
-
     instance
       .get(`/folders/${id}/sets`)
       .then((response) => {
@@ -72,7 +73,27 @@ export const FolderView: React.FC = () => {
   const handleMouseLeave = () => {
     setSelectSet(null);
   };
-
+  const report = () => {
+    let reason = prompt("Защо смятате, че това тесте е неподходящо?");
+    if (reason === null) {
+      alert("Не сте въвели причина");
+      return;
+    }
+    if (reason) {
+      instance
+        .post(`/sets/${id}/report`, {
+          reason: reason,
+        })
+        .then((response) => {
+          toast("Благодарим за сигнала!");
+        })
+        .catch((error) => {
+          toast(
+            "Имаше грешка при изпращането на сигнала, пробвай отново по-късно"
+          );
+        });
+    }
+  };
   const handleDelete = () => {
     if (!window.confirm("Сигурен ли сте, че искаш да изтриеш тази папка?")) {
       return;
@@ -86,10 +107,19 @@ export const FolderView: React.FC = () => {
     <Dashboard>
       <div className="set-wrapper folder-wrapper">
         <h2 className="folder-title">
-          <h1 style={{ fontWeight: 900 }}>{title}</h1>
+          <h1 style={{ fontWeight: 900 }}>
+            {title}{" "}
+            {/* {verified ? (
+              <MdOutlineVerifiedUser
+                onClick={verified}
+                className="miniReport"
+                style={{ color: "orange",fontSize: "30px"}}
+              />
+            ) : null} */}
+          </h1>
         </h2>
         <h4
-        className="folder-description"
+          className="folder-description"
           style={{
             fontWeight: 500,
           }}
@@ -97,11 +127,19 @@ export const FolderView: React.FC = () => {
           {description}
         </h4>
         <div className="btnWrapper">
-            <div style={{ display: "flex"}}>
-              {category ? <h6 className="miniLabel folderLabel">{category}</h6> : " "}
-              {subCategory ? <h6 className="miniLabel folderLabel">{subCategory}</h6> : " "}
-            </div>
-            <div className="btnEdit">
+          <div style={{ display: "flex" }}>
+            {category ? (
+              <h6 className="miniLabel folderLabel">{category}</h6>
+            ) : (
+              " "
+            )}
+            {subCategory ? (
+              <h6 className="miniLabel folderLabel">{subCategory}</h6>
+            ) : (
+              " "
+            )}
+          </div>
+          <div className="btnEdit">
             {(isAdmin || creator === user) && (
               <a href={`/app/edit-folder/${id}`} className="pen">
                 <FaPen />
@@ -112,9 +150,13 @@ export const FolderView: React.FC = () => {
                 <MdDeleteOutline />
               </a>
             )}
-            </div>
-
+            {/* <FaFontAwesomeFlag
+              style={{ width: "25px" }}
+              onClick={report}
+              className="miniReport"
+            /> */}
           </div>
+        </div>
 
         <div className="sets">
           {setCards.map((card) => (

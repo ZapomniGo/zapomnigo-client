@@ -37,7 +37,7 @@ const LearnSettings = (props) => {
           <p className="title">Избираем отговор:</p>
           <div className="settings-option">
             <span>
-              Това е режим с четири избираеми отговора, един, от които е верен:
+              Това е режим с няколко избираеми отговора, един, от които е верен:
             </span>
             <input
               type="checkbox"

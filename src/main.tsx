@@ -26,6 +26,7 @@ import {
   folderCreate,
   flipMode,
   landingPage,
+  manual,
 } from "./app-utils/AppRoutes";
 import { Navigation } from "./app-components/Navigation/Navigation";
 import { Footer } from "./app-components/Footer/Footer";
@@ -54,6 +55,7 @@ import { StudyComponent } from "./app-components/StudyMode/StudyComponent";
 import HomePage from "./app-components/HomePage/LandingPage";
 import NotFound from "./app-components/NotFound/NotFound";
 import { FolderView } from "./app-components/FolderView/FolderView";
+import Manual from "./app-components/Manual/Manual";
 import { EditFolder } from "./app-components/EditFolder/EditFolder";
 import FlipMode from "./app-components/FlipMode/FlipMode";
 
@@ -89,23 +91,25 @@ const router = createBrowserRouter([
       },
       {
         path: registerRoute,
-        element:<>
-          <Registration />
-          <div className="footer-form-fix">
-          <Footer prop="form-footer" />
-
-          </div>
-        </> 
+        element: (
+          <>
+            <Registration />
+            <div className="footer-form-fix">
+              <Footer prop="form-footer" />
+            </div>
+          </>
+        ),
       },
       {
         path: loginRoute,
-        element: 
-        <>
-          <Login />
-          <div className="footer-form-fix">
-          <Footer prop="form-footer" />
-          </div>
-        </>
+        element: (
+          <>
+            <Login />
+            <div className="footer-form-fix">
+              <Footer prop="form-footer" />
+            </div>
+          </>
+        ),
       },
       {
         path: createSetRoute,
@@ -117,13 +121,14 @@ const router = createBrowserRouter([
       },
       {
         path: verifyEmailRoute,
-        element:
-        <>
-        <VerifyEmail />
-        <div className="footer-form-fix">
-        <Footer prop="form-footer" />
-        </div>
-      </> ,
+        element: (
+          <>
+            <VerifyEmail />
+            <div className="footer-form-fix">
+              <Footer prop="form-footer" />
+            </div>
+          </>
+        ),
       },
       {
         path: verifyEmailTokenRoute,
@@ -173,6 +178,10 @@ const router = createBrowserRouter([
       {
         path: folderEdit,
         element: <EditFolder />,
+      },
+      {
+        path: manual,
+        element: <Manual />,
       },
     ],
   },
