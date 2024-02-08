@@ -16,6 +16,7 @@ import { MoreBtn } from "../MoreBtn/MoreBtn";
 import { toast, ToastContainer } from "react-toastify";
 import { FaPlus } from "react-icons/fa6";
 import { FaFontAwesomeFlag } from "react-icons/fa";
+import { MdOutlineVerifiedUser } from "react-icons/md";
 
 export const SetPage = () => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ export const SetPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isAdmin, setIsAdmin] = useState(false);
   const [totalItems, setTotalItems] = useState(0);
+  const [isSetVerified, setIsSetVerified] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -212,6 +214,9 @@ export const SetPage = () => {
         });
     }
   };
+  const verified = () => {
+    toast("Това тесте е проверено и одобрено от ЗапомниГо");
+  };
 
   return (
     <Dashboard>
@@ -221,8 +226,32 @@ export const SetPage = () => {
           <div id="set-page">
             <div className="set-info">
               <div className="set-title">
-                <h1>{flashcards.set_name}</h1>{" "}
-                {/* <FaFontAwesomeFlag onClick={report} className="miniReport" /> */}
+                <h1 style={{ display: "flex" }}>
+                  {flashcards.set_name}{" "}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginLeft: ".2vmax",
+                    }}
+                  >
+                    {" "}
+                    {/* {isSetVerified ? (
+                      <MdOutlineVerifiedUser
+                        onClick={verified}
+                        className="miniReport"
+                        style={{ color: "orange" }}
+                      />
+                    ) : (
+                      ""
+                    )} */}
+                  </div>
+                </h1>{" "}
+                {/* <FaFontAwesomeFlag
+                  style={{ margin: "1vmax" }}
+                  onClick={report}
+                  className="miniReport"
+                /> */}
                 {flashcards && flashcards.organization ? (
                   <div
                     className={`set-institution ${
@@ -292,7 +321,9 @@ export const SetPage = () => {
                 )}
               </div>
               <p className="creator">Създадено от {flashcards.username}</p>
+              <div className="spacialFlex"></div>
             </div>
+
             <div className="cards-info">
               <div className="cards-info-header">
                 <h2>Флашкарти ({flashcards ? totalItems : "Зареждане..."})</h2>
