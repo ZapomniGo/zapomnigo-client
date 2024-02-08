@@ -98,7 +98,7 @@ export const SetPage = () => {
         navigate(`/app/set/${response.data.set_id}`);
       })
       .catch((error) => {
-        toast("Имаше грешка при копирането, пробвай отново по-късно");
+     //   toast("Имаше грешка при копирането, пробвай отново по-късно");
       });
   };
 
@@ -199,6 +199,14 @@ export const SetPage = () => {
       alert("Не сте въвели причина");
       return;
     }
+    if (reason.length > 1e5) {
+      alert("Текстът е твърде дълъг");
+      return;
+    }
+    if (localStorage.getItem("access_token") === null) {
+      alert("Трябва да сте логнат за да докладвате");
+      return;
+    }
     if (reason) {
       instance
         .post(`/sets/${id}/report`, {
@@ -247,11 +255,11 @@ export const SetPage = () => {
                     )} */}
                   </div>
                 </h1>{" "}
-                {/* <FaFontAwesomeFlag
+                <FaFontAwesomeFlag
                   style={{ margin: "1vmax" }}
                   onClick={report}
                   className="miniReport"
-                /> */}
+                />
                 {flashcards && flashcards.organization ? (
                   <div
                     className={`set-institution ${
