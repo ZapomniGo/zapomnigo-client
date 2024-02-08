@@ -21,6 +21,10 @@ import { FaRegEyeSlash } from "react-icons/fa";
 export const Registration = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState("password"); 
+  const [passLength, setPassLength] = useState(true);
+  const [passUpper, setPassUpper] = useState(true);
+  const [passLower, setPassLower] = useState(true);
+  const [passDigit, setPassDigit] = useState(true);
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -103,7 +107,7 @@ export const Registration = () => {
     }
   };
 
-  const [screenIndex, setScreenIndex] = useState(1);
+  const [screenIndex, setScreenIndex] = useState(2);
   const [errors, setErrors] = useState<RegisterErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<UserData>(initialUserState);
 
@@ -180,29 +184,61 @@ export const Registration = () => {
           };
         }
         break;
+
+
       case "password":
         if (
           typeof value === "string" &&
           (value.length < 8 || value.length > 40)
-        ) {          errorInfo = {
+        ) { 
+          setPassLength(true)  
+          errorInfo = {
             hasError: true,
             message: "Полето за парола трябва да е между 8-40 символа",
           };
-        } else if (typeof value === "string" && !/[A-Z]/.test(value)) {
+        }  else{
+          setPassLength(false)
+        }
+        
+        
+        if (typeof value === "string" && !/[A-Z]/.test(value)) {
+          setPassUpper(true)
           errorInfo = {
             hasError: true,
             message: "Паролата трябва да съдържа поне една главна буква",
           };
-        } else if (typeof value === "string" && !/[a-z]/.test(value)) {
+        } else{
+          setPassUpper(false)
+        }
+        if (typeof value === "string" && !/[a-z]/.test(value)) {
+          setPassLower(true)
           errorInfo = {
             hasError: true,
             message: "Паролата трябва да съдържа поне една малка буква",
           };
-        } else if (typeof value === "string" && !/\d/.test(value)) {
+        } else{
+          setPassLower(false)
+        }
+        
+        if (typeof value === "string" && !/\d/.test(value)) {
+          setPassDigit(true)
           errorInfo = {
             hasError: true,
             message: "Паролата трябва да съдържа поне една цифра",
           };
+        } else{
+          setPassDigit(false)
+        }
+
+        console.log(value.length)
+
+        if(typeof value === "string" &&
+        (value.length <= 1)){
+          console.log("here")
+          setPassDigit(true)
+          setPassLower(true)
+          setPassUpper(true)
+          setPassLength(true)
         }
         break;
       case "repeatPassword":
@@ -244,6 +280,9 @@ export const Registration = () => {
     }));
   };
 
+
+
+
   const formHandler = (event: React.FormEvent<HTMLFormElement>) => {
     const { name, value, type, checked } = event.target as HTMLInputElement;
 
@@ -262,6 +301,10 @@ export const Registration = () => {
       );
     }
   };
+
+  useEffect(() => {
+    console.log(passDigit)
+  }, [passDigit])
 
   const nextScreen = () => {
     const newErrors = { ...errors };
@@ -507,11 +550,41 @@ export const Registration = () => {
                 <div className="password-svg" onClick={viewPassword}>
                 {password === "password" ? <FaRegEye /> : <FaRegEyeSlash />}
                 </div>
-              </div>
 
-              <p className="errorText">
+              </div>
+              <div  className="pass-errors">
+                <ul>
+                  <li>
+                      <div className={!passLength ? 'success' : 'error'}>
+                        <p>
+                        Полето за парола трябва да е между 8-40 символа
+
+                        </p>
+                    </div>
+                  </li>
+                  <li>
+                    <div className={!passLower ? 'success' : 'error'}>
+                        <p>Паролата трябва да съдържа поне една малка буква</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div className={!passUpper ? 'success' : 'error'}>
+                      <p>Паролата трябва да съдържа поне една главна буква</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div className={!passDigit ? 'success' : 'error'}>
+                      <p>Паролата трябва да съдържа поне една цифра</p>
+                    </div>
+                  </li>
+                </ul>
+                </div>      
+
+
+
+              {/* <p className="errorText">
                 {errors.password.hasError ? errors.password.message : ""}
-              </p>
+              </p> */}
               <input
                 type="password"
                 placeholder="Повторете паролата"
