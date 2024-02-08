@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { TbSettings } from "react-icons/tb";
+import { RxCross1 } from "react-icons/rx";
+
 
 const LearnSettings = (props) => {
   const [toggleOpen, setToggleOpen] = useState(false);
@@ -21,8 +23,10 @@ const LearnSettings = (props) => {
     <div className="settings-study">
       {isMsgShown && 
           <div className="msg-box" onClick={handleClose}>
-              <p>Можеш да си избереш режим не учене от тук:</p>
-              <button onClick={handleClose}> X</button>
+
+              <p>Избери режим на учене</p>
+              <RxCross1 />
+
           </div>
       }
 
