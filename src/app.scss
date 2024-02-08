@@ -22,13 +22,6 @@ body {
   overflow-y: scroll !important;
 }
 
-@media screen and (max-width: 1000px) {
-  body {
-    overflow-y: hidden !important;
-  }
-  
-}
-
 .lds-ring {
   display: inline-block;
   position: relative;
