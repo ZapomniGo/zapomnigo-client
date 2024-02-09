@@ -413,6 +413,12 @@ svg.single {
   color: red;
   font-weight: 300;
 }
+  
+@media screen and (max-width: 1000px){
+  .errorText {
+    font-size: 1.6vmax;
+  }
+}
 
 @media screen and (orientation: portrait) {
   .link {

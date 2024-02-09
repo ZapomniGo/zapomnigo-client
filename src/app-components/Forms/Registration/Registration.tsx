@@ -230,7 +230,7 @@ export const Registration = () => {
           setPassDigit("success")
         }
 
-        if( value === "empty"){
+        if( value === "\\"){
           setPassDigit("none")
           setPassLower("none")
           setPassUpper("none")
@@ -346,6 +346,7 @@ export const Registration = () => {
 
       if (userData.password.length < 8 || userData.password.length > 40) {
         setPassLength("error")
+        setShowFields(true);
         newErrors.password = {
           hasError: true,
           message: "Паролата трябва да е между 8-40 символа",
@@ -354,6 +355,7 @@ export const Registration = () => {
       }
       if (!/[A-Z]/.test(userData.password)) {
         setPassUpper("error")
+        setShowFields(true);
         newErrors.password = {
           hasError: true,
           message: "Паролата трябва да съдържа поне една главна буква",
@@ -362,6 +364,7 @@ export const Registration = () => {
       }
       if (!/[a-z]/.test(userData.password)) {
         setPassLower("error")
+        setShowFields(true);
         newErrors.password = {
           hasError: true,
           message: "Паролата трябва да съдържа поне една малка буква",
@@ -370,6 +373,8 @@ export const Registration = () => {
       }
       if (!/\d/.test(userData.password)) {
         setPassDigit("error")
+        setShowFields(true);
+
         newErrors.password = {
           hasError: true,
           message: "Паролата трябва да съдържа поне една цифра",
@@ -449,6 +454,8 @@ export const Registration = () => {
       setPassword("password")
     }
   }
+
+  const [showFields, setShowFields] = useState(false);
 
   return (
     <div id="backgroundForm">
@@ -544,9 +551,11 @@ export const Registration = () => {
                   maxLength={40}
                   value={userData.password}
                   className={errors.password.hasError ? "error" : ""}
+                  onFocus={() => setShowFields(true)}
+                  onBlur={() => setShowFields(false)}
                   onChange={(e) =>   {
                     const trimmedValue = e.target.value.trim()
-                    validateField("password", trimmedValue ? trimmedValue : "empty");
+                    validateField("password", trimmedValue ? trimmedValue : "\\");
 
                   }}
                 />
@@ -555,7 +564,7 @@ export const Registration = () => {
                 </div>
 
               </div>
-              <div  className="pass-errors">
+              {showFields && <div  className="pass-errors">
                   <div className={passLength}>
                     <p>Полето за парола трябва да е между 8-40 символа</p>
                   </div>
@@ -568,7 +577,8 @@ export const Registration = () => {
                   <div className={passDigit}>
                     <p>Паролата трябва да съдържа поне една цифра</p>
                   </div>
-                </div>      
+                </div> }
+     
 
               {/* <p className="errorText">
                 {errors.password.hasError ? errors.password.message : ""}
