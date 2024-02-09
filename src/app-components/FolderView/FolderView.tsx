@@ -79,6 +79,14 @@ export const FolderView: React.FC = () => {
       alert("Не сте въвели причина");
       return;
     }
+    if (reason.length > 1e5) {
+      alert("Текстът е твърде дълъг");
+      return;
+    }
+    if (localStorage.getItem("access_token") === null) {
+      alert("Трябва да сте логнат за да докладвате");
+      return;
+    }
     if (reason) {
       instance
         .post(`/sets/${id}/report`, {
@@ -150,11 +158,11 @@ export const FolderView: React.FC = () => {
                 <MdDeleteOutline />
               </a>
             )}
-            {/* <FaFontAwesomeFlag
+             <FaFontAwesomeFlag
               style={{ width: "25px" }}
               onClick={report}
               className="miniReport"
-            /> */}
+            />
           </div>
         </div>
 
