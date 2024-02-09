@@ -24,7 +24,7 @@ const LearnSettings = (props) => {
       {isMsgShown && 
           <div className="msg-box" onClick={handleClose}>
 
-              <p>Избери режим на учене</p>
+              <p>Избери режими на учене</p>
               <RxCross1 />
 
           </div>
@@ -95,11 +95,11 @@ const LearnSettings = (props) => {
         </div>
       )}
       {toggleOpen ? (
-        <div onClick={() => setToggleOpen((prev) => !prev)}>
+        <div onClick={() => {setToggleOpen((prev) => !prev);  handleClose()}}>
           <TbSettings />
         </div>
       ) : (
-        <div onClick={() => setToggleOpen((prev) => !prev)} className="open">
+        <div onClick={() => {handleClose(), setToggleOpen((prev) => !prev);}} className="open">
           <TbSettings />
         </div>
       )}
