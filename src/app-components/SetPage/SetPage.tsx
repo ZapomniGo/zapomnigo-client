@@ -32,7 +32,7 @@ export const SetPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isAdmin, setIsAdmin] = useState(false);
   const [totalItems, setTotalItems] = useState(0);
-  const [isSetVerified, setIsSetVerified] = useState(false);
+  const [isSetVerified, setIsSetVerified] = useState(true);
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -92,13 +92,13 @@ export const SetPage = () => {
       return;
     }
     instance
-      .post(`/sets/${id}/copy`)
+      .post(`/set/${id}/copy`)
       .then((response) => {
         toast("Добре дошъл в новото си идентично тесте!");
         navigate(`/app/set/${response.data.set_id}`);
       })
       .catch((error) => {
-     //   toast("Имаше грешка при копирането, пробвай отново по-късно");
+        //   toast("Имаше грешка при копирането, пробвай отново по-късно");
       });
   };
 
@@ -194,7 +194,7 @@ export const SetPage = () => {
     }
   }, []);
   const report = () => {
-    let reason = prompt("Защо смятате, че това тесте е неподходящо?");
+    let reason = prompt("Защо смяташ, че тази папка е неподходяща?");
     if (reason === null) {
       alert("Не сте въвели причина");
       return;
@@ -244,7 +244,7 @@ export const SetPage = () => {
                     }}
                   >
                     {" "}
-                    {/* {isSetVerified ? (
+                   {isSetVerified ? (
                       <MdOutlineVerifiedUser
                         onClick={verified}
                         className="miniReport"
@@ -252,7 +252,7 @@ export const SetPage = () => {
                       />
                     ) : (
                       ""
-                    )} */}
+                    )} 
                   </div>
                 </h1>{" "}
                 <FaFontAwesomeFlag
