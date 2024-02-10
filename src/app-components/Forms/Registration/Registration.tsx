@@ -550,9 +550,7 @@ export const Registration = () => {
                   minLength={8}
                   maxLength={40}
                   value={userData.password}
-                  className={errors.password.hasError ? "error" : ""}
-                  onFocus={() => setShowFields(true)}
-                  onBlur={() => setShowFields(false)}
+                  className={errors.password.hasError ? "error" : ""}                  
                   onChange={(e) =>   {
                     const trimmedValue = e.target.value.trim()
                     validateField("password", trimmedValue ? trimmedValue : "\\");
