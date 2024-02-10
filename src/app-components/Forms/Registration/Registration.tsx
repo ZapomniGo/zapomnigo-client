@@ -455,7 +455,7 @@ export const Registration = () => {
     }
   }
 
-  const [showFields, setShowFields] = useState(false);
+  const [showFields, setShowFields] = useState(true );
 
   return (
     <div id="backgroundForm">
