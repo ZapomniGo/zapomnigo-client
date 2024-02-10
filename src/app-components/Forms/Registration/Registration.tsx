@@ -654,7 +654,7 @@ export const Registration = () => {
                 </div> */}
               </div>
               <div className="errorText">{policyError.message}</div>
-              <div className="errorText">{termsErrxor.message}</div>
+              <div className="errorText">{termsError.message}</div>
               <div className="errorText">{backendError}</div>
             </section>
           ) : (
