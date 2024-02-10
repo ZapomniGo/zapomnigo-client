@@ -32,7 +32,7 @@ export const SetPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isAdmin, setIsAdmin] = useState(false);
   const [totalItems, setTotalItems] = useState(0);
-  const [isSetVerified, setIsSetVerified] = useState(true);
+  const [isSetVerified, setIsSetVerified] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -169,6 +169,8 @@ export const SetPage = () => {
           ...response.data.set,
           flashcards: updatedFlashcards,
         });
+        console.log(response.data.set.verified)
+        setIsSetVerified(response.data.set.verified);
         setUsername(response.data.set.username);
         setTotalItems(response.data.total_items);
       })
@@ -264,8 +266,7 @@ export const SetPage = () => {
                     }}
                   >
                     {" "}
-                    {/* waiting for backend */}
-                   {/* {isSetVerified ? (
+                   {isSetVerified ? (
                       <MdOutlineVerifiedUser
                         onClick={verified}
                         className="miniReport"
@@ -273,7 +274,7 @@ export const SetPage = () => {
                       />
                     ) : (
                       ""
-                    )}  */}
+                    )} 
                   </div>
                 </h1>{" "}
                 <FaFontAwesomeFlag
