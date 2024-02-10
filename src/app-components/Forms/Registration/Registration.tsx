@@ -21,6 +21,10 @@ import { FaRegEyeSlash } from "react-icons/fa";
 export const Registration = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState("password"); 
+  const [passLength, setPassLength] = useState("none");
+  const [passUpper, setPassUpper] = useState("none");
+  const [passLower, setPassLower] = useState("none");
+  const [passDigit, setPassDigit] = useState("none");
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -180,29 +184,57 @@ export const Registration = () => {
           };
         }
         break;
+
+
       case "password":
         if (
           typeof value === "string" &&
           (value.length < 8 || value.length > 40)
-        ) {          errorInfo = {
+        ) { 
+          setPassLength("none")  
+          errorInfo = {
             hasError: true,
             message: "Полето за парола трябва да е между 8-40 символа",
           };
-        } else if (typeof value === "string" && !/[A-Z]/.test(value)) {
+        }  else{
+          setPassLength("success")
+        }
+        
+        
+        if (typeof value === "string" && !/[A-Z]/.test(value)) {
+          setPassUpper("none")
           errorInfo = {
             hasError: true,
             message: "Паролата трябва да съдържа поне една главна буква",
           };
-        } else if (typeof value === "string" && !/[a-z]/.test(value)) {
+        } else{
+          setPassUpper("success")
+        }
+        if (typeof value === "string" && !/[a-z]/.test(value)) {
+          setPassLower("none")
           errorInfo = {
             hasError: true,
             message: "Паролата трябва да съдържа поне една малка буква",
           };
-        } else if (typeof value === "string" && !/\d/.test(value)) {
+        } else{
+          setPassLower("success")
+        }
+        
+        if (typeof value === "string" && !/\d/.test(value)) {
+          setPassDigit("none")
           errorInfo = {
             hasError: true,
             message: "Паролата трябва да съдържа поне една цифра",
           };
+        } else{
+          setPassDigit("success")
+        }
+
+        if( value === "\\"){
+          setPassDigit("none")
+          setPassLower("none")
+          setPassUpper("none")
+          setPassLength("none")
         }
         break;
       case "repeatPassword":
@@ -243,6 +275,9 @@ export const Registration = () => {
       [field]: errorInfo,
     }));
   };
+
+
+
 
   const formHandler = (event: React.FormEvent<HTMLFormElement>) => {
     const { name, value, type, checked } = event.target as HTMLInputElement;
@@ -310,24 +345,36 @@ export const Registration = () => {
       }
 
       if (userData.password.length < 8 || userData.password.length > 40) {
+        setPassLength("error")
+        setShowFields(true);
         newErrors.password = {
           hasError: true,
           message: "Паролата трябва да е между 8-40 символа",
         };
         errorsExist = true;
-      } else if (!/[A-Z]/.test(userData.password)) {
+      }
+      if (!/[A-Z]/.test(userData.password)) {
+        setPassUpper("error")
+        setShowFields(true);
         newErrors.password = {
           hasError: true,
           message: "Паролата трябва да съдържа поне една главна буква",
         };
         errorsExist = true;
-      } else if (!/[a-z]/.test(userData.password)) {
+      }
+      if (!/[a-z]/.test(userData.password)) {
+        setPassLower("error")
+        setShowFields(true);
         newErrors.password = {
           hasError: true,
           message: "Паролата трябва да съдържа поне една малка буква",
         };
         errorsExist = true;
-      } else if (!/\d/.test(userData.password)) {
+      }
+      if (!/\d/.test(userData.password)) {
+        setPassDigit("error")
+        setShowFields(true);
+
         newErrors.password = {
           hasError: true,
           message: "Паролата трябва да съдържа поне една цифра",
@@ -407,6 +454,8 @@ export const Registration = () => {
       setPassword("password")
     }
   }
+
+  const [showFields, setShowFields] = useState(true );
 
   return (
     <div id="backgroundForm">
@@ -501,17 +550,37 @@ export const Registration = () => {
                   minLength={8}
                   maxLength={40}
                   value={userData.password}
-                  className={errors.password.hasError ? "error" : ""}
-                  onChange={(e) => validateField("password", e.target.value)}
+                  className={errors.password.hasError ? "error" : ""}                  
+                  onChange={(e) =>   {
+                    const trimmedValue = e.target.value.trim()
+                    validateField("password", trimmedValue ? trimmedValue : "\\");
+
+                  }}
                 />
                 <div className="password-svg" onClick={viewPassword}>
                 {password === "password" ? <FaRegEye /> : <FaRegEyeSlash />}
                 </div>
-              </div>
 
-              <p className="errorText">
+              </div>
+              {showFields && <div  className="pass-errors">
+                  <div className={passLength}>
+                    <p>Полето за парола трябва да е между 8-40 символа</p>
+                  </div>
+                  <div className={passLower}>
+                      <p>Паролата трябва да съдържа поне една малка буква</p>
+                  </div>
+                  <div className={passUpper}>
+                    <p>Паролата трябва да съдържа поне една главна буква</p>
+                  </div>
+                  <div className={passDigit}>
+                    <p>Паролата трябва да съдържа поне една цифра</p>
+                  </div>
+                </div> }
+     
+
+              {/* <p className="errorText">
                 {errors.password.hasError ? errors.password.message : ""}
-              </p>
+              </p> */}
               <input
                 type="password"
                 placeholder="Повторете паролата"
@@ -585,7 +654,7 @@ export const Registration = () => {
                 </div> */}
               </div>
               <div className="errorText">{policyError.message}</div>
-              <div className="errorText">{termsErrxor.message}</div>
+              <div className="errorText">{termsError.message}</div>
               <div className="errorText">{backendError}</div>
             </section>
           ) : (

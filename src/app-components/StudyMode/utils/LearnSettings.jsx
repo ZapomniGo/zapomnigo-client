@@ -1,11 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TbSettings } from "react-icons/tb";
+import { RxCross1 } from "react-icons/rx";
+
 
 const LearnSettings = (props) => {
   const [toggleOpen, setToggleOpen] = useState(false);
+  const [isMsgShown, setIsMsgShown] = useState(true);
+
+  const handleClose = () => {
+    setIsMsgShown(false)
+    localStorage.setItem('settingsMsg', 'true');
+  }
+
+  useEffect(() => {
+    const isMsgShown = localStorage.getItem('settingsMsg');
+    if (isMsgShown) {
+      setIsMsgShown(false);
+    }
+  }, []);
 
   return (
     <div className="settings-study">
+      {isMsgShown && 
+          <div className="msg-box" onClick={handleClose}>
+
+              <p>Избери режими на учене</p>
+              <RxCross1 />
+
+          </div>
+      }
+
       {toggleOpen && (
         <div className="settings-menu">
           <h3>Настройки на режим учи</h3>
@@ -71,11 +95,11 @@ const LearnSettings = (props) => {
         </div>
       )}
       {toggleOpen ? (
-        <div onClick={() => setToggleOpen((prev) => !prev)}>
+        <div onClick={() => {setToggleOpen((prev) => !prev);  handleClose()}}>
           <TbSettings />
         </div>
       ) : (
-        <div onClick={() => setToggleOpen((prev) => !prev)} className="open">
+        <div onClick={() => {handleClose(), setToggleOpen((prev) => !prev);}} className="open">
           <TbSettings />
         </div>
       )}
