@@ -32,7 +32,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
 
   return (
     <ContainerComponent open={navigationSliceManager.open}>
-      {/* <BsQuestion id="question-btn" onClick={() => navigate("/app/manual")} /> */}
+      <BsQuestion id="question-btn" onClick={()=>window.open('/app/manual','_blank', 'rel=noopener noreferrer')} />
       <section className="card-section">
         <div className="category">{children}</div>
       </section>
