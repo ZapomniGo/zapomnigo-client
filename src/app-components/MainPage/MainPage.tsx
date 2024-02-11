@@ -507,7 +507,7 @@ export const MainPage: React.FC = () => {
           <MoreBtn onClick={() => handleLoadRecentSet(categoryID)} />
         )}
       </div>
-      <div className="set-wrapper">
+      <div className="set-wrapper folder-main-wrapper">
         <h2 className="category-title">{title} папки:</h2>
         <div className="sets folders">
           {isFolderLoading ? (

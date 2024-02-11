@@ -45,6 +45,34 @@
   }
 }
 
+.folder-main-wrapper{
+  .folder-title {
+    svg{
+      padding: 0;
+      padding: 0 4px 0 4px ;
+      width: 2.2rem !important;
+      height: 2.2rem !important;
+    }
+
+    .folder-icon{
+      svg{
+        padding-top: 7px;
+        // padding: 10px 14px;
+        // padding: 10px 14px -10px 14px !important;
+        width: 1.8rem !important;
+        height: 1.8rem !important;
+      
+      }
+    }
+    .folder-title {
+      font-size: 27px !important;
+    }
+    p{
+      padding-left: 20px !important;
+    }
+  }
+}
+
 .category-wrapper {
   display: flex;
   margin-top: 10px;

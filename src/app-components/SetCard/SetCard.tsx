@@ -60,7 +60,9 @@ const SetCard: React.FC<SetCardProps> = ({
         <div
           className={`set-title ${isSelected ? "open" : "close"} folder-title `}
         >
-          {icon}
+          <div className="folder-icon">
+            {icon}
+          </div>
           {title.length > 38 ? title.substring(0, 38) + "..." : title}
           {verified &&                       <MdOutlineVerifiedUser
                         onClick={verified}
