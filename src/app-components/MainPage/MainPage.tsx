@@ -527,6 +527,7 @@ export const MainPage: React.FC = () => {
                 onMouseLeave={handleMouseLeave}
                 isSelected={selectSet === card.set_id}
                 icon={<FaRegFolderClosed />}
+                verified={card.verified}
                 type={"folder"}
               />
             ))
