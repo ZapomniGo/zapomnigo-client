@@ -186,10 +186,9 @@ select {
   border: 0;
   border-radius: 0;
   background-color: white;
-  border-bottom: 1px solid $secondary-color;
+  border:1px solid orange;
   &:focus {
     outline: none;
-    border-bottom: 1px solid $secondary-color;
   }
 }
 
