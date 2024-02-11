@@ -32,34 +32,34 @@ const HomePage = () => {
     }
   }, []);
 
-  const hasShownToast = useRef(false);
+  // const hasShownToast = useRef(false);
 
-  useEffect(() => {
-    if (!localStorage.getItem("accessToken")) {
-      if (!localStorage.getItem("cookieConsent")) {
-        toast(
-          "С използването на сайта се съгласявате с общите условия, политиката за поверителност и политиката за бисквитки",
-          {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 3000,
-          }
-        );
-        localStorage.setItem("cookieConsent", "true");
-      }
-      if (localStorage.getItem("cookieConsent") !== "true") {
-        if (!hasShownToast.current) {
-          toast(
-            "С използването на сайта се съгласявате с общите условия, политиката за поверителност и политиката за бисквитки",
-            {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 3000,
-            }
-          );
-          hasShownToast.current = true;
-        }
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!localStorage.getItem("accessToken")) {
+  //     if (!localStorage.getItem("cookieConsent")) {
+  //       toast(
+  //         "С използването на сайта се съгласявате с общите условия, политиката за поверителност и политиката за бисквитки",
+  //         {
+  //           position: toast.POSITION.TOP_RIGHT,
+  //           autoClose: 3000,
+  //         }
+  //       );
+  //       localStorage.setItem("cookieConsent", "true");
+  //     }
+  //     if (localStorage.getItem("cookieConsent") !== "true") {
+  //       if (!hasShownToast.current) {
+  //         toast(
+  //           "С използването на сайта се съгласявате с общите условия, политиката за поверителност и политиката за бисквитки",
+  //           {
+  //             position: toast.POSITION.TOP_RIGHT,
+  //             autoClose: 3000,
+  //           }
+  //         );
+  //         hasShownToast.current = true;
+  //       }
+  //     }
+  //   }
+  // }, []);
 
   return (
     <div id="mainPage">

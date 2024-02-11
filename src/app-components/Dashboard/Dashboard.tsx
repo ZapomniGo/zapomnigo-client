@@ -20,7 +20,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
     document.title = "ЗапомниГо | Платформата, която ти помага да запомняш";
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    if(localStorage.getItem('cookieConsent2') === "true") {
+    if(localStorage.getItem('cookieConsent') === "true") {
       setCookieConsent(true);
     }
   }, []);

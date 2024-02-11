@@ -3,11 +3,11 @@ import { useState } from "react";
 export const CookieComponent: React.FC = () => {
     const [hide, setHide] = useState('');
     const verify = () => {
-        localStorage.setItem('cookieConsent2', 'true');
+        localStorage.setItem('cookieConsent', 'true');
         setHide('hide');
       };
       const optional = () => {
-        localStorage.setItem('cookieConsent2', 'optional');
+        localStorage.setItem('cookieConsent', 'optional');
         setHide('hide');      };
     
     return (
