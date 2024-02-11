@@ -240,11 +240,7 @@ export const SetPage = () => {
         ? navigate(`/app/study/${id}`)
         : toast("Учи режимът работи с 4 или повече флашкарти!");
     }
-<<<<<<< HEAD
-  }
-=======
   };
->>>>>>> DEV_ENV
 
   useEffect(() => {
     console.log(setCreator);
@@ -268,12 +264,7 @@ export const SetPage = () => {
                     }}
                   >
                     {" "}
-<<<<<<< HEAD
                    {isSetVerified ? (
-=======
-                    {/* waiting for backend */}
-                    {/* {isSetVerified ? (
->>>>>>> DEV_ENV
                       <MdOutlineVerifiedUser
                         onClick={verified}
                         className="miniReport"
