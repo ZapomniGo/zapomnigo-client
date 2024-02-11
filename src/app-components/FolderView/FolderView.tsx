@@ -11,6 +11,7 @@ import { TbSettings } from "react-icons/tb";
 import { MdDeleteOutline } from "react-icons/md";
 import { MdOutlineVerifiedUser } from "react-icons/md";
 import { FaFontAwesomeFlag } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export const FolderView: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -26,6 +27,7 @@ export const FolderView: React.FC = () => {
   const [subCategory, setSubCategory] = useState();
   const [isAdmin, setIsAdmin] = useState(false);
   const [verified, setVerified] = useState(true);
+  const [allowReport, setAllowReport] = useState(true);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
@@ -74,7 +76,7 @@ export const FolderView: React.FC = () => {
     setSelectSet(null);
   };
   const report = () => {
-    let reason = prompt("Защо смятате, че това тесте е неподходящо?");
+    let reason = prompt("Защо смяташ, че това тесте е неподходящо?");
     if (reason === null) {
       alert("Не сте въвели причина");
       return;
@@ -89,11 +91,12 @@ export const FolderView: React.FC = () => {
     }
     if (reason) {
       instance
-        .post(`/sets/${id}/report`, {
+        .post(`/folders/${id}/report`, {
           reason: reason,
         })
         .then((response) => {
           toast("Благодарим за сигнала!");
+          setAllowReport(false);
         })
         .catch((error) => {
           toast(
@@ -117,13 +120,13 @@ export const FolderView: React.FC = () => {
         <h2 className="folder-title">
           <h1 style={{ fontWeight: 900 }}>
             {title}{" "}
-            {/* {verified ? (
+            {verified ? (
               <MdOutlineVerifiedUser
                 onClick={verified}
                 className="miniReport"
                 style={{ color: "orange",fontSize: "30px"}}
               />
-            ) : null} */}
+            ) : null} 
           </h1>
         </h2>
         <h4
@@ -158,11 +161,13 @@ export const FolderView: React.FC = () => {
                 <MdDeleteOutline />
               </a>
             )}
-             <FaFontAwesomeFlag
-              style={{ width: "25px" }}
-              onClick={report}
-              className="miniReport"
-            />
+            {allowReport ? (
+              <FaFontAwesomeFlag
+                style={{ width: "25px" }}
+                onClick={report}
+                className="miniReport"
+              />
+            ) : null}
           </div>
         </div>
 

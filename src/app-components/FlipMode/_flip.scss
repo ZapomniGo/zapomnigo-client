@@ -9,8 +9,8 @@
     color: gray;
     transition: 0.3s;
     margin: 1vmax;
-      width: 3vmax !important;
-      height: 3vmax !important;
+    width: 3vmax !important;
+    height: 3vmax !important;
   }
   svg:hover {
     color: orange;
@@ -35,10 +35,10 @@
     color: gray;
   }
   #card {
-    margin-bottom:4vmax;
+    margin-bottom: 4vmax;
     margin-top: 20px;
     width: 40%;
-    cursor: pointer;  
+    cursor: pointer;
 
     p {
       display: flex;
@@ -106,7 +106,7 @@
       margin: 0 1vmax;
     }
   }
-  .arrow-left{
+  .arrow-left {
     display: flex;
     align-items: center;
     position: absolute;
@@ -118,11 +118,11 @@
   }
 
   .arrow-left:hover svg,
-  .arrow-right:hover svg{
+  .arrow-right:hover svg {
     color: orange;
   }
 
-  .arrow-right{
+  .arrow-right {
     display: flex;
     align-items: center;
     position: absolute;
@@ -131,15 +131,14 @@
     cursor: pointer;
     justify-content: flex-end;
     width: 10%;
-
   }
 
-  .rotate-svg{
+  .rotate-svg {
     z-index: 999;
     cursor: pointer;
   }
-  
-  .rotate-svg:hover svg{
+
+  .rotate-svg:hover svg {
     color: orange;
   }
 }
@@ -153,6 +152,10 @@
     font-size: 15px;
 
     #card {
+      img {
+        width: 100% !important;
+        border-radius: 10px;
+      }
       margin-top: 80px;
       z-index: 999;
       width: 70%;
@@ -171,23 +174,23 @@
     bottom: 0 !important;
   }
 
-  .arrow-right{
+  .arrow-right {
     justify-content: flex-end;
     width: 30% !important;
     padding-top: 7vmax;
     right: 0 !important;
-    svg{
+    svg {
       width: 3vmax !important;
       height: 3vmax !important;
     }
   }
 
-  .arrow-left{
+  .arrow-left {
     justify-content: flex-start;
     padding-top: 7vmax !important;
     width: 30% !important;
     left: 0 !important;
-    svg{
+    svg {
       width: 3vmax !important;
       height: 3vmax !important;
     }

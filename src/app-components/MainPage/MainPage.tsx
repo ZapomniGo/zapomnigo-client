@@ -24,7 +24,7 @@ export const MainPage: React.FC = () => {
   const [categoryID, setCategoryID] = useState("");
   const [category, setCategory] = useState("");
   const [isFolderLoading, setIsFolderLoading] = useState(false);
-  const [isSetLoading, setIsSetLoading] = useState(false);
+  const [isSetLoading, setIsSetLoading] = useState(true);
   const [subCategories, setSubCategories] = useState([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [hasSets, setHasSets] = useState(true);
@@ -52,9 +52,7 @@ export const MainPage: React.FC = () => {
         response.data.sets.forEach((card) => newCards.push(card));
         let lastCardId = newCards[newCards.length - 1].set_id;
         setSetCards(newCards);
-        setTimeout(() => {
-          setIsSetLoading(false);
-        }, 250);
+        setIsSetLoading(false);
         setTimeout(() => {
           document.getElementById(lastCardId).scrollIntoView();
         }, 500);
@@ -80,10 +78,10 @@ export const MainPage: React.FC = () => {
         }, 250);
         setTimeout(() => {
           document.getElementById(lastFolderId).scrollIntoView({
-            behavior: 'auto',
-            block: 'center',
-            inline: 'center'
-        });
+            behavior: "auto",
+            block: "center",
+            inline: "center",
+          });
         }, 500);
       });
   };
@@ -111,9 +109,7 @@ export const MainPage: React.FC = () => {
           response.data.sets.forEach((card) => newCards.push(card));
           setSetCards(newCards);
           setHasSets(true);
-          setTimeout(() => {
-            setIsSetLoading(false);
-          }, 250);
+          setIsSetLoading(false);
         })
         .catch((error) => {
           if (error.response.status === 404) {
@@ -170,7 +166,6 @@ export const MainPage: React.FC = () => {
           setHasSets(false);
         });
 
-        
       setTitle("Разгледай");
 
       instance.get("/categories").then((response) => {
@@ -215,9 +210,7 @@ export const MainPage: React.FC = () => {
         response.data.sets.forEach((card) => newCards.push(card));
         setSetCards(newCards);
         setHasSets(true);
-        setTimeout(() => {
-          setIsSetLoading(false);
-        }, 250);
+        setIsSetLoading(false);
       });
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
@@ -260,9 +253,7 @@ export const MainPage: React.FC = () => {
         response.data.sets.forEach((card) => newCards.push(card));
         setSetCards(newCards);
         setHasSets(true);
-        setTimeout(() => {
-          setIsSetLoading(false);
-        }, 250);
+        setIsSetLoading(false);
       })
       .catch((error) => {
         if (error.response.status === 404) {
@@ -290,7 +281,7 @@ export const MainPage: React.FC = () => {
       .catch((error) => {
         if (error.response.status === 404) {
           setHasFolders(false);
-          setIsCategoryLoading(false)
+          setIsCategoryLoading(false);
         }
         setIsFolderLoading(false);
       });
@@ -376,13 +367,12 @@ export const MainPage: React.FC = () => {
     setIsAccordionVisible(!isAccordionVisible);
   };
 
-
   return (
     <Dashboard>
       {isCategoryLoading ? (
-          <LoadingAnimation />
-        ) : (
-          <>
+        <LoadingAnimation />
+      ) : (
+        <>
           {isAccordionVisible ? (
             <div className="accordion">
               <center>
@@ -465,15 +455,16 @@ export const MainPage: React.FC = () => {
             </>
           )}
         </>
-        )}
-
+      )}
 
       <div className="set-wrapper">
         <h2 className="category-title">{title} тестета:</h2>
         <div className="sets">
           <div className="sets">
             {isSetLoading ? (
-              <LoadingAnimation />
+              <center>
+                <h2 className="main-loading">Зареждане...</h2>
+              </center>
             ) : setCards.length > 0 ? (
               setCards.map((card) => (
                 <SetCard
@@ -509,7 +500,9 @@ export const MainPage: React.FC = () => {
         <h2 className="category-title">{title} папки:</h2>
         <div className="sets folders">
           {isFolderLoading ? (
-            <LoadingAnimation />
+            <center>
+              <h2 className="main-loading">Зареждане...</h2>
+            </center>
           ) : folderCards.length > 0 ? (
             folderCards.map((card) => (
               <SetCard

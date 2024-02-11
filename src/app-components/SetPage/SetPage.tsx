@@ -32,7 +32,8 @@ export const SetPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isAdmin, setIsAdmin] = useState(false);
   const [totalItems, setTotalItems] = useState(0);
-  const [isSetVerified, setIsSetVerified] = useState(false);
+  const [isSetVerified, setIsSetVerified] = useState(true);
+  const [reportAllowed, setReportAllowed] = useState(true);
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -92,13 +93,13 @@ export const SetPage = () => {
       return;
     }
     instance
-      .post(`/sets/${id}/copy`)
+      .post(`/set/${id}/copy`)
       .then((response) => {
         toast("Добре дошъл в новото си идентично тесте!");
         navigate(`/app/set/${response.data.set_id}`);
       })
       .catch((error) => {
-     //   toast("Имаше грешка при копирането, пробвай отново по-късно");
+        //   toast("Имаше грешка при копирането, пробвай отново по-късно");
       });
   };
 
@@ -151,6 +152,7 @@ export const SetPage = () => {
     instance
       .get(`/sets/${id}?page=${page}&size=250` + sortingOrder)
       .then((response) => {
+        console.log(response.data);
         document.title = response.data.set.set_name + " | ЗапомниГо";
         setTotalPages(response.data.total_pages);
         const newFlashcards = response.data.set.flashcards;
@@ -194,7 +196,7 @@ export const SetPage = () => {
     }
   }, []);
   const report = () => {
-    let reason = prompt("Защо смятате, че това тесте е неподходящо?");
+    let reason = prompt("Защо смяташ, че тази папка е неподходяща?");
     if (reason === null) {
       alert("Не сте въвели причина");
       return;
@@ -214,6 +216,7 @@ export const SetPage = () => {
         })
         .then((response) => {
           toast("Благодарим за сигнала!");
+          setReportAllowed(false);
         })
         .catch((error) => {
           toast(
@@ -227,19 +230,16 @@ export const SetPage = () => {
   };
 
   const Study = () => {
-    console.log(token)
-    if(token === null){
+    console.log(token);
+    if (token === null) {
       navigate("/app/login");
-      toast("Трябва да влезете а акаунта си, за да учите")
-    } else{
+      toast("Трябва да влезете а акаунта си, за да учите");
+    } else {
       flashcards.flashcards.length >= 4
         ? navigate(`/app/study/${id}`)
-        : toast("Учи режимът работи с 4 или повече флашкарти!")
+        : toast("Учи режимът работи с 4 или повече флашкарти!");
     }
-    
-    
-    
-  }
+  };
 
   useEffect(() => {
     console.log(setCreator);
@@ -263,6 +263,7 @@ export const SetPage = () => {
                     }}
                   >
                     {" "}
+                    {/* waiting for backend */}
                     {/* {isSetVerified ? (
                       <MdOutlineVerifiedUser
                         onClick={verified}
@@ -271,14 +272,16 @@ export const SetPage = () => {
                       />
                     ) : (
                       ""
-                    )} */}
+                    )}  */}
                   </div>
                 </h1>{" "}
-                <FaFontAwesomeFlag
-                  style={{ margin: "1vmax" }}
-                  onClick={report}
-                  className="miniReport"
-                />
+                {reportAllowed ? (
+                  <FaFontAwesomeFlag
+                    style={{ margin: "1vmax" }}
+                    onClick={report}
+                    className="miniReport"
+                  />
+                ) : null}
                 {flashcards && flashcards.organization ? (
                   <div
                     className={`set-institution ${
@@ -306,8 +309,9 @@ export const SetPage = () => {
               </div>
               <div className="actions">
                 <a
-                  onClick={() =>{Study();}
-                  }
+                  onClick={() => {
+                    Study();
+                  }}
                 >
                   <FaRegLightbulb />
                   Учи

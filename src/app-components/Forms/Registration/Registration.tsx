@@ -107,7 +107,7 @@ export const Registration = () => {
     }
   };
 
-  const [screenIndex, setScreenIndex] = useState(2);
+  const [screenIndex, setScreenIndex] = useState(1);
   const [errors, setErrors] = useState<RegisterErrorRecord>(initialErrors);
   const [userData, setUserData] = useState<UserData>(initialUserState);
 
@@ -455,7 +455,7 @@ export const Registration = () => {
     }
   }
 
-  const [showFields, setShowFields] = useState(false);
+  const [showFields, setShowFields] = useState(true );
 
   return (
     <div id="backgroundForm">
@@ -550,9 +550,7 @@ export const Registration = () => {
                   minLength={8}
                   maxLength={40}
                   value={userData.password}
-                  className={errors.password.hasError ? "error" : ""}
-                  onFocus={() => setShowFields(true)}
-                  onBlur={() => setShowFields(false)}
+                  className={errors.password.hasError ? "error" : ""}                  
                   onChange={(e) =>   {
                     const trimmedValue = e.target.value.trim()
                     validateField("password", trimmedValue ? trimmedValue : "\\");
@@ -656,7 +654,7 @@ export const Registration = () => {
                 </div> */}
               </div>
               <div className="errorText">{policyError.message}</div>
-              <div className="errorText">{termsErrxor.message}</div>
+              <div className="errorText">{termsError.message}</div>
               <div className="errorText">{backendError}</div>
             </section>
           ) : (

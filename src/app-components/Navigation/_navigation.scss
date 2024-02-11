@@ -11,6 +11,7 @@ body {
 }
 
 .navigation-bar {
+  z-index: 100;
   .image {
     user-select: none;
     pointer-events: none;

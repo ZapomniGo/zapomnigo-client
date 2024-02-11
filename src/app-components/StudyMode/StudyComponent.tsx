@@ -12,7 +12,7 @@ import LevelCheck from "./StudyModesViews/LevelCheck";
 import FinishedView from "./StudyModesViews/FinishedView";
 import { toast, ToastContainer } from "react-toastify";
 import LearnSettings from "./utils/LearnSettings";
-import { LP, LN, SP, SN, MN, MP } from "../../app-utils/soundManager";
+import { SP, SN } from "../../app-utils/soundManager";
 import defaultSetup from "./configs/defaultSetup.json";
 
 //TODO: verify image is not an answer/ auto term/definition detection
@@ -159,16 +159,16 @@ const StudyComponent = () => {
 
     //phew, the flashcard has not been studied as last flashcard, so we can study it
     //update the past flashcards indexes to make sure we know that we have studied this flashcard
-      setPastFlashcardsIndexes([...pastFlashcardsIndexes, randomIndex]);
-      setCurrentFlashcardTerm(minConfidenceCards[randomIndex].term);
-      setCurrentFlashcardDefinition(minConfidenceCards[randomIndex].definition);
+    setPastFlashcardsIndexes([...pastFlashcardsIndexes, randomIndex]);
+    setCurrentFlashcardTerm(minConfidenceCards[randomIndex].term);
+    setCurrentFlashcardDefinition(minConfidenceCards[randomIndex].definition);
 
-      let choice = ChooseStudyMode(minConfidenceCards[randomIndex]);
-      if (flashcardsInside.length === 1) {
-        EndStudyMode();
-        return;
-      }
-      setStudyMode(choice);
+    let choice = ChooseStudyMode(minConfidenceCards[randomIndex]);
+    if (flashcardsInside.length === 1) {
+      EndStudyMode();
+      return;
+    }
+    setStudyMode(choice);
   };
   //this function makes sure the flashcards are not repeated
   const EnsureNoRepeat = (indexChosen) => {
