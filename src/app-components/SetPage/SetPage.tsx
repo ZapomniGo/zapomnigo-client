@@ -169,7 +169,6 @@ export const SetPage = () => {
           ...response.data.set,
           flashcards: updatedFlashcards,
         });
-        console.log(response.data.set.verified)
         setIsSetVerified(response.data.set.verified);
         setUsername(response.data.set.username);
         setTotalItems(response.data.total_items);
@@ -239,9 +238,6 @@ export const SetPage = () => {
         ? navigate(`/app/study/${id}`)
         : toast("Учи режимът работи с 4 или повече флашкарти!")
     }
-    
-    
-    
   }
 
   useEffect(() => {

@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import { MdOutlineVerifiedUser } from "react-icons/md";
+
 interface SetCardProps {
   id: string;
   title: string;
@@ -28,6 +30,7 @@ const SetCard: React.FC<SetCardProps> = ({
   icon,
   type,
   subcategory,
+  verified
 }) => {
   const displayDescription = () => {
     let n = 120;
@@ -59,6 +62,12 @@ const SetCard: React.FC<SetCardProps> = ({
         >
           {icon}
           {title.length > 38 ? title.substring(0, 38) + "..." : title}
+          {verified &&                       <MdOutlineVerifiedUser
+                        onClick={verified}
+                        className="miniReport"
+                        style={{ color: "orange" }}
+                      />}
+
         </div>
         {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
           <SlOptionsVertical />

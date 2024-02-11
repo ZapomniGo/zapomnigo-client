@@ -25,7 +25,7 @@ export const FolderView: React.FC = () => {
   const [category, setCategory] = useState();
   const [subCategory, setSubCategory] = useState();
   const [isAdmin, setIsAdmin] = useState(false);
-  const [verified, setVerified] = useState(true);
+  const [isVerified, setIsVerified] = useState(true);
   const [allowReport, setAllowReport] = useState(true);
 
   useEffect(() => {
@@ -44,6 +44,7 @@ export const FolderView: React.FC = () => {
     instance
       .get(`/folders/${id}/sets`)
       .then((response) => {
+        console.log(response.data.folder.verified);
         setSetCards(response.data.sets);
         setTitle(response.data.folder.folder_title);
         setDescription(response.data.folder.folder_description);
@@ -51,12 +52,14 @@ export const FolderView: React.FC = () => {
         document.title = `${response.data.folder.folder_title} | ЗапомниГо`;
         setCategory(response.data.folder.category_name);
         setSubCategory(response.data.folder.subcategory_name);
+        setIsVerified(response.data.folder.verified);
       })
       .catch((error) => {
         if (error.response.status === 404) {
           window.location.href = "/app/not-found";
         }
       });
+
   }, []);
 
   const handleLoadRecent = () => {
@@ -104,6 +107,11 @@ export const FolderView: React.FC = () => {
         });
     }
   };
+
+  const verified = () => {
+    toast("Това тесте е проверено и одобрено от ЗапомниГо");
+  };
+
   const handleDelete = () => {
     if (!window.confirm("Сигурен ли сте, че искаш да изтриеш тази папка?")) {
       return;
@@ -119,7 +127,7 @@ export const FolderView: React.FC = () => {
         <h2 className="folder-title">
           <h1 style={{ fontWeight: 900 }}>
             {title}{" "}
-            {verified ? (
+            {isVerified ? (
               <MdOutlineVerifiedUser
                 onClick={verified}
                 className="miniReport"

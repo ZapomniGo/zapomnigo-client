@@ -210,6 +210,7 @@ export const MainPage: React.FC = () => {
     instance
       .get(`/sets?page=${pageSet}&size=10&sort_by_date=true&ascending=false`)
       .then((response) => {
+        console.log(response.data);
         setTotalSetPages(response.data.total_pages);
         const newCards = [...setCards];
         response.data.sets.forEach((card) => newCards.push(card));
@@ -489,6 +490,7 @@ export const MainPage: React.FC = () => {
                   isSelected={selectSet === card.set_id}
                   category={card.category_name}
                   subcategory={card.subcategory_name}
+                  verified={card.verified}
                 />
               ))
             ) : (
