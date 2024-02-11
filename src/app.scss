@@ -198,6 +198,7 @@ select {
 }
 button:not(#RFS-StepButton, button[type="button"]),
 input[type="submit"] {
+  user-select: none !important;
   transition: 0.2s;
   min-height: 2.5vmax;
   cursor: pointer;
