@@ -33,6 +33,7 @@ export const SetPage = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [totalItems, setTotalItems] = useState(0);
   const [isSetVerified, setIsSetVerified] = useState(false);
+  const [reportAllowed, setReportAllowed] = useState(true);
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -216,6 +217,7 @@ export const SetPage = () => {
         })
         .then((response) => {
           toast("Благодарим за сигнала!");
+          setReportAllowed(false);
         })
         .catch((error) => {
           toast(
@@ -229,16 +231,20 @@ export const SetPage = () => {
   };
 
   const Study = () => {
-    console.log(token)
-    if(token === null){
+    console.log(token);
+    if (token === null) {
       navigate("/app/login");
-      toast("Трябва да влезете а акаунта си, за да учите")
-    } else{
+      toast("Трябва да влезете а акаунта си, за да учите");
+    } else {
       flashcards.flashcards.length >= 4
         ? navigate(`/app/study/${id}`)
-        : toast("Учи режимът работи с 4 или повече флашкарти!")
+        : toast("Учи режимът работи с 4 или повече флашкарти!");
     }
+<<<<<<< HEAD
   }
+=======
+  };
+>>>>>>> DEV_ENV
 
   useEffect(() => {
     console.log(setCreator);
@@ -262,7 +268,12 @@ export const SetPage = () => {
                     }}
                   >
                     {" "}
+<<<<<<< HEAD
                    {isSetVerified ? (
+=======
+                    {/* waiting for backend */}
+                    {/* {isSetVerified ? (
+>>>>>>> DEV_ENV
                       <MdOutlineVerifiedUser
                         onClick={verified}
                         className="miniReport"
@@ -273,11 +284,13 @@ export const SetPage = () => {
                     )} 
                   </div>
                 </h1>{" "}
-                <FaFontAwesomeFlag
-                  style={{ margin: "1vmax" }}
-                  onClick={report}
-                  className="miniReport"
-                />
+                {reportAllowed ? (
+                  <FaFontAwesomeFlag
+                    style={{ margin: "1vmax" }}
+                    onClick={report}
+                    className="miniReport"
+                  />
+                ) : null}
                 {flashcards && flashcards.organization ? (
                   <div
                     className={`set-institution ${
@@ -305,8 +318,9 @@ export const SetPage = () => {
               </div>
               <div className="actions">
                 <a
-                  onClick={() =>{Study();}
-                  }
+                  onClick={() => {
+                    Study();
+                  }}
                 >
                   <FaRegLightbulb />
                   Учи

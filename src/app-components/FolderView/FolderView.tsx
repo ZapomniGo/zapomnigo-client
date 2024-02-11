@@ -11,6 +11,7 @@ import { TbSettings } from "react-icons/tb";
 import { MdDeleteOutline } from "react-icons/md";
 import { MdOutlineVerifiedUser } from "react-icons/md";
 import { FaFontAwesomeFlag } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export const FolderView: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -93,7 +94,7 @@ export const FolderView: React.FC = () => {
     }
     if (reason) {
       instance
-        .post(`/sets/${id}/report`, {
+        .post(`/folders/${id}/report`, {
           reason: reason,
         })
         .then((response) => {
