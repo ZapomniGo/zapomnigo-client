@@ -93,7 +93,7 @@ export const SetPage = () => {
       return;
     }
     instance
-      .post(`/set/${id}/copy`)
+      .post(`/sets/${id}/copy`)
       .then((response) => {
         toast("Добре дошъл в новото си идентично тесте!");
         navigate(`/app/set/${response.data.set_id}`);
