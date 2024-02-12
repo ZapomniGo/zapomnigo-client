@@ -126,6 +126,9 @@ const Flip = () => {
               flipCard();
             }}
           >
+            <div className="info-message">
+              <p>Натисни картата за да я обърнеш</p>
+            </div>
             <div id="front">
               <p>
                 {parse(flashcards[counter].term)} 
