@@ -116,26 +116,26 @@ export const modules = (id) => ({
 
 // Formats objects for setting up the Quill editor
 export const formats = [
-  "header",
+  // "header",
   "font",
   "size",
   "bold",
   "italic",
   "underline",
-  "align",
-  "strike",
-  "script",
-  "blockquote",
-  "background",
-  "list",
-  "bullet",
-  "indent",
+  // "align",
+  // "strike",
+  // "script",
+  // "blockquote",
+  // "background",
+  // "list",
+  // "bullet",
+  // "indent",
   "link",
   "image",
-  "color",
+  // "color",
   "code-block",
   "formula",
-  "video",
+  // "video",
   "code-block",
   "imageResize",
   "imageCompress",
@@ -152,7 +152,8 @@ export const QuillToolbar = ({ id }) => (
         <button className="ql-formula" />
         <button className="ql-link" />
           <button className="ql-image" />
-          <button className="ql-video" />
+          {/* <button className="ql-video" /> */}
+          
       </div>
     {/* ) : ( */}
       {/* <>

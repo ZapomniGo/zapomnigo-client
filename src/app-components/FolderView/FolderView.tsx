@@ -81,7 +81,7 @@ export const FolderView: React.FC = () => {
   const report = () => {
     let reason = prompt("Защо смяташ, че това тесте е неподходящо?");
     if (reason === null) {
-      alert("Не сте въвели причина");
+      alert("Не си въвел причина");
       return;
     }
     if (reason.length > 1e5) {
@@ -89,7 +89,7 @@ export const FolderView: React.FC = () => {
       return;
     }
     if (localStorage.getItem("access_token") === null) {
-      alert("Трябва да сте логнат за да докладвате");
+      alert("Трябва да си логнат, за да докладваш");
       return;
     }
     if (reason) {
