@@ -10,6 +10,8 @@ import MultipleChoice from "./StudyModesViews/MultipleChoice";
 import FreeInput from "./StudyModesViews/FreeInput";
 import LevelCheck from "./StudyModesViews/LevelCheck";
 import FinishedView from "./StudyModesViews/FinishedView";
+import IsItCorrect from "./StudyModesViews/IsItCorrect";
+//Additional components
 import { toast, ToastContainer } from "react-toastify";
 import LearnSettings from "./utils/LearnSettings";
 import { SP, SN } from "../../app-utils/soundManager";
@@ -219,6 +221,7 @@ const StudyComponent = () => {
     //Multiple Choice is 1
     //FreeInput is 2
     //Evaluate answer is 3
+    //Is it correct is 4
     //--------------------
     //If the confidence level of a flashcard is less than the average confidence
     //level of all flashcards, then we will study it in multiple choice mode, if not,
@@ -241,8 +244,6 @@ const StudyComponent = () => {
     if (flashcard.confidence == null) {
       flashcard.confidence = 0;
     }
-    // console.log("average confidence is " + averageConfidence);
-    // console.log("flashcard confidence is " + flashcard.confidence);
     if (
       flashcard.confidence <= averageConfidence ||
       flashcard.definition.length > 100 ||
@@ -253,7 +254,11 @@ const StudyComponent = () => {
       if (Math.random() > 0.2) {
         chosenStudyMode = 2;
       } else {
-        chosenStudyMode = 3;
+        if(Math.random() > 0.3){
+          chosenStudyMode = 3;
+        }else{
+          chosenStudyMode = 4;
+        }
       }
     }
 
@@ -323,6 +328,32 @@ const StudyComponent = () => {
           return 1;
         }
       } else if (!allowedStudyModes.includes(3) && chosenStudyMode == 3) {
+        if (allowedStudyModes.includes(1)) {
+          return 1;
+        } else if (allowedStudyModes.includes(2)) {
+          if (
+            (flashcard.definition.includes("<img") ||
+              flashcard.definition.includes("<video") ||
+              flashcard.definition.includes("ql-formula") ||
+              flashcard.term.includes("<iframe")) &&
+            (flashcard.term.includes("<img>") ||
+              flashcard.term.includes("<video>") ||
+              flashcard.term.includes("ql-formula") ||
+              flashcard.term.includes("<iframe"))
+          ) {
+            return 3;
+          }
+          if (
+            flashcard.definition.includes("<img") ||
+            flashcard.definition.includes("<video") ||
+            flashcard.definition.includes("ql-formula") ||
+            flashcard.term.includes("<iframe")
+          ) {
+            return 2;
+          }
+          return 2;
+        }
+      } else if (!allowedStudyModes.includes(4) && chosenStudyMode == 4) {
         if (allowedStudyModes.includes(1)) {
           return 1;
         } else if (allowedStudyModes.includes(2)) {
@@ -481,6 +512,14 @@ const StudyComponent = () => {
             <LevelCheck
               currentFlashcardTerm={currentFlashcardTerm}
               currentFlashcardDefinition={currentFlashcardDefinition}
+              VerifyCorrectness={VerifyCorrectness}
+            />
+          )}
+          {studyMode == 4 && (
+            <IsItCorrect
+              currentFlashcardTerm={currentFlashcardTerm}
+              currentFlashcardDefinition={currentFlashcardDefinition}
+              flashcards={flashcards}
               VerifyCorrectness={VerifyCorrectness}
             />
           )}
