@@ -49,6 +49,19 @@ const Flip = () => {
       setCounter(0);
     }
   };
+  const showDefinition = () => {
+    if (isHidden) {
+      FO.play();
+    }
+    setIsHidden(false);
+  };
+  const hideDefinition = () => {
+    if (!isHidden) {
+      FO.play();
+    }
+    setIsHidden(true);
+  };
+
   const changeTermAndDefintion = () => {
     toast("Терминът и дефиницията са сменени!");
     setIsHidden(true);
@@ -71,7 +84,6 @@ const Flip = () => {
     setIsHidden(!isHidden);
     setIsMessageHidden(true);
     localStorage.setItem('flipMessage', 'true');
-
   }
 
   useEffect(() => {
@@ -91,34 +103,45 @@ const Flip = () => {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'ArrowRight' && !isKeyPressed) {
+      if (event.key === "ArrowRight" && !isKeyPressed) {
         setIsKeyPressed(true);
         next();
       }
 
-      if(event.key === 'ArrowLeft' && !isKeyPressed){
+      if (event.key === "ArrowLeft" && !isKeyPressed) {
         setIsKeyPressed(true);
         previous();
+      }
+      if (event.key === "ArrowDown" && !isKeyPressed) {
+        showDefinition();
+      }
+      if (event.key === "ArrowUp" && !isKeyPressed) {
+        hideDefinition();
       }
     };
 
     const handleKeyUp = (event) => {
-      if (event.key === 'ArrowRight') {
+      if (event.key === "ArrowRight") {
         setIsKeyPressed(false);
       }
-      if (event.key === 'ArrowLeft') {
+      if (event.key === "ArrowLeft") {
+        setIsKeyPressed(false);
+      }
+      if (event.key === "ArrowDown") {
+        setIsKeyPressed(false);
+      }
+      if (event.key === "ArrowUp") {
         setIsKeyPressed(false);
       }
     };
-    
 
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('keyup', handleKeyUp);
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
 
     // Clean up the event listeners
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('keyup', handleKeyUp);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
     };
   }, [isKeyPressed]);
 
@@ -129,16 +152,15 @@ const Flip = () => {
           <h1 className="counter">
             {counter + 1}/{flashcards.length}
           </h1>
-          <section id="card" 
+          <section
+            id="card"
             onClick={() => {
               flipCard();
             }}
           >
             
             <div id="front">
-              <p>
-                {parse(flashcards[counter].term)} 
-              </p>
+              <p>{parse(flashcards[counter].term)}</p>
             </div>
             {!isMessageHidden? (
               <div className="info-message">
@@ -154,18 +176,17 @@ const Flip = () => {
               </div>
             ) : null}
           </section>
-          {flashcards.length > 1 && 
-          <div className="arrow-left" onClick={previous}>
-            <FaArrowLeft  />
-          </div>
-          }
+          {flashcards.length > 1 && (
+            <div className="arrow-left" onClick={previous}>
+              <FaArrowLeft />
+            </div>
+          )}
 
-          {flashcards.length > 1 && 
-          <div className="arrow-right" onClick={next}>
-            <FaArrowRight  />
-          </div>
-          }
-
+          {flashcards.length > 1 && (
+            <div className="arrow-right" onClick={next}>
+              <FaArrowRight />
+            </div>
+          )}
 
           {/* <center className="btnGroup">
             <MdFlipCameraAndroid
@@ -185,7 +206,7 @@ const Flip = () => {
       ) : (
         <center>
           {" "}
-          <LoadingAnimation />
+          <h1 className="loadingBanner">Зареждане...</h1>
         </center>
       )}
     </>

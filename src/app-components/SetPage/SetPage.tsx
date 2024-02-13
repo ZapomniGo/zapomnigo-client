@@ -197,9 +197,9 @@ export const SetPage = () => {
     }
   }, []);
   const report = () => {
-    let reason = prompt("Защо смяташ, че тази папка е неподходяща?");
+    let reason = prompt("Защо смяташ, че това тесте е неподходяща?");
     if (reason === null) {
-      alert("Не сте въвели причина");
+      alert("Не си въвел причина");
       return;
     }
     if (reason.length > 1e5) {
@@ -207,7 +207,7 @@ export const SetPage = () => {
       return;
     }
     if (localStorage.getItem("access_token") === null) {
-      alert("Трябва да сте логнат за да докладвате");
+      alert("Трябва да си логнат за да докладваш");
       return;
     }
     if (reason) {
