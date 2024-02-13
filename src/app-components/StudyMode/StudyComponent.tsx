@@ -36,7 +36,7 @@ const StudyComponent = () => {
   // set the allowed study mode
 
   const [allowedStudyModes, setAllowedStudyModes] = useState(
-    defaultSetup.allowedModes ? defaultSetup.allowedModes : [1, 2, 3, 4]
+    defaultSetup.allowedModes ? defaultSetup.allowedModes : [1, 2, 3, 4, 5]
   );
   const { id } = useParams<{ id: string }>();
   const [idHolder, setIdHolder] = useState(id);
@@ -223,6 +223,7 @@ const StudyComponent = () => {
     //FreeInput is 2
     //Evaluate answer is 3
     //Is it correct is 4
+    //Matching is 5
     //--------------------
     //If the confidence level of a flashcard is less than the average confidence
     //level of all flashcards, then we will study it in multiple choice mode, if not,
@@ -258,7 +259,11 @@ const StudyComponent = () => {
         if (Math.random() > 0.3) {
           chosenStudyMode = 3;
         } else {
-          chosenStudyMode = 4;
+          if (Math.random() > 0.4) {
+            chosenStudyMode = 4;
+          } else {
+            chosenStudyMode = 5;
+          }
         }
       }
     }
@@ -298,6 +303,8 @@ const StudyComponent = () => {
         return 3;
       } else if (chosenStudyMode === 4 && allowedStudyModes.includes(4)) {
         return 4;
+      } else if (chosenStudyMode === 5 && allowedStudyModes.includes(5)) {
+        return 5;
       } else if (!allowedStudyModes.includes(1) && chosenStudyMode === 1) {
         if (allowedStudyModes.includes(2)) {
           if (
@@ -325,18 +332,24 @@ const StudyComponent = () => {
           return 3;
         } else if (allowedStudyModes.includes(4)) {
           return 4;
+        } else if (allowedStudyModes.includes(5)) {
+          return 5;
         }
       } else if (!allowedStudyModes.includes(2) && chosenStudyMode === 2) {
         if (allowedStudyModes.includes(3)) {
           return 3;
         } else if (allowedStudyModes.includes(4)) {
           return 4;
+        } else if (allowedStudyModes.includes(5)) {
+          return 5;
         } else if (allowedStudyModes.includes(1)) {
           return 1;
         }
       } else if (!allowedStudyModes.includes(3) && chosenStudyMode === 3) {
         if (allowedStudyModes.includes(4)) {
           return 4;
+        } else if (allowedStudyModes.includes(5)) {
+          return 5;
         } else if (allowedStudyModes.includes(1)) {
           return 1;
         } else if (allowedStudyModes.includes(2)) {
@@ -363,6 +376,36 @@ const StudyComponent = () => {
           return 2;
         }
       } else if (!allowedStudyModes.includes(4) && chosenStudyMode === 4) {
+        if (allowedStudyModes.includes(5)) {
+          return 5;
+        } else if (allowedStudyModes.includes(1)) {
+          return 1;
+        } else if (allowedStudyModes.includes(2)) {
+          if (
+            (flashcard.definition.includes("<img") ||
+              flashcard.definition.includes("<video") ||
+              flashcard.definition.includes("ql-formula") ||
+              flashcard.term.includes("<iframe")) &&
+            (flashcard.term.includes("<img>") ||
+              flashcard.term.includes("<video>") ||
+              flashcard.term.includes("ql-formula") ||
+              flashcard.term.includes("<iframe"))
+          ) {
+            return 3;
+          }
+          if (
+            flashcard.definition.includes("<img") ||
+            flashcard.definition.includes("<video") ||
+            flashcard.definition.includes("ql-formula") ||
+            flashcard.term.includes("<iframe")
+          ) {
+            return 2;
+          }
+          return 2;
+        } else if (allowedStudyModes.includes(3)) {
+          return 3;
+        }
+      } else if (!allowedStudyModes.includes(5) && chosenStudyMode === 5) {
         if (allowedStudyModes.includes(1)) {
           return 1;
         } else if (allowedStudyModes.includes(2)) {
@@ -389,6 +432,8 @@ const StudyComponent = () => {
           return 2;
         } else if (allowedStudyModes.includes(3)) {
           return 3;
+        } else if (allowedStudyModes.includes(4)) {
+          return 4;
         }
       } else {
         console.log("No study mode is allowed");

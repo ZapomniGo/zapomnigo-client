@@ -111,6 +111,26 @@ const LearnSettings = (props) => {
               />{" "}
               <label for="switch4"></label>
             </div>
+            {/* <p className="title">Събери:</p>
+
+            <div className="settings-option">
+              <span>
+              Това е режим, в който платформата ти дава няколко термина и дефиниции и трябва да ги събереш:
+              </span>
+              <input
+                type="checkbox"
+                id="switch5"
+                checked={props.allowedModes.includes(5)}
+                onChange={() =>
+                  props.setAllowedModes((prev) =>
+                    prev.includes(5)
+                      ? prev.filter((mode) => mode !== 5)
+                      : [...prev, 5]
+                  )
+                }
+              />{" "}
+              <label for="switch5"></label>
+            </div> */}
           </div>
         </div>
       )}

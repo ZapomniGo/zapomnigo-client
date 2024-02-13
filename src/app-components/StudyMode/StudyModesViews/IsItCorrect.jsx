@@ -82,7 +82,7 @@ const IsItCorrect = (props) => {
         ? parse(props.currentFlashcardDefinition)
         : parse(props.currentFlashcardTerm)}
 
-      {showTerm ? parse(randomTerm) : parse(randomDefinition)}
+      {showTerm ? parse(randomTerm) : parse(randomTerm)}
       {showAnswer ? (
         <>
           <p>
