@@ -16,6 +16,7 @@ const Flip = () => {
   const [flashcards, setFlashcards] = React.useState([]);
   const [counter, setCounter] = React.useState(0);
   const [isHidden, setIsHidden] = React.useState(true);
+  const [isMessageHidden, setIsMessageHidden] = React.useState(false);
   useEffect(() => {
     instance
       .get(`/sets/${id}`)
@@ -81,7 +82,13 @@ const Flip = () => {
   const flipCard = () => {
     isHidden ? FO.play() : FC.play();
     setIsHidden(!isHidden);
-  };
+    setIsMessageHidden(true);
+    localStorage.setItem('flipMessage', 'true');
+  }
+
+  useEffect(() => {
+    setIsMessageHidden(localStorage.getItem('flipMessage') === 'true');
+  }, []);
 
   // window.addEventListener('keydown', function(event) {
   //   // Check if the right arrow key was pressed
@@ -151,9 +158,18 @@ const Flip = () => {
               flipCard();
             }}
           >
+            
             <div id="front">
               <p>{parse(flashcards[counter].term)}</p>
             </div>
+            {!isMessageHidden? (
+              <div className="info-message">
+                <p>Натисни картата за да я обърнеш</p>
+              </div>
+            ) : null}
+            {/* <div className="info-message">
+              <p>Натисни картата за да я обърнеш</p>
+            </div> */}
             {!isHidden ? (
               <div id="back">
                 <p>{parse(flashcards[counter].definition)}</p>
