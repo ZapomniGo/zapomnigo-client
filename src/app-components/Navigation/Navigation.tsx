@@ -140,7 +140,12 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                   <CustomNavLink
                     to="/app/"
                     activeClassName="active"
-                    onClick={handleCloseClick}
+                    onClick={() => {
+                      handleCloseClick();
+                      if (window.location.pathname === "/app/") {
+                        window.location.reload();
+                      }
+                    }}
                   >
                     <i className="icon" style={{ transform: "scale(1.3)" }}>
                       <BiHomeAlt />
