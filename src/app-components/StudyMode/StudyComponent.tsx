@@ -254,21 +254,21 @@ const StudyComponent = () => {
       if (Math.random() > 0.2) {
         chosenStudyMode = 2;
       } else {
-        if(Math.random() > 0.3){
+        if (Math.random() > 0.3) {
           chosenStudyMode = 3;
-        }else{
+        } else {
           chosenStudyMode = 4;
         }
       }
     }
-
+    console.log(chosenStudyMode, allowedStudyModes);
     if (allowedStudyModes.includes(chosenStudyMode)) {
       return chosenStudyMode;
     } else {
       //check which study mode is not allowed and upgrade to the next one
-      if (chosenStudyMode == 1 && allowedStudyModes.includes(1)) {
+      if (chosenStudyMode === 1 && allowedStudyModes.includes(1)) {
         return 1;
-      } else if (chosenStudyMode == 2 && allowedStudyModes.includes(2)) {
+      } else if (chosenStudyMode === 2 && allowedStudyModes.includes(2)) {
         if (
           ((flashcard.definition.includes("<img") ||
             flashcard.definition.includes("<video") ||
@@ -293,9 +293,11 @@ const StudyComponent = () => {
           return 2;
         }
         return 2;
-      } else if (chosenStudyMode == 3 && allowedStudyModes.includes(3)) {
+      } else if (chosenStudyMode === 3 && allowedStudyModes.includes(3)) {
         return 3;
-      } else if (!allowedStudyModes.includes(1) && chosenStudyMode == 1) {
+      } else if (chosenStudyMode === 4 && allowedStudyModes.includes(4)) {
+        return 4;
+      } else if (!allowedStudyModes.includes(1) && chosenStudyMode === 1) {
         if (allowedStudyModes.includes(2)) {
           if (
             (flashcard.definition.includes("<img") ||
@@ -320,15 +322,21 @@ const StudyComponent = () => {
           return 2;
         } else if (allowedStudyModes.includes(3)) {
           return 3;
+        } else if (allowedStudyModes.includes(4)) {
+          return 4;
         }
-      } else if (!allowedStudyModes.includes(2) && chosenStudyMode == 2) {
+      } else if (!allowedStudyModes.includes(2) && chosenStudyMode === 2) {
         if (allowedStudyModes.includes(3)) {
           return 3;
+        } else if (allowedStudyModes.includes(4)) {
+          return 4;
         } else if (allowedStudyModes.includes(1)) {
           return 1;
         }
-      } else if (!allowedStudyModes.includes(3) && chosenStudyMode == 3) {
-        if (allowedStudyModes.includes(1)) {
+      } else if (!allowedStudyModes.includes(3) && chosenStudyMode === 3) {
+        if (allowedStudyModes.includes(4)) {
+          return 4;
+        } else if (allowedStudyModes.includes(1)) {
           return 1;
         } else if (allowedStudyModes.includes(2)) {
           if (
@@ -353,7 +361,7 @@ const StudyComponent = () => {
           }
           return 2;
         }
-      } else if (!allowedStudyModes.includes(4) && chosenStudyMode == 4) {
+      } else if (!allowedStudyModes.includes(4) && chosenStudyMode === 4) {
         if (allowedStudyModes.includes(1)) {
           return 1;
         } else if (allowedStudyModes.includes(2)) {
@@ -378,7 +386,12 @@ const StudyComponent = () => {
             return 2;
           }
           return 2;
+        } else if (allowedStudyModes.includes(3)) {
+          return 3;
         }
+      } else {
+        console.log("No study mode is allowed");
+        return chosenStudyMode;
       }
     }
 
