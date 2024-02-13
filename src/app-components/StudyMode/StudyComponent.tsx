@@ -5,7 +5,7 @@ import React from "react";
 import { jwtDecode } from "jwt-decode";
 import { convert } from "html-to-text";
 import Dashboard from "../Dashboard/Dashboard";
-//Copmonents for study mode
+//Components for study mode
 import MultipleChoice from "./StudyModesViews/MultipleChoice";
 import FreeInput from "./StudyModesViews/FreeInput";
 import LevelCheck from "./StudyModesViews/LevelCheck";
@@ -14,6 +14,7 @@ import IsItCorrect from "./StudyModesViews/IsItCorrect";
 //Additional components
 import { toast, ToastContainer } from "react-toastify";
 import LearnSettings from "./utils/LearnSettings";
+import { ProgressBar } from "./utils/ProgressBar";
 import { SP, SN } from "../../app-utils/soundManager";
 import defaultSetup from "./configs/defaultSetup.json";
 
@@ -501,6 +502,11 @@ const StudyComponent = () => {
       <ToastContainer />
       {/* <Dashboard> */}
       <div className="study-component">
+        <ProgressBar
+          flashcards={flashcards}
+          pastFlashcardsIndexes={pastFlashcardsIndexes}
+          studyMode={studyMode}
+        />
         <div className="study-wrapper">
           {studyMode === 1 && (
             <MultipleChoice

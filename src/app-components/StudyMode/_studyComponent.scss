@@ -287,8 +287,9 @@
 }
 
 @media screen and (max-width: 700px) {
-  .lvl-check,.free-input{
-    img{
+  .lvl-check,
+  .free-input {
+    img {
       width: 100% !important;
     }
   }
@@ -311,7 +312,7 @@
   flex-direction: column;
   align-items: flex-end;
 
-  .msg-box{
+  .msg-box {
     background-color: #fff;
     border-radius: 5px;
     display: flex;
@@ -323,15 +324,14 @@
     align-items: center;
     cursor: pointer;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    
 
-    svg{
+    svg {
       justify-content: flex-end;
       width: 1.3rem;
       height: 1.3rem;
       color: gray;
     }
-    p{
+    p {
       // margin-top: 5px;
       font-size: 15px;
     }
@@ -348,11 +348,10 @@
       color: gray !important;
     }
   }
-  .open:hover{
+  .open:hover {
     svg {
       color: $secondary-color !important;
     }
-  
   }
 }
 
@@ -421,17 +420,25 @@
 .free-input {
   padding: 20px;
   .term {
-
     font-size: 30px;
   }
+}
+#progressBar {
+  transition:1s ease-out;
+  @include orangeBackground;
+  height: 1vh;
+  width: 10vw;
+  position: fixed;
+  top: 0;
+  left: 0vw;
 }
 @media screen and (max-width: 1000px) {
   .finished-view {
     img {
       width: 70vw !important;
     }
-    button{
-      width:100% !important;
+    button {
+      width: 100% !important;
     }
   }
   .lvl-check,
