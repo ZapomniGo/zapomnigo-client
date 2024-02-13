@@ -51,6 +51,9 @@
       justify-items: center;
       border-radius: 5px;
       z-index: 999;
+      animation: buttonAnimation 1.5s infinite ease-in-out;
+      transition:.2s !important;
+
       p{  
         text-align: center;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -79,6 +82,19 @@
         // left: ;
         transform: rotate(45deg);
     }
+
+    @keyframes buttonAnimation {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(5px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
     p {
       display: flex;
       flex-direction: column;
