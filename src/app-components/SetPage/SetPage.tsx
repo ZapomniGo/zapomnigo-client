@@ -99,7 +99,7 @@ export const SetPage = () => {
         navigate(`/app/set/${response.data.set_id}`);
       })
       .catch((error) => {
-        //   toast("Имаше грешка при копирането, пробвай отново по-късно");
+          toast("Имаше грешка при копирането, пробвай отново по-късно");
       });
   };
 
@@ -242,9 +242,31 @@ export const SetPage = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(setCreator);
-  }, [setCreator]);
+  const verifyAdmin = () => {
+    if(isSetVerified === true){
+      instance
+      .post(`/sets/${id}/verify`,{
+        "verified": false
+      })
+      .then((response) => {
+        toast('Тестето не е потвърдено')
+      })
+      .catch((error) => {
+        toast('Грешка');
+      });
+    } else{
+      instance
+      .post(`/sets/${id}/verify`,{
+        "verified": true
+      })
+      .then((response) => {
+        toast('Тестето е потвърдено')
+      })
+      .catch((error) => {
+        toast('Грешка')
+      });
+    }
+  }
 
   return (
     <Dashboard>
@@ -263,12 +285,21 @@ export const SetPage = () => {
                       marginLeft: ".2vmax",
                     }}
                   >
-                    {" "}
+                   {isAdmin ? (
+                      <MdOutlineVerifiedUser
+                        onClick={verifyAdmin}
+                        className="miniReport"
+                        style={{ color: "red" , cursor: "pointer"}}
+                      />
+                    ) : (
+                      ""
+                    
+                   )}
                    {isSetVerified ? (
                       <MdOutlineVerifiedUser
                         onClick={verified}
                         className="miniReport"
-                        style={{ color: "orange" }}
+                        style={{ color: "orange", cursor: "pointer" }}
                       />
                     ) : (
                       ""
