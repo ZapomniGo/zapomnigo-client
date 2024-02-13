@@ -35,7 +35,7 @@ const StudyComponent = () => {
   // set the allowed study mode
 
   const [allowedStudyModes, setAllowedStudyModes] = useState(
-    defaultSetup.allowedModes ? defaultSetup.allowedModes : [1, 2, 3]
+    defaultSetup.allowedModes ? defaultSetup.allowedModes : [1, 2, 3, 4]
   );
   const { id } = useParams<{ id: string }>();
   const [idHolder, setIdHolder] = useState(id);

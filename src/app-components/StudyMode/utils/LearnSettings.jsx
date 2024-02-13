@@ -90,26 +90,25 @@ const LearnSettings = (props) => {
               />{" "}
               <label for="switch3"></label>
             </div>
-            <div>
-              <p className="title">Вярно/Грешно:</p>
-              <div className="settings-option">
-                <span>
-                  Това е режим, в който платформата ти дава термин/дефиниция и
+            <p className="title">Вярно/Грешно:</p>
+
+            <div className="settings-option">
+              <span>
+              Това е режим, в който платформата ти дава термин/дефиниция и
                   трябва да отговориш дали е вярна или грешна:
-                </span>
-                <input
-                  type="checkbox"
-                  id="switch4"
-                  checked={props.allowedModes.includes(4)}
-                  onChange={() =>
-                    props.setAllowedModes((prev) =>
-                      prev.includes(4)
-                        ? prev.filter((mode) => mode !== 4)
-                        : [...prev, 4]
-                    )
-                  }
-                />{" "}
-              </div>
+              </span>
+              <input
+                type="checkbox"
+                id="switch4"
+                checked={props.allowedModes.includes(4)}
+                onChange={() =>
+                  props.setAllowedModes((prev) =>
+                    prev.includes(4)
+                      ? prev.filter((mode) => mode !== 4)
+                      : [...prev, 4]
+                  )
+                }
+              />{" "}
               <label for="switch4"></label>
             </div>
           </div>

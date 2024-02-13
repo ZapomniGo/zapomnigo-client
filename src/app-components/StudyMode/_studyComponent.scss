@@ -373,6 +373,9 @@
       align-items: center;
       justify-content: space-between;
       margin: 5px 0;
+      span{
+        max-width: 90%;
+      }
     }
     input[type="checkbox"] {
       height: 0;
