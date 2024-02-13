@@ -5,9 +5,10 @@ const IsItCorrect = (props) => {
   const [randomDefinition, setRandomDefinition] = useState("");
   const [randomTerm, setRandomTerm] = useState("");
   const [showTerm, setShowTerm] = useState(Math.random() > 0.5);
-
+  const [isRandom, setIsRandom] = useState(Math.random() > 0.5);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState();
   useEffect(() => {
-    const isRandom = Math.random() > 0.5;
     if (!isRandom) {
       if (showTerm) {
         setRandomTerm(props.currentFlashcardTerm);
@@ -27,9 +28,52 @@ const IsItCorrect = (props) => {
           .definition;
       setRandomDefinition(randomDefinition);
     }
-  }, [showTerm]);
+  }, []);
+  const next = () => {
+    setShowAnswer(false);
+    setIsRandom(Math.random() > 0.5);
+    setShowTerm(Math.random() > 0.5);
 
-  const handleCorrectness = (isCorrect) => {};
+    props.VerifyCorrectness(selectedAnswer, 4, true);
+  };
+  const handleCorrectness = (isCorrect) => {
+    setSelectedAnswer(isCorrect);
+    setShowAnswer(true);
+
+    if (isCorrect === "idk") {
+      props.VerifyCorrectness(false, 4, false);
+      setSelectedAnswer(false);
+      return;
+    }
+
+    if (isCorrect) {
+      props.VerifyCorrectness(
+        showTerm ? randomTerm : randomDefinition,
+        4,
+        false
+      );
+      setSelectedAnswer(showTerm ? randomTerm : randomDefinition);
+    } else {
+      if (isRandom) {
+        props.VerifyCorrectness(
+          showTerm
+            ? props.currentFlashcardTerm
+            : props.currentFlashcardDefinition,
+          4,
+          false
+        );
+        setSelectedAnswer(
+          showTerm
+            ? props.currentFlashcardTerm
+            : props.currentFlashcardDefinition
+        );
+      } else {
+        props.VerifyCorrectness(false, 4, false);
+        setSelectedAnswer(false);
+      }
+    }
+    setShowTerm(!showTerm);
+  };
   return (
     <div>
       {showTerm && "Верен ли е този термин?"}
@@ -39,9 +83,23 @@ const IsItCorrect = (props) => {
         : parse(props.currentFlashcardTerm)}
 
       {showTerm ? parse(randomTerm) : parse(randomDefinition)}
-      <button onClick={() => handleCorrectness(true)}>Да</button>
-      <button onClick={() => handleCorrectness(false)}>Не</button>
-      <button>Не знам</button>
+      {showAnswer ? (
+        <>
+          <p>
+            Правилната {showTerm ? "дефиниция" : "термин"} е:
+            {showTerm
+              ? parse(props.currentFlashcardTerm)
+              : parse(props.currentFlashcardDefinition)}
+          </p>
+          <button onClick={next}>Следващ</button>
+        </>
+      ) : (
+        <div>
+          <button onClick={() => handleCorrectness(true)}>Да</button>
+          <button onClick={() => handleCorrectness(false)}>Не</button>
+          <button onClick={() => handleCorrectness("idk")}>Не знам</button>
+        </div>
+      )}
     </div>
   );
 };
