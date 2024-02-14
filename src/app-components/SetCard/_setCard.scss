@@ -79,7 +79,7 @@
       padding-right: 0.8vmax;
     }
   }
-  .title-options.open {
+  .title-options-new.open {
     height: 40%;
   }
   .set-title {
@@ -97,10 +97,7 @@
     }
   }
 
-  .set-title.open {
-    transition: $tran-02;
-    font-size: 1.2rem;
-  }
+
   .set-description {
     word-break: break-word;
     display: flex;
@@ -154,6 +151,13 @@
   .set-card.open {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   }
+
+  .card-title{
+    width: 100%;
+    p{
+      
+    }
+  }
 }
 
 .add-set {
@@ -174,6 +178,71 @@
   transition: $tran-03;
   overflow: hidden;
   z-index: 111;
+}
+
+
+//New title options
+.title-options-new{
+  display: flex;
+  width: 100%;
+  height: 47%;
+
+  .set-title-new{
+    margin-top: 5px;
+    display: flex !important;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    .folder-icon-new{
+      flex-basis: 10%;
+      svg{
+        padding-top:  0.2vmax !important;
+        width: 80%;
+        height: 80%;
+      }
+    }
+    .card-title-new{
+      flex-basis: 90%;
+      p{
+        width: 100%;
+        font-size: 1.4rem;
+        transition: $tran-02;     
+      }
+    }
+    .folder-icon-size{
+      flex-basis: 80% !important;
+    }
+    .verified-icon-new{
+      flex-basis: 10%;
+      display: flex;
+      justify-content: flex-end;
+      svg{
+        transition: $tran-02;
+        padding-top: 0.25vmax;
+        width: 90%;
+        height: 90%;
+      }
+    }
+  }
+}
+
+.set-title-new.open {
+  .card-title-new{
+    p{
+      transition: $tran-02;
+      font-size: 1.2rem;
+    }
+  }
+  .verified-icon-new{
+    flex-basis: 10%;
+    svg{
+      color: transparent !important; 
+      // transition: $tran-02;
+      // padding-top: 0.25vmax;
+      // width: 75%;
+      // height: 75%;
+    }
+  }
 }
 
 @media only screen and (max-width: 1550px) {
@@ -212,6 +281,7 @@
     // }
     .set-title {
       font-size: 1.2rem !important;
+      min-width: 80%;
       svg{
         width: 1.5rem;
         height: 1.5rem;
@@ -221,7 +291,11 @@
       transition: $tran-02;
       font-size: 1.2rem;
     }
-    .title-options.open, .title-options.close {
+    .title-options-new.open, .title-options-new.close {
+      p{
+        font-size: 1.1rem !important;
+
+      } 
     height: 30% !important;
     }
   }
@@ -249,6 +323,15 @@
     height: 46% !important;
   }
 
+  .set-title-new.open{
+    .verified-icon-new{
+      svg{
+        color: orange !important;
+        padding-top: 0.25vmax !important;
+      }
+
+    }
+  }
 
 
   // .set-creator, .set-creator.close, .set-creator.open {

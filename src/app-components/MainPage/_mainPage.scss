@@ -24,11 +24,14 @@
   font-size: 2vmax;
   font-weight:500;
 }
-
-.folder-wrapper {
-  .folder-title {
-    font-size: 27px;
+.folder-title {
+  font-size: 27px;
+  .folder-title-size{
+    max-width: 75% !important;
   }
+}
+.folder-wrapper {
+
   .folder-description {
     margin-top: 15px;
   }
@@ -68,9 +71,10 @@
     }
     .folder-title {
       font-size: 27px !important;
+      // width: 100% !important;
     }
     p{
-      padding-left: 20px !important;
+      // padding-left: 20px !important;
     }
   }
 }

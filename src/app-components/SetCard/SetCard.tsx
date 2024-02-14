@@ -56,20 +56,39 @@ const SetCard: React.FC<SetCardProps> = ({
           : navigate(`/app/set/${id}`)
       }
     >
-      <div className={`title-options ${isSelected ? "open" : "close"}`}>
+      {/* <div className={`title-options ${isSelected ? "open" : "close"}`}>
         <div
           className={`set-title ${isSelected ? "open" : "close"} folder-title `}
         >
           <div className="folder-icon">
             {icon}
           </div>
-          {title.length > 38 ? title.substring(0, 38) + "..." : title}
+          <div className={`card-title ${icon ?  "folder-title-size" : ""}`}>
+            <p>{title.length > 38 ? title.substring(0, 38) + "..." : title}</p>
+          </div>
           {verified &&                       <MdOutlineVerifiedUser
-                        onClick={verified}
-                        className="miniReport"
-                        style={{ color: "orange" }}
-                      />}
+              onClick={verified}
+              className="miniReport"
+              style={{ color: "orange" }}
+            />}
 
+        </div>
+      </div> */}
+
+      <div className={`title-options-new ${isSelected ? "open" : "close"}`}>
+        <div
+          className={`set-title-new ${isSelected ? "open" : "close"} folder-title-new `}
+        >
+          {icon && <div className="folder-icon-new">{icon}</div>}
+          <div className={`card-title-new ${icon ?  "folder-icon-size" : ""} ${verified ? "verified-size" : ""}`}>
+            <p>{title.length > 38 ? title.substring(0, 38) + "..." : title}</p>
+          </div>
+          <div className="verified-icon-new">
+          {verified && <MdOutlineVerifiedUser
+              onClick={verified}
+              style={{ color: "orange" }}
+            />}
+            </div>
         </div>
         {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
           <SlOptionsVertical />
