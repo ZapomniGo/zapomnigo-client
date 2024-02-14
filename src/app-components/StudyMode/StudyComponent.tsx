@@ -585,6 +585,7 @@ const StudyComponent = () => {
               currentFlashcardDefinition={currentFlashcardDefinition}
               flashcards={flashcards}
               VerifyCorrectness={VerifyCorrectness}
+              pastFlashcardsIndexes={pastFlashcardsIndexes}
             />
           )}
           {studyMode == -1 && (
