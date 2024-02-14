@@ -2,103 +2,88 @@ import React, { useEffect, useState } from "react";
 import parse from "html-react-parser";
 
 const IsItCorrect = (props) => {
-  const [randomDefinition, setRandomDefinition] = useState("");
-  const [randomTerm, setRandomTerm] = useState("");
-  const [showTerm, setShowTerm] = useState(Math.random() > 0.5);
-  const [isRandom, setIsRandom] = useState(Math.random() > 0.5);
-  const [showAnswer, setShowAnswer] = useState(false);
-  const [selectedAnswer, setSelectedAnswer] = useState();
+  const [selectedTerm, setSelectedTerm] = useState("");
+  const [selectedDefinition, setSelectedDefinition] = useState("");
+  const [correctAnswer, setCorrectAnswer] = useState("");
+  const [isCorrect, setIsCorrect] = useState(null);
+  const [isAnswered, setIsAnswered] = useState(false);
   useEffect(() => {
-    if (!isRandom) {
-      if (showTerm) {
-        setRandomTerm(props.currentFlashcardTerm);
-      } else {
-        setRandomDefinition(props.currentFlashcardDefinition);
-      }
-      return;
+    console.log(parse(props.currentFlashcardDefinition));
+    if (props.currentFlashcardTerm && props.currentFlashcardDefinition) {
+      setSelectedTerm(props.currentFlashcardTerm);
+      setCorrectAnswer(props.currentFlashcardDefinition);
     }
-    if (showTerm) {
-      const randomTerm =
-        props.flashcards[Math.floor(Math.random() * props.flashcards.length)]
-          .term;
-      setRandomTerm(randomTerm);
+    //set selected definition on random with 50% chance of being correct
+    let random = Math.random() < 0.5;
+    if (random) {
+      setSelectedDefinition(props.currentFlashcardDefinition);
     } else {
-      const randomDefinition =
+      setSelectedDefinition(
         props.flashcards[Math.floor(Math.random() * props.flashcards.length)]
-          .definition;
-      setRandomDefinition(randomDefinition);
-    }
-  }, []);
-  const next = () => {
-    setShowAnswer(false);
-    setIsRandom(Math.random() > 0.5);
-    setShowTerm(Math.random() > 0.5);
-
-    props.VerifyCorrectness(selectedAnswer, 4, true);
-  };
-  const handleCorrectness = (isCorrect) => {
-    setSelectedAnswer(isCorrect);
-    setShowAnswer(true);
-
-    if (isCorrect === "idk") {
-      props.VerifyCorrectness(false, 4, false);
-      setSelectedAnswer(false);
-      return;
-    }
-
-    if (isCorrect) {
-      props.VerifyCorrectness(
-        showTerm ? randomTerm : randomDefinition,
-        4,
-        false
+          .definition
       );
-      setSelectedAnswer(showTerm ? randomTerm : randomDefinition);
-    } else {
-      if (isRandom) {
-        props.VerifyCorrectness(
-          showTerm
-            ? props.currentFlashcardTerm
-            : props.currentFlashcardDefinition,
-          4,
-          false
-        );
-        setSelectedAnswer(
-          showTerm
-            ? props.currentFlashcardTerm
-            : props.currentFlashcardDefinition
-        );
-      } else {
-        props.VerifyCorrectness(false, 4, false);
-        setSelectedAnswer(false);
-      }
     }
-    setShowTerm(!showTerm);
-  };
+  }, [props.pastFlascardIndexes, props.currentFlashcardTerm]);
   return (
     <div>
-      {showTerm && "Верен ли е този термин?"}
-      {!showTerm && "Вярна ли е тази дефиниция?"}
-      {showTerm
-        ? parse(props.currentFlashcardDefinition)
-        : parse(props.currentFlashcardTerm)}
-
-      {showTerm ? parse(randomTerm) : parse(randomTerm)}
-      {showAnswer ? (
-        <>
-          <p>
-            Правилната {showTerm ? "дефиниция" : "термин"} е:
-            {showTerm
-              ? parse(props.currentFlashcardTerm)
-              : parse(props.currentFlashcardDefinition)}
-          </p>
-          <button onClick={next}>Следващ</button>
-        </>
-      ) : (
-        <div>
-          <button onClick={() => handleCorrectness(true)}>Да</button>
-          <button onClick={() => handleCorrectness(false)}>Не</button>
-          <button onClick={() => handleCorrectness("idk")}>Не знам</button>
+      <div className="flashcard">
+        <p>Съвпадат ли термина и дефиницията</p>
+        <div className="flashcard-term">{parse(selectedTerm)}</div>
+        <div className="flashcard-definition">{parse(selectedDefinition)}</div>
+      </div>
+      {!isAnswered && (
+        <div className="flashcard-buttons">
+          <button
+            onClick={() => {
+              setIsAnswered(true);
+              if (selectedDefinition === correctAnswer) {
+                setIsCorrect(true);
+                props.VerifyCorrectness(selectedDefinition, 4, false);
+              } else {
+                setIsCorrect(false);
+                props.VerifyCorrectness(false, 4, false);
+              }
+            }}
+          >
+            Да
+          </button>
+          <button
+            onClick={() => {
+              setIsAnswered(true);
+              if (selectedDefinition !== correctAnswer) {
+                setIsCorrect(true);
+                props.VerifyCorrectness(selectedDefinition, 4, false);
+              } else {
+                setIsCorrect(false);
+                props.VerifyCorrectness(false, 4, false);
+              }
+            }}
+          >
+            Не
+          </button>
         </div>
+      )}
+      {isAnswered && (
+        <>
+          <div className="flashcard-answer">
+            {isCorrect
+              ? "Правилно!"
+              : "Правилната дефиниция е: " }
+            {parse(correctAnswer)}
+          </div>
+          <button
+            onClick={() => {
+              if (isCorrect) {
+                props.VerifyCorrectness("", 4, true, true);
+              } else {
+                props.VerifyCorrectness("", 4, true);
+              }
+              setIsAnswered(false);
+            }}
+          >
+            Следващ
+          </button>
+        </>
       )}
     </div>
   );
