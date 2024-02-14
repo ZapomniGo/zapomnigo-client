@@ -129,6 +129,7 @@ export const FolderView: React.FC = () => {
       })
       .then((response) => {
         toast('Папката не е потвърденa')
+        location.reload();
       })
       .catch((error) => {
         toast('Грешка');
@@ -140,6 +141,7 @@ export const FolderView: React.FC = () => {
       })
       .then((response) => {
         toast('Папката е потвърденa')
+        location.reload();
       })
       .catch((error) => {
         toast('Грешка')

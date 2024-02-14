@@ -249,6 +249,7 @@ export const SetPage = () => {
         "verified": false
       })
       .then((response) => {
+        location.reload();
         toast('Тестето не е потвърдено')
       })
       .catch((error) => {
@@ -260,6 +261,7 @@ export const SetPage = () => {
         "verified": true
       })
       .then((response) => {
+        location.reload();
         toast('Тестето е потвърдено')
       })
       .catch((error) => {
