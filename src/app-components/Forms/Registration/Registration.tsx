@@ -16,16 +16,25 @@ import { useNavigate } from "react-router-dom";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 
-
-
 export const Registration = () => {
   const navigate = useNavigate();
-  const [password, setPassword] = useState("password"); 
+  const [password, setPassword] = useState("password");
   const [passLength, setPassLength] = useState("none");
   const [passUpper, setPassUpper] = useState("none");
   const [passLower, setPassLower] = useState("none");
   const [passDigit, setPassDigit] = useState("none");
-
+  useEffect(() => {
+    if (
+      passLength === "success" &&
+      passUpper === "success" &&
+      passLower === "success" &&
+      passDigit === "success"
+    ) {
+      setShowFields(false);
+    } else {
+      setShowFields(true);
+    }
+  }, [passLength, passUpper, passLower, passDigit]);
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
       navigate("/app/home");
@@ -185,56 +194,54 @@ export const Registration = () => {
         }
         break;
 
-
       case "password":
         if (
           typeof value === "string" &&
           (value.length < 8 || value.length > 40)
-        ) { 
-          setPassLength("none")  
+        ) {
+          setPassLength("none");
           errorInfo = {
             hasError: true,
             message: "Полето за парола трябва да е между 8-40 символа",
           };
-        }  else{
-          setPassLength("success")
+        } else {
+          setPassLength("success");
         }
-        
-        
+
         if (typeof value === "string" && !/[A-Z]/.test(value)) {
-          setPassUpper("none")
+          setPassUpper("none");
           errorInfo = {
             hasError: true,
             message: "Паролата трябва да съдържа поне една главна буква",
           };
-        } else{
-          setPassUpper("success")
+        } else {
+          setPassUpper("success");
         }
         if (typeof value === "string" && !/[a-z]/.test(value)) {
-          setPassLower("none")
+          setPassLower("none");
           errorInfo = {
             hasError: true,
             message: "Паролата трябва да съдържа поне една малка буква",
           };
-        } else{
-          setPassLower("success")
+        } else {
+          setPassLower("success");
         }
-        
+
         if (typeof value === "string" && !/\d/.test(value)) {
-          setPassDigit("none")
+          setPassDigit("none");
           errorInfo = {
             hasError: true,
             message: "Паролата трябва да съдържа поне една цифра",
           };
-        } else{
-          setPassDigit("success")
+        } else {
+          setPassDigit("success");
         }
 
-        if( value === "\\"){
-          setPassDigit("none")
-          setPassLower("none")
-          setPassUpper("none")
-          setPassLength("none")
+        if (value === "\\") {
+          setPassDigit("none");
+          setPassLower("none");
+          setPassUpper("none");
+          setPassLength("none");
         }
         break;
       case "repeatPassword":
@@ -275,9 +282,6 @@ export const Registration = () => {
       [field]: errorInfo,
     }));
   };
-
-
-
 
   const formHandler = (event: React.FormEvent<HTMLFormElement>) => {
     const { name, value, type, checked } = event.target as HTMLInputElement;
@@ -345,7 +349,7 @@ export const Registration = () => {
       }
 
       if (userData.password.length < 8 || userData.password.length > 40) {
-        setPassLength("error")
+        setPassLength("error");
         setShowFields(true);
         newErrors.password = {
           hasError: true,
@@ -354,7 +358,7 @@ export const Registration = () => {
         errorsExist = true;
       }
       if (!/[A-Z]/.test(userData.password)) {
-        setPassUpper("error")
+        setPassUpper("error");
         setShowFields(true);
         newErrors.password = {
           hasError: true,
@@ -363,7 +367,7 @@ export const Registration = () => {
         errorsExist = true;
       }
       if (!/[a-z]/.test(userData.password)) {
-        setPassLower("error")
+        setPassLower("error");
         setShowFields(true);
         newErrors.password = {
           hasError: true,
@@ -372,7 +376,7 @@ export const Registration = () => {
         errorsExist = true;
       }
       if (!/\d/.test(userData.password)) {
-        setPassDigit("error")
+        setPassDigit("error");
         setShowFields(true);
 
         newErrors.password = {
@@ -448,14 +452,14 @@ export const Registration = () => {
   };
 
   const viewPassword = () => {
-    if(password === "password"){
-      setPassword("text")
-    } else if (password === "text"){
-      setPassword("password")
+    if (password === "password") {
+      setPassword("text");
+    } else if (password === "text") {
+      setPassword("password");
     }
-  }
+  };
 
-  const [showFields, setShowFields] = useState(true );
+  const [showFields, setShowFields] = useState(true);
 
   return (
     <div id="backgroundForm">
@@ -550,24 +554,26 @@ export const Registration = () => {
                   minLength={8}
                   maxLength={40}
                   value={userData.password}
-                  className={errors.password.hasError ? "error" : ""}                  
-                  onChange={(e) =>   {
-                    const trimmedValue = e.target.value.trim()
-                    validateField("password", trimmedValue ? trimmedValue : "\\");
-
+                  className={errors.password.hasError ? "error" : ""}
+                  onChange={(e) => {
+                    const trimmedValue = e.target.value.trim();
+                    validateField(
+                      "password",
+                      trimmedValue ? trimmedValue : "\\"
+                    );
                   }}
                 />
                 <div className="password-svg" onClick={viewPassword}>
-                {password === "password" ? <FaRegEye /> : <FaRegEyeSlash />}
+                  {password === "password" ? <FaRegEye /> : <FaRegEyeSlash />}
                 </div>
-
               </div>
-              {showFields && <div  className="pass-errors">
+              {showFields && (
+                <div className="pass-errors">
                   <div className={passLength}>
                     <p>Полето за парола трябва да е между 8-40 символа</p>
                   </div>
                   <div className={passLower}>
-                      <p>Паролата трябва да съдържа поне една малка буква</p>
+                    <p>Паролата трябва да съдържа поне една малка буква</p>
                   </div>
                   <div className={passUpper}>
                     <p>Паролата трябва да съдържа поне една главна буква</p>
@@ -575,8 +581,8 @@ export const Registration = () => {
                   <div className={passDigit}>
                     <p>Паролата трябва да съдържа поне една цифра</p>
                   </div>
-                </div> }
-     
+                </div>
+              )}
 
               {/* <p className="errorText">
                 {errors.password.hasError ? errors.password.message : ""}
@@ -627,7 +633,9 @@ export const Registration = () => {
 
               <div className="checkboxes">
                 <div className="privacy-policy">
-                  <a  target="_blank" href="/app/legal/privacy-policy">Политика за поверителност</a>
+                  <a target="_blank" href="/app/legal/privacy-policy">
+                    Политика за поверителност
+                  </a>
                   <input
                     type="checkbox"
                     checked={userData.privacy_policy}
@@ -635,7 +643,9 @@ export const Registration = () => {
                   />
                 </div>
                 <div className="terms-and-conditions">
-                  <a target="_blank" href="/app/legal/terms-of-service">Политика за ползване</a>
+                  <a target="_blank" href="/app/legal/terms-of-service">
+                    Политика за ползване
+                  </a>
                   <input
                     type="checkbox"
                     checked={userData.terms_and_conditions}
