@@ -475,7 +475,7 @@ const StudyComponent = () => {
     if (isCorrect) {
       SP.play();
       if (defaultSetup.enablePositives) {
-        toast(
+        toast.success(
           defaultSetup.positives[
             Math.floor(Math.random() * defaultSetup.positives.length)
           ]
@@ -498,7 +498,7 @@ const StudyComponent = () => {
     } else {
       SN.play();
       if (defaultSetup.enableNegatives) {
-        toast(
+        toast.error(
           defaultSetup.negatives[
             Math.floor(Math.random() * defaultSetup.negatives.length)
           ]

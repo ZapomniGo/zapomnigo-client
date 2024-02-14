@@ -394,7 +394,8 @@ svg.single {
         width: 90%;
         justify-content: space-between;
         input[type="checkbox"] {
-          width: 4%;
+          width: 6% !important;
+          height: auto !important;
           accent-color: $secondary-color;
         }
         //make the checkmarkwhite
