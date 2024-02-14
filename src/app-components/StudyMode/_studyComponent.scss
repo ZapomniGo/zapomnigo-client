@@ -476,3 +476,54 @@
     }
   }
 }
+
+
+
+
+
+//IsItCorrect
+.IsItCorrect{
+  padding: 20px;
+  .flashcard{
+    .title{
+      font-size: 30px;
+      padding-bottom: 15px;
+    }
+    .flashcard-term{
+      font-size: 30px;
+      font-weight: bold;
+    }
+    .flashcard-definition{
+      font-size: 20px;
+    }
+    .flashcard-term, .flashcard-definition{
+      padding-bottom: 20px;
+      img{
+        border-radius: 5px;
+        width: 25%;
+      }
+    }
+  }
+  .flashcard-answer{
+    font-size: 20px;
+    margin-bottom:10px;
+  }
+  .flashcard-buttons{
+    button{
+      width: 19%;
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .flashcard-term, .flashcard-definition{
+      img{
+        width: 100% !important;
+      }
+    }
+    .flashcard-buttons{
+      button{
+        width: 98% !important;
+      }
+    }
+  }
+}

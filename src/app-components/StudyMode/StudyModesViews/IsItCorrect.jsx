@@ -25,9 +25,9 @@ const IsItCorrect = (props) => {
     }
   }, [props.pastFlascardIndexes, props.currentFlashcardTerm]);
   return (
-    <div>
+    <div className="IsItCorrect">
       <div className="flashcard">
-        <p>Съвпадат ли термина и дефиницията</p>
+        <p className="title">Съвпадат ли термина и дефиницията</p>
         <div className="flashcard-term">{parse(selectedTerm)}</div>
         <div className="flashcard-definition">{parse(selectedDefinition)}</div>
       </div>
@@ -71,18 +71,21 @@ const IsItCorrect = (props) => {
               : "Правилната дефиниция е: " }
             {parse(correctAnswer)}
           </div>
-          <button
-            onClick={() => {
-              if (isCorrect) {
-                props.VerifyCorrectness("", 4, true, true);
-              } else {
-                props.VerifyCorrectness("", 4, true);
-              }
-              setIsAnswered(false);
-            }}
-          >
-            Следващ
-          </button>
+          <div className="flashcard-buttons">
+            <button
+            // className="next-button"
+              onClick={() => {
+                if (isCorrect) {
+                  props.VerifyCorrectness("", 4, true, true);
+                } else {
+                  props.VerifyCorrectness("", 4, true);
+                }
+                setIsAnswered(false);
+              }}
+            >
+              Следващ
+            </button>
+          </div>
         </>
       )}
     </div>
