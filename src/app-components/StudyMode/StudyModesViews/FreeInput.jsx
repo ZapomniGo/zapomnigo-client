@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import parse from "html-react-parser";
+import { convert } from "html-to-text";
 const FreeInput = (props) => {
   const [answer, setAnswer] = React.useState("");
   const [selectedAnswer, setSelectedAnswer] = React.useState();
   const [showResults, setShowResults] = React.useState(false);
   const [correctAnswer, setCorrectAnswer] = React.useState();
   const [showCorrectAnswer, setShowCorrectAnswer] = React.useState(false);
+  const [showComp, setShowComp] = React.useState(false);
   //on enter press submit the flashcard
   useEffect(() => {
     const handleEnterPress = (e) => {
@@ -27,9 +29,11 @@ const FreeInput = (props) => {
     setAnswer("");
     setShowResults(false);
     setShowCorrectAnswer(false);
+    setShowComp(false);
   }, [props.currentFlashcardTerm]);
 
   const VerifyMyAnswerInternally = (answerOption) => {
+    setShowComp(true);
     //answer object has everything you need for styling
     let answerObject = props.VerifyCorrectness(answerOption, 1, false);
     setCorrectAnswer(answerObject.correctAnswer);
@@ -90,7 +94,15 @@ const FreeInput = (props) => {
         ) : (
           ""
         )}
-
+        {showComp ? (
+          convert(correctAnswer) == selectedAnswer ? (
+            <p>Правилно</p>
+          ) : (
+            <p>Грешно</p>
+          )
+        ) : (
+          ""
+        )}
         {showResults && (
           <button
             onClick={() => {
