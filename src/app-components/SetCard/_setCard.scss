@@ -324,7 +324,7 @@
   }
 
   .set-title-new.open{
-    .verified-icon-new{
+    .verified-icon-ne{
       svg{
         color: orange !important;
         padding-top: 0.25vmax !important;
@@ -332,11 +332,6 @@
 
     }
   }
-
-
-  // .set-creator, .set-creator.close, .set-creator.open {
-  //   height: 25% !important;
-  // }
 }
 
 @media only screen and (max-width: 850px) {
