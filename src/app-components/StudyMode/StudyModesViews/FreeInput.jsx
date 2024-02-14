@@ -94,15 +94,6 @@ const FreeInput = (props) => {
         ) : (
           ""
         )}
-        {showComp ? (
-          convert(correctAnswer) == selectedAnswer ? (
-            <p>Правилно</p>
-          ) : (
-            <p>Грешно</p>
-          )
-        ) : (
-          ""
-        )}
         {showResults && (
           <button
             onClick={() => {

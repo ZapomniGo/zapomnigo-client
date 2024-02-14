@@ -498,6 +498,7 @@
     }
     .flashcard-term, .flashcard-definition{
       padding-bottom: 20px;
+      padding-left: 5px;
       img{
         border-radius: 5px;
         width: 25%;
@@ -505,6 +506,7 @@
     }
   }
   .flashcard-answer{
+    padding-left: 5px;
     font-size: 20px;
     margin-bottom:10px;
   }
