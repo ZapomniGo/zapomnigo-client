@@ -73,7 +73,7 @@ const MultipleChoice = (props) => {
             buttonClass = "selected";
           }
           return (
-            <div className={`option ${buttonClass}`}>
+            <div className={`option ${buttonClass}`} key={Math.random()}>
               <button
                 key={Math.random()}
                 onClick={() => {
