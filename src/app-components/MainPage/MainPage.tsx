@@ -32,7 +32,7 @@ export const MainPage: React.FC = (props) => {
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
 
   // const [selectedSubcategory, setSelectedSubcategory] = useState(null);
-
+const [isSearch, setIsSearch] = useState(false);
   const handleSubcategoryClick = (subcategory) => {
     setSelectedSubCategory(subcategory);
   };
@@ -41,6 +41,7 @@ export const MainPage: React.FC = (props) => {
     setPageSet(1);
     setPageFolder(1);
       if(props.searchValue != "") {
+        setIsSearch(true);
         setIsFolderLoading(true);
         setIsSetLoading(true);
       instance
@@ -75,7 +76,7 @@ export const MainPage: React.FC = (props) => {
     const newPageSet = pageSet + 1;
     setPageSet(newPageSet);
     setIsSetLoading(true);
-    if(props.searchValue != "") {
+    if(isSearch) {
       console.log("here")
     } else{
       instance
