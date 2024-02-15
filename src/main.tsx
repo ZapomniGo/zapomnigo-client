@@ -58,6 +58,23 @@ import { FolderView } from "./app-components/FolderView/FolderView";
 import Manual from "./app-components/Manual/Manual";
 import { EditFolder } from "./app-components/EditFolder/EditFolder";
 import FlipMode from "./app-components/FlipMode/FlipMode";
+import { useState } from "react";
+
+
+export const App = () => {
+
+const [searchValue, setSearchValue] = useState("");
+
+// Parent component
+const handleSearchValue = (value: string) => {
+  if(value === "") {
+    console.log("empty");
+  }else{
+    console.log("here")
+  }
+  setSearchValue(value);
+  console.log(value + " from main");
+};
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -67,11 +84,15 @@ const router = createBrowserRouter([
   },
   {
     path: homeRoute,
-    element: <Navigation />,
+    element: <Navigation onSearch={handleSearchValue} />,
+    // element: <Navigation/>,
+
     children: [
       {
         path: homeRoute,
-        element: <MainPage />,
+        element: <MainPage searchValue={searchValue}/>,
+        // element: <MainPage/>,
+
       },
       {
         path: setsRoute,
@@ -190,13 +211,13 @@ const router = createBrowserRouter([
     element: <HomePage />,
   },
 ]);
-
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <Provider store={store}>
+  return(
+    <Provider store={store}>
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
       </QueryClientProvider>
     </React.StrictMode>
   </Provider>
-);
+);}
+ReactDOM.createRoot(document.getElementById("root")!).render(<App />);

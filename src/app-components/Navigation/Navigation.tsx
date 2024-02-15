@@ -19,7 +19,7 @@ import { url } from "../../Global";
 import { BiLogIn } from "react-icons/bi";
 import instance from "../../app-utils/axios";
 import { ToastContainer, toast } from "react-toastify";
-import CookieConsent, { Cookies } from "react-cookie-consent";
+
 import "react-toastify/dist/ReactToastify.css";
 
 interface NavigationProps {
@@ -83,6 +83,22 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
     window.scrollTo(0, 0);
   };
 
+  const search = (value: string) => {
+    console.log(value)
+    props.onSearch(value);
+  }
+
+
+      // console.log("searching")
+    // instance
+    // .get(
+    //   `/search?q=${value}}&page=1&size=20`
+    // )
+    // .then((response) => {
+    //   console.log(response.data);
+    // });
+
+
   return (
     <div className="wrapper">
       <ToastContainer />
@@ -94,12 +110,20 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
               onClick={handleHamburgerClick}
             />
           </div>
-          {/* <div className="search-box">
+          <div className="search-box">
             <i className="icon">
               <BiSearch />
             </i>
-            <input type="search" placeholder="Търси..." />
-          </div> */}
+            <input 
+              type="search" 
+              placeholder="Търси..." 
+              onKeyPress={(event) => {
+                if (event.key === 'Enter') {
+                  search(event.target.value);
+                }
+              }} 
+            />         
+         </div>
         </div>
         <nav
           className={`sidebar ${navigationSliceManager.open ? "" : "close"}`}
@@ -129,12 +153,20 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 
           <div className="menu-bar">
             <div className="menu">
-              {/* <li className="search-box">
+              <li className="search-box">
                 <i className="icon">
                   <BiSearch />
                 </i>
-                <input type="search" placeholder="Търси..." />
-              </li> */}
+                <input 
+                  type="search" 
+                  placeholder="Търси..." 
+                  onKeyPress={(event) => {
+                    if (event.key === 'Enter') {
+                      search(event.target.value);
+                    }
+                  }} 
+                />              
+              </li>
               <ul className="menu-links">
                 <li className="nav-link">
                   <CustomNavLink

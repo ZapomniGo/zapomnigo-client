@@ -11,7 +11,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 
-export const MainPage: React.FC = () => {
+export const MainPage: React.FC = (props) => {
   const [setCards, setSetCards] = useState([]);
   const [folderCards, setFolderCards] = useState([]);
   const [selectSet, setSelectSet] = useState<string | null>(null);
@@ -37,12 +37,48 @@ export const MainPage: React.FC = () => {
     setSelectedSubCategory(subcategory);
   };
 
+  useEffect(() => {
+    setPageSet(1);
+    setPageFolder(1);
+      if(props.searchValue != "") {
+        setIsFolderLoading(true);
+        setIsSetLoading(true);
+      instance
+        .get(
+          `/search?q=${props.searchValue}}&page=1&size=50`
+        )
+        .then((response) => {
+          console.log(response.data.results);
+
+          //load sets
+          // setTotalSetPages(response.data.total_pages);
+          const newCards = [];
+          response.data.results.sets.forEach((card) => newCards.push(card));
+          setSetCards(newCards);
+          setHasSets(true);
+          setIsSetLoading(false);
+
+          //load folders
+          // setTotalFolderPages(response.data.total_pages);
+          const newFolderCards = [];
+          response.data.results.folders.forEach((card) => newFolderCards.push(card));
+          setFolderCards(newFolderCards);
+          setHasFolders(true);
+          setIsFolderLoading(false);
+        });
+      }
+  }, [props.searchValue])
+
+
+
   const handleLoadRecentSet = (category) => {
     const newPageSet = pageSet + 1;
     setPageSet(newPageSet);
     setIsSetLoading(true);
-
-    instance
+    if(props.searchValue != "") {
+      console.log("here")
+    } else{
+      instance
       .get(
         `/sets?page=${newPageSet}&size=10&sort_by_date=true&ascending=false&category_id=${category}`
       )
@@ -57,9 +93,15 @@ export const MainPage: React.FC = () => {
           document.getElementById(lastCardId).scrollIntoView();
         }, 500);
       });
+    }
+
+
   };
 
   const handleLoadRecentFolder = (category) => {
+    if(props.searchValue != "") {
+      console.log("here")
+    } else {
     const newPageFolder = pageFolder + 1;
     setPageFolder(newPageFolder);
     setIsFolderLoading(true);
@@ -84,6 +126,7 @@ export const MainPage: React.FC = () => {
           });
         }, 500);
       });
+    }
   };
 
   //used to reset sets and folders
