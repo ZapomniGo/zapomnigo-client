@@ -1,5 +1,5 @@
 #set-page {
-  select{
+  select {
     border: 1px solid orange !important;
   }
   display: flex;
@@ -128,7 +128,9 @@
         ) !important;
         border: none;
         &:hover {
-          transform:scale(1.05);
+          transform: scale(1.05);
+          box-shadow: 0 0px 20px rgb(255, 70, 29);
+
         }
       }
       .rotate {
