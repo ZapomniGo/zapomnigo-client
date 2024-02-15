@@ -39,8 +39,6 @@ export const CreateSet = () => {
     handleOnImportFlashcards,
   } = useFlashcards();
 
-
-
   useEffect(() => {
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
@@ -51,6 +49,7 @@ export const CreateSet = () => {
     // });
   }, []);
   const isEmpty = (string: string) => {
+    if (!string) return true;
     if (!string) return true;
     if (string.length === 0) {
       return true;
@@ -381,7 +380,7 @@ export const CreateSet = () => {
           </center>
           <div className="create-submition">
             <button
-              className="submit import"
+              className="import"
               onClick={() => setIsModalOpen(!isModalOpen)}
             >
               Импортирай

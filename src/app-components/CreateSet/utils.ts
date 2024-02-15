@@ -117,9 +117,19 @@ const useFlashcards = () => {
   const handleOnImportFlashcards = (importedData, delimiter, delimeter2) => {
     // console.log(importedData, delimiter, delimeter2);
     let inputString = importedData;
-    if (inputString.length === 0) {
+    if (inputString.trim().length === 0) {
+      alert("Въведи текст за импортиране");
       return;
     }
+    if (delimiter.trim().length === 0) {
+      alert("Въведи разделител между флашкартите");
+      return;
+    }
+    if (delimeter2.trim().length === 0) {
+      alert("Въведи разделител между термин и дефиниция");
+      return;
+    }
+
     if (inputString[inputString.length - 1] === delimiter) {
       inputString = inputString.slice(0, inputString.length - 1);
     }
@@ -133,13 +143,15 @@ const useFlashcards = () => {
       flashcard_id: uuidv4(),
     }));
     if (
-      newFlashcards[newFlashcards.length - 1].term === "" ||
-      newFlashcards[newFlashcards.length - 1].definition === ""
+      newFlashcards[newFlashcards.length - 1].term.trim() === "" ||
+      newFlashcards[newFlashcards.length - 1].definition.trim() === ""
     ) {
       newFlashcards.pop();
     }
-
-    setFlashcards(newFlashcards);
+    // if (!newFlashcards[0].term && !newFlashcards[0].definition) {
+    //   newFlashcards = [];
+    // }
+    setFlashcards((prev) => [...prev, newFlashcards]);
   };
 
   const loadFlashcards = (responseData) => {

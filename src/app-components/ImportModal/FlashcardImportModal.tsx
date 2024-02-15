@@ -8,9 +8,8 @@ type FlashcardImportModalProps = {
 
 const FlashcardImportModal = (props: FlashcardImportModalProps) => {
   const [inputText, setInputText] = useState("");
-  const [delimiter, setDelimiter] = useState(" ");
+  const [delimiter, setDelimiter] = useState("");
   const [delimiter2, setDelimiter2] = useState("\n");
-
 
   const handleImport = () => {
     const flashcards = inputText;
@@ -24,6 +23,14 @@ const FlashcardImportModal = (props: FlashcardImportModalProps) => {
         <h2>Импортирай флашкарти</h2>
         <label>
           Флашкарти (Термин{delimiter}Дефиниция):
+          <p>
+            <i>
+              <br /> Въведи текста за импортиране по-долу. В следващите полето
+              сложи разделител между термин и дефиниция на флашкарта и
+              разделител между отделните флашкарти. Ако сложиш например /n това
+              индикира нов ред.
+            </i>
+          </p>
           <textarea
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}

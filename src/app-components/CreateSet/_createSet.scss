@@ -1,4 +1,24 @@
-// fix this
+.import {
+  background: transparent !important;
+  border-bottom: 1px solid orange !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: auto !important;
+  width: auto !important;
+  color: gray !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+.import:hover {
+  background: transparent !important;
+  color: orange !important;
+}
+.import:focus {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 .create-set-wrapper {
   display: flex;
   justify-content: center;
@@ -179,23 +199,7 @@
     line-height: 30px;
   }
 }
-.import {
-  background: transparent !important;
-  border-bottom: 1px solid orange !important;
-  margin:0 !important;
-  padding:0 !important;
-  height:auto !important;
-  width:auto !important;
-  color: gray !important;
-  border-bottom:none !important;
-  box-shadow:none !important;
-  border-radius:0 !important; 
-}
-.import:hover {
-  background: transparent !important;
-  border-bottom: 1px solid orange !important;
-  color: orange !important;
-}
+
 //mobile version
 @media screen and (max-width: 768px) {
   .create-set-wrapper {
