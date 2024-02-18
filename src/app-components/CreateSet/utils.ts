@@ -115,7 +115,6 @@ const useFlashcards = () => {
   };
 
   const handleOnImportFlashcards = (importedData, delimiter, delimeter2) => {
-    // console.log(importedData, delimiter, delimeter2);
     let inputString = importedData;
     if (inputString.trim().length === 0) {
       alert("Въведи текст за импортиране");
