@@ -21,9 +21,14 @@ const LearnSettings = (props) => {
   return (
     <div className="settings-study">
       {isMsgShown && (
-        <div className="msg-box" onClick={handleClose}>
-          <p>Избери режими на учене</p>
-          <RxCross1 />
+        <div
+          className="msg-box"
+          onClick={() => {
+            setToggleOpen(true);
+            handleClose();
+          }}
+        >
+          <p>Натисни ме, за да избереш режим на учене</p>
         </div>
       )}
 
@@ -94,8 +99,8 @@ const LearnSettings = (props) => {
 
             <div className="settings-option">
               <span>
-              Това е режим, в който платформата ти дава термин/дефиниция и
-                  трябва да отговориш дали е вярна или грешна:
+                Това е режим, в който платформата ти дава термин/дефиниция и
+                трябва да отговориш дали е вярна или грешна:
               </span>
               <input
                 type="checkbox"

@@ -34,6 +34,8 @@ export const Registration = () => {
     } else {
       setShowFields(true);
     }
+    window.scrollTo(0, 0);
+    window.document.title = "Регистрация | ЗапомниГо";
   }, [passLength, passUpper, passLower, passDigit]);
   useEffect(() => {
     if (localStorage.getItem("access_token")) {

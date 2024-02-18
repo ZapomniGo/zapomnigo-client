@@ -295,6 +295,9 @@
   }
 }
 .finished-view {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='70' height='78' viewport='0 0 100 100' style='fill:black;font-size:42px;'><text y='50%'>🚀</text></svg>")
+      16 0,
+    auto; /*!emojicursor.app*/
   padding: 20px;
   img {
     border-radius: 1vmax;
@@ -324,7 +327,20 @@
     align-items: center;
     cursor: pointer;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-
+    border: 2px solid orange;
+    animation: box-shadow-animation 2s infinite;
+    @keyframes box-shadow-animation {
+      0% {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      }
+      50% {
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+          0 10px 10px rgba(0, 0, 0, 0.22);
+      }
+      100% {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      }
+    }
     svg {
       justify-content: flex-end;
       width: 1.3rem;
@@ -372,7 +388,7 @@
       align-items: center;
       justify-content: space-between;
       margin: 5px 0;
-      span{
+      span {
         max-width: 90%;
       }
     }
@@ -427,7 +443,7 @@
   }
 }
 #progressBar {
-  transition:1s ease-out;
+  transition: 1s ease-out;
   @include orangeBackground;
   height: 1vh;
   width: 10vw;
@@ -477,57 +493,55 @@
   }
 }
 
-
-
-
-
 //IsItCorrect
-.IsItCorrect{
+.IsItCorrect {
   padding: 20px;
-  .flashcard{
-    .title{
+  .flashcard {
+    .title {
       font-size: 30px;
       padding-bottom: 15px;
     }
-    .flashcard-term{
+    .flashcard-term {
       font-size: 30px;
       font-weight: bold;
     }
-    .flashcard-definition{
+    .flashcard-definition {
       font-size: 20px;
     }
-    .flashcard-term, .flashcard-definition{
+    .flashcard-term,
+    .flashcard-definition {
       padding-bottom: 20px;
       padding-left: 5px;
-      img{
+      img {
         border-radius: 5px;
         width: 25%;
       }
     }
   }
-  .flashcard-answer{
+  .flashcard-answer {
     padding-left: 5px;
     font-size: 20px;
-    margin-bottom:10px;
-    img{
+    margin-bottom: 10px;
+    img {
       border-radius: 5px;
       width: 25%;
     }
   }
-  .flashcard-buttons{
-    button{
+  .flashcard-buttons {
+    button {
       width: 19%;
     }
   }
 
   @media screen and (max-width: 1000px) {
-    .flashcard-term, .flashcard-definition{
-      img{
+    .flashcard-term,
+    .flashcard-definition {
+      img {
         width: 100% !important;
       }
     }
-    .flashcard-buttons{
-      button{
+    .flashcard-buttons {
+      button {
         width: 98% !important;
       }
     }

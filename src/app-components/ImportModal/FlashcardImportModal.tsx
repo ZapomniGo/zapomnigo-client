@@ -29,6 +29,7 @@ const FlashcardImportModal = (props: FlashcardImportModalProps) => {
               сложи разделител между термин и дефиниция на флашкарта и
               разделител между отделните флашкарти. Ако сложиш например /n това
               индикира нов ред.
+              <br />
             </i>
           </p>
           <textarea
