@@ -30,7 +30,7 @@
     display: flex;
     flex-direction: row;
     button {
-      font-size: 12px !important;
+      font-size: 12px;
     }
   }
 }
@@ -52,6 +52,11 @@
     }
     .cookieComponent__content {
       padding: 0 10px;
+    }
+    button {
+      width: 40vw !important;
+      font-size: 2vmax !important;
+      padding:1vmax !important;
     }
   }
 }
