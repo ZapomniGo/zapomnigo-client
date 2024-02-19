@@ -134,7 +134,7 @@ export const CreateFolder = () => {
     const newPageSet = pageSet + 1;
     setPageSet(newPageSet);
     instance.get(
-      `/sets?page=${newPageSet}&size=20&sort_by_date=false&ascending=true&category_id=`
+      `/sets?page=${newPageSet}&size=2000&sort_by_date=false&ascending=true&category_id=`
       ).then((response) => {
       setTotalSetPages(response.data.total_pages);
       const newCards = [...setCards];
