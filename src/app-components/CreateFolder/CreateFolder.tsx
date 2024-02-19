@@ -38,7 +38,7 @@ export const CreateFolder = () => {
   const [availableSets, setAvailableSets] = useState({});
 
   useEffect(() => {
-    instance.get("/sets?page=1&size=20&sort_by_date=false&ascending=true&category_id=").then((response) => {
+    instance.get("/sets?page=1&size=2000&sort_by_date=false&ascending=true&category_id=").then((response) => {
       setSetCards(response.data.sets);
       setTotalSetPages(response.data.total_pages);
 
