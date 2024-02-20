@@ -149,7 +149,8 @@ const HomePage = () => {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 institution={set.organization_name}
-                selected={selectSet === set.set_id}
+                isSelected={selectSet === set.set_id}
+
               />
             );
           })
