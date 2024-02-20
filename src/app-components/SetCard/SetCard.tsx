@@ -32,6 +32,8 @@ const SetCard: React.FC<SetCardProps> = ({
   subcategory,
   verified,
 }) => {
+
+
   // const displayDescription = () => {
   //   let n = 120;
   //   if (description.length > n) {
@@ -43,11 +45,16 @@ const SetCard: React.FC<SetCardProps> = ({
   //   return <p>{description}</p>;
   // };
   const navigate = useNavigate();
+
+useEffect(() => {
+  console.log(isSelected)
+}, [isSelected])
+
   return (
     <div
       id={id}
       className={"set-card folder-card" + (isSelected ? " active" : "")}
-      onMouseEnter={() => onMouseEnter(id)}
+      onMouseEnter={() => {onMouseEnter(id); console.log("hovered")}}
       onMouseLeave={onMouseLeave}
       onClick={() =>
         type === "folder"
@@ -55,25 +62,6 @@ const SetCard: React.FC<SetCardProps> = ({
           : navigate(`/app/set/${id}`)
       }
     >
-      {/* <div className={`title-options ${isSelected ? "open" : "close"}`}>
-        <div
-          className={`set-title ${isSelected ? "open" : "close"} folder-title `}
-        >
-          <div className="folder-icon">
-            {icon}
-          </div>
-          <div className={`card-title ${icon ?  "folder-title-size" : ""}`}>
-            <p>{title.length > 38 ? title.substring(0, 38) + "..." : title}</p>
-          </div>
-          {verified &&                       <MdOutlineVerifiedUser
-              onClick={verified}
-              className="miniReport"
-              style={{ color: "orange" }}
-            />}
-
-        </div>
-      </div> */}
-
       <div className={`title-options-new ${isSelected ? "open" : "close"}`}>
         <div
           className={`set-title-new ${
