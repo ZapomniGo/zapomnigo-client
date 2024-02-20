@@ -72,6 +72,8 @@ const handleSearchValue = (value: string) => {
     console.log("here")
   }
   setSearchValue(value);
+  window.location.href = '/app';
+  localStorage.setItem('searchToken', value); 
   console.log(value + " from main");
 };
 

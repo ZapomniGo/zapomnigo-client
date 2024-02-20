@@ -30,6 +30,7 @@ export const MainPage: React.FC = (props) => {
   const [hasSets, setHasSets] = useState(true);
   const [hasFolders, setHasFolders] = useState(true);
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
+  // const [searchToken, setSearchToken] = useState(""); 
 
   // const [selectedSubcategory, setSelectedSubcategory] = useState(null);
 const [isSearch, setIsSearch] = useState(false);
@@ -47,7 +48,7 @@ const [isSearch, setIsSearch] = useState(false);
         setIsSetLoading(true);
       instance
         .get(
-          `/search?q=${props.searchValue}}&page=1&size=50`
+          `/search?q=${props.searchValue}}&page=1&size=20`
         )
         .then((response) => {
           console.log(response.data.results);
@@ -247,7 +248,36 @@ const [isSearch, setIsSearch] = useState(false);
   //used for inital load for sets and folders
   useEffect(() => {
     setPageSet(1);
-    instance
+    const searchToken = localStorage.getItem('searchToken');
+    if(searchToken){
+      instance
+      .get(
+        `/search?q=${searchToken}}&page=1&size=20`
+      )
+      .then((response) => {
+        console.log(response.data.results);
+
+        //load sets
+        // setTotalSetPages(response.data.total_pages);
+        const newCards = [];
+        response.data.results.sets.forEach((card) => newCards.push(card));
+        setSetCards(newCards);
+        setHasSets(true);
+        setIsSetLoading(false);
+
+        //load folders
+        // setTotalFolderPages(response.data.total_pages);
+        const newFolderCards = [];
+        response.data.results.folders.forEach((card) => newFolderCards.push(card));
+        setFolderCards(newFolderCards);
+        setHasFolders(true);
+        setIsFolderLoading(false);
+        localStorage.removeItem('searchToken'); 
+
+      });
+
+    } else{
+      instance
       .get(`/sets?page=${pageSet}&size=10&sort_by_date=true&ascending=false`)
       .then((response) => {
         console.log(response.data);
@@ -280,6 +310,8 @@ const [isSearch, setIsSearch] = useState(false);
           setIsFolderLoading(false);
         }, 250);
       });
+    }
+
   }, []);
 
   const changeCategory = (id: string, name: string) => {
