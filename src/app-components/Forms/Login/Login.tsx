@@ -146,7 +146,7 @@ export const Login = () => {
             <input
               type="text"
               name="email_or_username"
-              placeholder="Потребителско име"
+              placeholder="Потребителско име или имейл"
               minLength={2}
               maxLength={40}
               value={userData.email_or_username}
