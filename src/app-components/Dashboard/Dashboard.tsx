@@ -18,9 +18,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
   const [cookieConsent, setCookieConsent] = useState(false);
   useEffect(() => {
     document.title = "ЗапомниГо | Платформата, която ти помага да запомняш";
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
 
-    if(localStorage.getItem('cookieConsent') === "true") {
+    if (localStorage.getItem("cookieConsent") === "true") {
       setCookieConsent(true);
     }
   }, []);
@@ -39,7 +41,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
 
   return (
     <ContainerComponent open={navigationSliceManager.open}>
-      <BsQuestion id="question-btn"  style={{cursor: "pointer"}}  onClick={()=>window.open('https://www.canva.com/design/DAF8AHeeCE8/vcm2YZIDWLnJCm0w4CfIpg/edit?utm_content=DAF8AHeeCE8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton','_blank', 'rel=noopener noreferrer')} />
+      <BsQuestion
+        id="question-btn"
+        style={{ cursor: "pointer" }}
+        onClick={() =>
+          window.open(
+            "https://www.canva.com/design/DAF8AHeeCE8/vcm2YZIDWLnJCm0w4CfIpg/edit?utm_content=DAF8AHeeCE8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+            "_blank",
+            "rel=noopener noreferrer"
+          )
+        }
+      />
       <section className="card-section">
         <div className="category">{children}</div>
       </section>
