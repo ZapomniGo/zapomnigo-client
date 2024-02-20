@@ -1,12 +1,47 @@
 #mainPage {
   width: 100%;
   height: 100vh;
-
-  .main-footer  {
+  #about {
+    padding: 5vmax;
+    height: 90vh;
+    margin-top: 5vmax;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #demo-flashcard {
+    width: 50vw;
+    margin: 0 auto;
+    padding: 2vmax;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    p {
+      font-size: 2vmax;
+      padding: 2vmax;
+    }
+    p:first-child {
+      font-size: 3vmax;
+    }
+  }
+  .main-footer {
     width: 100% !important;
     margin-top: 0 !important;
   }
+  #content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5vmax;
+  }
+  .special-gradient {
+    background: linear-gradient(231deg, #f12711, #f5af19);
+    background-size: 400% 400%;
 
+    -webkit-animation: special-gr 49s ease infinite;
+    -moz-animation: special-gr 49s ease infinite;
+    animation: special-gr 49s ease infinite;
+  }
   #center-center {
     z-index: 9999;
     cursor: pointer;
@@ -33,13 +68,13 @@
       margin: 1vmax !important;
       text-align: center;
       color: orange;
-      font-size: 2vmax ;
+      font-size: 2vmax;
       font-weight: 100;
       margin: 0;
       padding: 0;
       line-height: 1;
     }
-    button{
+    button {
       z-index: 999;
     }
     #look-in {
@@ -72,7 +107,7 @@
     #header {
       font-size: 3rem !important;
     }
-    #mainSubTitle{
+    #mainSubTitle {
       font-size: 1.15rem !important;
     }
     #look-in {
@@ -80,26 +115,58 @@
       font-size: 1.5rem;
       animation: none !important;
     }
-    button#create-set{
+    button#create-set {
       margin-top: 10px;
       font-size: 1.5rem;
       animation: none !important;
-      padding:2vmax;
+      padding: 2vmax;
     }
   }
-  
 }
-@-webkit-keyframes pulsateButton{
-    0% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-    }
-    50% {
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
-    }
-    100% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-    }
+@-webkit-keyframes pulsateButton {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes special-gr {
+  0% {
+    background-position: 0% 94%;
+  }
+  50% {
+    background-position: 100% 7%;
+  }
+  100% {
+    background-position: 0% 94%;
+  }
+}
+@-moz-keyframes special-gr {
+  0% {
+    background-position: 0% 94%;
+  }
+  50% {
+    background-position: 100% 7%;
+  }
+  100% {
+    background-position: 0% 94%;
+  }
+}
+@keyframes special-gr {
+  0% {
+    background-position: 0% 94%;
+  }
+  50% {
+    background-position: 100% 7%;
+  }
+  100% {
+    background-position: 0% 94%;
+  }
 }
