@@ -34,6 +34,7 @@ export const MainPage: React.FC = (props) => {
   // const [selectedSubcategory, setSelectedSubcategory] = useState(null);
 const [isSearch, setIsSearch] = useState(false);
   const handleSubcategoryClick = (subcategory) => {
+    
     setSelectedSubCategory(subcategory);
   };
 

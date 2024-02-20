@@ -60,15 +60,14 @@ import { EditFolder } from "./app-components/EditFolder/EditFolder";
 import FlipMode from "./app-components/FlipMode/FlipMode";
 import { useState } from "react";
 
-
 export const App = () => {
-
 const [searchValue, setSearchValue] = useState("");
 
 // Parent component
 const handleSearchValue = (value: string) => {
   if(value === "") {
     console.log("empty");
+
   }else{
     console.log("here")
   }
