@@ -37,14 +37,6 @@ export const CreateFolder = () => {
   const [availableSets, setAvailableSets] = useState({});
 
   useEffect(() => {
-<<<<<<< Updated upstream
-    instance.get("/sets?page=1&size=20&sort_by_date=false&ascending=true&category_id=").then((response) => {
-      setSetCards(response.data.sets);
-      setTotalSetPages(response.data.total_pages);
-
-
-    });
-=======
     instance
       .get(
         "/sets?page=1&size=2000&sort_by_date=false&ascending=true&category_id="
@@ -53,7 +45,6 @@ export const CreateFolder = () => {
         setSetCards(response.data.sets);
         setTotalSetPages(response.data.total_pages);
       });
->>>>>>> Stashed changes
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
     });
@@ -144,18 +135,6 @@ export const CreateFolder = () => {
   const handleLoadRecentSet = () => {
     const newPageSet = pageSet + 1;
     setPageSet(newPageSet);
-<<<<<<< Updated upstream
-    instance.get(
-      `/sets?page=${newPageSet}&size=20&sort_by_date=false&ascending=true&category_id=`
-      ).then((response) => {
-      setTotalSetPages(response.data.total_pages);
-      const newCards = [...setCards];
-      response.data.sets.forEach(card => newCards.push(card));
-      setSetCards(newCards);
-
-    });
-    
-=======
     instance
       .get(
         `/sets?page=${newPageSet}&size=2000&sort_by_date=false&ascending=true&category_id=`
@@ -166,7 +145,6 @@ export const CreateFolder = () => {
         response.data.sets.forEach((card) => newCards.push(card));
         setSetCards(newCards);
       });
->>>>>>> Stashed changes
   };
 
   const resetSubcategory = () => {
