@@ -25,7 +25,9 @@ export const Folders: React.FC = () => {
     instance.get(`/users/${userID}/folders`).then((response) => {
       setSetCards(response.data.folders);
     });
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
   }, []);
 
   const handleLoadRecent = () => {

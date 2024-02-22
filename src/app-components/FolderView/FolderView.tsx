@@ -45,6 +45,7 @@ export const FolderView: React.FC = () => {
     instance
       .get(`/folders/${id}/sets`)
       .then((response) => {
+        console.log(response.data.folder.verified);
         setSetCards(response.data.sets);
         setTitle(response.data.folder.folder_title);
         setDescription(response.data.folder.folder_description);

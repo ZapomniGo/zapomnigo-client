@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { MdOutlineVerifiedUser } from "react-icons/md";
 
@@ -30,25 +30,31 @@ const SetCard: React.FC<SetCardProps> = ({
   icon,
   type,
   subcategory,
-  verified
+  verified,
 }) => {
-  const displayDescription = () => {
-    let n = 120;
-    if (description.length > n) {
-      while (description[n] != " ") {
-        n -= 1;
-      }
-      return <p>{description.slice(0, n)}...</p>;
-    }
-    return <p>{description}</p>;
-  };
+
+
+  // const displayDescription = () => {
+  //   let n = 120;
+  //   if (description.length > n) {
+  //     while (description[n] != " ") {
+  //       n -= 1;
+  //     }
+  //     return <p>{description.slice(0, n)}...</p>;
+  //   }
+  //   return <p>{description}</p>;
+  // };
   const navigate = useNavigate();
+
+useEffect(() => {
+  console.log(isSelected)
+}, [isSelected])
 
   return (
     <div
       id={id}
       className={"set-card folder-card" + (isSelected ? " active" : "")}
-      onMouseEnter={() => onMouseEnter(id)}
+      onMouseEnter={() => {onMouseEnter(id); console.log("hovered")}}
       onMouseLeave={onMouseLeave}
       onClick={() =>
         type === "folder"
@@ -56,46 +62,39 @@ const SetCard: React.FC<SetCardProps> = ({
           : navigate(`/app/set/${id}`)
       }
     >
-      {/* <div className={`title-options ${isSelected ? "open" : "close"}`}>
-        <div
-          className={`set-title ${isSelected ? "open" : "close"} folder-title `}
-        >
-          <div className="folder-icon">
-            {icon}
-          </div>
-          <div className={`card-title ${icon ?  "folder-title-size" : ""}`}>
-            <p>{title.length > 38 ? title.substring(0, 38) + "..." : title}</p>
-          </div>
-          {verified &&                       <MdOutlineVerifiedUser
-              onClick={verified}
-              className="miniReport"
-              style={{ color: "orange" }}
-            />}
-
-        </div>
-      </div> */}
-
       <div className={`title-options-new ${isSelected ? "open" : "close"}`}>
         <div
-          className={`set-title-new ${isSelected ? "open" : "close"} folder-title-new `}
+          className={`set-title-new ${
+            isSelected ? "open" : "close"
+          } folder-title-new `}
         >
           {icon && <div className="folder-icon-new">{icon}</div>}
-          <div className={`card-title-new ${icon ?  "folder-icon-size" : ""} ${verified ? "verified-size" : ""}`}>
+          <div
+            className={`card-title-new ${icon ? "folder-icon-size" : ""} ${
+              verified ? "verified-size" : ""
+            }`}
+          >
             <p>{title.length > 38 ? title.substring(0, 38) + "..." : title}</p>
           </div>
           <div className="verified-icon-new">
-          {verified && <MdOutlineVerifiedUser
-              onClick={verified}
-              style={{ color: "orange" }}
-            />}
-            </div>
+            {verified && (
+              <MdOutlineVerifiedUser
+                onClick={verified}
+                style={{ color: "orange" }}
+              />
+            )}
+          </div>
         </div>
         {/* <div className={`more-options ${isSelected ? "open" : "open"}`}>
           <SlOptionsVertical />
         </div> */}
       </div>
 
-      <div className={`set-description  ${category ? "" : "no-category"} ${isSelected ? "open" : "close"}`}>
+      <div
+        className={`set-description  ${category ? "" : "no-category"} ${
+          isSelected ? "open" : "close"
+        }`}
+      >
         {description
           ? description.length > 89
             ? description.substring(0, 89) + "..."
@@ -115,31 +114,36 @@ const SetCard: React.FC<SetCardProps> = ({
         </div>
       </div>
       {category ? (
-      <div className="categories" style={{ paddingBottom: category && "10px" }}>
-        {category ? (
-          <div className={`set-category ${isSelected ? "open" : "close"}`}>
-            <a className="miniLabel">
-              {category.length > 40
-                ? category.substring(0, 40) + "..."
-                : category}
-            </a>
-          </div>
-        ) : (
-          ""
-        )}
-        {subcategory ? (
-          <div className={`set-category ${isSelected ? "open" : "close"}`}>
-            <a className="miniLabel">
-              {subcategory.length > 40
-                ? subcategory.substring(0, 40) + "..."
-                : subcategory}
-            </a>
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
-      ) : ""}
+        <div
+          className="categories"
+          style={{ paddingBottom: category && "10px" }}
+        >
+          {category ? (
+            <div className={`set-category ${isSelected ? "open" : "close"}`}>
+              <a className="miniLabel">
+                {category.length > 40
+                  ? category.substring(0, 40) + "..."
+                  : category}
+              </a>
+            </div>
+          ) : (
+            ""
+          )}
+          {subcategory ? (
+            <div className={`set-category ${isSelected ? "open" : "close"}`}>
+              <a className="miniLabel">
+                {subcategory.length > 40
+                  ? subcategory.substring(0, 40) + "..."
+                  : subcategory}
+              </a>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

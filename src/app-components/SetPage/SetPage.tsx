@@ -42,7 +42,9 @@ export const SetPage = () => {
     } else {
       setIsAdmin(false);
     }
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
   }, []);
 
   const handleLoadRecent = () => {

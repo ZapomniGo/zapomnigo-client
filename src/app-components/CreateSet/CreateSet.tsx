@@ -167,7 +167,9 @@ export const CreateSet = () => {
       .then((response) => {
         toast("Добре дошъл в новото си тесте");
         navigate("/app/set/" + response.data.set_id);
-        window.scrollTo(0, 0);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 100);
       })
       .catch((error) => {
         toast("Възникна грешка");
