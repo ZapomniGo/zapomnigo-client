@@ -27,7 +27,9 @@ const validateForm = (data: LoginData): LoginErrorRecord => {
 export const Login = () => {
   const navigate = useNavigate();
   const [backendError, setBackendError] = useState("");
-
+  React.useEffect(() => {
+    document.title = "Настройки | ЗапомниГо";
+  }, []);
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
       navigate("/app/home");

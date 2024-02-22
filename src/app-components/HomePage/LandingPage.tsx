@@ -84,7 +84,12 @@ const HomePage = () => {
         <Background />
         <div id="center-center">
           {isTiltyEnabled ? (
-            <Tilty className="tilty" glare={false} max={9} reverse={true}>
+            <Tilty
+              className="tilty"
+              glare={false}
+              max={isTiltyEnabled ? 9 : 0}
+              reverse={true}
+            >
               <h1 id="header">ЗапомниГо</h1>
               <h2 id="mainSubTitle">
                 Платформата, която ти помага да запомняш
@@ -116,7 +121,7 @@ const HomePage = () => {
         id="about"
         style={{ background: "linear-gradient(233deg, #fe8c00, #f83600)" }}
       >
-        <Tilty glare={false} max={9} reverse={true}>
+        <Tilty glare={false} max={isTiltyEnabled ? 9 : 0} reverse={true}>
           {" "}
           <div id="demo-flashcard">
             <center>
@@ -150,7 +155,6 @@ const HomePage = () => {
                 onMouseLeave={handleMouseLeave}
                 institution={set.organization_name}
                 isSelected={selectSet === set.set_id}
-
               />
             );
           })
@@ -159,7 +163,7 @@ const HomePage = () => {
             <div className="loader"></div>
           </div>
         )}
-        <button id="create-set" onClick={() => navigate("/app/")}>
+        <button id="create-set" onClick={() => navigate("/app/create-set")}>
           Разгледай още
         </button>
       </section>
