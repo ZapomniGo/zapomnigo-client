@@ -233,14 +233,18 @@ export const SetPage = () => {
   };
 
   const Study = () => {
-    console.log(token);
-    if (token === null) {
-      navigate("/app/login");
-      toast("Трябва да влезете а акаунта си, за да учите");
+    // if (token === null) {
+    //   navigate("/app/login");
+    //   toast("Трябва да влезете а акаунта си, за да учите");
+    // } else {
+    //   flashcards.flashcards.length >= 4
+    //     ? navigate(`/app/study/${id}`)
+    //     : toast("Учи режимът работи с 4 или повече флашкарти!");
+    // }
+    if (flashcards.flashcards.length >= 4) {
+      navigate(`/app/study/${id}`);
     } else {
-      flashcards.flashcards.length >= 4
-        ? navigate(`/app/study/${id}`)
-        : toast("Учи режимът работи с 4 или повече флашкарти!");
+      toast("Режим Учи работи с 4 или повече флашкарти");
     }
   };
 

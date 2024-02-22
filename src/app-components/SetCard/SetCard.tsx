@@ -32,8 +32,6 @@ const SetCard: React.FC<SetCardProps> = ({
   subcategory,
   verified,
 }) => {
-
-
   // const displayDescription = () => {
   //   let n = 120;
   //   if (description.length > n) {
@@ -46,15 +44,13 @@ const SetCard: React.FC<SetCardProps> = ({
   // };
   const navigate = useNavigate();
 
-useEffect(() => {
-  console.log(isSelected)
-}, [isSelected])
-
   return (
     <div
       id={id}
       className={"set-card folder-card" + (isSelected ? " active" : "")}
-      onMouseEnter={() => {onMouseEnter(id); console.log("hovered")}}
+      onMouseEnter={() => {
+        onMouseEnter(id);
+      }}
       onMouseLeave={onMouseLeave}
       onClick={() =>
         type === "folder"

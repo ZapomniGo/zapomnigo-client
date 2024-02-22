@@ -51,14 +51,23 @@ const StudyComponent = () => {
       window.location.href = "/app/not-found";
       return;
     }
-    if (!localStorage.getItem("access_token")) {
-      window.location.href = "/app/login";
-      return;
+    // if (!localStorage.getItem("access_token")) {
+    //   window.location.href = "/app/login";
+    //   return;
+    // }
+    let component = "";
+    if (localStorage.getItem("access_token") == null) {
+      component = "";
+    } else {
+      component = "/study";
     }
     instance
-      .get(`/sets/${id}/study`)
+      .get(`/sets/${id}${component}`)
       .then((res) => {
-        const newFlashcards = res.data.flashcards;
+        console.log(res.data.set);
+        const newFlashcards = res.data.flashcards
+          ? res.data.flashcards
+          : res.data.set.flashcards;
         if (newFlashcards.length > 0) {
           let tempFlashcards = newFlashcards.map((flashcard) => {
             flashcard.seen = 0;
@@ -540,6 +549,9 @@ const StudyComponent = () => {
   };
   //this function will inform the server about the flashcard's correctness
   const InformServerAboutFlashcard = (flashcardId, correctness) => {
+    if (localStorage.getItem("access_token") === null) {
+      return;
+    }
     instance
       .put(`/flashcards/${flashcardId}/study`, {
         correctness: correctness,
@@ -550,6 +562,9 @@ const StudyComponent = () => {
       });
   };
   const InformServerAboutSetStudied = () => {
+    if (localStorage.getItem("access_token") === null) {
+      return;
+    }
     instance
       .post(`/sets/${id}/study`)
       .then((res) => {})

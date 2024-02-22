@@ -159,7 +159,7 @@ const HomePage = () => {
             <div className="loader"></div>
           </div>
         )}
-        <button id="create-set" onClick={() => navigate("/app/create-set")}>
+        <button id="create-set" onClick={() => navigate("/app/")}>
           Разгледай още
         </button>
       </section>
