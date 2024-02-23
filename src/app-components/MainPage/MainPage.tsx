@@ -97,39 +97,31 @@ export const MainPage: React.FC = (props) => {
   };
 
   const handleLoadRecentFolder = (category) => {
-    if (props.searchValue != "") {
-      //recent folder on search
-    } else {
-      const newPageFolder = pageFolder + 1;
-      setPageFolder(newPageFolder);
-      setIsFolderLoading(true);
-      let lastFolderId = folderCards[folderCards.length - 1].folder_id;
-      instance
-        .get(
-          `/folders?page=${newPageFolder}&size=12&sort_by_date=true&ascending=false&category_id=${category}&search=${search}`
-        )
-        .then((response) => {
-          setTotalFolderPages(response.data.total_pages);
-          const newFolderCards = [...folderCards];
-          response.data.folders.forEach((card) => newFolderCards.push(card));
-          setFolderCards(newFolderCards);
-          setTimeout(() => {
-            setIsFolderLoading(false);
-          }, 250);
-          setTimeout(() => {
-            document.getElementById(lastFolderId).scrollIntoView({
-              behavior: "auto",
-              block: "center",
-              inline: "center",
-            });
-          }, 500);
-        });
-    }
+    const newPageFolder = pageFolder + 1;
+    setPageFolder(newPageFolder);
+    setIsFolderLoading(true);
+    const lastFolderId = folderCards[folderCards.length - 1].folder_id;
+    instance
+      .get(
+        `/folders?page=${newPageFolder}&size=12&sort_by_date=true&ascending=false&category_id=${category}&search=${search}`
+      )
+      .then((response) => {
+        setTotalFolderPages(response.data.total_pages);
+        const newFolderCards = [...folderCards];
+        response.data.folders.forEach((card) => newFolderCards.push(card));
+        setFolderCards(newFolderCards);
+        setTimeout(() => {
+          setIsFolderLoading(false);
+        }, 250);
+        setTimeout(() => {
+          document.getElementById(lastFolderId).scrollIntoView({
+            behavior: "auto",
+            block: "center",
+            inline: "center",
+          });
+        }, 500);
+      });
   };
-
-  useEffect(() => {
-    console.log(isSearch);
-  }, [isSearch]);
 
   //used to reset sets and folders
   //reset works
