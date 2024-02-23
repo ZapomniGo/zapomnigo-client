@@ -48,7 +48,9 @@ export const MainPage: React.FC = (props) => {
       setIsFolderLoading(true);
       setIsSetLoading(true);
       instance
-        .get(`/search?q=${props.searchValue}&page=1&size=12`)
+        .get(
+          `/search?q=${props.searchValue}&page=1&sets_page_number=1&folders_page_number=1&sets_page_size=12&folders_page_size=12`
+        )
         .then((response) => {
           //load sets
           // setTotalSetPages(response.data.total_pages);
@@ -311,7 +313,9 @@ export const MainPage: React.FC = (props) => {
       setIsSearch(true);
       setSearch(searchToken);
       instance
-        .get(`/search?q=${searchToken}&page=1&size=12`)
+        .get(
+          `/search?q=${searchToken}&page=1&sets_page_number=1&folders_page_number=1&sets_page_size=12&folders_page_size=12`
+        )
         .then((response) => {
           //load sets
           setTotalSetPages(response.data.results.sets_pagination.total_pages);
