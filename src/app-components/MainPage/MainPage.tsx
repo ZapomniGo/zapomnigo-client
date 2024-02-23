@@ -11,7 +11,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 
-export const MainPage: React.FC = () => {
+export const MainPage: React.FC = (props) => {
   const [setCards, setSetCards] = useState([]);
   const [folderCards, setFolderCards] = useState([]);
   const [selectSet, setSelectSet] = useState<string | null>(null);
@@ -30,12 +30,49 @@ export const MainPage: React.FC = () => {
   const [hasSets, setHasSets] = useState(true);
   const [hasFolders, setHasFolders] = useState(true);
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
+  const [search, setSearch] = useState("");
+
+  // const [searchToken, setSearchToken] = useState("");
 
   // const [selectedSubcategory, setSelectedSubcategory] = useState(null);
-
+  const [isSearch, setIsSearch] = useState(false);
   const handleSubcategoryClick = (subcategory) => {
     setSelectedSubCategory(subcategory);
   };
+
+  useEffect(() => {
+    setPageSet(1);
+    setPageFolder(1);
+    if (props.searchValue != "") {
+      setIsSearch(true);
+      setIsFolderLoading(true);
+      setIsSetLoading(true);
+      instance
+        .get(
+          `/search?q=${props.searchValue}&page=1&sets_page_number=1&folders_page_number=1&sets_page_size=12&folders_page_size=12`
+        )
+        .then((response) => {
+          //load sets
+          // setTotalSetPages(response.data.total_pages);
+          const newCards = [];
+          response.data.results.sets.forEach((card) => newCards.push(card));
+          setSetCards(newCards);
+          setHasSets(true);
+          setIsSetLoading(false);
+
+          //load folders
+          // setTotalFolderPages(response.data.total_pages);
+          const newFolderCards = [];
+          response.data.results.folders.forEach((card) =>
+            newFolderCards.push(card)
+          );
+          setFolderCards(newFolderCards);
+          setHasFolders(true);
+          setIsFolderLoading(false);
+        });
+      setSearch(props.searchValue);
+    }
+  }, [props.searchValue]);
 
   const handleLoadRecentSet = (category) => {
     const newPageSet = pageSet + 1;
@@ -44,7 +81,7 @@ export const MainPage: React.FC = () => {
 
     instance
       .get(
-        `/sets?page=${newPageSet}&size=12&sort_by_date=true&ascending=false&category_id=${category}`
+        `/sets?page=${newPageSet}&size=12&sort_by_date=true&ascending=false&category_id=${category}&search=${search}`
       )
       .then((response) => {
         setTotalSetPages(response.data.total_pages);
@@ -63,10 +100,10 @@ export const MainPage: React.FC = () => {
     const newPageFolder = pageFolder + 1;
     setPageFolder(newPageFolder);
     setIsFolderLoading(true);
-    let lastFolderId = folderCards[folderCards.length - 1].folder_id;
+    const lastFolderId = folderCards[folderCards.length - 1].folder_id;
     instance
       .get(
-        `/folders?page=${newPageFolder}&size=12&sort_by_date=true&ascending=false&category_id=${category}`
+        `/folders?page=${newPageFolder}&size=12&sort_by_date=true&ascending=false&category_id=${category}&search=${search}`
       )
       .then((response) => {
         setTotalFolderPages(response.data.total_pages);
@@ -95,13 +132,13 @@ export const MainPage: React.FC = () => {
     if (selectedSubCategory !== "") {
       setSelectedSubCategory("");
       setPageSet(1);
-      setTitle(category);
+      setTitle((search ? search + " " : "") + category);
       setIsFolderLoading(true);
       setIsSetLoading(true);
       setAllCategories([]);
       instance
         .get(
-          `/sets?page=1&size=12&sort_by_date=true&ascending=false&category_id=${categoryID}`
+          `/sets?page=1&size=12&sort_by_date=true&ascending=false&category_id=${categoryID}&search=${search}`
         )
         .then((response) => {
           setTotalSetPages(response.data.total_pages);
@@ -121,7 +158,7 @@ export const MainPage: React.FC = () => {
       setPageFolder(1);
       instance
         .get(
-          `/folders?page=${pageFolder}&size=12&sort_by_date=true&ascending=false&category_id=${categoryID}`
+          `/folders?page=${pageFolder}&size=12&sort_by_date=true&ascending=false&category_id=${categoryID}&search=${search}`
         )
         .then((response) => {
           setTotalFolderPages(response.data.total_pages);
@@ -134,16 +171,77 @@ export const MainPage: React.FC = () => {
           }, 250);
         })
         .catch((error) => {
-          console.log(error.response.status);
           if (error.response.status === 404) {
-            console.log(error.response.status);
-            console.log("error");
             setIsFolderLoading(false);
             setHasFolders(false); // Update hasSets if a 404 error is received
           }
           setIsFolderLoading(false);
+          setCategory("");
         });
+    } else if (categoryID != "" && isSearch) {
+      console.log(search);
+      setCategoryID("");
+      setPageSet(1);
+      setIsFolderLoading(true);
+      setIsSetLoading(true);
+      setIsCategoryLoading(true);
+      setSubCategories([]);
+      instance
+        .get(
+          `/sets?page=1&size=12&sort_by_date=true&ascending=false&search=${search}`
+        )
+        .then((response) => {
+          setTotalSetPages(response.data.total_pages);
+          const newCards = [];
+          response.data.sets.forEach((card) => newCards.push(card));
+          setSetCards(newCards);
+          setHasSets(true);
+          setTimeout(() => {
+            setIsSetLoading(false);
+          }, 250);
+        })
+        .catch((error) => {
+          setIsSetLoading(false);
+          setHasSets(false);
+        });
+
+      setTitle(search);
+
+      instance.get("/categories").then((response) => {
+        setAllCategories(response.data.categories);
+        setTimeout(() => {
+          setIsCategoryLoading(false);
+        }, 250);
+      });
+
+      setPageFolder(1);
+      instance
+        .get(
+          `/folders?page=${pageFolder}&size=12&sort_by_date=true&ascending=false&search=${search}`
+        )
+        .then((response) => {
+          setTotalFolderPages(response.data.total_pages);
+          const newFolderCards = [];
+          response.data.folders.forEach((card) => newFolderCards.push(card));
+          setFolderCards(newFolderCards);
+          setHasFolders(true);
+          setTimeout(() => {
+            setIsFolderLoading(false);
+          }, 250);
+        })
+        .catch((error) => {
+          setIsFolderLoading(false);
+          setHasFolders(false);
+        });
+      setCategoryID("");
+      setSubCategories([]);
+
+      console.log("search remove");
+      setSearch("");
     } else {
+      console.log("razgledai");
+      setTitle("Разгледай");
+
       setPageSet(1);
       setIsFolderLoading(true);
       setIsSetLoading(true);
@@ -165,8 +263,6 @@ export const MainPage: React.FC = () => {
           setIsSetLoading(false);
           setHasSets(false);
         });
-
-      setTitle("Разгледай");
 
       instance.get("/categories").then((response) => {
         setAllCategories(response.data.categories);
@@ -202,39 +298,76 @@ export const MainPage: React.FC = () => {
   //used for inital load for sets and folders
   useEffect(() => {
     setPageSet(1);
-    instance
-      .get(`/sets?page=${pageSet}&size=12&sort_by_date=true&ascending=false`)
-      .then((response) => {
-        console.log(response.data);
-        setTotalSetPages(response.data.total_pages);
-        const newCards = [...setCards];
-        response.data.sets.forEach((card) => newCards.push(card));
-        setSetCards(newCards);
-        setHasSets(true);
-        setIsSetLoading(false);
-      });
+    const searchToken = localStorage.getItem("searchToken");
+    setIsSetLoading(true);
+    setIsFolderLoading(true);
+    if (searchToken) {
+      setIsSearch(true);
+      setSearch(searchToken);
+      instance
+        .get(
+          `/search?q=${searchToken}&page=1&sets_page_number=1&folders_page_number=1&sets_page_size=12&folders_page_size=12`
+        )
+        .then((response) => {
+          //load sets
+          setTotalSetPages(response.data.results.sets_pagination.total_pages);
+
+          const newCards = [];
+          response.data.results.sets.forEach((card) => newCards.push(card));
+          setSetCards(newCards);
+          setHasSets(true);
+          setIsSetLoading(false);
+
+          //load folders
+          // setTotalFolderPages(response.data.total_pages);
+          setTotalFolderPages(
+            response.data.results.folders_pagination.total_pages
+          );
+          const newFolderCards = [];
+          response.data.results.folders.forEach((card) =>
+            newFolderCards.push(card)
+          );
+          setFolderCards(newFolderCards);
+          setHasFolders(true);
+          setIsFolderLoading(false);
+          localStorage.removeItem("searchToken");
+        });
+      setTitle(searchToken);
+    } else {
+      instance
+        .get(`/sets?page=${pageSet}&size=12&sort_by_date=true&ascending=false`)
+        .then((response) => {
+          setTotalSetPages(response.data.total_pages);
+          const newCards = [...setCards];
+          response.data.sets.forEach((card) => newCards.push(card));
+          setSetCards(newCards);
+          setHasSets(true);
+          setIsSetLoading(false);
+        });
+
+      setPageFolder(1);
+      instance
+        .get(
+          `/folders?page=${pageFolder}&size=12&sort_by_date=true&ascending=false`
+        )
+        .then((response) => {
+          setTotalFolderPages(response.data.total_pages);
+          const newFolderCards = [...folderCards];
+          response.data.folders.forEach((card) => newFolderCards.push(card));
+          setFolderCards(newFolderCards);
+          setHasFolders(true);
+          setTimeout(() => {
+            setIsFolderLoading(false);
+          }, 250);
+        });
+    }
+
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
       setTimeout(() => {
         setIsCategoryLoading(false);
       }, 250);
     });
-
-    setPageFolder(1);
-    instance
-      .get(
-        `/folders?page=${pageFolder}&size=12&sort_by_date=true&ascending=false`
-      )
-      .then((response) => {
-        setTotalFolderPages(response.data.total_pages);
-        const newFolderCards = [...folderCards];
-        response.data.folders.forEach((card) => newFolderCards.push(card));
-        setFolderCards(newFolderCards);
-        setHasFolders(true);
-        setTimeout(() => {
-          setIsFolderLoading(false);
-        }, 250);
-      });
   }, []);
 
   const changeCategory = (id: string, name: string) => {
@@ -246,7 +379,7 @@ export const MainPage: React.FC = () => {
     setPageSet(1);
     instance
       .get(
-        `/sets?page=1&size=12&sort_by_date=true&ascending=false&category_id=${id}`
+        `/sets?page=1&size=12&sort_by_date=true&ascending=false&category_id=${id}&search=${search}`
       )
       .then((response) => {
         setTotalSetPages(response.data.total_pages);
@@ -267,7 +400,7 @@ export const MainPage: React.FC = () => {
     setFolderCards([]);
     instance
       .get(
-        `/folders?page=1&size=12&sort_by_date=true&ascending=false&category_id=${id}`
+        `/folders?page=1&size=12&sort_by_date=true&ascending=false&category_id=${id}&search=${search}`
       )
       .then((response) => {
         setTotalFolderPages(response.data.total_pages);
@@ -287,7 +420,7 @@ export const MainPage: React.FC = () => {
         setIsFolderLoading(false);
       });
 
-    setTitle(name);
+    setTitle((search ? search + " " : "") + name);
     setCategoryID(id);
     setCategory(name);
 
@@ -302,7 +435,6 @@ export const MainPage: React.FC = () => {
   };
 
   const changeSubCategory = (id: string, name: string) => {
-    //this should work when backend is ready
     setSetCards([]);
     setSelectedSubCategory(id);
     setIsFolderLoading(true);
@@ -311,7 +443,7 @@ export const MainPage: React.FC = () => {
 
     instance
       .get(
-        `/sets?page=1&size=12&sort_by_date=true&ascending=false&category_id=${categoryID}&subcategory_id=${id}`
+        `/sets?page=1&size=12&sort_by_date=true&ascending=false&category_id=${categoryID}&subcategory_id=${id}&search=${search}`
       )
       .then((response) => {
         setTotalSetPages(response.data.total_pages);
@@ -334,7 +466,7 @@ export const MainPage: React.FC = () => {
     setFolderCards([]);
     instance
       .get(
-        `/folders?page=1&size=12&sort_by_date=true&ascending=false&category_id=${categoryID}&subcategory_id=${id}`
+        `/folders?page=1&size=12&sort_by_date=true&ascending=false&category_id=${categoryID}&subcategory_id=${id}&search=${search}`
       )
       .then((response) => {
         setTotalFolderPages(response.data.total_pages);
@@ -351,7 +483,7 @@ export const MainPage: React.FC = () => {
         setIsFolderLoading(false);
       });
 
-    setTitle(category + " " + name);
+    setTitle((search ? search + " " : "") + category + " " + name);
   };
 
   const handleMouseEnter = (id: string) => {
@@ -446,7 +578,7 @@ export const MainPage: React.FC = () => {
                         <p>{subCategories.subcategory_name}</p>
                       </div>
                     ))}
-                  {(categoryID || selectedSubCategory) && (
+                  {(categoryID || selectedSubCategory || isSearch) && (
                     <div className="reset-btn" onClick={resetSets}>
                       <IoMdClose />
                     </div>
