@@ -60,7 +60,6 @@ export const FolderView: React.FC = () => {
           window.location.href = "/app/not-found";
         }
       });
-
   }, []);
 
   const handleLoadRecent = () => {
@@ -122,32 +121,41 @@ export const FolderView: React.FC = () => {
     });
   };
   const verifyAdmin = () => {
-    if(isVerified === true){
-      instance
-      .post(`/folders/${id}/verify`,{
-        "verified": false
-      })
-      .then((response) => {
-        toast('Папката не е потвърденa')
-        location.reload();
-      })
-      .catch((error) => {
-        toast('Грешка');
-      });
-    } else{
-      instance
-      .post(`/folders/${id}/verify`,{
-        "verified": true
-      })
-      .then((response) => {
-        toast('Папката е потвърденa')
-        location.reload();
-      })
-      .catch((error) => {
-        toast('Грешка')
-      });
+    if (
+      !confirm(
+        "Сигурен ли сте, че искате да направите папката" +
+          (isVerified ? " непотвърдена" : " потвърдена") +
+          "?"
+      )
+    ) {
+      return;
     }
-  }
+    if (isVerified === true) {
+      instance
+        .post(`/folders/${id}/verify`, {
+          verified: false,
+        })
+        .then((response) => {
+          toast("Папката не е потвърденa");
+          location.reload();
+        })
+        .catch((error) => {
+          toast("Грешка");
+        });
+    } else {
+      instance
+        .post(`/folders/${id}/verify`, {
+          verified: true,
+        })
+        .then((response) => {
+          toast("Папката е потвърденa");
+          location.reload();
+        })
+        .catch((error) => {
+          toast("Грешка");
+        });
+    }
+  };
 
   return (
     <Dashboard>
@@ -156,22 +164,25 @@ export const FolderView: React.FC = () => {
           <h1 style={{ fontWeight: 900 }}>
             {title}{" "}
             {isAdmin ? (
-                    <MdOutlineVerifiedUser
-                      onClick={verifyAdmin}
-                      className="miniReport"
-                      style={{ color: "red" , cursor: "pointer",fontSize: "30px"}}
-                    />
-                  ) : (
-                    ""
-                  
-                  )}
-            {isVerified ? (
+              <MdOutlineVerifiedUser
+                onClick={verifyAdmin}
+                className="miniReport"
+                style={{
+                  color: isVerified ? "orange" : "gray",
+                  cursor: "pointer",
+                  fontSize: "30px",
+                }}
+              />
+            ) : (
+              ""
+            )}
+            {isVerified && !isAdmin ? (
               <MdOutlineVerifiedUser
                 onClick={verified}
                 className="miniReport"
-                style={{ color: "orange",fontSize: "30px", cursor: "pointer"}}
+                style={{ color: "orange", fontSize: "30px", cursor: "pointer" }}
               />
-            ) : null} 
+            ) : null}
           </h1>
         </h2>
         <h4

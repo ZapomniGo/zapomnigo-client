@@ -42,7 +42,9 @@ export const SetPage = () => {
     } else {
       setIsAdmin(false);
     }
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
   }, []);
 
   const handleLoadRecent = () => {
@@ -99,7 +101,7 @@ export const SetPage = () => {
         navigate(`/app/set/${response.data.set_id}`);
       })
       .catch((error) => {
-          toast("Имаше грешка при копирането, пробвай отново по-късно");
+        toast("Имаше грешка при копирането, пробвай отново по-късно");
       });
   };
 
@@ -231,44 +233,56 @@ export const SetPage = () => {
   };
 
   const Study = () => {
-    console.log(token);
-    if (token === null) {
-      navigate("/app/login");
-      toast("Трябва да влезете а акаунта си, за да учите");
+    // if (token === null) {
+    //   navigate("/app/login");
+    //   toast("Трябва да влезете а акаунта си, за да учите");
+    // } else {
+    //   flashcards.flashcards.length >= 4
+    //     ? navigate(`/app/study/${id}`)
+    //     : toast("Учи режимът работи с 4 или повече флашкарти!");
+    // }
+    if (flashcards.flashcards.length >= 4) {
+      navigate(`/app/study/${id}`);
     } else {
-      flashcards.flashcards.length >= 4
-        ? navigate(`/app/study/${id}`)
-        : toast("Учи режимът работи с 4 или повече флашкарти!");
+      toast("Режим Учи работи с 4 или повече флашкарти");
     }
   };
 
   const verifyAdmin = () => {
-    if(isSetVerified === true){
-      instance
-      .post(`/sets/${id}/verify`,{
-        "verified": false
-      })
-      .then((response) => {
-        location.reload();
-        toast('Тестето не е потвърдено')
-      })
-      .catch((error) => {
-        toast('Грешка');
-      });
-    } else{
-      instance
-      .post(`/sets/${id}/verify`,{
-        "verified": true
-      })
-      .then((response) => {
-        location.reload();
-        toast('Тестето е потвърдено')
-      })
-      .catch((error) => {
-        toast('Грешка')
-      });
+    if (
+      confirm(
+        "Сигурен ли си, че искаш да направиш това тесте " +
+          (!isSetVerified ? "потвърдено" : "непотвърдено?")
+      ) === false
+    ) {
+      return;
     }
-  }
+    if (isSetVerified === true) {
+      instance
+        .post(`/sets/${id}/verify`, {
+          verified: false,
+        })
+        .then((response) => {
+          location.reload();
+          toast("Тестето не е потвърдено");
+        })
+        .catch((error) => {
+          toast("Грешка");
+        });
+    } else {
+      instance
+        .post(`/sets/${id}/verify`, {
+          verified: true,
+        })
+        .then((response) => {
+          location.reload();
+          toast("Тестето е потвърдено");
+        })
+        .catch((error) => {
+          toast("Грешка");
+        });
+    }
+  };
 
   return (
     <Dashboard>
@@ -287,17 +301,7 @@ export const SetPage = () => {
                       marginLeft: ".2vmax",
                     }}
                   >
-                   {isAdmin ? (
-                      <MdOutlineVerifiedUser
-                        onClick={verifyAdmin}
-                        className="miniReport"
-                        style={{ color: "red" , cursor: "pointer"}}
-                      />
-                    ) : (
-                      ""
-                    
-                   )}
-                   {isSetVerified ? (
+                    {isSetVerified && !isAdmin ? (
                       <MdOutlineVerifiedUser
                         onClick={verified}
                         className="miniReport"
@@ -305,7 +309,19 @@ export const SetPage = () => {
                       />
                     ) : (
                       ""
-                    )} 
+                    )}
+                    {isAdmin && (
+                      <>
+                        <MdOutlineVerifiedUser
+                          onClick={verifyAdmin}
+                          className="miniReport"
+                          style={{
+                            color: isSetVerified ? "orange" : "gray",
+                            cursor: "pointer",
+                          }}
+                        />
+                      </>
+                    )}
                   </div>
                 </h1>{" "}
                 {reportAllowed ? (

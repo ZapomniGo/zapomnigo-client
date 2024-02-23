@@ -8,7 +8,6 @@ type ErrorFieldName = keyof LoginErrorRecord;
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 
-
 const validateForm = (data: LoginData): LoginErrorRecord => {
   return {
     email_or_username: {
@@ -20,8 +19,7 @@ const validateForm = (data: LoginData): LoginErrorRecord => {
     },
     password: {
       hasError: data.password.length === 0,
-      message:
-        data.password.length === 0 ? "Хм, паролата не е валидна" : "",
+      message: data.password.length === 0 ? "Хм, паролата не е валидна" : "",
     },
   };
 };
@@ -34,6 +32,8 @@ export const Login = () => {
     if (localStorage.getItem("access_token")) {
       navigate("/app/home");
     }
+    window.scrollTo(0, 0);
+    window.document.title = "Вход | ЗапомниГо";
   }, []);
 
   const login = async () => {
@@ -69,7 +69,7 @@ export const Login = () => {
     ) {
       setBackendError("Грешна парола");
       return;
-    } 
+    }
     try {
       const response = await instance.post(`/login`, userData);
       if (response.status === 200) {
@@ -124,15 +124,15 @@ export const Login = () => {
     navigate("/app/forgot-password");
   };
 
-  const [password, setPassword] = useState("password"); 
+  const [password, setPassword] = useState("password");
 
   const viewPassword = () => {
-    if(password === "password"){
-      setPassword("text")
-    } else if (password === "text"){
-      setPassword("password")
+    if (password === "password") {
+      setPassword("text");
+    } else if (password === "text") {
+      setPassword("password");
     }
-  }
+  };
 
   return (
     <div id="backgroundForm">
@@ -146,7 +146,7 @@ export const Login = () => {
             <input
               type="text"
               name="email_or_username"
-              placeholder="Потребителско име"
+              placeholder="Потребителско име или имейл"
               minLength={2}
               maxLength={40}
               value={userData.email_or_username}
@@ -159,20 +159,23 @@ export const Login = () => {
                 : ""}
             </p>
             <div className="password-test">
-
-            <input
-              type={password}
-              name="password"
-              placeholder="Парола"
-              value={userData.password}
-              onChange={formHandler}
-              className={errors.password.hasError ? "error" : ""}
-            />
-            <div className="password-svg" onClick={viewPassword}>
+              <input
+                type={password}
+                name="password"
+                placeholder="Парола"
+                value={userData.password}
+                onChange={formHandler}
+                className={errors.password.hasError ? "error" : ""}
+              />
+              <div className="password-svg" onClick={viewPassword}>
                 {password === "password" ? <FaRegEye /> : <FaRegEyeSlash />}
-                </div>
+              </div>
             </div>
-            <a className="link" style={{marginLeft:"0.5vmax"}} onClick={handleForgotPassword}>
+            <a
+              className="link"
+              style={{ marginLeft: "0.5vmax" }}
+              onClick={handleForgotPassword}
+            >
               Забравена парола
             </a>
 

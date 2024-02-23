@@ -39,8 +39,6 @@ export const CreateSet = () => {
     handleOnImportFlashcards,
   } = useFlashcards();
 
-
-
   useEffect(() => {
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
@@ -51,6 +49,7 @@ export const CreateSet = () => {
     // });
   }, []);
   const isEmpty = (string: string) => {
+    if (!string) return true;
     if (!string) return true;
     if (string.length === 0) {
       return true;
@@ -168,7 +167,9 @@ export const CreateSet = () => {
       .then((response) => {
         toast("Добре дошъл в новото си тесте");
         navigate("/app/set/" + response.data.set_id);
-        window.scrollTo(0, 0);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 100);
       })
       .catch((error) => {
         toast("Възникна грешка");
@@ -381,7 +382,7 @@ export const CreateSet = () => {
           </center>
           <div className="create-submition">
             <button
-              className="submit import"
+              className="import"
               onClick={() => setIsModalOpen(!isModalOpen)}
             >
               Импортирай

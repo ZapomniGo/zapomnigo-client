@@ -20,7 +20,6 @@ export const CreateFolder = () => {
   const [allSubcategories, setAllSubcategories] = useState([]);
   const [subcategory, setSubcategory] = useState({ name: "", id: "" });
 
-  
   const [folder, setFolder] = useState<{
     folder_title: string;
     folder_description: string;
@@ -38,12 +37,14 @@ export const CreateFolder = () => {
   const [availableSets, setAvailableSets] = useState({});
 
   useEffect(() => {
-    instance.get("/sets?page=1&size=20&sort_by_date=false&ascending=true&category_id=").then((response) => {
-      setSetCards(response.data.sets);
-      setTotalSetPages(response.data.total_pages);
-
-
-    });
+    instance
+      .get(
+        "/sets?page=1&size=2000&sort_by_date=false&ascending=true&category_id="
+      )
+      .then((response) => {
+        setSetCards(response.data.sets);
+        setTotalSetPages(response.data.total_pages);
+      });
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
     });
@@ -74,18 +75,19 @@ export const CreateFolder = () => {
       toast("Описанието трябва да е под 1000 символа");
       return;
     }
-    
+
     instance
       .post("/folders", folderToSubmit)
       .then((response) => {
         toast("Добре дошъл в новата си папка");
         navigate("/app/folder/" + response.data.folder_id);
-        window.scrollTo(0, 0);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 100);
       })
       .catch((error) => {
         toast("Възникна грешка");
       });
-
   };
 
   const handleSelectSet = (set) => {
@@ -122,33 +124,32 @@ export const CreateFolder = () => {
 
   const changeSubcategories = (category_id: string) => {
     instance
-    .get(`/categories/${category_id}/subcategories`)
-    .then((response) => {
-      setSubcategories(response.data.subcategories);
-    })
-  }
+      .get(`/categories/${category_id}/subcategories`)
+      .then((response) => {
+        setSubcategories(response.data.subcategories);
+      });
+  };
   const [pageSet, setPageSet] = useState(1);
   const [totalSetPages, setTotalSetPages] = useState(1);
 
   const handleLoadRecentSet = () => {
     const newPageSet = pageSet + 1;
     setPageSet(newPageSet);
-    instance.get(
-      `/sets?page=${newPageSet}&size=20&sort_by_date=false&ascending=true&category_id=`
-      ).then((response) => {
-      setTotalSetPages(response.data.total_pages);
-      const newCards = [...setCards];
-      response.data.sets.forEach(card => newCards.push(card));
-      setSetCards(newCards);
-
-    });
-    
+    instance
+      .get(
+        `/sets?page=${newPageSet}&size=2000&sort_by_date=false&ascending=true&category_id=`
+      )
+      .then((response) => {
+        setTotalSetPages(response.data.total_pages);
+        const newCards = [...setCards];
+        response.data.sets.forEach((card) => newCards.push(card));
+        setSetCards(newCards);
+      });
   };
-
 
   const resetSubcategory = () => {
     setSubcategories([]);
-  }
+  };
 
   return (
     <Dashboard>
@@ -176,7 +177,11 @@ export const CreateFolder = () => {
             </div>
             <div className="tags">
               <select
-                onChange={(e) => {handleChangeFolder("category_id", e.target.value); changeSubcategories(e.target.value); resetSubcategory()}}
+                onChange={(e) => {
+                  handleChangeFolder("category_id", e.target.value);
+                  changeSubcategories(e.target.value);
+                  resetSubcategory();
+                }}
                 defaultValue={""}
                 id="categories"
                 name="categories"
@@ -189,8 +194,9 @@ export const CreateFolder = () => {
                 ))}
               </select>
               <select
-                onChange={(e) => { handleChangeFolder("subcategory_id", e.target.value);}
-                }
+                onChange={(e) => {
+                  handleChangeFolder("subcategory_id", e.target.value);
+                }}
                 defaultValue=""
                 id="subcategory"
                 name="subcategory"
@@ -249,8 +255,9 @@ export const CreateFolder = () => {
                 />
               ))}
           </div>
-          { pageSet < totalSetPages && setCards.length > 0 && <MoreBtn onClick={() => handleLoadRecentSet()} />}
-
+          {pageSet < totalSetPages && setCards.length > 0 && (
+            <MoreBtn onClick={() => handleLoadRecentSet()} />
+          )}
         </div>
       </div>
     </Dashboard>

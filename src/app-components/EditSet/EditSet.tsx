@@ -76,6 +76,9 @@ export const EditSet = () => {
       });
   }, []);
   const isEmpty = (string: string) => {
+    if (string === undefined) {
+      return true;
+    }
     if (string.length === 0) {
       return true;
     }
@@ -488,7 +491,7 @@ export const EditSet = () => {
           </center>
           <div className="create-submition">
             <button
-              className="submit"
+              className="import"
               onClick={() => setIsModalOpen(!isModalOpen)}
             >
               Импортирай

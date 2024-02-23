@@ -29,7 +29,9 @@ const Flip = () => {
           window.location.href = "/app/not-found";
         }
       });
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
   }, []);
   const previous = () => {
     FC.play();
@@ -83,11 +85,11 @@ const Flip = () => {
     isHidden ? FO.play() : FC.play();
     setIsHidden(!isHidden);
     setIsMessageHidden(true);
-    localStorage.setItem('flipMessage', 'true');
-  }
+    localStorage.setItem("flipMessage", "true");
+  };
 
   useEffect(() => {
-    setIsMessageHidden(localStorage.getItem('flipMessage') === 'true');
+    setIsMessageHidden(localStorage.getItem("flipMessage") === "true");
   }, []);
 
   // window.addEventListener('keydown', function(event) {
@@ -158,11 +160,10 @@ const Flip = () => {
               flipCard();
             }}
           >
-            
             <div id="front">
               <p>{parse(flashcards[counter].term)}</p>
             </div>
-            {!isMessageHidden? (
+            {!isMessageHidden ? (
               <div className="info-message">
                 <p>Натисни картата за да я обърнеш</p>
               </div>

@@ -34,7 +34,8 @@ const StudyComponent = () => {
   //this is the study mode -> 1 is multiple choice, 2 is free input; 0 starting; -1 is finished
   const [studyMode, setStudyMode] = useState(0);
   // set the allowed study mode
-
+  const [positives, setPositives] = React.useState([]);
+  const [negatives, setNegatives] = React.useState([]);
   const [allowedStudyModes, setAllowedStudyModes] = useState(
     defaultSetup.allowedModes ? defaultSetup.allowedModes : [1, 2, 3, 4, 5]
   );
@@ -50,14 +51,23 @@ const StudyComponent = () => {
       window.location.href = "/app/not-found";
       return;
     }
-    if (!localStorage.getItem("access_token")) {
-      window.location.href = "/app/login";
-      return;
+    // if (!localStorage.getItem("access_token")) {
+    //   window.location.href = "/app/login";
+    //   return;
+    // }
+    let component = "";
+    if (localStorage.getItem("access_token") == null) {
+      component = "";
+    } else {
+      component = "/study";
     }
     instance
-      .get(`/sets/${id}/study`)
+      .get(`/sets/${id}${component}`)
       .then((res) => {
-        const newFlashcards = res.data.flashcards;
+        console.log(res.data.set);
+        const newFlashcards = res.data.flashcards
+          ? res.data.flashcards
+          : res.data.set.flashcards;
         if (newFlashcards.length > 0) {
           let tempFlashcards = newFlashcards.map((flashcard) => {
             flashcard.seen = 0;
@@ -175,6 +185,7 @@ const StudyComponent = () => {
   };
   //this function makes sure the flashcards are not repeated
   const EnsureNoRepeat = (indexChosen) => {
+    console.log(pastFlashcardsIndexes);
     //if fewer than 2 flashcards have been studied, then we can study any flashcard
     if (pastFlashcardsIndexes.length < 2) {
       return true;
@@ -267,7 +278,6 @@ const StudyComponent = () => {
         }
       }
     }
-    console.log(chosenStudyMode, allowedStudyModes);
     if (allowedStudyModes.includes(chosenStudyMode)) {
       return chosenStudyMode;
     } else {
@@ -475,11 +485,20 @@ const StudyComponent = () => {
     if (isCorrect) {
       SP.play();
       if (defaultSetup.enablePositives) {
-        toast.success(
-          defaultSetup.positives[
-            Math.floor(Math.random() * defaultSetup.positives.length)
-          ]
-        );
+        console.log(positives);
+        if (positives.length === 1 || positives.length === 0) {
+          let rnd = Math.floor(Math.random() * defaultSetup.positives.length);
+          toast.success(defaultSetup.positives[rnd]); // Fix: Use defaultSetup.positives instead of positives
+          console.log(rnd);
+          setPositives((prev) => [...prev, rnd]);
+        } else if (positives.length > 1) {
+          let rnd = Math.floor(Math.random() * defaultSetup.positives.length);
+          while (rnd === positives.length - 1) {
+            rnd = Math.floor(Math.random() * defaultSetup.positives.length);
+          }
+          toast.success(defaultSetup.positives[rnd]); // Fix: Use defaultSetup.positives instead of positives
+          setPositives((prev) => [...prev, rnd]);
+        }
       }
       //   alert("Correct!");
       InformServerAboutFlashcard(
@@ -498,11 +517,23 @@ const StudyComponent = () => {
     } else {
       SN.play();
       if (defaultSetup.enableNegatives) {
-        toast.error(
-          defaultSetup.negatives[
-            Math.floor(Math.random() * defaultSetup.negatives.length)
-          ]
-        );
+        let rnd = Math.floor(Math.random() * defaultSetup.negatives.length);
+        if (
+          defaultSetup.negatives.length === 1 ||
+          defaultSetup.negatives.length === 0
+        ) {
+          toast.error(
+            defaultSetup.negatives[
+              Math.floor(Math.random() * defaultSetup.negatives.length)
+            ]
+          );
+        } else {
+          while (rnd === defaultSetup.negatives.length - 1) {
+            rnd = Math.floor(Math.random() * defaultSetup.negatives.length);
+          }
+          toast.error(defaultSetup.negatives[rnd]);
+          setNegatives((prev) => [...prev, rnd]);
+        }
       }
 
       //   alert("Incorrect!");
@@ -518,6 +549,9 @@ const StudyComponent = () => {
   };
   //this function will inform the server about the flashcard's correctness
   const InformServerAboutFlashcard = (flashcardId, correctness) => {
+    if (localStorage.getItem("access_token") === null) {
+      return;
+    }
     instance
       .put(`/flashcards/${flashcardId}/study`, {
         correctness: correctness,
@@ -528,6 +562,9 @@ const StudyComponent = () => {
       });
   };
   const InformServerAboutSetStudied = () => {
+    if (localStorage.getItem("access_token") === null) {
+      return;
+    }
     instance
       .post(`/sets/${id}/study`)
       .then((res) => {})

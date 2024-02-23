@@ -8,6 +8,8 @@ const FreeInput = (props) => {
   const [correctAnswer, setCorrectAnswer] = React.useState();
   const [showCorrectAnswer, setShowCorrectAnswer] = React.useState(false);
   const [showComp, setShowComp] = React.useState(false);
+  const [correctlyAnswered, setCorrectlyAnswered] = React.useState(false);
+
   //on enter press submit the flashcard
   useEffect(() => {
     const handleEnterPress = (e) => {
@@ -25,6 +27,7 @@ const FreeInput = (props) => {
     setShowResults(false);
     setShowCorrectAnswer(false);
     setShowComp(false);
+    setCorrectlyAnswered(false);
   }, [props.currentFlashcardTerm]);
 
   const VerifyMyAnswerInternally = (answerOption) => {
@@ -35,7 +38,12 @@ const FreeInput = (props) => {
     setSelectedAnswer(answerOption);
     setShowResults(true);
     if (!answerObject.isCorrect) {
-      setShowCorrectAnswer(true);
+      setCorrectlyAnswered(false);
+      console.log("not correct");
+      setShowCorrectAnswer(false);
+    } else {
+      setCorrectlyAnswered(true);
+      console.log("correct");
     }
   };
 
@@ -49,11 +57,17 @@ const FreeInput = (props) => {
         type="text"
         className="answer-input"
       />
-      {showCorrectAnswer && (
+      {!correctlyAnswered && showResults && (
         <p className="correct-answer">
-          Верният отговор е: <span>{parse(correctAnswer)}</span>
+          Верният отговор е{" "}
+          <span style={{ display: "inline-block" }}>
+            {parse(correctAnswer)}
+          </span>
+          , а твоят отговор е <span>{parse(answer)}</span>
         </p>
       )}
+      {correctlyAnswered && showResults && <p>Вярно</p>}
+
       <div className="vert-flex">
         {!showResults && (
           <div className="donkno">
