@@ -17,6 +17,16 @@ const LearnSettings = (props) => {
       setIsMsgShown(false);
     }
   }, []);
+  //set toggleOpen to false when the user clicks outside the settings menu
+  useEffect(() => {
+    document.addEventListener("click", (e) => {
+      if (e.target.closest(".settings-menu") || e.target.closest(".open")) {
+        setToggleOpen(true);
+      } else {
+        setToggleOpen(false);
+      }
+    });
+  }, []);
 
   return (
     <div className="settings-study">

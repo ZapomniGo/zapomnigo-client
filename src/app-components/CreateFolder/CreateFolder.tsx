@@ -35,7 +35,9 @@ export const CreateFolder = () => {
   });
   const [setCards, setSetCards] = useState([]);
   const [availableSets, setAvailableSets] = useState({});
-
+  useEffect(() => {
+    document.title = "Създай папка | ЗапомниГо";
+  }, []);
   useEffect(() => {
     instance
       .get(

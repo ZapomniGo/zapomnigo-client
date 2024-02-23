@@ -24,6 +24,9 @@ export const Registration = () => {
   const [passLower, setPassLower] = useState("none");
   const [passDigit, setPassDigit] = useState("none");
   useEffect(() => {
+    document.title = "Регистрация | ЗапомниГо";
+  }, []);
+  useEffect(() => {
     if (
       passLength === "success" &&
       passUpper === "success" &&

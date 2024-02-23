@@ -48,6 +48,9 @@ export const CreateSet = () => {
     //   setAllInstitutions(response.data.organizations);
     // });
   }, []);
+  useEffect(() => {
+    document.title = "Създай тесте | ЗапомниГо";
+  }, []);
   const isEmpty = (string: string) => {
     if (!string) return true;
     if (!string) return true;
