@@ -19,13 +19,13 @@ const LearnSettings = (props) => {
   }, []);
   //set toggleOpen to false when the user clicks outside the settings menu
   useEffect(() => {
-    // document.addEventListener("click", (e) => {
-    //   if (e.target.closest(".settings-menu") || e.target.closest(".open")) {
-    //     setToggleOpen(true);
-    //   } else {
-    //     setToggleOpen(false);
-    //   }
-    // });
+    document.addEventListener("click", (e) => {
+      if (e.target.closest(".settings-study")) {
+        return;
+      } else {
+        setToggleOpen(false);
+      }
+    });
   }, []);
 
   return (
