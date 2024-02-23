@@ -30,6 +30,8 @@ export const MainPage: React.FC = (props) => {
   const [hasSets, setHasSets] = useState(true);
   const [hasFolders, setHasFolders] = useState(true);
   const [isCategoryLoading, setIsCategoryLoading] = useState(false);
+  const [search, setSearch] = useState("");
+
   // const [searchToken, setSearchToken] = useState("");
 
   // const [selectedSubcategory, setSelectedSubcategory] = useState(null);
@@ -66,6 +68,7 @@ export const MainPage: React.FC = (props) => {
           setHasFolders(true);
           setIsFolderLoading(false);
         });
+      setSearch(props.searchValue);
     }
   }, [props.searchValue]);
 
@@ -122,6 +125,10 @@ export const MainPage: React.FC = (props) => {
     }
   };
 
+  useEffect(() => {
+    console.log(isSearch);
+  }, [isSearch]);
+
   //used to reset sets and folders
   //reset works
   const resetSets = () => {
@@ -177,7 +184,9 @@ export const MainPage: React.FC = (props) => {
           setIsFolderLoading(false);
           setCategory("");
         });
-    } else if (search == null) {
+    } else if (categoryID != "" && isSearch) {
+      console.log(search);
+      setCategoryID("");
       setPageSet(1);
       setIsFolderLoading(true);
       setIsSetLoading(true);
@@ -232,8 +241,11 @@ export const MainPage: React.FC = (props) => {
         });
       setCategoryID("");
       setSubCategories([]);
+
+      console.log("search remove");
+      setSearch("");
     } else {
-      setSearch(null);
+      console.log("razgledai");
       setTitle("Разгледай");
 
       setPageSet(1);
@@ -289,16 +301,15 @@ export const MainPage: React.FC = (props) => {
     }
   };
 
-  const [search, setSearch] = useState("");
-
   //used for inital load for sets and folders
   useEffect(() => {
     setPageSet(1);
     const searchToken = localStorage.getItem("searchToken");
-    setSearch(searchToken);
     setIsSetLoading(true);
     setIsFolderLoading(true);
     if (searchToken) {
+      setIsSearch(true);
+      setSearch(searchToken);
       instance
         .get(`/search?q=${searchToken}&page=1&size=12`)
         .then((response) => {
@@ -393,7 +404,7 @@ export const MainPage: React.FC = (props) => {
     setFolderCards([]);
     instance
       .get(
-        `/folders?page=1&size=12&sort_by_date=true&ascending=false&category_id=${id}`
+        `/folders?page=1&size=12&sort_by_date=true&ascending=false&category_id=${id}&search=${search}`
       )
       .then((response) => {
         setTotalFolderPages(response.data.total_pages);
@@ -436,7 +447,7 @@ export const MainPage: React.FC = (props) => {
 
     instance
       .get(
-        `/sets?page=1&size=12&sort_by_date=true&ascending=false&category_id=${categoryID}&subcategory_id=${id}`
+        `/sets?page=1&size=12&sort_by_date=true&ascending=false&category_id=${categoryID}&subcategory_id=${id}&search=${search}`
       )
       .then((response) => {
         setTotalSetPages(response.data.total_pages);
@@ -459,7 +470,7 @@ export const MainPage: React.FC = (props) => {
     setFolderCards([]);
     instance
       .get(
-        `/folders?page=1&size=12&sort_by_date=true&ascending=false&category_id=${categoryID}&subcategory_id=${id}`
+        `/folders?page=1&size=12&sort_by_date=true&ascending=false&category_id=${categoryID}&subcategory_id=${id}&search=${search}`
       )
       .then((response) => {
         setTotalFolderPages(response.data.total_pages);
@@ -571,7 +582,7 @@ export const MainPage: React.FC = (props) => {
                         <p>{subCategories.subcategory_name}</p>
                       </div>
                     ))}
-                  {(categoryID || selectedSubCategory || search) && (
+                  {(categoryID || selectedSubCategory || isSearch) && (
                     <div className="reset-btn" onClick={resetSets}>
                       <IoMdClose />
                     </div>
