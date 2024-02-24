@@ -163,13 +163,12 @@ const HomePage = () => {
             <div className="loader"></div>
           </div>
         )}
-        <button id="create-set"  onClick={() => navigate("/app/create-set")}>
+        <button id="create-set" onClick={() => navigate("/app/create-set")}>
           Разгледай още
         </button>
       </section>
       <section id="about" className="special-gradient">
-        <Tilty glare={false} max={isTiltyEnabled ? 9 : 0}
-         reverse={true}>
+        <Tilty glare={false} max={isTiltyEnabled ? 9 : 0} reverse={true}>
           {" "}
           <div id="demo-flashcard">
             <center>
