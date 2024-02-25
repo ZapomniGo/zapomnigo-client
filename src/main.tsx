@@ -71,8 +71,10 @@ export const App = () => {
       console.log("here");
     }
     setSearchValue(value);
-    window.location.href = "/app";
-    localStorage.setItem("searchToken", value);
+    if (window.location.href.includes("/app/")) {
+      window.location.href = "/app";
+      localStorage.setItem("searchToken", value);
+    }
   };
 
   const queryClient = new QueryClient();
@@ -83,8 +85,9 @@ export const App = () => {
     },
     {
       path: homeRoute,
-      element: <Navigation onSearch={handleSearchValue} />,
-      // element: <Navigation/>,
+      element: (
+        <Navigation onSearch={handleSearchValue} searchValue={searchValue} />
+      ),
 
       children: [
         {

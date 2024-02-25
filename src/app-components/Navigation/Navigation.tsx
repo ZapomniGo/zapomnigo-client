@@ -38,6 +38,8 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
   const [username, setUsername] = useState("");
   const [institution, setInstitution] = useState("");
   const [token, setToken] = useState<string | null>(null);
+  const [test, setSearch] = useState("");
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -48,6 +50,11 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
         jwtDecode(token);
       setUsername(decodedToken.username);
       setInstitution(decodedToken.institution);
+    }
+
+    const searchToken = localStorage.getItem("searchToken");
+    if (searchToken) {
+      document.querySelector("input[name=search]").value = searchToken;
     }
   }, []);
 
@@ -84,20 +91,13 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
   };
 
   const search = (value: string) => {
-    console.log(value)
     props.onSearch(value);
-  }
+  };
 
-
-      // console.log("searching")
-    // instance
-    // .get(
-    //   `/search?q=${value}}&page=1&size=20`
-    // )
-    // .then((response) => {
-    //   console.log(response.data);
-    // });
-
+  // useEffect(() => {
+  //   setSearch(props.searchValue);
+  //   console.log(props.searchValue);
+  // }, [props.searchValue]);
 
   return (
     <div className="wrapper">
@@ -111,19 +111,21 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
             />
           </div>
           <div className="search-box">
-            <i className="icon">
+            <i className="icon" onClick={() => search(inputValue)}>
               <BiSearch />
             </i>
-            <input 
-              type="search" 
-              placeholder="Търси..." 
+            <input
+              type="search"
+              name="search"
+              placeholder="Търси..."
+              onChange={(event) => setInputValue(event.target.value)}
               onKeyPress={(event) => {
-                if (event.key === 'Enter') {
+                if (event.key === "Enter") {
                   search(event.target.value);
                 }
-              }} 
-            />         
-         </div>
+              }}
+            />
+          </div>
         </div>
         <nav
           className={`sidebar ${navigationSliceManager.open ? "" : "close"}`}
@@ -154,18 +156,19 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
           <div className="menu-bar">
             <div className="menu">
               <li className="search-box">
-                <i className="icon">
+                <i className="icon" onClick={() => search(inputValue)}>
                   <BiSearch />
                 </i>
-                <input 
-                  type="search" 
-                  placeholder="Търси..." 
+                <input
+                  type="search"
+                  placeholder="Търси..."
+                  onChange={(event) => setInputValue(event.target.value)}
                   onKeyPress={(event) => {
-                    if (event.key === 'Enter') {
+                    if (event.key === "Enter") {
                       search(event.target.value);
                     }
-                  }} 
-                />              
+                  }}
+                />
               </li>
               <ul className="menu-links">
                 <li className="nav-link">

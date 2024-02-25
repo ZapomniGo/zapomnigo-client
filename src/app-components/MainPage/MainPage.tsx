@@ -71,6 +71,7 @@ export const MainPage: React.FC = (props) => {
           setIsFolderLoading(false);
         });
       setSearch(props.searchValue);
+      setTitle(props.searchValue);
     }
   }, [props.searchValue]);
 
