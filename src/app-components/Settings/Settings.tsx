@@ -26,16 +26,17 @@ export const Settings = () => {
 
   const SettingsFunctions = {
     async logout() {
-      localStorage.removeItem("token");
-      window.location.href = "/";
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      window.location.href = "/app/login";
     },
     async changeUsername() {
-      if (username.length < 4) {
-        toast.error("Потребителското име трябва да е поне 4 символа");
+      if (username.length < 2) {
+        toast.error("Потребителското име трябва да е поне 2 символа");
         return;
       }
-      if (username.length > 20) {
-        toast.error("Потребителското име трябва да е най-много 20 символа");
+      if (username.length > 40) {
+        toast.error("Потребителското име трябва да е най-много 40 символа");
         return;
       }
       try {
@@ -75,6 +76,18 @@ export const Settings = () => {
       if (newPassword.length < 8) {
         toast.error("Паролата трябва да е поне 8 символа");
         return;
+      }
+      if (newPassword.length > 40) {
+        toast.error("Паролата трябва да над 40 символа");
+      }
+      if (!/[A-Z]/.test(newPassword)) {
+        toast.error("Паролата трябва да съдържа поне една главна буква");
+      }
+      if (!/[a-z]/.test(newPassword)) {
+        toast.error("Паролата трябва да съдържа поне една малка буква");
+      }
+      if (!/\d/.test(value)) {
+        toast.error("Паролата трябва да съдържа поне една цифра");
       }
       if (newPassword !== newPassword2) {
         toast.error("Паролите не съвпадат");
@@ -137,7 +150,7 @@ export const Settings = () => {
             <li>Смени имейл:</li>
             <div>
               <input
-                type="text"
+                type="email"
                 placeholder="Нов имейл"
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -153,28 +166,28 @@ export const Settings = () => {
               </p>
               <input
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                type="text"
+                type="password"
                 placeholder="Въведи сегашната парола"
               />
               <input
                 onChange={(e) => setNewPassword(e.target.value)}
-                type="text"
+                type="password"
                 placeholder="Въведи новата парола"
               />
               <input
                 onChange={(e) => setNewPassword2(e.target.value)}
-                type="text"
+                type="password"
                 placeholder="Повтори новата парола"
               />
               <button onClick={() => SettingsFunctions.changePassword()}>
                 Промени
               </button>
             </div>
-            <li>Експортирай всички данни</li>
+            {/* <li>Експортирай всички данни</li>
             <div>
               <p>Експортирай всички данни, които ЗапомниГо има за теб</p>
               <button>Експортирай</button>
-            </div>
+            </div> */}
             <li>Изтрий данните и профила ми</li>
             <div>
               <p>
@@ -199,6 +212,14 @@ export const Settings = () => {
               <button onClick={() => SettingsFunctions.deleteAccount()}>
                 Изтрий данните и профила ми
               </button>
+            </div>
+            <div>
+              <li>
+                За други промени по профила, свържи се с нас на{" "}
+                <a href="mailto:zapomnigo.com@gmail.com">
+                  zapomnigo.com@gmail.com
+                </a>
+              </li>
             </div>
           </ul>
           {/* MAKE THE SETTINGS BELOW WORK */}
