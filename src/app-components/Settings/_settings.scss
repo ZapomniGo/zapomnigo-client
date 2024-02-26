@@ -1,3 +1,106 @@
 // h1{
 //     text-align: center;
 // }
+
+#settings {
+  padding: 3vmax;
+  h1 {
+    display: none;
+  }
+  h2 {
+    font-size: 2vmax;
+    font-weight: bold;
+    background-color: white;
+    padding: 1vmax;
+    border-radius: 10px;
+    display: inline-block;
+    box-shadow:
+      0 3px 6px rgba(0, 0, 0, 0.16),
+      0 3px 6px rgba(0, 0, 0, 0.23);
+    border: 3px solid orange;
+    color: rgb(68, 68, 68);
+  }
+  ul {
+    margin-left: 3vmax;
+    background-color: white;
+    padding: 1vmax;
+    border-radius: 10px;
+    margin: 2vmax;
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.12),
+      0 1px 2px rgba(0, 0, 0, 0.24);
+  }
+  li {
+    color: gray;
+
+    font-size: 1.4vmax;
+    list-style-type: none;
+    margin-top: 2vmax;
+    font-weight: 900;
+  }
+  p {
+    color: gray;
+    margin-left: 1vmax;
+  }
+  input,
+  select {
+    width: auto !important;
+    margin-left: 1vmax;
+    border: 1px solid orange;
+    border-radius: 5px;
+    font-size: 1.4vmax;
+  }
+  button {
+    background: none;
+    border: 2px solid orange;
+    color: gray;
+    margin-left: 1vmax;
+    &:hover {
+      background-color: orange;
+      color: white;
+    }
+  }
+  #vertical-flex {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width:30vw;
+  }
+
+  @media screen and (max-width: 600px) {
+    & {
+      padding: 1vmax;
+    }
+    h2 {
+      //center horiuzontally
+      font-size: 3vmax;
+      width: 99%;
+      text-align: center;
+      margin-top:2vmax;
+      margin-bottom:2vmax;
+    }
+    ul {
+      margin-left: 1vmax;
+      margin: 1vmax;
+    }
+    li {
+      font-size: 2vmax;
+      margin-top: 1vmax;
+    }
+    p {
+      margin-left: 0.5vmax;
+    }
+    button {
+      font-size: 2.2vmax;
+    }
+    input {
+      font-size: 2.2vmax;
+      padding: 2vmax;
+      width: 97% !important;
+    }
+    select {
+      font-size: 2.2vmax;
+      width: 97% !important;
+    }
+  }
+}

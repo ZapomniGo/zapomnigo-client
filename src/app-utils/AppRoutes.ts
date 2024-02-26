@@ -8,7 +8,7 @@ const settingsRoute = "/app/settings";
 const createSetRoute = "/app/create-set";
 const setPageRoute = "/app/set/:id";
 const verifyEmailRoute = "/app/verify";
-const verifyEmailTokenRoute = "/app/verify?token=:token";
+const verifyEmailTokenRoute = "/app/verify-email?token=:token";
 const privacyPolicyRoute = "/app/legal/privacy-policy";
 const termsOfServiceRoute = "/app/legal/terms-of-service";
 const cookieRulesRoute = "/app/legal/cookie-rules";

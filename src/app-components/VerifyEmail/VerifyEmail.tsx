@@ -27,7 +27,7 @@ const VerifyEmail = () => {
     instance
       .post("/send-email?verification=true", { email })
       .then((res) => {
-        setMessage("Имейлът е изпратен! Проверете пощата си.");
+        setMessage("Имейлът е изпратен! Провери пощата си.");
         setLastSent(Date.now());
         localStorage.setItem("lastSent", Date.now().toString());
       })
@@ -63,7 +63,7 @@ const VerifyEmail = () => {
 
   const showInput = () => {
     setIsInputVisible(!isInputVisible);
-  }
+  };
   return (
     <div id="backgroundForm">
       <Background />
@@ -73,29 +73,32 @@ const VerifyEmail = () => {
           <h1>Потвърди си имейла</h1>
           <p>
             Изпратихме ти имейл за потвърждение. Провери пощата си и натисни
-            линка в него. Ако все пак не си получил имейла, можеш да натиснеш бутона за повторно изпращане.
+            линка в него. Ако все пак не си получил имейла, можеш да натиснеш
+            бутона за повторно изпращане.
           </p>
-          {!isInputVisible && <button onClick={showInput} className="no-email">Не съм получил имейл</button>}
-          {isInputVisible && 
-          <div className="reset-psw"> 
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            type="text"
-            placeholder="Имейл"
-          />
-          <button
-            onClick={sendEmail}
-            className={
-              "button " + (Date.now() - lastSent < 60000) && "disabled"
-            }
-          >
-            Изпрати
-          </button>
-          {message.length ? <p className="msg">{message}</p> : ""}
-          </div>
-          
-          }
-          
+          {!isInputVisible && (
+            <button onClick={showInput} className="no-email">
+              Не съм получил имейл
+            </button>
+          )}
+          {isInputVisible && (
+            <div className="reset-psw">
+              <input
+                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                placeholder="Въведи имейл"
+              />
+              <button
+                onClick={sendEmail}
+                className={
+                  "button " + (Date.now() - lastSent < 60000) && "disabled"
+                }
+              >
+                Изпрати
+              </button>
+              {message.length ? <p className="msg">{message}</p> : ""}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -226,7 +226,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                         <span className="text nav-text">Създай</span>
                       </CustomNavLink>
                     </li>
-                    {/* <li className="nav-link">
+                    <li className="nav-link">
                       <CustomNavLink
                         to="/app/settings"
                         activeClassName="active"
@@ -237,7 +237,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                         </i>
                         <span className="text nav-text">Настройки</span>
                       </CustomNavLink>
-                    </li> */}
+                    </li>
                   </>
                 ) : (
                   <>
