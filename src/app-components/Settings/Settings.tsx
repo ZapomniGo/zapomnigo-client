@@ -44,6 +44,9 @@ export const Settings = () => {
           username: username,
         });
         toast.success("Готово, промени потребителското си име");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        window.location.href = "/app/login";
       } catch (error) {
         if (error.response.status === 409) {
           toast.error("Потребителското име вече е заето");
@@ -64,6 +67,9 @@ export const Settings = () => {
           email: email,
         });
         toast.success("Готово, промени имейла си");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        window.location.href = "/app/login";
       } catch (error) {
         if (error.response.status === 409) {
           toast.error("Имейлът вече е зает");
@@ -79,15 +85,19 @@ export const Settings = () => {
       }
       if (newPassword.length > 40) {
         toast.error("Паролата трябва да над 40 символа");
+        return;
       }
       if (!/[A-Z]/.test(newPassword)) {
         toast.error("Паролата трябва да съдържа поне една главна буква");
+        return;
       }
       if (!/[a-z]/.test(newPassword)) {
         toast.error("Паролата трябва да съдържа поне една малка буква");
+        return;
       }
       if (!/\d/.test(value)) {
         toast.error("Паролата трябва да съдържа поне една цифра");
+        return;
       }
       if (newPassword !== newPassword2) {
         toast.error("Паролите не съвпадат");
@@ -98,6 +108,9 @@ export const Settings = () => {
           password: newPassword,
           new_password: newPassword,
         });
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        window.location.href = "/app/login";
       } catch (error) {
         toast.error("Неуспешна промяна на парола. Пробвай отново по-късно");
       }
@@ -113,7 +126,7 @@ export const Settings = () => {
         const response = await instance.delete("/users/" + userData.sub);
         console.log(response);
         localStorage.removeItem("token");
-        //  window.location.href = "/";
+        window.location.href = "/";
       } catch (error) {
         console.log(error);
         toast.error("Неуспешно изтриване на профил. Пробвай отново по-късно");

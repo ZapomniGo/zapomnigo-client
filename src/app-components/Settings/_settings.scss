@@ -50,34 +50,26 @@
     border-radius: 5px;
     font-size: 1.4vmax;
   }
-  button {
-    background: none;
-    border: 2px solid orange;
-    color: gray;
-    margin-left: 1vmax;
-    &:hover {
-      background-color: orange;
-      color: white;
-    }
-  }
+ 
   #vertical-flex {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width:30vw;
+    width: 30vw;
   }
 
   @media screen and (max-width: 600px) {
     & {
       padding: 1vmax;
     }
+
     h2 {
       //center horiuzontally
       font-size: 3vmax;
       width: 99%;
       text-align: center;
-      margin-top:2vmax;
-      margin-bottom:2vmax;
+      margin-top: 2vmax;
+      margin-bottom: 2vmax;
     }
     ul {
       margin-left: 1vmax;
@@ -92,6 +84,7 @@
     }
     button {
       font-size: 2.2vmax;
+      width:97% !important;
     }
     input {
       font-size: 2.2vmax;
@@ -100,6 +93,9 @@
     }
     select {
       font-size: 2.2vmax;
+      width: 97% !important;
+    }
+    #vertical-flex {
       width: 97% !important;
     }
   }
