@@ -431,12 +431,20 @@ export const SetPage = () => {
                     {folders && isFolderVisible && (
                       <div className={`folder-popup ` + isFolderVisible}>
                         {folders.map((folder) => (
+                          // <p
+                          //   className="folder-title"
+                          //   key={folder.folder_id}
+                          //   onClick={() => addToFolder(id, folder.folder_id)}
+                          // >
+                          // </p>
                           <p
                             className="folder-title"
                             key={folder.folder_id}
                             onClick={() => addToFolder(id, folder.folder_id)}
                           >
-                            {folder.folder_title}
+                            {folder.folder_title.length > 20
+                              ? folder.folder_title.substring(0, 20) + "..."
+                              : folder.folder_title}
                           </p>
                         ))}
                       </div>
