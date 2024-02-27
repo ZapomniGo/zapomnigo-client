@@ -173,7 +173,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
               <ul className="menu-links">
                 <li className="nav-link">
                   <CustomNavLink
-                    to="/app/"
+                    to="/"
                     activeClassName="active"
                     onClick={() => {
                       handleCloseClick();
