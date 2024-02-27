@@ -174,7 +174,6 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                 <li className="nav-link">
                   <CustomNavLink
                     to="/app/"
-                    className={window.location.pathname == "/app/" && "active"}
                     onClick={() => {
                       handleCloseClick();
                       if (window.location.pathname === "/app/") {
@@ -193,7 +192,6 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                     <li className="nav-link">
                       <CustomNavLink
                         to={`/app/sets/${username}`}
-                        activeClassName="active"
                         onClick={handleCloseClick}
                       >
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
@@ -205,7 +203,6 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                     <li className="nav-link">
                       <CustomNavLink
                         to="/app/folders"
-                        activeClassName="active"
                         onClick={handleCloseClick}
                       >
                         <i className="icon">
@@ -217,7 +214,6 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                     <li className="nav-link">
                       <CustomNavLink
                         to="/app/create"
-                        activeClassName="active"
                         onClick={handleCloseClick}
                       >
                         <i className="icon" style={{ transform: "scale(1.3)" }}>
@@ -229,7 +225,6 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                     <li className="nav-link">
                       <CustomNavLink
                         to="/app/settings"
-                        activeClassName="active"
                         onClick={handleCloseClick}
                       >
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
@@ -244,7 +239,6 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                     <li className="nav-link">
                       <CustomNavLink
                         to="/app/register"
-                        activeClassName="active"
                         onClick={handleCloseClick}
                       >
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
@@ -256,7 +250,6 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                     <li className="nav-link">
                       <CustomNavLink
                         to="/app/login"
-                        activeClassName="active"
                         onClick={handleCloseClick}
                       >
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
