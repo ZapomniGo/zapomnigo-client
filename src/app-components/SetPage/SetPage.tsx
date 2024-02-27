@@ -309,7 +309,11 @@ export const SetPage = () => {
         toast("Тестето е добавено в папката");
       })
       .catch((error) => {
-        toast("Грешка");
+        if (error.response.status === 409) {
+          toast("Това тесте вече е в тази папка");
+        } else {
+          toast("Грешка");
+        }
       });
   };
 
@@ -431,12 +435,6 @@ export const SetPage = () => {
                     {folders && isFolderVisible && (
                       <div className={`folder-popup ` + isFolderVisible}>
                         {folders.map((folder) => (
-                          // <p
-                          //   className="folder-title"
-                          //   key={folder.folder_id}
-                          //   onClick={() => addToFolder(id, folder.folder_id)}
-                          // >
-                          // </p>
                           <p
                             className="folder-title"
                             key={folder.folder_id}
