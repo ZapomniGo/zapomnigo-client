@@ -174,7 +174,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                 <li className="nav-link">
                   <CustomNavLink
                     to="/app/"
-                    activeClassName="active"
+                    className={window.location.pathname == "/app/" && "active"}
                     onClick={() => {
                       handleCloseClick();
                       if (window.location.pathname === "/app/") {
@@ -182,7 +182,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       }
                     }}
                   >
-                    <i className="icon" style={{ transform: "scale(1.3)" }}>
+                    <i className={"icon "} style={{ transform: "scale(1.3)" }}>
                       <BiHomeAlt />
                     </i>
                     <span className="text nav-text">Начало</span>
