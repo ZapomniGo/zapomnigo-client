@@ -26,7 +26,7 @@ interface NavigationProps {
   children?: ReactNode;
 }
 
-const CustomNavLink: React.FC<NavLinkProps> = (props) => (
+const NavLink: React.FC<NavLinkProps> = (props) => (
   <RRNavLink {...props} />
 );
 
@@ -172,7 +172,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
               </li>
               <ul className="menu-links">
                 <li className="nav-link">
-                  <CustomNavLink
+                  <NavLink
                     to="/app/"
                     onClick={() => {
                       handleCloseClick();
@@ -185,12 +185,12 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       <BiHomeAlt />
                     </i>
                     <span className="text nav-text">Начало</span>
-                  </CustomNavLink>
+                  </NavLink>
                 </li>
                 {token ? (
                   <>
                     <li className="nav-link">
-                      <CustomNavLink
+                      <NavLink
                         to={`/app/sets/${username}`}
                         onClick={handleCloseClick}
                       >
@@ -198,10 +198,10 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                           <TbCards />
                         </i>
                         <span className="text nav-text">Моите тестета</span>
-                      </CustomNavLink>
+                      </NavLink>
                     </li>
                     <li className="nav-link">
-                      <CustomNavLink
+                      <NavLink
                         to="/app/folders"
                         onClick={handleCloseClick}
                       >
@@ -209,10 +209,10 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                           <FaRegFolderOpen />
                         </i>
                         <span className="text nav-text">Моите папки</span>
-                      </CustomNavLink>
+                      </NavLink>
                     </li>
                     <li className="nav-link">
-                      <CustomNavLink
+                      <NavLink
                         to="/app/create"
                         onClick={handleCloseClick}
                       >
@@ -220,10 +220,10 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                           <GoPencil />
                         </i>
                         <span className="text nav-text">Създай</span>
-                      </CustomNavLink>
+                      </NavLink>
                     </li>
                     <li className="nav-link">
-                      <CustomNavLink
+                      <NavLink
                         to="/app/settings"
                         onClick={handleCloseClick}
                       >
@@ -231,13 +231,13 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                           <TbSettings />
                         </i>
                         <span className="text nav-text">Настройки</span>
-                      </CustomNavLink>
+                      </NavLink>
                     </li>
                   </>
                 ) : (
                   <>
                     <li className="nav-link">
-                      <CustomNavLink
+                      <NavLink
                         to="/app/register"
                         onClick={handleCloseClick}
                       >
@@ -245,10 +245,10 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                           <GoPencil />
                         </i>
                         <span className="text nav-text">Регистрирай се</span>
-                      </CustomNavLink>
+                      </NavLink>
                     </li>
                     <li className="nav-link">
-                      <CustomNavLink
+                      <NavLink
                         to="/app/login"
                         onClick={handleCloseClick}
                       >
@@ -256,7 +256,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                           <BiLogIn />
                         </i>
                         <span className="text nav-text">Вход</span>
-                      </CustomNavLink>
+                      </NavLink>
                     </li>
                   </>
                 )}
