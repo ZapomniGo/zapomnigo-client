@@ -19,6 +19,7 @@ import { url } from "../../Global";
 import { BiLogIn } from "react-icons/bi";
 import instance from "../../app-utils/axios";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -29,6 +30,7 @@ interface NavigationProps {
 const NavLink: React.FC<NavLinkProps> = (props) => <RRNavLink {...props} />;
 
 export const Navigation: React.FC<NavigationProps> = (props) => {
+  const navigate = useNavigate();
   const navigationSliceManager = useAppSelector(
     (state) => state.navigationReducer
   );
@@ -172,11 +174,11 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                 <li className="nav-link">
                   <a
                     onClick={() => {
-                      window.location.href = "/app/";
                       handleCloseClick();
-                      if (window.location.href === "/app/") {
+                      if (window.location.pathname == "/app/") {
                         window.location.reload();
                       }
+                      navigate("/app/");
                     }}
                     className={window.location.pathname == "/app/" && "active"}
                   >
