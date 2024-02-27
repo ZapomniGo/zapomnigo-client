@@ -47,6 +47,16 @@ export const MainPage: React.FC = (props) => {
       setIsSearch(true);
       setIsFolderLoading(true);
       setIsSetLoading(true);
+      if (selectedSubCategory.length > 0) {
+        instance.get("/categories").then((response) => {
+          setAllCategories(response.data.categories);
+          setTimeout(() => {
+            setIsCategoryLoading(false);
+          }, 250);
+        });
+      }
+      setCategoryID("");
+      setSubCategories([]);
       instance
         .get(
           `/search?q=${props.searchValue}&page=1&sets_page_number=1&folders_page_number=1&sets_page_size=12&folders_page_size=12`
@@ -74,6 +84,10 @@ export const MainPage: React.FC = (props) => {
       setTitle(props.searchValue);
     }
   }, [props.searchValue]);
+
+  useEffect(() => {
+    console.log(selectedSubCategory);
+  }, [selectedSubCategory]);
 
   const handleLoadRecentSet = (category) => {
     const newPageSet = pageSet + 1;
@@ -129,7 +143,9 @@ export const MainPage: React.FC = (props) => {
   const resetSets = () => {
     if (category && selectedSubCategory === "") {
       setCategory("");
+      setTitle("Разгледай");
     }
+
     if (selectedSubCategory !== "") {
       setSelectedSubCategory("");
       setPageSet(1);
@@ -236,13 +252,65 @@ export const MainPage: React.FC = (props) => {
         });
       setCategoryID("");
       setSubCategories([]);
+    } else if (categoryID != "" && !isSearch) {
+      setCategoryID("");
+      setPageSet(1);
+      setIsFolderLoading(true);
+      setIsSetLoading(true);
+      setIsCategoryLoading(true);
+      setSubCategories([]);
+      instance
+        .get(
+          `/sets?page=1&size=12&sort_by_date=true&ascending=false&search=${search}`
+        )
+        .then((response) => {
+          setTotalSetPages(response.data.total_pages);
+          const newCards = [];
+          response.data.sets.forEach((card) => newCards.push(card));
+          setSetCards(newCards);
+          setHasSets(true);
+          setTimeout(() => {
+            setIsSetLoading(false);
+          }, 250);
+        })
+        .catch((error) => {
+          setIsSetLoading(false);
+          setHasSets(false);
+        });
 
-      console.log("search remove");
-      setSearch("");
+      setTitle(search);
+
+      instance.get("/categories").then((response) => {
+        setAllCategories(response.data.categories);
+        setTimeout(() => {
+          setIsCategoryLoading(false);
+        }, 250);
+      });
+
+      setPageFolder(1);
+      instance
+        .get(
+          `/folders?page=${pageFolder}&size=12&sort_by_date=true&ascending=false&search=${search}`
+        )
+        .then((response) => {
+          setTotalFolderPages(response.data.total_pages);
+          const newFolderCards = [];
+          response.data.folders.forEach((card) => newFolderCards.push(card));
+          setFolderCards(newFolderCards);
+          setHasFolders(true);
+          setTimeout(() => {
+            setIsFolderLoading(false);
+          }, 250);
+        })
+        .catch((error) => {
+          setIsFolderLoading(false);
+          setHasFolders(false);
+        });
+      setCategoryID("");
+      setSubCategories([]);
     } else {
-      console.log("razgledai");
       setTitle("Разгледай");
-
+      setIsSearch(false);
       setPageSet(1);
       setIsFolderLoading(true);
       setIsSetLoading(true);
@@ -271,7 +339,8 @@ export const MainPage: React.FC = (props) => {
           setIsCategoryLoading(false);
         }, 250);
       });
-
+      setSearch("");
+      document.querySelector('input[name="search"]').value = "";
       setPageFolder(1);
       instance
         .get(
@@ -294,7 +363,15 @@ export const MainPage: React.FC = (props) => {
       setCategoryID("");
       setSubCategories([]);
     }
+
+    if (category && search == "") {
+      setTitle("Разгледай");
+    }
   };
+
+  useEffect(() => {
+    console.log(title);
+  }, [title]);
 
   //used for inital load for sets and folders
   useEffect(() => {

@@ -66,14 +66,13 @@ export const App = () => {
   // Parent component
   const handleSearchValue = (value: string) => {
     if (value === "") {
-      console.log("empty");
-    } else {
-      console.log("here");
-    }
-    setSearchValue(value);
-    if (window.location.href.includes("/app/")) {
       window.location.href = "/app";
-      localStorage.setItem("searchToken", value);
+    } else {
+      setSearchValue(value);
+      if (window.location.href.includes("/app/")) {
+        window.location.href = "/app";
+        localStorage.setItem("searchToken", value);
+      }
     }
   };
 
