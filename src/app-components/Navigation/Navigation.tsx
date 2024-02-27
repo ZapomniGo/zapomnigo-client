@@ -26,9 +26,7 @@ interface NavigationProps {
   children?: ReactNode;
 }
 
-const NavLink: React.FC<NavLinkProps> = (props) => (
-  <RRNavLink {...props} />
-);
+const NavLink: React.FC<NavLinkProps> = (props) => <RRNavLink {...props} />;
 
 export const Navigation: React.FC<NavigationProps> = (props) => {
   const navigationSliceManager = useAppSelector(
@@ -172,20 +170,21 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
               </li>
               <ul className="menu-links">
                 <li className="nav-link">
-                  <NavLink
-                    to="/app/"
+                  <a
                     onClick={() => {
+                      window.location.href = "/app/";
                       handleCloseClick();
                       if (window.location.pathname === "/app/") {
                         window.location.reload();
                       }
                     }}
+                    className={window.location.pathname == "/app/" && "active"}
                   >
                     <i className={"icon "} style={{ transform: "scale(1.3)" }}>
                       <BiHomeAlt />
                     </i>
                     <span className="text nav-text">Начало</span>
-                  </NavLink>
+                  </a>
                 </li>
                 {token ? (
                   <>
@@ -201,10 +200,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       </NavLink>
                     </li>
                     <li className="nav-link">
-                      <NavLink
-                        to="/app/folders"
-                        onClick={handleCloseClick}
-                      >
+                      <NavLink to="/app/folders" onClick={handleCloseClick}>
                         <i className="icon">
                           <FaRegFolderOpen />
                         </i>
@@ -212,10 +208,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       </NavLink>
                     </li>
                     <li className="nav-link">
-                      <NavLink
-                        to="/app/create"
-                        onClick={handleCloseClick}
-                      >
+                      <NavLink to="/app/create" onClick={handleCloseClick}>
                         <i className="icon" style={{ transform: "scale(1.3)" }}>
                           <GoPencil />
                         </i>
@@ -223,10 +216,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       </NavLink>
                     </li>
                     <li className="nav-link">
-                      <NavLink
-                        to="/app/settings"
-                        onClick={handleCloseClick}
-                      >
+                      <NavLink to="/app/settings" onClick={handleCloseClick}>
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <TbSettings />
                         </i>
@@ -237,10 +227,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                 ) : (
                   <>
                     <li className="nav-link">
-                      <NavLink
-                        to="/app/register"
-                        onClick={handleCloseClick}
-                      >
+                      <NavLink to="/app/register" onClick={handleCloseClick}>
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <GoPencil />
                         </i>
@@ -248,10 +235,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                       </NavLink>
                     </li>
                     <li className="nav-link">
-                      <NavLink
-                        to="/app/login"
-                        onClick={handleCloseClick}
-                      >
+                      <NavLink to="/app/login" onClick={handleCloseClick}>
                         <i className="icon" style={{ transform: "scale(1.2)" }}>
                           <BiLogIn />
                         </i>
