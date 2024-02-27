@@ -174,7 +174,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
                     onClick={() => {
                       window.location.href = "/app/";
                       handleCloseClick();
-                      if (window.location.pathname === "/app/") {
+                      if (window.location.href === "/app/") {
                         window.location.reload();
                       }
                     }}
