@@ -17,6 +17,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { FaPlus } from "react-icons/fa6";
 import { FaFontAwesomeFlag } from "react-icons/fa";
 import { MdOutlineVerifiedUser } from "react-icons/md";
+import { FaRegFolderOpen } from "react-icons/fa";
 
 export const SetPage = () => {
   const navigate = useNavigate();
@@ -34,6 +35,9 @@ export const SetPage = () => {
   const [totalItems, setTotalItems] = useState(0);
   const [isSetVerified, setIsSetVerified] = useState(false);
   const [reportAllowed, setReportAllowed] = useState(true);
+  const [creatorId, setCreatorId] = useState("");
+  const [folders, setFolders] = useState();
+  const [isFolderVisible, setIsFolderVisible] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -193,9 +197,13 @@ export const SetPage = () => {
     setToken(token || null);
 
     if (token) {
-      const decodedToken: { username: string; institution: string } =
-        jwtDecode(token);
+      const decodedToken: {
+        username: string;
+        institution: string;
+        sub: string;
+      } = jwtDecode(token);
       setCreator(decodedToken.username);
+      setCreatorId(decodedToken.sub);
     }
   }, []);
   const report = () => {
@@ -284,10 +292,32 @@ export const SetPage = () => {
     }
   };
 
+  const loadFolders = (id) => {
+    setIsFolderVisible(!isFolderVisible);
+    if (!folders) {
+      instance.get(`/users/${creatorId}/folders`).then((response) => {
+        setFolders(response.data.folders);
+        console.log(response.data.folders);
+      });
+    }
+  };
+
+  const addToFolder = (setId, folderId) => {
+    instance
+      .post(`/sets/${setId}/folders/${folderId}`)
+      .then((response) => {
+        toast("Тестето е добавено в папката");
+      })
+      .catch((error) => {
+        toast("Грешка");
+      });
+  };
+
   return (
     <Dashboard>
       <>
         <ToastContainer />
+
         {flashcards ? (
           <div id="set-page">
             <div className="set-info">
@@ -358,6 +388,7 @@ export const SetPage = () => {
               </div>
               <div className="actions">
                 <a
+                  className="study"
                   onClick={() => {
                     Study();
                   }}
@@ -390,6 +421,29 @@ export const SetPage = () => {
                     <FiDownload /> Експортирай
                   </a>
                 )}
+
+                {(creator === username || isAdmin) && (
+                  <div className="addFolder">
+                    <a onClick={() => loadFolders(id)} href="#">
+                      <FaRegFolderOpen />
+                      Добави в папка
+                    </a>
+                    {folders && isFolderVisible && (
+                      <div className={`folder-popup ` + isFolderVisible}>
+                        {folders.map((folder) => (
+                          <p
+                            className="folder-title"
+                            key={folder.folder_id}
+                            onClick={() => addToFolder(id, folder.folder_id)}
+                          >
+                            {folder.folder_title}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {(creator === username || isAdmin) && (
                   <a onClick={deleteSet}>
                     <MdDeleteOutline />
