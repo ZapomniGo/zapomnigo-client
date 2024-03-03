@@ -440,8 +440,8 @@ export const SetPage = () => {
                             key={folder.folder_id}
                             onClick={() => addToFolder(id, folder.folder_id)}
                           >
-                            {folder.folder_title.length > 20
-                              ? folder.folder_title.substring(0, 20) + "..."
+                            {folder.folder_title.length > 28
+                              ? folder.folder_title.substring(0, 28) + "..."
                               : folder.folder_title}
                           </p>
                         ))}
