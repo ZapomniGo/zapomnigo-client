@@ -150,7 +150,7 @@ const useFlashcards = () => {
     // if (!newFlashcards[0].term && !newFlashcards[0].definition) {
     //   newFlashcards = [];
     // }
-    setFlashcards((prev) => [...prev, newFlashcards]);
+    setFlashcards((prev) => [...prev, ...newFlashcards]);
   };
 
   const loadFlashcards = (responseData) => {

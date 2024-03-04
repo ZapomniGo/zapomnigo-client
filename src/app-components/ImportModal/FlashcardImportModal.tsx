@@ -27,8 +27,7 @@ const FlashcardImportModal = (props: FlashcardImportModalProps) => {
             <i>
               <br /> Въведи текста за импортиране по-долу. В следващите полето
               сложи разделител между термин и дефиниция на флашкарта и
-              разделител между отделните флашкарти. Ако сложиш например /n това
-              индикира нов ред.
+              разделител между отделните флашкарти.
               <br />
             </i>
           </p>
@@ -52,7 +51,7 @@ const FlashcardImportModal = (props: FlashcardImportModalProps) => {
             type="text"
             value={delimiter2}
             onChange={(e) => setDelimiter2(e.target.value)}
-            placeholder="/n"
+            placeholder=","
           />
         </label>
         <div className="button-container">
