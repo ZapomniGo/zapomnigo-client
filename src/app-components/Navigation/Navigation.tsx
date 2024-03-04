@@ -68,7 +68,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
   const handleLogout = async () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
-    window.location.replace("/app/login");
+    window.location.replace("/login");
   };
 
   const handleMouseEnter = () => {

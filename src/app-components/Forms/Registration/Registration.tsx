@@ -42,7 +42,7 @@ export const Registration = () => {
   }, [passLength, passUpper, passLower, passDigit]);
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
-      navigate("/app/home");
+      navigate("/app/");
     }
   }, []);
   const [termsError, setTermsError] = useState<DataError>({

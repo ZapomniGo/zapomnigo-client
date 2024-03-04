@@ -32,7 +32,7 @@ export const Login = () => {
   }, []);
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
-      navigate("/app/home");
+      navigate("/app/");
     }
     window.scrollTo(0, 0);
     window.document.title = "Вход | ЗапомниГо";
