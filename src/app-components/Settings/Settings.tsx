@@ -115,22 +115,45 @@ export const Settings = () => {
         toast.error("Неуспешна промяна на парола. Пробвай отново по-късно");
       }
     },
-    async deleteAccount() {
+    exportData() {
+      toast("Изпратихме заявки. Изчакай 30 сек на тази страница.");
+      instance
+        .get("/users/" + userData.sub)
+        .then((response) => {
+          console.log(response.data.user_info);
+          //download a json file
+          const element = document.createElement("a");
+          const file = new Blob([JSON.stringify(response.data.user_info)], {
+            type: "application/json",
+          });
+          element.href = URL.createObjectURL(file);
+          element.download = "zapomnigo_data.json";
+          document.body.appendChild(element); // Required for this to work in FireFox
+          element.click();
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Неуспешно изтегляне на данни. Пробвай отново по-късно");
+        });
+    },
+    deleteAccount() {
       if (
         confirm(
-          "Сигурен ли си, че искаш да изтриеш профила си? Няма връщане назад"
+          "Сигурен ли си, че искаш да изтриеш профила си заедно с всички данни?"
         ) === false
       )
         return;
-      try {
-        const response = await instance.delete("/users/" + userData.sub);
-        console.log(response);
-        localStorage.removeItem("token");
-        window.location.href = "/";
-      } catch (error) {
-        console.log(error);
-        toast.error("Неуспешно изтриване на профил. Пробвай отново по-късно");
-      }
+      instance
+        .delete("/users/" + userData.sub)
+        .then((response) => {
+          toast.success("Готово, данните ти са изтрити");
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          window.location.href = "/app/login";
+        })
+        .catch((error) => {
+          toast.error("Неуспешно изтриване на данни. Свържи се с нас на zapomnigo.com@gmail.com, за да изтриеш профила си.");
+        });
     },
   };
   Object.freeze(SettingsFunctions);
@@ -196,11 +219,13 @@ export const Settings = () => {
                 Промени
               </button>
             </div>
-            {/* <li>Експортирай всички данни</li>
+            <li>Експортирай всички данни</li>
             <div>
               <p>Експортирай всички данни, които ЗапомниГо има за теб</p>
-              <button>Експортирай</button>
-            </div> */}
+              <button onClick={() => SettingsFunctions.exportData()}>
+                Експортирай
+              </button>
+            </div>
             <li>Изтрий данните и профила ми</li>
             <div>
               <p>
