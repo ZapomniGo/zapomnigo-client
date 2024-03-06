@@ -85,10 +85,6 @@ export const MainPage: React.FC = (props) => {
     }
   }, [props.searchValue]);
 
-  useEffect(() => {
-    console.log(selectedSubCategory);
-  }, [selectedSubCategory]);
-
   const handleLoadRecentSet = (category) => {
     const newPageSet = pageSet + 1;
     setPageSet(newPageSet);
@@ -196,7 +192,6 @@ export const MainPage: React.FC = (props) => {
           setCategory("");
         });
     } else if (categoryID != "" && isSearch) {
-      console.log(search);
       setCategoryID("");
       setPageSet(1);
       setIsFolderLoading(true);
@@ -368,10 +363,6 @@ export const MainPage: React.FC = (props) => {
       setTitle("Разгледай");
     }
   };
-
-  useEffect(() => {
-    console.log(title);
-  }, [title]);
 
   //used for inital load for sets and folders
   useEffect(() => {

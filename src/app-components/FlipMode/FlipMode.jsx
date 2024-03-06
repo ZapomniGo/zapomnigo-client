@@ -19,7 +19,7 @@ const Flip = () => {
   const [isMessageHidden, setIsMessageHidden] = React.useState(false);
   useEffect(() => {
     instance
-      .get(`/sets/${id}`)
+      .get(`/sets/${id}?page=1&size=4000`)
       .then((res) => {
         //to check if any flashcards are present in the set/set is valid
         setFlashcards(res.data.set.flashcards);
@@ -91,15 +91,6 @@ const Flip = () => {
   useEffect(() => {
     setIsMessageHidden(localStorage.getItem("flipMessage") === "true");
   }, []);
-
-  // window.addEventListener('keydown', function(event) {
-  //   // Check if the right arrow key was pressed
-  //   if (event.key === 'ArrowRight') {
-  //     // Call the next function
-  //     console.log('right')
-  //     next();
-  //   }
-  // });
 
   const [isKeyPressed, setIsKeyPressed] = React.useState(false);
 

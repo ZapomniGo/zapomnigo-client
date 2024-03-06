@@ -68,7 +68,6 @@ const StudyComponent = () => {
     instance
       .get(`/sets/${id}${component}`)
       .then((res) => {
-        console.log(res.data.set);
         const newFlashcards = res.data.flashcards
           ? res.data.flashcards
           : res.data.set.flashcards;
@@ -191,7 +190,6 @@ const StudyComponent = () => {
   };
   //this function makes sure the flashcards are not repeated
   const EnsureNoRepeat = (indexChosen) => {
-    console.log(pastFlashcardsIndexes);
     //if fewer than 2 flashcards have been studied, then we can study any flashcard
     if (pastFlashcardsIndexes.length < 2) {
       return true;
@@ -452,7 +450,6 @@ const StudyComponent = () => {
           return 4;
         }
       } else {
-        console.log("No study mode is allowed");
         return chosenStudyMode;
       }
     }
@@ -491,7 +488,6 @@ const StudyComponent = () => {
     if (isCorrect) {
       SP.play();
       if (defaultSetup.enablePositives) {
-        console.log(positives);
         if (positives.length === 1 || positives.length === 0) {
           let rnd = Math.floor(Math.random() * defaultSetup.positives.length);
           toast.success(defaultSetup.positives[rnd]); // Fix: Use defaultSetup.positives instead of positives

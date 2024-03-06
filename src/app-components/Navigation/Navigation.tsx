@@ -94,11 +94,6 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
     props.onSearch(value);
   };
 
-  // useEffect(() => {
-  //   setSearch(props.searchValue);
-  //   console.log(props.searchValue);
-  // }, [props.searchValue]);
-
   return (
     <div className="wrapper">
       <ToastContainer />

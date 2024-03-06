@@ -18,7 +18,6 @@ export const Settings = () => {
       let data = jwtDecode(localStorage.getItem("access_token"));
       setUserData(data);
     } catch (error) {
-      console.log(error);
       localStorage.removeItem("token");
       window.location.href = "/";
     }
@@ -120,7 +119,6 @@ export const Settings = () => {
       instance
         .get("/users/" + userData.sub)
         .then((response) => {
-          console.log(response.data.user_info);
           //download a json file
           const element = document.createElement("a");
           const file = new Blob([JSON.stringify(response.data.user_info)], {
@@ -132,7 +130,6 @@ export const Settings = () => {
           element.click();
         })
         .catch((error) => {
-          console.log(error);
           toast.error("Неуспешно изтегляне на данни. Пробвай отново по-късно");
         });
     },
@@ -152,7 +149,9 @@ export const Settings = () => {
           window.location.href = "/app/login";
         })
         .catch((error) => {
-          toast.error("Неуспешно изтриване на данни. Свържи се с нас на zapomnigo.com@gmail.com, за да изтриеш профила си.");
+          toast.error(
+            "Неуспешно изтриване на данни. Свържи се с нас на zapomnigo.com@gmail.com, за да изтриеш профила си."
+          );
         });
     },
   };
