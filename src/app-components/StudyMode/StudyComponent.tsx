@@ -15,6 +15,7 @@ import IsItCorrect from "./StudyModesViews/IsItCorrect";
 import { toast, ToastContainer } from "react-toastify";
 import LearnSettings from "./utils/LearnSettings";
 import { ProgressBar } from "./utils/ProgressBar";
+import ChooseMode from "./StudyModesViews/ChooseMode";
 import { SP, SN } from "../../app-utils/soundManager";
 import defaultSetup from "./configs/defaultSetup.json";
 
@@ -586,6 +587,7 @@ const StudyComponent = () => {
       <ToastContainer />
       {/* <Dashboard> */}
       <div className="study-component">
+        <ChooseMode setAllowedModes={setAllowedStudyModes} />
         <ProgressBar
           flashcards={flashcards}
           pastFlashcardsIndexes={pastFlashcardsIndexes}
