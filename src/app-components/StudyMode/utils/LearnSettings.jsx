@@ -50,6 +50,9 @@ const LearnSettings = (props) => {
       modes.push(4);
     }
     props.setAllowedModes(modes);
+    // setTimeout(() => {
+    //   props.GeneratePrompt(undefined, false);
+    // }, 2000);
   }, []);
 
   useEffect(() => {
@@ -88,7 +91,7 @@ const LearnSettings = (props) => {
                 props.setAllowedModes((prev) =>
                   prev.includes(1)
                     ? prev.filter((mode) => mode !== 1)
-                    : [...prev, 1],
+                    : [...prev, 1]
                 );
                 handleChange(event);
               }}
@@ -108,7 +111,7 @@ const LearnSettings = (props) => {
                 props.setAllowedModes((prev) =>
                   prev.includes(2)
                     ? prev.filter((mode) => mode !== 2)
-                    : [...prev, 2],
+                    : [...prev, 2]
                 );
                 handleChange(event);
               }}
@@ -132,7 +135,7 @@ const LearnSettings = (props) => {
                   props.setAllowedModes((prev) =>
                     prev.includes(3)
                       ? prev.filter((mode) => mode !== 3)
-                      : [...prev, 3],
+                      : [...prev, 3]
                   );
                   handleChange(event);
                 }}
@@ -155,7 +158,7 @@ const LearnSettings = (props) => {
                   props.setAllowedModes((prev) =>
                     prev.includes(4)
                       ? prev.filter((mode) => mode !== 4)
-                      : [...prev, 4],
+                      : [...prev, 4]
                   );
                   handleChange(event);
                 }}

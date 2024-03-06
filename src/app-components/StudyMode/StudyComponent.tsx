@@ -641,6 +641,7 @@ const StudyComponent = () => {
           <LearnSettings
             setAllowedModes={setAllowedStudyModes}
             allowedModes={allowedStudyModes}
+            GeneratePrompt={GeneratePrompt}
           />
         )}
       </div>
