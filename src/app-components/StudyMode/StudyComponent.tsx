@@ -47,6 +47,10 @@ const StudyComponent = () => {
   }, [id]);
 
   useEffect(() => {
+    GeneratePrompt(undefined, true);
+  }, [allowedStudyModes]);
+
+  useEffect(() => {
     if (id!.length === 0 || id!.length !== 26 || id!.includes(" ")) {
       window.location.href = "/app/not-found";
       return;
@@ -108,7 +112,7 @@ const StudyComponent = () => {
   }, [id]);
 
   //this function will generate a prompt for the user to study
-  const GeneratePrompt = (flashcardsInside = flashcards) => {
+  const GeneratePrompt = (flashcardsInside = flashcards, isForced) => {
     // Helper function to retrieve confidence - treating null as 0
     const getConfidence = (flashcard) => flashcard.confidence || 0;
 
@@ -172,7 +176,9 @@ const StudyComponent = () => {
 
     //phew, the flashcard has not been studied as last flashcard, so we can study it
     //update the past flashcards indexes to make sure we know that we have studied this flashcard
-    setPastFlashcardsIndexes([...pastFlashcardsIndexes, randomIndex]);
+    if (!isForced) {
+      setPastFlashcardsIndexes([...pastFlashcardsIndexes, randomIndex]);
+    }
     setCurrentFlashcardTerm(minConfidenceCards[randomIndex].term);
     setCurrentFlashcardDefinition(minConfidenceCards[randomIndex].definition);
 
