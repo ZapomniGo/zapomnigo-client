@@ -587,7 +587,8 @@ const StudyComponent = () => {
       <ToastContainer />
       {/* <Dashboard> */}
       <div className="study-component">
-        <ChooseMode setAllowedModes={setAllowedStudyModes} />
+        {/* <ChooseMode setAllowedModes={setAllowedStudyModes} /> */}
+
         <ProgressBar
           flashcards={flashcards}
           pastFlashcardsIndexes={pastFlashcardsIndexes}
