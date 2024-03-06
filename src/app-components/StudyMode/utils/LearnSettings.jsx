@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TbSettings } from "react-icons/tb";
-import { RxCross1 } from "react-icons/rx";
+// import { RxCross1 } from "react-icons/rx";
 
 const LearnSettings = (props) => {
   const [toggleOpen, setToggleOpen] = useState(false);
@@ -17,6 +17,7 @@ const LearnSettings = (props) => {
       setIsMsgShown(false);
     }
   }, []);
+
   //set toggleOpen to false when the user clicks outside the settings menu
   useEffect(() => {
     document.addEventListener("click", (e) => {
@@ -27,6 +28,33 @@ const LearnSettings = (props) => {
       }
     });
   }, []);
+
+  const handleChange = (event) => {
+    const { name, checked } = event.target;
+    localStorage.setItem(name, checked);
+    console.log(name, checked);
+  };
+
+  useEffect(() => {
+    let modes = [];
+    if (localStorage.getItem("mutipleChoice") === "true") {
+      modes.push(1);
+    }
+    if (localStorage.getItem("freeAnswer") === "true") {
+      modes.push(2);
+    }
+    if (localStorage.getItem("selfTest") === "true") {
+      modes.push(3);
+    }
+    if (localStorage.getItem("trueFalse") === "true") {
+      modes.push(4);
+    }
+    props.setAllowedModes(modes);
+  }, []);
+
+  useEffect(() => {
+    console.log(props.allowedModes);
+  }, [props]);
 
   return (
     <div className="settings-study">
@@ -54,14 +82,16 @@ const LearnSettings = (props) => {
             <input
               type="checkbox"
               id="switch1"
+              name="mutipleChoice"
               checked={props.allowedModes.includes(1)}
-              onChange={() =>
+              onChange={() => {
                 props.setAllowedModes((prev) =>
                   prev.includes(1)
                     ? prev.filter((mode) => mode !== 1)
-                    : [...prev, 1]
-                )
-              }
+                    : [...prev, 1],
+                );
+                handleChange(event);
+              }}
             />
             <label for="switch1"></label>
           </div>
@@ -72,14 +102,16 @@ const LearnSettings = (props) => {
             <input
               type="checkbox"
               id="switch2"
+              name="freeAnswer"
               checked={props.allowedModes.includes(2)}
-              onChange={() =>
+              onChange={() => {
                 props.setAllowedModes((prev) =>
                   prev.includes(2)
                     ? prev.filter((mode) => mode !== 2)
-                    : [...prev, 2]
-                )
-              }
+                    : [...prev, 2],
+                );
+                handleChange(event);
+              }}
             />
             <label for="switch2"></label>
           </div>
@@ -93,15 +125,17 @@ const LearnSettings = (props) => {
               </span>
               <input
                 type="checkbox"
+                name="selfTest"
                 id="switch3"
                 checked={props.allowedModes.includes(3)}
-                onChange={() =>
+                onChange={() => {
                   props.setAllowedModes((prev) =>
                     prev.includes(3)
                       ? prev.filter((mode) => mode !== 3)
-                      : [...prev, 3]
-                  )
-                }
+                      : [...prev, 3],
+                  );
+                  handleChange(event);
+                }}
               />{" "}
               <label for="switch3"></label>
             </div>
@@ -114,15 +148,17 @@ const LearnSettings = (props) => {
               </span>
               <input
                 type="checkbox"
+                name="trueFalse"
                 id="switch4"
                 checked={props.allowedModes.includes(4)}
-                onChange={() =>
+                onChange={() => {
                   props.setAllowedModes((prev) =>
                     prev.includes(4)
                       ? prev.filter((mode) => mode !== 4)
-                      : [...prev, 4]
-                  )
-                }
+                      : [...prev, 4],
+                  );
+                  handleChange(event);
+                }}
               />{" "}
               <label for="switch4"></label>
             </div>
