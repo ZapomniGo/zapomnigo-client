@@ -297,7 +297,6 @@ export const SetPage = () => {
     if (!folders) {
       instance.get(`/users/${creatorId}/folders`).then((response) => {
         setFolders(response.data.folders);
-        console.log(response.data.folders);
       });
     }
   };
