@@ -19,10 +19,11 @@ const Flip = () => {
   const [isMessageHidden, setIsMessageHidden] = React.useState(false);
   useEffect(() => {
     instance
-      .get(`/sets/${id}`)
+      .get(`/sets/${id}?page=1&size=4000`)
       .then((res) => {
         //to check if any flashcards are present in the set/set is valid
         setFlashcards(res.data.set.flashcards);
+        console.log(res);
       })
       .catch((error) => {
         if (error.response.status === 404) {
@@ -146,6 +147,10 @@ const Flip = () => {
       document.removeEventListener("keyup", handleKeyUp);
     };
   }, [isKeyPressed]);
+
+  useEffect(() => {
+    console.log(flashcards);
+  }, []);
 
   return (
     <>
