@@ -154,7 +154,6 @@ export const SetPage = () => {
     instance
       .get(`/sets/${id}?page=${page}&size=250` + sortingOrder)
       .then((response) => {
-        console.log(response.data);
         document.title = response.data.set.set_name + " | ЗапомниГо";
         setTotalPages(response.data.total_pages);
         const newFlashcards = response.data.set.flashcards;

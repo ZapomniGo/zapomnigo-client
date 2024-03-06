@@ -23,7 +23,6 @@ const Flip = () => {
       .then((res) => {
         //to check if any flashcards are present in the set/set is valid
         setFlashcards(res.data.set.flashcards);
-        console.log(res);
       })
       .catch((error) => {
         if (error.response.status === 404) {
@@ -93,15 +92,6 @@ const Flip = () => {
     setIsMessageHidden(localStorage.getItem("flipMessage") === "true");
   }, []);
 
-  // window.addEventListener('keydown', function(event) {
-  //   // Check if the right arrow key was pressed
-  //   if (event.key === 'ArrowRight') {
-  //     // Call the next function
-  //     console.log('right')
-  //     next();
-  //   }
-  // });
-
   const [isKeyPressed, setIsKeyPressed] = React.useState(false);
 
   useEffect(() => {
@@ -147,10 +137,6 @@ const Flip = () => {
       document.removeEventListener("keyup", handleKeyUp);
     };
   }, [isKeyPressed]);
-
-  useEffect(() => {
-    console.log(flashcards);
-  }, []);
 
   return (
     <>
