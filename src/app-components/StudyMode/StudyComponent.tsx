@@ -37,7 +37,7 @@ const StudyComponent = () => {
   const [positives, setPositives] = React.useState([]);
   const [negatives, setNegatives] = React.useState([]);
   const [allowedStudyModes, setAllowedStudyModes] = useState(
-    defaultSetup.allowedModes ? defaultSetup.allowedModes : [1, 2, 3, 4, 5]
+    defaultSetup.allowedModes ? defaultSetup.allowedModes : [1, 2, 3, 4]
   );
   const { id } = useParams<{ id: string }>();
   const [idHolder, setIdHolder] = useState(id);
