@@ -7,6 +7,8 @@ import Tilty from "react-tilty";
 import { useState } from "react";
 import { Footer } from "../Footer/Footer";
 import { GoPencil } from "react-icons/go";
+import { IoIosArrowDown } from "react-icons/io";
+
 import instance from "../../app-utils/axios";
 import SetCard from "../SetCard/SetCard";
 const HomePage = () => {
@@ -92,7 +94,8 @@ const HomePage = () => {
             >
               <h1 id="header">ЗапомниГо</h1>
               <h2 id="mainSubTitle">
-                Платформата, която ти помага да запомняш
+                Първата платформа за дигитални флашкарти в България по БЕЛ,
+                Математика, Английски и много други
               </h2>
               <center>
                 {" "}
@@ -105,7 +108,8 @@ const HomePage = () => {
             <div className="">
               <h1 id="header">ЗапомниГо</h1>
               <h2 id="mainSubTitle">
-                Платформата, която ти помага да запомняш
+                Първата платформа за дигитални флашкарти в България по БЕЛ,
+                Математика, Английски и много други{" "}
               </h2>
               <center>
                 {" "}
@@ -116,7 +120,18 @@ const HomePage = () => {
             </div>
           )}
         </div>
+        <IoIosArrowDown
+          id="scroll-down-btn"
+          onClick={() => {
+            document.getElementById("about").scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+              inline: "center",
+            });
+          }}
+        />
       </section>
+
       <section
         id="about"
         style={{ background: "linear-gradient(233deg, #fe8c00, #f83600)" }}
@@ -131,8 +146,7 @@ const HomePage = () => {
             <p>
               ЗапомниГо е платформа, която ти помага да запомняш информация по
               лесен и забавен начин. Тук можеш да създаваш флашкарти с въпроси и
-              отговори, които да използваш за учене. Платформата е подходяща за
-              ученици, учители и студенти. Надяваме се, че ще ти хареса!
+              отговори, които да използваш за учене.
             </p>
           </div>
         </Tilty>
@@ -163,7 +177,7 @@ const HomePage = () => {
             <div className="loader"></div>
           </div>
         )}
-        <button id="create-set" onClick={() => navigate("/app/create-set")}>
+        <button id="create-set" onClick={() => navigate("/app/")}>
           Разгледай още
         </button>
       </section>
@@ -178,9 +192,7 @@ const HomePage = () => {
             <p>
               Ние сме екип студенти от Американския университет в България, част
               от програмата Elevate. Нашата цел е да помогнем на учениците и
-              студентите да учат по-ефективно и забавно. Постигаме това чрез
-              разработването на платформа, която е иновативна и лесна за
-              използване.
+              студентите да учат по-ефективно и забавно.
             </p>
           </div>
         </Tilty>
