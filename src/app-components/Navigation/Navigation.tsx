@@ -38,7 +38,6 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
   const [username, setUsername] = useState("");
   const [institution, setInstitution] = useState("");
   const [token, setToken] = useState<string | null>(null);
-  const [test, setSearch] = useState("");
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
@@ -91,7 +90,11 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
   };
 
   const search = (value: string) => {
-    props.onSearch(value);
+    if (value.length > 64) {
+      toast.error("Търсенето трябва да бъде по-малко от 64 символа");
+    } else {
+      props.onSearch(value);
+    }
   };
 
   return (
