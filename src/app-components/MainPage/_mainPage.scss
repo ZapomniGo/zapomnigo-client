@@ -22,16 +22,15 @@
 }
 .main-loading {
   font-size: 2vmax;
-  font-weight:500;
+  font-weight: 500;
 }
 .folder-title {
   font-size: 27px;
-  .folder-title-size{
+  .folder-title-size {
     max-width: 75% !important;
   }
 }
 .folder-wrapper {
-
   .folder-description {
     margin-top: 15px;
   }
@@ -50,35 +49,33 @@
   }
 }
 
-.folder-main-wrapper{
+.folder-main-wrapper {
   .folder-title {
-    svg{
+    svg {
       padding: 0;
-      padding: 0 4px 0 4px ;
+      padding: 0 4px 0 4px;
       width: 2.2rem !important;
       height: 2.2rem !important;
     }
 
-    .folder-icon{
-      svg{
+    .folder-icon {
+      svg {
         padding-top: 7px;
         // padding: 10px 14px;
         // padding: 10px 14px -10px 14px !important;
         width: 1.8rem !important;
         height: 1.8rem !important;
-      
       }
     }
     .folder-title {
       font-size: 27px !important;
       // width: 100% !important;
     }
-    p{
+    p {
       // padding-left: 20px !important;
     }
   }
 }
-
 
 .category-wrapper {
   display: flex;
@@ -114,7 +111,12 @@
     background-color: #fff;
     width: 24%;
   }
-  
+
+  p {
+    display: flex;
+    align-items: center;
+  }
+
   .selected {
     background-color: $secondary-color;
     color: white;
@@ -226,7 +228,9 @@
 /* Style the accordion panel. Note: hidden by default */
 .panel {
   display: flex;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.16),
+    0 3px 6px rgba(0, 0, 0, 0.23);
   padding: 20px 0;
   overflow: hidden;
   background: white;
