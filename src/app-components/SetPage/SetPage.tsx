@@ -310,7 +310,7 @@ export const SetPage = () => {
   const addToFolder = (setId, folderId) => {
     instance
       .post(`/sets/${setId}/folders/${folderId}`)
-      .then((response) => {
+      .then(() => {
         toast("Тестето е добавено в папката");
       })
       .catch((error) => {
