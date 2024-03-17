@@ -294,9 +294,16 @@ export const SetPage = () => {
   const loadFolders = (id) => {
     setIsFolderVisible(!isFolderVisible);
     if (!folders) {
-      instance.get(`/users/${creatorId}/folders`).then((response) => {
-        setFolders(response.data.folders);
-      });
+      instance
+        .get(`/users/${creatorId}/folders`)
+        .then((response) => {
+          setFolders(response.data.folders);
+        })
+        .catch((err) => {
+          if (err.response.status === 404) {
+            toast("Потребителят няма папки");
+          }
+        });
     }
   };
 
@@ -424,29 +431,27 @@ export const SetPage = () => {
                   </a>
                 )}
 
-                {(creator === username || isAdmin) && (
-                  <div className="addFolder">
-                    <a onClick={() => loadFolders(id)} href="#">
-                      <FaRegFolderOpen />
-                      Добави в папка
-                    </a>
-                    {folders && isFolderVisible && (
-                      <div className={`folder-popup ` + isFolderVisible}>
-                        {folders.map((folder) => (
-                          <p
-                            className="folder-title"
-                            key={folder.folder_id}
-                            onClick={() => addToFolder(id, folder.folder_id)}
-                          >
-                            {folder.folder_title.length > 28
-                              ? folder.folder_title.substring(0, 28) + "..."
-                              : folder.folder_title}
-                          </p>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
+                <div className="addFolder">
+                  <a onClick={() => loadFolders(id)} href="#">
+                    <FaRegFolderOpen />
+                    Добави в папка
+                  </a>
+                  {folders && isFolderVisible && (
+                    <div className={`folder-popup ` + isFolderVisible}>
+                      {folders.map((folder) => (
+                        <p
+                          className="folder-title"
+                          key={folder.folder_id}
+                          onClick={() => addToFolder(id, folder.folder_id)}
+                        >
+                          {folder.folder_title.length > 28
+                            ? folder.folder_title.substring(0, 28) + "..."
+                            : folder.folder_title}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
                 {(creator === username || isAdmin) && (
                   <a onClick={deleteSet}>
