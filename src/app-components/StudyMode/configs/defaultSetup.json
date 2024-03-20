@@ -21,7 +21,7 @@
   ],
   "minSeen": 1,
   "maxSeen": 5,
-  "allowedModes": [1, 2, 3, 4, 5],
+  "allowedModes": [],
   "problematicCategories": [
     "Биология",
     "Химия",

@@ -73,7 +73,7 @@ const StudyComponent = () => {
         const newFlashcards = res.data.flashcards
           ? res.data.flashcards
           : res.data.set.flashcards;
-          setCategory(res.data.set.category_name)
+      //  setCategory(res.data.set.category_name);
         if (newFlashcards.length > 0) {
           let tempFlashcards = newFlashcards.map((flashcard) => {
             flashcard.seen = 0;
@@ -106,9 +106,9 @@ const StudyComponent = () => {
         }
       })
       .catch((err) => {
-        if (err.response.status === 404) {
-          window.location.href = "/app/not-found";
-        }
+        // if (err.response.status === 404) {
+        //   window.location.href = "/app/not-found";
+        // }
         console.error(err);
       });
   }, [id]);

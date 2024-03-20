@@ -43,7 +43,7 @@ const LearnSettings = (props) => {
     } else {
       cat = true;
     }
-    if (localStorage.getItem("mutipleChoice") === "true" && cat) {
+    if (localStorage.getItem("mutipleChoice") === "true") {
       modes.push(1);
     }
     if (localStorage.getItem("freeAnswer") === "true") {
