@@ -37,6 +37,7 @@ const StudyComponent = () => {
   // set the allowed study mode
   const [positives, setPositives] = React.useState([]);
   const [negatives, setNegatives] = React.useState([]);
+  const [category, setCategory] = useState("");
   const [allowedStudyModes, setAllowedStudyModes] = useState(
     defaultSetup.allowedModes ? defaultSetup.allowedModes : [1, 2, 3, 4]
   );
@@ -72,6 +73,7 @@ const StudyComponent = () => {
         const newFlashcards = res.data.flashcards
           ? res.data.flashcards
           : res.data.set.flashcards;
+          setCategory(res.data.set.category_name)
         if (newFlashcards.length > 0) {
           let tempFlashcards = newFlashcards.map((flashcard) => {
             flashcard.seen = 0;
@@ -643,6 +645,8 @@ const StudyComponent = () => {
             setAllowedModes={setAllowedStudyModes}
             allowedModes={allowedStudyModes}
             GeneratePrompt={GeneratePrompt}
+            category={category}
+            problematicCategories={defaultSetup.problematicCategories}
           />
         )}
       </div>

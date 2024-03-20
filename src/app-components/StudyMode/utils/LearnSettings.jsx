@@ -37,7 +37,13 @@ const LearnSettings = (props) => {
 
   useEffect(() => {
     let modes = [];
-    if (localStorage.getItem("mutipleChoice") === "true") {
+    let cat = new Boolean();
+    if (props.problematicCategories.includes(props.category)) {
+      cat = false;
+    } else {
+      cat = true;
+    }
+    if (localStorage.getItem("mutipleChoice") === "true" && cat) {
       modes.push(1);
     }
     if (localStorage.getItem("freeAnswer") === "true") {
@@ -48,6 +54,13 @@ const LearnSettings = (props) => {
     }
     if (localStorage.getItem("trueFalse") === "true") {
       modes.push(4);
+    }
+    if (modes.length === 0) {
+      modes.push(1, 2, 3, 4);
+      localStorage.setItem("mutipleChoice", "true");
+      localStorage.setItem("freeAnswer", "true");
+      localStorage.setItem("selfTest", "true");
+      localStorage.setItem("trueFalse", "true");
     }
     props.setAllowedModes(modes);
     // setTimeout(() => {
