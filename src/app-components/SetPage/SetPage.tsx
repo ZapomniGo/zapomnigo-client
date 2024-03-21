@@ -38,6 +38,7 @@ export const SetPage = () => {
   const [creatorId, setCreatorId] = useState("");
   const [folders, setFolders] = useState();
   const [isFolderVisible, setIsFolderVisible] = useState(false);
+  const [addToFolderVisibility, setAddToFolderVisibility] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
@@ -46,6 +47,13 @@ export const SetPage = () => {
     } else {
       setIsAdmin(false);
     }
+
+    // .catch((err) => {
+    //   if (err.response.status === 404) {
+    //     toast("Потребителят няма папки");
+    //   }
+    // });
+
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }, 100);
@@ -202,7 +210,20 @@ export const SetPage = () => {
         sub: string;
       } = jwtDecode(token);
       setCreator(decodedToken.username);
-      setCreatorId(decodedToken.sub);
+      const id = decodedToken.sub;
+      setCreatorId(id);
+      instance
+        .get(`/users/${id}/folders`)
+        .then((response) => {
+          setFolders(response.data.folders);
+          setAddToFolderVisibility(true);
+          console.log("here");
+        })
+        .catch((err) => {
+          if (err.response.status === 404) {
+            setAddToFolderVisibility(false);
+          }
+        });
     }
   }, []);
   const report = () => {
@@ -292,18 +313,9 @@ export const SetPage = () => {
   };
 
   const loadFolders = (id) => {
-    setIsFolderVisible(!isFolderVisible);
-    if (!folders) {
-      instance
-        .get(`/users/${creatorId}/folders`)
-        .then((response) => {
-          setFolders(response.data.folders);
-        })
-        .catch((err) => {
-          if (err.response.status === 404) {
-            toast("Потребителят няма папки");
-          }
-        });
+    console.log(folders);
+    if (folders) {
+      setIsFolderVisible(!isFolderVisible);
     }
   };
 
@@ -430,29 +442,30 @@ export const SetPage = () => {
                     <FiDownload /> Експортирай
                   </a>
                 )}
-                {localStorage.getItem("access_token") && (
-                  <div className="addFolder">
-                    <a onClick={() => loadFolders(id)} href="#">
-                      <FaRegFolderOpen />
-                      Добави в папка
-                    </a>
-                    {folders && isFolderVisible && (
-                      <div className={`folder-popup ` + isFolderVisible}>
-                        {folders.map((folder) => (
-                          <p
-                            className="folder-title"
-                            key={folder.folder_id}
-                            onClick={() => addToFolder(id, folder.folder_id)}
-                          >
-                            {folder.folder_title.length > 28
-                              ? folder.folder_title.substring(0, 28) + "..."
-                              : folder.folder_title}
-                          </p>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
+                {localStorage.getItem("access_token") &&
+                  addToFolderVisibility && (
+                    <div className="addFolder">
+                      <a onClick={() => loadFolders(id)} href="#">
+                        <FaRegFolderOpen />
+                        Добави в папка
+                      </a>
+                      {folders && isFolderVisible && (
+                        <div className={`folder-popup ` + isFolderVisible}>
+                          {folders.map((folder) => (
+                            <p
+                              className="folder-title"
+                              key={folder.folder_id}
+                              onClick={() => addToFolder(id, folder.folder_id)}
+                            >
+                              {folder.folder_title.length > 28
+                                ? folder.folder_title.substring(0, 28) + "..."
+                                : folder.folder_title}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                 {(creator === username || isAdmin) && (
                   <a onClick={deleteSet}>
