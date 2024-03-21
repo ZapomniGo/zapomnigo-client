@@ -18,7 +18,7 @@ import { FaPlus } from "react-icons/fa6";
 import { FaFontAwesomeFlag } from "react-icons/fa";
 import { MdOutlineVerifiedUser } from "react-icons/md";
 import { FaRegFolderOpen } from "react-icons/fa";
-import { delay } from "@reduxjs/toolkit/dist/utils";
+import React from "react";
 
 export const SetPage = () => {
   const navigate = useNavigate();
@@ -41,6 +41,14 @@ export const SetPage = () => {
   const [isFolderVisible, setIsFolderVisible] = useState(false);
   const [addToFolderVisibility, setAddToFolderVisibility] = useState(false);
 
+  const showToast = (message, id) => {
+    if (!toast.isActive(id)) {
+      toast(message, {
+        toastId: id,
+      });
+    }
+  };
+
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
       const decodedToken = jwtDecode(localStorage.getItem("access_token"));
@@ -48,12 +56,6 @@ export const SetPage = () => {
     } else {
       setIsAdmin(false);
     }
-
-    // .catch((err) => {
-    //   if (err.response.status === 404) {
-    //     toast("Потребителят няма папки");
-    //   }
-    // });
 
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -110,11 +112,11 @@ export const SetPage = () => {
     instance
       .post(`/sets/${id}/copy`)
       .then((response) => {
-        toast("Добре дошъл в новото си идентично тесте!");
+        showToast("Добре дошъл в новото си идентично тесте!", 1);
         navigate(`/app/set/${response.data.set_id}`);
       })
       .catch((error) => {
-        toast("Имаше грешка при копирането, пробвай отново по-късно");
+        showToast("Имаше грешка при копирането, пробвай отново по-късно", 2);
       });
   };
 
@@ -131,7 +133,7 @@ export const SetPage = () => {
         navigate(`/app/sets/${username}`);
       })
       .catch((error) => {
-        toast("Имаше грешка при запазването, пробвай отново по-късно");
+        showToast("Имаше грешка при запазването, пробвай отново по-късно", 3);
       });
   };
 
@@ -153,10 +155,10 @@ export const SetPage = () => {
     navigator.clipboard
       .writeText(url)
       .then(() => {
-        toast("Линкът е копиран в клипборда");
+        showToast("Линкът е копиран в клипборда", 4);
       })
       .catch(() => {
-        toast("Копирането не се поддържа от браузъра :(");
+        showToast("Грешка при копирането на линка в клипборда", 5);
       });
   };
   useEffect(() => {
@@ -252,18 +254,19 @@ export const SetPage = () => {
           reason: reason,
         })
         .then((response) => {
-          toast("Благодарим за сигнала!");
+          showToast("Това тесте е докладвано", 6);
           setReportAllowed(false);
         })
-        .catch((error) => {
-          toast(
-            "Имаше грешка при изпращането на сигнала, пробвай отново по-късно"
+        .catch(() => {
+          showToast(
+            "Имаше грешка при изпращането на сигнала, пробвай отново по-късно",
+            7
           );
         });
     }
   };
   const verified = () => {
-    toast("Това тесте е проверено и одобрено от ЗапомниГо");
+    showToast("Това тесте е проверено и одобрено от ЗапомниГо", 8);
   };
 
   const Study = () => {
@@ -278,7 +281,7 @@ export const SetPage = () => {
     if (flashcards.flashcards.length >= 4) {
       navigate(`/app/study/${id}`);
     } else {
-      toast("Режим Учи работи с 4 или повече флашкарти");
+      showToast("Режим Учи работи с 4 или повече флашкарти", 9);
     }
   };
 
@@ -298,10 +301,10 @@ export const SetPage = () => {
         })
         .then((response) => {
           location.reload();
-          toast("Тестето не е потвърдено");
+          showToast("Тестето не е потвърдено", 10);
         })
         .catch((error) => {
-          toast("Грешка");
+          showToast("Грешка", 11);
         });
     } else {
       instance
@@ -310,10 +313,10 @@ export const SetPage = () => {
         })
         .then((response) => {
           location.reload();
-          toast("Тестето е потвърдено");
+          showToast("Тестето е потвърдено", 12);
         })
         .catch((error) => {
-          toast("Грешка");
+          showToast("Грешка", 13);
         });
     }
   };
@@ -329,13 +332,13 @@ export const SetPage = () => {
     instance
       .post(`/sets/${setId}/folders/${folderId}`)
       .then(() => {
-        toast("Тестето е добавено в папката");
+        showToast("Тестето е добавено в папката", 12);
       })
       .catch((error) => {
         if (error.response.status === 409) {
-          toast("Това тесте вече е в тази папка");
+          showToast("Това тесте вече е в тази папка", 13);
         } else {
-          toast("Грешка");
+          showToast("Грешка", 14);
         }
       });
   };

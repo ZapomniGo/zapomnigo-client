@@ -5,12 +5,33 @@ import { toast, ToastContainer } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 export const Settings = () => {
   const [userData, setUserData] = React.useState({});
-
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [currentPassword, setCurrentPassword] = React.useState("");
   const [newPassword, setNewPassword] = React.useState("");
   const [newPassword2, setNewPassword2] = React.useState("");
+
+  const showToast = (message, id, type) => {
+    if (type === "success") {
+      if (!toast.isActive(id)) {
+        toast.success(message, {
+          toastId: id,
+        });
+      }
+    } else if (type === "error") {
+      if (!toast.isActive(id)) {
+        toast.error(message, {
+          toastId: id,
+        });
+      }
+    } else {
+      if (!toast.isActive(id)) {
+        toast(message, {
+          toastId: id,
+        });
+      }
+    }
+  };
 
   useEffect(() => {
     try {
@@ -31,75 +52,93 @@ export const Settings = () => {
     },
     async changeUsername() {
       if (username.length < 2) {
-        toast.error("Потребителското име трябва да е поне 2 символа");
+        showToast("Потребителското име трябва да е поне 2 символа", 1, "error");
         return;
       }
       if (username.length > 40) {
-        toast.error("Потребителското име трябва да е най-много 40 символа");
+        showToast(
+          "Потребителското име трябва да е най-много 40 символа",
+          2,
+          "error"
+        );
         return;
       }
       try {
         const response = await instance.put("/users/" + userData.sub, {
           username: username,
         });
-        toast.success("Готово, промени потребителското си име");
+        showToast("Готово, промени потребителското си име", 3, "success");
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         window.location.href = "/app/login";
       } catch (error) {
         if (error.response.status === 409) {
-          toast.error("Потребителското име вече е заето");
+          showToast("Потребителското име вече е заето", 3, "error");
         } else {
-          toast.error(
-            "Неуспешна промяна на потребителско име. Пробвай отново по-късно."
+          showToast(
+            "Неуспешна промяна на потребителско име. Пробвай отново по-късно.",
+            4,
+            "error"
           );
         }
       }
     },
     async changeEmail() {
       if (!email.includes("@")) {
-        toast.error("Невалиден имейл");
+        showToast("Невалиден имейл", 5, "error");
         return;
       }
       try {
         const response = await instance.put("/users/" + userData.sub, {
           email: email,
         });
-        toast.success("Готово, промени имейла си");
+        showToast("Готово, промени имейла си", 6, "success");
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         window.location.href = "/app/login";
       } catch (error) {
         if (error.response.status === 409) {
-          toast.error("Имейлът вече е зает");
+          showToast("Имейлът вече е зает", 6, "error");
         } else {
-          toast.error("Неуспешна промяна на имейл. Пробвай отново по-късно.");
+          showToast(
+            "Неуспешна промяна на имейл. Пробвай отново по-късно.",
+            7,
+            "error"
+          );
         }
       }
     },
     async changePassword() {
       if (newPassword.length < 8) {
-        toast.error("Паролата трябва да е поне 8 символа");
+        showToast("Паролата трябва да е поне 8 символа", 8, "error");
         return;
       }
       if (newPassword.length > 40) {
-        toast.error("Паролата трябва да над 40 символа");
+        showToast("Паролата трябва да е най-много 40 символа", 9, "error");
         return;
       }
       if (!/[A-Z]/.test(newPassword)) {
-        toast.error("Паролата трябва да съдържа поне една главна буква");
+        showToast(
+          "Паролата трябва да съдържа поне една главна буква",
+          10,
+          "error"
+        );
         return;
       }
       if (!/[a-z]/.test(newPassword)) {
-        toast.error("Паролата трябва да съдържа поне една малка буква");
+        showToast(
+          "Паролата трябва да съдържа поне една малка буква",
+          11,
+          "error"
+        );
         return;
       }
       if (!/\d/.test(value)) {
-        toast.error("Паролата трябва да съдържа поне една цифра");
+        showToast("Паролата трябва да съдържа поне една цифра", 12, "error");
         return;
       }
       if (newPassword !== newPassword2) {
-        toast.error("Паролите не съвпадат");
+        showToast("Паролите не съвпадат", 13, "error");
         return;
       }
       try {
@@ -111,11 +150,15 @@ export const Settings = () => {
         localStorage.removeItem("refresh_token");
         window.location.href = "/app/login";
       } catch (error) {
-        toast.error("Неуспешна промяна на парола. Пробвай отново по-късно");
+        showToast(
+          "Неуспешна промяна на парола. Пробвай отново по-късно",
+          14,
+          "error"
+        );
       }
     },
     exportData() {
-      toast("Изпратихме заявки. Изчакай 30 сек на тази страница.");
+      showToast("Изпратихме заявки. Изчакай 30 сек на тази страница.", 15, "");
       instance
         .get("/users/" + userData.sub)
         .then((response) => {
@@ -130,7 +173,11 @@ export const Settings = () => {
           element.click();
         })
         .catch((error) => {
-          toast.error("Неуспешно изтегляне на данни. Пробвай отново по-късно");
+          showToast(
+            "Неуспешно изтегляне на данни. Пробвай отново по-късно",
+            15,
+            "error"
+          );
         });
     },
     deleteAccount() {
@@ -143,14 +190,16 @@ export const Settings = () => {
       instance
         .delete("/users/" + userData.sub)
         .then((response) => {
-          toast.success("Готово, данните ти са изтрити");
+          showToast("Готово, данните ти са изтрити", 16, "success");
           localStorage.removeItem("access_token");
           localStorage.removeItem("refresh_token");
           window.location.href = "/app/login";
         })
         .catch((error) => {
-          toast.error(
-            "Неуспешно изтриване на данни. Свържи се с нас на zapomnigo.com@gmail.com, за да изтриеш профила си."
+          showToast(
+            "Неуспешно изтриване на данни. Свържи се с нас на zapomnigo.com@gmail.com, за да изтриеш профила си.",
+            16,
+            "error"
           );
         });
     },
