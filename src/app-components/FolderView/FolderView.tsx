@@ -29,6 +29,14 @@ export const FolderView: React.FC = () => {
   const [isVerified, setIsVerified] = useState(true);
   const [allowReport, setAllowReport] = useState(true);
 
+  const showToast = (message, id) => {
+    if (!toast.isActive(id)) {
+      toast(message, {
+        toastId: id,
+      });
+    }
+  };
+
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
 
@@ -97,19 +105,20 @@ export const FolderView: React.FC = () => {
           reason: reason,
         })
         .then((response) => {
-          toast("Благодарим за сигнала!");
+          showToast("Благодарим за сигнала!", 1);
           setAllowReport(false);
         })
         .catch((error) => {
-          toast(
-            "Имаше грешка при изпращането на сигнала, пробвай отново по-късно"
+          showToast(
+            "Имаше грешка при изпращането на сигнала, пробвай отново по-късно",
+            2
           );
         });
     }
   };
 
   const verified = () => {
-    toast("Това тесте е проверено и одобрено от ЗапомниГо");
+    showToast("Това тесте е проверено и одобрено от ЗапомниГо", 3);
   };
 
   const handleDelete = () => {
@@ -136,11 +145,11 @@ export const FolderView: React.FC = () => {
           verified: false,
         })
         .then((response) => {
-          toast("Папката не е потвърденa");
+          showToast("Папката не е потвърденa", 4);
           location.reload();
         })
         .catch((error) => {
-          toast("Грешка");
+          showToast("Грешка", 5);
         });
     } else {
       instance
@@ -148,11 +157,11 @@ export const FolderView: React.FC = () => {
           verified: true,
         })
         .then((response) => {
-          toast("Папката е потвърденa");
+          showToast("Папката е потвърденa", 6);
           location.reload();
         })
         .catch((error) => {
-          toast("Грешка");
+          showToast("Грешка", 7);
         });
     }
   };

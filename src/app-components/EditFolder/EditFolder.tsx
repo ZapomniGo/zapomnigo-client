@@ -13,6 +13,14 @@ export const EditFolder = () => {
     id: number;
   }
 
+  const showToast = (message, id) => {
+    if (!toast.isActive(id)) {
+      toast(message, {
+        toastId: id,
+      });
+    }
+  };
+
   const [allCategories, setAllCategories] = useState([]);
   // const [allInstitutions, setAllInstitutions] = useState([]);
   //change ids to names after backend is fixed also change the select in option
@@ -92,15 +100,15 @@ export const EditFolder = () => {
     };
 
     if (folderToSubmit.folder_title.length === 0) {
-      toast("Оп, май пропусна заглавие");
+      showToast("Оп, май пропусна заглавие", 1);
       return;
     }
     if (folderToSubmit.folder_title.length > 100) {
-      toast("Заглавието трябва да е под 100 символа");
+      showToast("Заглавието трябва да е под 100 символа", 2);
       return;
     }
     if (folderToSubmit.folder_title.length > 1000) {
-      toast("Описанието трябва да е под 1000 символа");
+      showToast("Описанието трябва да е под 1000 символа", 3);
       return;
     }
     //check if the flashcards are not empty
@@ -111,11 +119,11 @@ export const EditFolder = () => {
     instance
       .put(`/folders/${id}`, folderToSubmit)
       .then((response) => {
-        toast("Добре дошъл в новата си папка");
+        showToast("Добре дошъл в новата си папка", 4);
         navigate("/app/folder/" + id);
       })
       .catch((error) => {
-        toast("Възникна грешка");
+        showToast("Възникна грешка", 5);
       });
   };
 

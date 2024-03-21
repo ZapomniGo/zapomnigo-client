@@ -40,6 +40,14 @@ export const EditSet = () => {
   const [filter, setFilter] = useState("&sort_by_date=true&ascending=true");
   const { id } = useParams<{ id: string }>();
 
+  const showToast = (message, id) => {
+    if (!toast.isActive(id)) {
+      toast(message, {
+        toastId: id,
+      });
+    }
+  };
+
   const {
     flashcards,
     handleMoveFlashcard,
@@ -132,30 +140,30 @@ export const EditSet = () => {
 
   const handleSubmit = () => {
     if (title.length === 0) {
-      toast("Оп, май пропусна заглавие");
+      showToast("Оп, май пропусна заглавие", 1);
       return;
     }
     if (title.length > 100) {
-      toast("Заглавието трябва да е под 100 символа");
+      showToast("Заглавието трябва да е под 100 символа", 2);
       return;
     }
     if (description.length > 1000) {
-      toast("Описанието трябва да е под 1000 символа");
+      showToast("Описанието трябва да е под 1000 символа", 3);
       return;
     }
     //check if the flashcards are not empty
     if (flashcards.length === 0) {
-      toast("Поне една карта трябва да се въведе");
+      showToast("Поне една карта трябва да се въведе", 4);
       return;
     }
     //check if the flashcards are not empty
     if (flashcards.length > 2000) {
-      toast("Картите трябва да са под 2000");
+      showToast("Картите трябва да са под 2000", 5);
       return;
     }
     //check if each flashcard has a term and a description using isEmpty function
     if (flashcards.find((flashcard) => isEmpty(flashcard.term))) {
-      toast("Някоя от картите няма термин");
+      showToast("Някоя от картите няма термин", 6);
       let problematicFlashcard = flashcards.find((flashcard) =>
         isEmpty(flashcard.term)
       );
@@ -170,7 +178,7 @@ export const EditSet = () => {
       return;
     }
     if (flashcards.find((flashcard) => isEmpty(flashcard.definition))) {
-      toast("Някоя от картите няма дефиниция");
+      showToast("Някоя от картите няма дефиниция", 7);
       let problematicFlashcard = flashcards.find((flashcard) =>
         isEmpty(flashcard.definition)
       );
@@ -191,7 +199,7 @@ export const EditSet = () => {
           flashcard.definition.replace(/<[^>]+>/g, "").length > 10000
       )
     ) {
-      toast("Някоя от картите е с поле с повече от 10000 символа");
+      showToast("Някоя от картите е с поле с повече от 10000 символа", 8);
       let problematicFlashcard = flashcards.find(
         (flashcard) =>
           flashcard.term.replace(/<[^>]+>/g, "").length > 10000 ||
@@ -219,18 +227,18 @@ export const EditSet = () => {
           : subcategoryIdRef.current,
       })
       .then((response) => {
-        toast("Редакцията е готова");
+        showToast("Редакцията е готова", 9);
         navigate("/app/set/" + id);
         window.scrollTo(0, 0);
       })
       .catch((error) => {
-        toast("Възникна грешка");
+        showToast("Възникна грешка", 10);
       });
   };
 
   const search = (query: string) => {
     if (query.term === "" && query.definition === "") {
-      toast("Няма термин или дефиниция");
+      showToast("Няма термин или дефиниция", 11);
       return;
     }
     const shorterText =
@@ -245,7 +253,7 @@ export const EditSet = () => {
     }
 
     if (shorterText.length > 100) {
-      toast("Терминът или дефиницията са прекалено дълги за търсене");
+      showToast("Терминът или дефиницията са прекалено дълги за търсене", 12);
       return;
     }
 
@@ -264,7 +272,7 @@ export const EditSet = () => {
         otherText.includes("<audio") ||
         otherText.includes("<iframe")
       ) {
-        toast("Търсенето не е възможно");
+        showToast("Търсенето не е възможно", 13);
         return;
       } else {
         console.log("searching for 1", otherText);

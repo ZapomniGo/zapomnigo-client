@@ -25,6 +25,14 @@ export const CreateSet = () => {
   const [allSubcategories, setAllSubcategories] = useState([]);
   const [subcategory, setSubcategory] = useState("");
 
+  const showToast = (message, id) => {
+    if (!toast.isActive(id)) {
+      toast(message, {
+        toastId: id,
+      });
+    }
+  };
+
   // const [institution, setInstitution] = useState("");
 
   const {
@@ -73,15 +81,15 @@ export const CreateSet = () => {
   const handleSubmit = () => {
     //check if the title is not empty
     if (title.length === 0) {
-      toast("Оп, май пропусна заглавие");
+      showToast("Оп, май пропусна заглавие", 1);
       return;
     }
     if (title.length > 100) {
-      toast("Заглавието трябва да е под 100 символа");
+      showToast("Заглавието трябва да е под 100 символа", 2);
       return;
     }
     if (description.length > 1000) {
-      toast("Описанието трябва да е под 1000 символа");
+      showToast("Описанието трябва да е под 1000 символа", 3);
       return;
     }
     //check if the flashcards are not empty
@@ -94,7 +102,7 @@ export const CreateSet = () => {
         block: "center",
         inline: "center",
       });
-      toast("Поне една карта трябва да се въведе");
+      showToast("Поне една карта трябва да се въведе", 4);
       return;
     }
     //check if the flashcards are not empty
@@ -108,7 +116,7 @@ export const CreateSet = () => {
         inline: "center",
       });
 
-      toast("Картите трябва да са под 3000");
+      showToast("Картите трябва да са под 3000", 5);
       return;
     }
     //check if each flashcard has a term and a description using isEmpty function
@@ -121,7 +129,7 @@ export const CreateSet = () => {
         block: "center",
         inline: "center",
       });
-      toast("Някоя от картите няма термин");
+      showToast("Някоя от картите няма термин", 6);
       return;
     }
     if (flashcards.find((flashcard) => isEmpty(flashcard.definition))) {
@@ -133,7 +141,7 @@ export const CreateSet = () => {
         block: "center",
         inline: "center",
       });
-      toast("Някоя от картите няма дефиниция");
+      showToast("Някоя от картите няма дефиниция", 7);
       return;
     }
     //check if any flashcard has more than 2000 characters
@@ -144,7 +152,7 @@ export const CreateSet = () => {
           flashcard.definition.replace(/<[^>]+>/g, "").length > 10000
       )
     ) {
-      toast("Някоя от картите е с поле с повече от 10000 символа");
+      showToast("Някоя от картите е с поле с повече от 10000 символа", 8);
       let longFlashcard = flashcards.find(
         (flashcard) =>
           flashcard.term.replace(/<[^>]+>/g, "").length > 10000 ||
@@ -168,20 +176,20 @@ export const CreateSet = () => {
         set_subcategory: subcategory,
       })
       .then((response) => {
-        toast("Добре дошъл в новото си тесте");
+        showToast("Добре дошъл в новото си тесте", 9);
         navigate("/app/set/" + response.data.set_id);
         setTimeout(() => {
           window.scrollTo(0, 0);
         }, 100);
       })
       .catch((error) => {
-        toast("Възникна грешка");
+        showToast("Възникна грешка", 10);
       });
   };
 
   const search = (query: string) => {
     if (query.term === "" && query.definition === "") {
-      toast("Няма термин или дефиниция");
+      showToast("Няма термин или дефиниция", 11);
       return;
     }
     const shorterText =
@@ -196,7 +204,7 @@ export const CreateSet = () => {
     }
 
     if (shorterText.length > 100) {
-      toast("Терминът или дефиницията са прекалено дълги за търсене");
+      showToast("Терминът или дефиницията са прекалено дълги за търсене", 12);
       return;
     }
 
@@ -215,7 +223,7 @@ export const CreateSet = () => {
         otherText.includes("<audio") ||
         otherText.includes("<iframe")
       ) {
-        toast("Търсенето не е възможно");
+        showToast("Търсенето не е възможно", 13);
         return;
       } else {
         console.log("searching for 1", otherText);

@@ -17,6 +17,15 @@ const Flip = () => {
   const [counter, setCounter] = React.useState(0);
   const [isHidden, setIsHidden] = React.useState(true);
   const [isMessageHidden, setIsMessageHidden] = React.useState(false);
+
+  const showToast = (message, id) => {
+    if (!toast.isActive(id)) {
+      toast(message, {
+        toastId: id,
+      });
+    }
+  };
+
   useEffect(() => {
     instance
       .get(`/sets/${id}?page=1&size=4000`)
@@ -65,7 +74,7 @@ const Flip = () => {
   };
 
   const changeTermAndDefintion = () => {
-    toast("Терминът и дефиницията са сменени!");
+    showToast("Терминът и дефиницията са сменени!", 1);
     setIsHidden(true);
     setFlashcards((prev) => {
       return prev.map((flashcard) => {

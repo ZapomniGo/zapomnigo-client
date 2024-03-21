@@ -9,6 +9,13 @@ import { MoreBtn } from "../MoreBtn/MoreBtn";
 
 export const CreateFolder = () => {
   const navigate = useNavigate();
+  const showToast = (message, id) => {
+    if (!toast.isActive(id)) {
+      toast(message, {
+        toastId: id,
+      });
+    }
+  };
 
   interface Set {
     id: number;
@@ -66,29 +73,29 @@ export const CreateFolder = () => {
     const folderToSubmit = { ...folder, sets: selectedSetIds };
 
     if (folderToSubmit.folder_title.length === 0) {
-      toast("Оп, май пропусна заглавие");
+      showToast("Оп, май пропусна заглавие", 1);
       return;
     }
     if (folderToSubmit.folder_title.length > 100) {
-      toast("Заглавието трябва да е под 100 символа");
+      showToast("Заглавието трябва да е под 100 символа", 2);
       return;
     }
     if (folderToSubmit.folder_title.length > 1000) {
-      toast("Описанието трябва да е под 1000 символа");
+      showToast("Описанието трябва да е под 1000 символа", 3);
       return;
     }
 
     instance
       .post("/folders", folderToSubmit)
       .then((response) => {
-        toast("Добре дошъл в новата си папка");
+        showToast("Добре дошъл в новата си папка", 4);
         navigate("/app/folder/" + response.data.folder_id);
         setTimeout(() => {
           window.scrollTo(0, 0);
         }, 100);
       })
       .catch((error) => {
-        toast("Възникна грешка");
+        showToast("Възникна грешка", 5);
       });
   };
 
