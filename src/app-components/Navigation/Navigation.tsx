@@ -14,10 +14,7 @@ import { useAppDispatch, useAppSelector } from "../../app-context/store";
 import { navReducer } from "../../app-context/navigationSlice";
 import { Outlet } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import axios from "axios";
-import { url } from "../../Global";
 import { BiLogIn } from "react-icons/bi";
-import instance from "../../app-utils/axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -39,6 +36,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
   const [institution, setInstitution] = useState("");
   const [token, setToken] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState("");
+  const toastLimit = window.innerWidth <= 900 ? 2 : 3;
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -99,7 +97,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 
   return (
     <div className="wrapper">
-      <ToastContainer limit={3} />
+      <ToastContainer limit={toastLimit} />
       <div className="navigation-bar">
         <div className="nav-mobile">
           <div className="menu-mobile">

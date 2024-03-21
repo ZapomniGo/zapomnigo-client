@@ -150,7 +150,7 @@ export const SetPage = () => {
         url: url,
       });
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
     navigator.clipboard
       .writeText(url)
@@ -225,7 +225,6 @@ export const SetPage = () => {
         .then((response) => {
           setFolders(response.data.folders);
           setAddToFolderVisibility(true);
-          console.log("here");
         })
         .catch((err) => {
           if (err.response.status === 404) {
@@ -321,8 +320,7 @@ export const SetPage = () => {
     }
   };
 
-  const loadFolders = (id) => {
-    console.log(folders);
+  const loadFolders = () => {
     if (folders) {
       setIsFolderVisible(!isFolderVisible);
     }
@@ -452,7 +450,7 @@ export const SetPage = () => {
                 {localStorage.getItem("access_token") &&
                   addToFolderVisibility && (
                     <div className="addFolder">
-                      <a onClick={() => loadFolders(id)} href="#">
+                      <a onClick={() => loadFolders()} href="#">
                         <FaRegFolderOpen />
                         Добави в папка
                       </a>
