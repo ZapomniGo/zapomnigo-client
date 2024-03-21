@@ -81,7 +81,6 @@ const HomePage = () => {
 
   return (
     <div id="mainPage">
-      <ToastContainer />
       <section id="backgroundForm">
         <Background />
         <div id="center-center">

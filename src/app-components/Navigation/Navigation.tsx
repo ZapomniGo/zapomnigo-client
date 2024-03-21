@@ -99,7 +99,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
 
   return (
     <div className="wrapper">
-      <ToastContainer />
+      <ToastContainer limit={3} />
       <div className="navigation-bar">
         <div className="nav-mobile">
           <div className="menu-mobile">

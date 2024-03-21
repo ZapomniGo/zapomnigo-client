@@ -18,6 +18,7 @@ import { FaPlus } from "react-icons/fa6";
 import { FaFontAwesomeFlag } from "react-icons/fa";
 import { MdOutlineVerifiedUser } from "react-icons/md";
 import { FaRegFolderOpen } from "react-icons/fa";
+import { delay } from "@reduxjs/toolkit/dist/utils";
 
 export const SetPage = () => {
   const navigate = useNavigate();
@@ -132,6 +133,11 @@ export const SetPage = () => {
       .catch((error) => {
         toast("Имаше грешка при запазването, пробвай отново по-късно");
       });
+  };
+
+  const clearWaitingQueue = () => {
+    // Easy, right 😎
+    toast.clearWaitingQueue();
   };
 
   const Share = () => {
@@ -337,8 +343,6 @@ export const SetPage = () => {
   return (
     <Dashboard>
       <>
-        <ToastContainer />
-
         {flashcards ? (
           <div id="set-page">
             <div className="set-info">

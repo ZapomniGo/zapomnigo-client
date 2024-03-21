@@ -584,7 +584,6 @@ const StudyComponent = () => {
 
   return (
     <>
-      <ToastContainer />
       {/* <Dashboard> */}
       <div className="study-component">
         {/* <ChooseMode setAllowedModes={setAllowedStudyModes} /> */}

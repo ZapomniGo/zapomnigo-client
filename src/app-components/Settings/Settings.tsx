@@ -158,7 +158,6 @@ export const Settings = () => {
   Object.freeze(SettingsFunctions);
   return (
     <Dashboard>
-      <ToastContainer />
       <div id="settings">
         {/* <center>
           <h1>Настройки</h1>

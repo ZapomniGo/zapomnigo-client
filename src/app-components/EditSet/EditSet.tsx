@@ -321,7 +321,6 @@ export const EditSet = () => {
 
   return (
     <Dashboard>
-      <ToastContainer />
       <div className="create-set-wrapper">
         <div className="create-set">
           <h1>Редактирай тесте</h1>

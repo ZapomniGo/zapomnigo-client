@@ -155,8 +155,6 @@ export const CreateFolder = () => {
 
   return (
     <Dashboard>
-      <ToastContainer />
-      <div></div>
       <div className="create-set-wrapper">
         <div className="create-set">
           <h1>Създай папка</h1>
