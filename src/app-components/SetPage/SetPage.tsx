@@ -430,28 +430,29 @@ export const SetPage = () => {
                     <FiDownload /> Експортирай
                   </a>
                 )}
-
-                <div className="addFolder">
-                  <a onClick={() => loadFolders(id)} href="#">
-                    <FaRegFolderOpen />
-                    Добави в папка
-                  </a>
-                  {folders && isFolderVisible && (
-                    <div className={`folder-popup ` + isFolderVisible}>
-                      {folders.map((folder) => (
-                        <p
-                          className="folder-title"
-                          key={folder.folder_id}
-                          onClick={() => addToFolder(id, folder.folder_id)}
-                        >
-                          {folder.folder_title.length > 28
-                            ? folder.folder_title.substring(0, 28) + "..."
-                            : folder.folder_title}
-                        </p>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                {localStorage.getItem("access_token") && (
+                  <div className="addFolder">
+                    <a onClick={() => loadFolders(id)} href="#">
+                      <FaRegFolderOpen />
+                      Добави в папка
+                    </a>
+                    {folders && isFolderVisible && (
+                      <div className={`folder-popup ` + isFolderVisible}>
+                        {folders.map((folder) => (
+                          <p
+                            className="folder-title"
+                            key={folder.folder_id}
+                            onClick={() => addToFolder(id, folder.folder_id)}
+                          >
+                            {folder.folder_title.length > 28
+                              ? folder.folder_title.substring(0, 28) + "..."
+                              : folder.folder_title}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {(creator === username || isAdmin) && (
                   <a onClick={deleteSet}>
