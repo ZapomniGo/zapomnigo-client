@@ -32,18 +32,24 @@ const LearnSettings = (props) => {
   const handleChange = (event) => {
     const { name, checked } = event.target;
     localStorage.setItem(name, checked);
-    console.log(name, checked);
   };
 
   useEffect(() => {
     let modes = [];
-    let cat = new Boolean();
+    let cat = false;
     if (props.problematicCategories.includes(props.category)) {
       cat = false;
     } else {
       cat = true;
     }
-    if (localStorage.getItem("mutipleChoice") === "true") {
+    console.log(
+      props.problematicCategories,
+      props.category,
+      localStorage.getItem("mutipleChoice") === "true",
+      cat
+    );
+
+    if (localStorage.getItem("mutipleChoice") === "true" && cat) {
       modes.push(1);
     }
     if (localStorage.getItem("freeAnswer") === "true") {
@@ -63,14 +69,7 @@ const LearnSettings = (props) => {
       localStorage.setItem("trueFalse", "true");
     }
     props.setAllowedModes(modes);
-    // setTimeout(() => {
-    //   props.GeneratePrompt(undefined, false);
-    // }, 2000);
   }, []);
-
-  useEffect(() => {
-    console.log(props.allowedModes);
-  }, [props]);
 
   return (
     <div className="settings-study">

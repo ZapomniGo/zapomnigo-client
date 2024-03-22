@@ -73,7 +73,7 @@ const StudyComponent = () => {
         const newFlashcards = res.data.flashcards
           ? res.data.flashcards
           : res.data.set.flashcards;
-      //  setCategory(res.data.set.category_name);
+        setCategory(res.data.category_name ? res.data.category_name : "Английски");
         if (newFlashcards.length > 0) {
           let tempFlashcards = newFlashcards.map((flashcard) => {
             flashcard.seen = 0;
@@ -647,6 +647,7 @@ const StudyComponent = () => {
             GeneratePrompt={GeneratePrompt}
             category={category}
             problematicCategories={defaultSetup.problematicCategories}
+            generatePrompt={GeneratePrompt}
           />
         )}
       </div>
