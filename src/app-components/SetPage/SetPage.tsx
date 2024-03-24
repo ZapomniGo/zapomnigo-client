@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import Dashboard from "../Dashboard/Dashboard";
 import { Flashcard } from "./Flashcard";
 import { useState, useEffect } from "react";
@@ -326,6 +327,21 @@ export const SetPage = () => {
     }
   };
 
+  const addFolderRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (addFolderRef.current && !addFolderRef.current.contains(event.target)) {
+      setIsFolderVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, []);
+
   const addToFolder = (setId, folderId) => {
     instance
       .post(`/sets/${setId}/folders/${folderId}`)
@@ -449,7 +465,7 @@ export const SetPage = () => {
                 )}
                 {localStorage.getItem("access_token") &&
                   addToFolderVisibility && (
-                    <div className="addFolder">
+                    <div className="addFolder" ref={addFolderRef}>
                       <a onClick={() => loadFolders()} href="#">
                         <FaRegFolderOpen />
                         Добави в папка
