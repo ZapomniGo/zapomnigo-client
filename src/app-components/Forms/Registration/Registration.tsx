@@ -198,6 +198,14 @@ export const Registration = () => {
           };
         }
         break;
+      case "user_type":
+        if (typeof value === "string" && value.length === 0) {
+          errorInfo = {
+            hasError: true,
+            message: "Please select user type",
+          };
+        }
+        break;
 
       case "password":
         if (
@@ -341,6 +349,15 @@ export const Registration = () => {
     } else {
       newErrors.gender = { hasError: false, message: "" };
     }
+    if (userData.user_type.length === 0) {
+      newErrors.user_type = {
+        hasError: true,
+        message: "Please enter user type",
+      };
+      errorsExist = true;
+    } else {
+      newErrors.user_type = { hasError: false, message: "" };
+    }
 
     if (screenIndex === 2) {
       if (userData.username.length < 2 || userData.username.length > 40) {
@@ -450,10 +467,18 @@ export const Registration = () => {
 
   const [selectedValue, setSelectedValue] = useState("");
 
-  const handleChange = (event: {
+  const handleGenderChange = (event: {
     target: { value: SetStateAction<string> };
   }) => {
     setSelectedValue(event.target.value);
+  };
+
+  const [selectedUserValue, setSelectedUserValue] = useState("");
+
+  const handleTypeChange = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setSelectedUserValue(event.target.value);
   };
 
   const viewPassword = () => {
@@ -509,7 +534,7 @@ export const Registration = () => {
               </p>
               <select
                 value={selectedValue}
-                onChange={handleChange}
+                onChange={handleGenderChange}
                 required
                 className={selectedValue === "" ? "disabled" : ""}
                 name="gender"
@@ -520,6 +545,20 @@ export const Registration = () => {
                 <option value="M">Мъж</option>
                 <option value="F">Жена</option>
                 <option value="O">Предпочитам да не споделям</option>
+              </select>
+              <select
+                value={selectedUserValue}
+                onChange={handleTypeChange}
+                required
+                className={selectedUserValue === "" ? "disabled" : ""}
+                name="user_type"
+              >
+                <option value="" disabled>
+                  Тип потребител
+                </option>
+                <option value="Student">Ученик</option>
+                <option value="Parent">Родител</option>
+                <option value="Teacer">Учител</option>
               </select>
             </section>
           ) : (

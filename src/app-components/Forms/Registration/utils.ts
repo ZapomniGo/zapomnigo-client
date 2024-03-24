@@ -11,13 +11,9 @@ const initialErrors: Record<keyof UserData, DataError> = {
   age: { hasError: false, message: "" },
   email: { hasError: false, message: "" },
   privacy_policy: { hasError: false, message: "" },
-  terms_and_conditions: {hasError: false, message: "" },
+  terms_and_conditions: { hasError: false, message: "" },
   marketing_consent: { hasError: false, message: "" },
-
-
-
-
-
+  user_type: { hasError: false, message: "" },
 };
 
 const initialUserState: UserData = {
@@ -32,6 +28,7 @@ const initialUserState: UserData = {
   privacy_policy: false,
   terms_and_conditions: false,
   marketing_consent: false,
+  user_type: "",
 };
 const emailPattern: RegExp =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
