@@ -32,12 +32,24 @@ const LearnSettings = (props) => {
   const handleChange = (event) => {
     const { name, checked } = event.target;
     localStorage.setItem(name, checked);
-    console.log(name, checked);
   };
 
   useEffect(() => {
     let modes = [];
-    if (localStorage.getItem("mutipleChoice") === "true") {
+    let cat = false;
+    if (props.problematicCategories.includes(props.category)) {
+      cat = false;
+    } else {
+      cat = true;
+    }
+    console.log(
+      props.problematicCategories,
+      props.category,
+      localStorage.getItem("mutipleChoice") === "true",
+      cat
+    );
+
+    if (localStorage.getItem("mutipleChoice") === "true" && cat) {
       modes.push(1);
     }
     if (localStorage.getItem("freeAnswer") === "true") {
@@ -49,15 +61,15 @@ const LearnSettings = (props) => {
     if (localStorage.getItem("trueFalse") === "true") {
       modes.push(4);
     }
+    if (modes.length === 0) {
+      modes.push(1, 2, 3, 4);
+      localStorage.setItem("mutipleChoice", "true");
+      localStorage.setItem("freeAnswer", "true");
+      localStorage.setItem("selfTest", "true");
+      localStorage.setItem("trueFalse", "true");
+    }
     props.setAllowedModes(modes);
-    // setTimeout(() => {
-    //   props.GeneratePrompt(undefined, false);
-    // }, 2000);
   }, []);
-
-  useEffect(() => {
-    console.log(props.allowedModes);
-  }, [props]);
 
   return (
     <div className="settings-study">
