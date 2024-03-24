@@ -194,17 +194,22 @@
   z-index: 999;
 
   .folder-title {
-    box-shadow:
-      rgba(255, 94, 0, 0.4) 4px 4px,
-      rgba(255, 94, 0, 0.4) 8px 9px;
-
+    box-shadow: rgba(255, 94, 0, 0.4) 4px 4px;
     padding: 10px;
-    border: 1px solid #ababab;
+    border: 1px solid orange;
     border-radius: 5px;
     margin: 0 !important;
     cursor: pointer;
     font-size: 1em;
     margin: 5px 5px 12px 0 !important;
+    transition: 0.5s;
+  }
+  .folder-title:hover {
+    box-shadow:
+      rgba(255, 94, 0, 0.4) 4px 4px,
+      rgba(255, 94, 0, 0.4) 8px 9px;
+
+    transition: 0.5s;
   }
 }
 
@@ -254,6 +259,11 @@
 
   .folder-popup {
     margin-top: 70px;
+    .folder-title {
+      box-shadow:
+        rgba(255, 94, 0, 0.4) 4px 4px,
+        rgba(255, 94, 0, 0.4) 8px 9px;
+    }
   }
   .cards-info {
     width: 80% !important;
