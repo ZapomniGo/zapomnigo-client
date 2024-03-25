@@ -6,9 +6,21 @@ import { BsQuestion } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { CookieComponent } from "./CookieComponent";
 import { useState } from "react";
+import { toast } from "react-toastify";
 interface DashboardProps {
   children: React.ReactNode;
 }
+
+window.onload = () => {
+  if (localStorage.getItem("access_token")) {
+    return;
+  }
+  setTimeout(() => {
+  toast(
+    "Абе готин ни е сайта, стига само гледа, цъкни на бутона за регистрация и се присъедини към нас!"
+  );
+  }, 1000*60*5);
+};
 
 export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
   const navigate = useNavigate();
