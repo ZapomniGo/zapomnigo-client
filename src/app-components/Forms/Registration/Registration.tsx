@@ -198,7 +198,7 @@ export const Registration = () => {
           };
         }
         break;
-      case "user_type":
+      case "role":
         if (typeof value === "string" && value.length === 0) {
           errorInfo = {
             hasError: true,
@@ -349,14 +349,14 @@ export const Registration = () => {
     } else {
       newErrors.gender = { hasError: false, message: "" };
     }
-    if (userData.user_type.length === 0) {
-      newErrors.user_type = {
+    if (userData.role.length === 0) {
+      newErrors.role = {
         hasError: true,
         message: "Please enter user type",
       };
       errorsExist = true;
     } else {
-      newErrors.user_type = { hasError: false, message: "" };
+      newErrors.role = { hasError: false, message: "" };
     }
 
     if (screenIndex === 2) {
@@ -551,7 +551,7 @@ export const Registration = () => {
                 onChange={handleTypeChange}
                 required
                 className={selectedUserValue === "" ? "disabled" : ""}
-                name="user_type"
+                name="role"
               >
                 <option value="" disabled>
                   Тип потребител
