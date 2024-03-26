@@ -15,6 +15,7 @@ type UserData = {
   privacy_policy: boolean;
   marketing_consent: boolean;
   terms_and_conditions: boolean;
+  role: string;
 };
 
 export type { DataError, UserData };
