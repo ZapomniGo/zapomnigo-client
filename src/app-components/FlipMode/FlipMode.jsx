@@ -165,7 +165,7 @@ const Flip = () => {
             </div>
             {!isMessageHidden ? (
               <div className="info-message">
-                <p>Натисни картата за да я обърнеш</p>
+                <p>Натисни картата, за да я обърнеш</p>
               </div>
             ) : null}
             {/* <div className="info-message">

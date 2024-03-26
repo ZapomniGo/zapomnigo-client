@@ -206,10 +206,10 @@ const StudyComponent = () => {
     return true;
   };
   const HasFlashcardBeenSeenTooManyTime = (flashcard) => {
-    let allFlashcards = [...flashcards];
+    const allFlashcards = [...flashcards];
     //make sure that not all flashcards have been studied
     let allFlashcardsHaveBeenStudied = true;
-    if (allFlashcards.length === 0) {
+    if (!allFlashcards.length) {
       //this means react hasn't updated the flashcards yet
       return false;
     }
@@ -266,12 +266,12 @@ const StudyComponent = () => {
     }
     if (
       flashcard.confidence <= averageConfidence ||
-      flashcard.definition.length > 100 ||
-      flashcard.term.length > 100
+      flashcard.definition.length > 250 ||
+      flashcard.term.length > 250
     ) {
       chosenStudyMode = 1;
     } else {
-      if (Math.random() > 0.2) {
+      if (Math.random() > 0.3) {
         chosenStudyMode = 2;
       } else {
         if (Math.random() > 0.3) {
@@ -296,12 +296,12 @@ const StudyComponent = () => {
           ((flashcard.definition.includes("<img") ||
             flashcard.definition.includes("<video") ||
             flashcard.definition.includes("ql-formula") ||
-            convert(flashcard.term).length > 100 ||
+            convert(flashcard.term).length > 250 ||
             flashcard.term.includes("<iframe")) &&
             (flashcard.term.includes("<img>") ||
               flashcard.term.includes("<video>") ||
               flashcard.term.includes("ql-formula"))) ||
-          convert(flashcard.term).length > 100 ||
+          convert(flashcard.term).length > 250 ||
           flashcard.term.includes("<iframe")
         ) {
           return 3;
@@ -311,7 +311,7 @@ const StudyComponent = () => {
           flashcard.definition.includes("<video") ||
           flashcard.definition.includes("ql-formula") ||
           flashcard.term.includes("<iframe") ||
-          convert(flashcard.term).length > 100
+          convert(flashcard.term).length > 250
         ) {
           return 2;
         }
