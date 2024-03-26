@@ -558,7 +558,7 @@ export const Registration = () => {
                 </option>
                 <option value="Student">Ученик</option>
                 <option value="Parent">Родител</option>
-                <option value="Teacer">Учител</option>
+                <option value="Teacher">Учител</option>
               </select>
             </section>
           ) : (
