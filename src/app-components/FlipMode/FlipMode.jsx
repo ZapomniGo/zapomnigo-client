@@ -162,7 +162,7 @@ const Flip = () => {
   }, [isKeyPressed]);
 
   return (
-    <div className="bbb">
+    <div className="flip_mode_container">
       {flashcards.length > 0 ? (
         <section id="wrapper">
           <h1 className="counter">
@@ -218,7 +218,7 @@ const Flip = () => {
             />
           </div>
           <div className="cookie_width">
-            <CookieComponent pageType={"flip"} />
+            {!cookieConsent && <CookieComponent pageType={"flip"} />}
           </div>
         </section>
       ) : (
