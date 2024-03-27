@@ -10,6 +10,8 @@ import { MdFlipCameraAndroid } from "react-icons/md";
 import { FO, FC } from "../../app-utils/soundManager";
 import { toast } from "react-toastify";
 import { LoadingAnimation } from "../LoadingAnimation/LoadingAnimtation";
+import { useState } from "react";
+import { CookieComponent } from "../Dashboard/CookieComponent";
 
 const Flip = () => {
   const { id } = useParams();
@@ -25,6 +27,18 @@ const Flip = () => {
       });
     }
   };
+
+  const [cookieConsent, setCookieConsent] = useState(false);
+  useEffect(() => {
+    document.title = "ЗапомниГо | Платформата, която ти помага да запомняш";
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
+
+    if (localStorage.getItem("cookieConsent") === "true") {
+      setCookieConsent(true);
+    }
+  }, []);
 
   useEffect(() => {
     instance
@@ -148,7 +162,7 @@ const Flip = () => {
   }, [isKeyPressed]);
 
   return (
-    <>
+    <div className="bbb">
       {flashcards.length > 0 ? (
         <section id="wrapper">
           <h1 className="counter">
@@ -203,6 +217,9 @@ const Flip = () => {
               onClick={changeTermAndDefintion}
             />
           </div>
+          <div className="cookie_width">
+            <CookieComponent pageType={"flip"} />
+          </div>
         </section>
       ) : (
         <center>
@@ -210,7 +227,7 @@ const Flip = () => {
           <h1 className="loadingBanner">Зареждане...</h1>
         </center>
       )}
-    </>
+    </div>
   );
 };
 
