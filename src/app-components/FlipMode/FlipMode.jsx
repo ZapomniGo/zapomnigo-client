@@ -32,6 +32,8 @@ const Flip = () => {
       .then((res) => {
         //to check if any flashcards are present in the set/set is valid
         setFlashcards(res.data.set.flashcards);
+        console.log(res.data.set);
+        document.title = res.data.set.set_name +" | ЗапомниГо"
       })
       .catch((error) => {
         if (error.response.status === 404) {
