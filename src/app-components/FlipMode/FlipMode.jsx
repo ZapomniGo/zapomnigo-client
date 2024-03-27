@@ -55,7 +55,6 @@ const Flip = () => {
   const next = () => {
     FC.play();
     setIsHidden(true);
-    console.log(flashcards);
 
     if (counter < flashcards.length - 1) {
       setCounter((prev) => prev + 1);
@@ -67,7 +66,6 @@ const Flip = () => {
   const answered = () => {
     FC.play();
     setIsHidden(true);
-    console.log(flashcards);
 
     // Remove the current flashcard
     const newFlashcards = flashcards.filter((_, index) => index !== counter);
