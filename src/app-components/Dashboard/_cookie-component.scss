@@ -58,6 +58,13 @@
   }
 }
 
+.study {
+  // justify-content: flex-start;
+  .test {
+    width: calc(100% - 200px);
+  }
+}
+
 @media screen and (max-width: 1000px) {
   .cookie-component {
     justify-content: center;

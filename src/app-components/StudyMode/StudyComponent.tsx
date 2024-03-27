@@ -18,6 +18,7 @@ import { ProgressBar } from "./utils/ProgressBar";
 import ChooseMode from "./StudyModesViews/ChooseMode";
 import { SP, SN } from "../../app-utils/soundManager";
 import defaultSetup from "./configs/defaultSetup.json";
+import { CookieComponent } from "../Dashboard/CookieComponent";
 
 //TODO: verify image is not an answer/ auto term/definition detection
 
@@ -73,7 +74,9 @@ const StudyComponent = () => {
         const newFlashcards = res.data.flashcards
           ? res.data.flashcards
           : res.data.set.flashcards;
-        setCategory(res.data.category_name ? res.data.category_name : "Английски");
+        setCategory(
+          res.data.category_name ? res.data.category_name : "Английски"
+        );
         if (newFlashcards.length > 0) {
           let tempFlashcards = newFlashcards.map((flashcard) => {
             flashcard.seen = 0;
@@ -585,7 +588,7 @@ const StudyComponent = () => {
   };
 
   return (
-    <>
+    <div className="study_wrapper">
       {/* <Dashboard> */}
       <div className="study-component">
         {/* <ChooseMode setAllowedModes={setAllowedStudyModes} /> */}
@@ -650,8 +653,9 @@ const StudyComponent = () => {
           />
         )}
       </div>
+      <CookieComponent pageType="study" />
       {/* </Dashboard> */}
-    </>
+    </div>
   );
 };
 
