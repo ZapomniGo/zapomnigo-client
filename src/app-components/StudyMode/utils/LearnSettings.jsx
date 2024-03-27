@@ -77,11 +77,11 @@ const LearnSettings = (props) => {
         <div
           className="msg-box"
           onClick={() => {
-            setToggleOpen(true);
+            setToggleOpen((prev) => !prev);
             handleClose();
           }}
         >
-          <p>Натисни ме, за да избереш режим на учене</p>
+          <p>Натисни колелцето, за да избереш режим на учене</p>
         </div>
       )}
 
