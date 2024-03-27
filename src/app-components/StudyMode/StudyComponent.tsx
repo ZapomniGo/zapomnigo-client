@@ -45,6 +45,18 @@ const StudyComponent = () => {
   const { id } = useParams<{ id: string }>();
   const [idHolder, setIdHolder] = useState(id);
 
+  const [cookieConsent, setCookieConsent] = useState(false);
+  useEffect(() => {
+    document.title = "ЗапомниГо | Платформата, която ти помага да запомняш";
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
+
+    if (localStorage.getItem("cookieConsent") === "true") {
+      setCookieConsent(true);
+    }
+  }, []);
+
   useEffect(() => {
     setIdHolder(id);
   }, [id]);
@@ -653,7 +665,8 @@ const StudyComponent = () => {
           />
         )}
       </div>
-      <CookieComponent pageType="study" />
+      {!cookieConsent && <CookieComponent pageType={"study"} />}
+
       {/* </Dashboard> */}
     </div>
   );
