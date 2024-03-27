@@ -51,15 +51,35 @@ const Flip = () => {
       setCounter(flashcards.length - 1);
     }
   };
+
   const next = () => {
     FC.play();
     setIsHidden(true);
+    console.log(flashcards);
+
     if (counter < flashcards.length - 1) {
       setCounter((prev) => prev + 1);
     } else {
       setCounter(0);
     }
   };
+
+  const answered = () => {
+    FC.play();
+    setIsHidden(true);
+    console.log(flashcards);
+
+    // Remove the current flashcard
+    const newFlashcards = flashcards.filter((_, index) => index !== counter);
+    setFlashcards(newFlashcards);
+
+    // If the counter is less than the length of the new flashcards array, keep the counter
+    // Otherwise, decrement the counter
+    if (counter >= newFlashcards.length) {
+      setCounter((prev) => prev - 1);
+    }
+  };
+
   const showDefinition = () => {
     if (isHidden) {
       FO.play();
@@ -177,15 +197,20 @@ const Flip = () => {
               </div>
             ) : null}
           </section>
-          {flashcards.length > 1 && (
+          {/* {flashcards.length > 1 && (
             <div className="arrow-left" onClick={previous}>
               <FaArrowLeft />
             </div>
-          )}
+          )} */}
 
           {flashcards.length > 1 && (
-            <div className="arrow-right" onClick={next}>
-              <FaArrowRight />
+            <div className="arrow-right cust-btn" onClick={next}>
+              Passed
+            </div>
+          )}
+          {flashcards.length > 1 && (
+            <div className="arrow-right lower cust-btn" onClick={answered}>
+              Answered
             </div>
           )}
 
