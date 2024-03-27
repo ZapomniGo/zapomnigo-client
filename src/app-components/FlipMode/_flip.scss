@@ -221,6 +221,9 @@
 }
 
 @media screen and (max-width: 1000px) {
+  .lower {
+    margin-top: 17.5% !important;
+  }
   .counter {
     top: 8vmax !important;
     font-size: 3vmax !important;
@@ -253,8 +256,9 @@
 
   .arrow-right {
     justify-content: flex-end;
-    width: 30% !important;
-    padding-top: 7vmax;
+    width: 10% !important;
+    // padding-top: 7vmax;
+    margin-top: 5%;
     right: 0 !important;
     svg {
       width: 3vmax !important;
