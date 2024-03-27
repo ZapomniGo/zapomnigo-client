@@ -27,13 +27,13 @@ export const CookieComponent: React.FC = () => {
     <div className={`cookie-component ${hide}`}>
       <div className="test">
         <div className="cookieComponent__content">
-          <p>
+          <p style={{color:"gray"}}>
             Използваме бисквитки за функционирането и подобряването на
-            платформата. С продължаването на използването на сайта, вие се
-            съгласявате с използването на бисквитки. Научи повече:{" "}
-            <a href="/app/legal/privacy-policy">Политика за поверителност</a>
+            платформата. С продължаването на използването на сайта, се
+            съгласяваш с използването на бисквитки. Научи повече:{" "}
+            <a style={{color:"gray"}} href="/app/legal/privacy-policy">Политика за поверителност</a>
             {"  "}
-            <a href="/app/legal/terms-of-service">Общи условия</a>.
+            <a style={{color:"gray"}} href="/app/legal/terms-of-service">Общи условия</a>.
           </p>
         </div>
         <div className="cookieComponent__button">
