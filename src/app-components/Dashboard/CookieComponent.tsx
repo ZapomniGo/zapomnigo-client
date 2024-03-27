@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-export const CookieComponent: React.FC = () => {
+export const CookieComponent: React.FC = (props) => {
+  console.log(props.pageType);
   const [hide, setHide] = useState("");
   const verify = () => {
     localStorage.setItem("cookieConsent", "true");
@@ -24,7 +25,7 @@ export const CookieComponent: React.FC = () => {
   };
 
   return (
-    <div className={`cookie-component ${hide}`}>
+    <div className={`cookie-component ${hide} ${props.pageType}`}>
       <div className="test">
         <div className="cookieComponent__content">
           <p style={{color:"gray"}}>

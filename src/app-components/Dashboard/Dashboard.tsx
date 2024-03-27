@@ -15,11 +15,12 @@ window.onload = () => {
   if (localStorage.getItem("access_token")) {
     return;
   }
-  setTimeout(() => {
-  toast(
-    "Добре дошъл в ЗапомниГо! Регистрирай се и създавай свои тестета!"
+  setTimeout(
+    () => {
+      toast("Добре дошъл в ЗапомниГо! Регистрирай се и създавай свои тестета!");
+    },
+    1000 * 60 * 2
   );
-  }, 1000*60*2);
 };
 
 export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
@@ -67,7 +68,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ children }) => {
       <section className="card-section">
         <div className="category">{children}</div>
       </section>
-      {!cookieConsent && <CookieComponent />}
+      {!cookieConsent && <CookieComponent pageType={"normal"} />}
       {/* <CookieComponent /> */}
       <Footer />
     </ContainerComponent>
