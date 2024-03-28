@@ -215,7 +215,7 @@
     cursor: pointer;
   }
 
-  .rotate-svg:hover svg {
+  .rotate-svg > svg:hover {
     color: orange;
   }
 }

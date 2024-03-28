@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { LoadingAnimation } from "../LoadingAnimation/LoadingAnimtation";
 import { useState } from "react";
 import { CookieComponent } from "../Dashboard/CookieComponent";
-
+import { FaShuffle } from "react-icons/fa6";
 const Flip = () => {
   const { id } = useParams();
   const [flashcards, setFlashcards] = React.useState([]);
@@ -161,7 +161,13 @@ const Flip = () => {
       document.removeEventListener("keyup", handleKeyUp);
     };
   }, [isKeyPressed]);
-
+  const shuffleFlashcards = () => {
+    showToast("Флашкартите са разбъркани", 1);
+    setFlashcards((prev) => {
+      return prev.sort(() => Math.random() - 0.5);
+    });
+    setCounter(0);
+  };
   return (
     <div className="flip_mode_container">
       {flashcards.length > 0 ? (
@@ -217,6 +223,7 @@ const Flip = () => {
               id="flip-flip-icon"
               onClick={changeTermAndDefintion}
             />
+            <FaShuffle onClick={shuffleFlashcards} />
           </div>
           <div className="cookie_width">
             {!cookieConsent && <CookieComponent pageType={"flip"} />}
