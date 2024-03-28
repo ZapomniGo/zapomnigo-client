@@ -61,7 +61,7 @@
       border: 2px solid orange;
       margin-top: 30px;
       display: grid;
-      width: 40%;
+      width: 50%;
       // grid-gap: 50px;
       // width: 1200px;
       justify-items: center;
@@ -225,6 +225,9 @@
     top: 8vmax !important;
     font-size: 3vmax !important;
     right: initial !important;
+  }
+  .info-message {
+    width: 100% !important;
   }
   #wrapper {
     font-size: 15px;
