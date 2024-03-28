@@ -224,6 +224,7 @@
   .counter {
     top: 8vmax !important;
     font-size: 3vmax !important;
+    right: initial !important;
   }
   #wrapper {
     font-size: 15px;
@@ -243,7 +244,7 @@
   .rotate-svg {
     position: fixed;
     bottom: 1vmax;
-    right: 1vmax;
+    right: initial !important;
     color: gray;
     font-size: 3vmax !important;
   }
@@ -253,10 +254,20 @@
   }
 
   .arrow-right {
-    justify-content: flex-end;
-    width: 30% !important;
-    padding-top: 7vmax;
+    background-color: #fff;
+    // border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    // justify-content: flex-end;
+    justify-content: center !important;
+    width: 8% !important;
+    margin-top: 65px;
+    // padding-top: 7vmax;
     right: 0 !important;
+    height: 85vh !important;
+    box-shadow:
+      0 3px 6px rgba(0, 0, 0, 0.16),
+      0 3px 6px rgba(0, 0, 0, 0.23);
     svg {
       width: 2.5vmax !important;
       height: 2.5vmax !important;
@@ -264,10 +275,19 @@
   }
 
   .arrow-left {
-    justify-content: flex-start;
+    background-color: #fff;
+    justify-content: center !important;
+    // justify-content: flex-start;
     padding-top: 7vmax !important;
-    width: 30% !important;
+    width: 8% !important;
     left: 0 !important;
+    margin-top: 65px;
+    height: 85vh !important;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow:
+      0 3px 6px rgba(0, 0, 0, 0.16),
+      0 3px 6px rgba(0, 0, 0, 0.23);
     svg {
       width: 2.5vmax !important;
       height: 2.5vmax !important;
