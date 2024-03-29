@@ -145,6 +145,11 @@
         align-items: center; // Optional: to center the text and image
       }
 
+      iframe {
+        width: 100%;
+        height: auto;
+      }
+
       // img{
       //   margin-top: 20px;
       //   width:100%;
