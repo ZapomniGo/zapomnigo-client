@@ -12,6 +12,18 @@
   padding: 10vh 0;
   padding-left: 88px;
 
+  .back-btn {
+    position: absolute;
+    top: 1.5vmax;
+    left: 7.5vmax;
+    cursor: pointer;
+    svg {
+      width: 2rem;
+      color: gray;
+      height: auto;
+    }
+  }
+
   .study-wrapper {
     top: 50%;
     display: flex;
@@ -154,6 +166,14 @@
       margin: 10px !important;
       border-radius: 10px !important;
       width: 100% !important;
+    }
+  }
+  .back-btn {
+    position: absolute;
+    top: 10vmax;
+    left: 2vmax;
+    svg {
+      width: 1.6rem;
     }
   }
   .study-component {

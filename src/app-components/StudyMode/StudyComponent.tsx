@@ -19,7 +19,8 @@ import ChooseMode from "./StudyModesViews/ChooseMode";
 import { SP, SN } from "../../app-utils/soundManager";
 import defaultSetup from "./configs/defaultSetup.json";
 import { CookieComponent } from "../Dashboard/CookieComponent";
-
+import { RiArrowGoBackLine } from "react-icons/ri";
+import { BackBtn } from "../BackBtn/BackBtn";
 //TODO: verify image is not an answer/ auto term/definition detection
 
 const StudyComponent = () => {
@@ -604,6 +605,10 @@ const StudyComponent = () => {
       {/* <Dashboard> */}
       <div className="study-component">
         {/* <ChooseMode setAllowedModes={setAllowedStudyModes} /> */}
+        <div className="back-btn" onClick={() => window.history.back()}>
+          {/* <RiArrowGoBackLine /> */}
+        </div>
+        <BackBtn />
 
         <ProgressBar
           flashcards={flashcards}
