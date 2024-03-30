@@ -62,10 +62,14 @@
   @media screen and (max-width: 600px) {
     & {
       padding: 1vmax;
+      padding-top: 5vmax;
     }
 
     h2 {
       //center horiuzontally
+      margin-top: 100px;
+      margin-left: 0px !important;
+
       font-size: 3vmax;
       width: 99%;
       text-align: center;
