@@ -9,6 +9,7 @@
   margin-top: 1vmax;
 
   .category-title {
+    padding-left: 0;
     display: flex;
     margin-left: 10px;
     margin-bottom: 10px;
@@ -262,4 +263,8 @@
   .category-btn-main {
     font-size: 25px !important;
   }
+}
+
+.padding-remove .category-title {
+  padding-left: 0 !important;
 }

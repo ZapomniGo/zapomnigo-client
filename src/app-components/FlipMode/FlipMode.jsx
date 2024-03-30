@@ -13,6 +13,8 @@ import { LoadingAnimation } from "../LoadingAnimation/LoadingAnimtation";
 import { useState } from "react";
 import { CookieComponent } from "../Dashboard/CookieComponent";
 import { FaShuffle } from "react-icons/fa6";
+import { BackBtn } from "../BackBtn/BackBtn";
+
 const Flip = () => {
   const { id } = useParams();
   const [flashcards, setFlashcards] = React.useState([]);
@@ -170,6 +172,7 @@ const Flip = () => {
   };
   return (
     <div className="flip_mode_container">
+      <BackBtn />
       {flashcards.length > 0 ? (
         <section id="wrapper">
           <h1 className="counter">

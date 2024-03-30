@@ -1,8 +1,9 @@
 .back-btn {
   position: absolute;
-  top: 1.5vmax;
+  top: 1.9vmax;
   left: 7.5vmax;
   cursor: pointer;
+  z-index: 999;
   svg {
     width: 2rem;
     color: gray;
@@ -18,4 +19,8 @@
       width: 1.6rem;
     }
   }
+}
+
+.disabled {
+  display: none;
 }
