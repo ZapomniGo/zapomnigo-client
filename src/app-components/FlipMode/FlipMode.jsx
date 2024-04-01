@@ -47,8 +47,9 @@ const Flip = () => {
       .get(`/sets/${id}?page=1&size=4000`)
       .then((res) => {
         //to check if any flashcards are present in the set/set is valid
-        setFlashcards(res.data.set.flashcards);
+        setFlashcards(res.data.set.flashcards.reverse());
         document.title = res.data.set.set_name + " | ЗапомниГо";
+        console.log(res.data.set.flashcards);
       })
       .catch((error) => {
         if (error.response.status === 404) {
