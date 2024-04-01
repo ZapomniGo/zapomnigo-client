@@ -1,16 +1,29 @@
+.flip_mode_container {
+  display: flex;
+  justify-content: flex-end;
+}
+
 #wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   flex-direction: column;
+  width: 100%;
+  width: calc(100% - 88px);
+
+  .cookie_width {
+    width: 100%;
+
+    // width: calc(100% - 88px);
+  }
   svg {
     font-size: 2.5vmax;
     color: gray;
     transition: 0.3s;
     margin: 1vmax;
-    width: 3vmax !important;
-    height: 3vmax !important;
+    width: 2.5vmax !important;
+    height: 2.5vmax !important;
   }
   svg:hover {
     color: orange;
@@ -48,7 +61,7 @@
       border: 2px solid orange;
       margin-top: 30px;
       display: grid;
-      width: 40%;
+      width: 50%;
       // grid-gap: 50px;
       // width: 1200px;
       justify-items: center;
@@ -132,6 +145,11 @@
         align-items: center; // Optional: to center the text and image
       }
 
+      iframe {
+        width: 100%;
+        height: auto;
+      }
+
       // img{
       //   margin-top: 20px;
       //   width:100%;
@@ -208,7 +226,7 @@
     cursor: pointer;
   }
 
-  .rotate-svg:hover svg {
+  .rotate-svg > svg:hover {
     color: orange;
   }
 
@@ -227,9 +245,14 @@
   .counter {
     top: 8vmax !important;
     font-size: 3vmax !important;
+    right: initial !important;
+  }
+  .info-message {
+    width: 100% !important;
   }
   #wrapper {
     font-size: 15px;
+    width: 100%;
 
     #card {
       img {
@@ -245,7 +268,7 @@
   .rotate-svg {
     position: fixed;
     bottom: 1vmax;
-    right: 1vmax;
+    right: initial !important;
     color: gray;
     font-size: 3vmax !important;
   }
@@ -259,21 +282,43 @@
     width: 10% !important;
     // padding-top: 7vmax;
     margin-top: 5%;
+    background-color: #fff;
+    // border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    // justify-content: flex-end;
+    justify-content: center !important;
+    width: 8% !important;
+    margin-top: 65px;
+    // padding-top: 7vmax;
     right: 0 !important;
+    height: 85vh !important;
+    box-shadow:
+      0 3px 6px rgba(0, 0, 0, 0.16),
+      0 3px 6px rgba(0, 0, 0, 0.23);
     svg {
-      width: 3vmax !important;
-      height: 3vmax !important;
+      width: 2.5vmax !important;
+      height: 2.5vmax !important;
     }
   }
 
   .arrow-left {
-    justify-content: flex-start;
+    background-color: #fff;
+    justify-content: center !important;
+    // justify-content: flex-start;
     padding-top: 7vmax !important;
-    width: 30% !important;
+    width: 8% !important;
     left: 0 !important;
+    margin-top: 65px;
+    height: 85vh !important;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow:
+      0 3px 6px rgba(0, 0, 0, 0.16),
+      0 3px 6px rgba(0, 0, 0, 0.23);
     svg {
-      width: 3vmax !important;
-      height: 3vmax !important;
+      width: 2.5vmax !important;
+      height: 2.5vmax !important;
     }
   }
 }

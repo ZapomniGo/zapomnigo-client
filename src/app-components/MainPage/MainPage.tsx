@@ -659,8 +659,8 @@ export const MainPage: React.FC = (props) => {
         </>
       )}
 
-      <div className="set-wrapper">
-        <h2 className="category-title">{title} тестета:</h2>
+      <div className="set-wrapper padding-remove">
+        <h2 className="category-title ">{title} тестета:</h2>
         <div className="sets">
           <div className="sets">
             {isSetLoading ? (
@@ -699,7 +699,7 @@ export const MainPage: React.FC = (props) => {
           <MoreBtn onClick={() => handleLoadRecentSet(categoryID)} />
         )}
       </div>
-      <div className="set-wrapper folder-main-wrapper">
+      <div className="set-wrapper folder-main-wrapper padding-remove">
         <h2 className="category-title">{title} папки:</h2>
         <div className="sets folders">
           {isFolderLoading ? (

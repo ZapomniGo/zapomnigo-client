@@ -8,7 +8,7 @@ const IS_PROD = import.meta.env.VITE_IS_PROD;
 
 const HEROKU_URL_DEV = import.meta.env.VITE_HEROKU_URL_DEV;
 const HEROKU_URL_PROD = import.meta.env.VITE_HEROKU_URL_PROD;
-const HEROKU_URL = IS_PROD ? HEROKU_URL_PROD : HEROKU_URL_DEV;
+const HEROKU_URL = IS_PROD === "true" ? HEROKU_URL_PROD : HEROKU_URL_DEV;
 
 const instance = axios.create();
 

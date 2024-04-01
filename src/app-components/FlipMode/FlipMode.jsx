@@ -10,6 +10,10 @@ import { MdFlipCameraAndroid } from "react-icons/md";
 import { FO, FC } from "../../app-utils/soundManager";
 import { toast } from "react-toastify";
 import { LoadingAnimation } from "../LoadingAnimation/LoadingAnimtation";
+import { useState } from "react";
+import { CookieComponent } from "../Dashboard/CookieComponent";
+import { FaShuffle } from "react-icons/fa6";
+import { BackBtn } from "../BackBtn/BackBtn";
 
 const Flip = () => {
   const { id } = useParams();
@@ -26,12 +30,25 @@ const Flip = () => {
     }
   };
 
+  const [cookieConsent, setCookieConsent] = useState(false);
+  useEffect(() => {
+    document.title = "ЗапомниГо | Платформата, която ти помага да запомняш";
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
+
+    if (localStorage.getItem("cookieConsent") === "true") {
+      setCookieConsent(true);
+    }
+  }, []);
+
   useEffect(() => {
     instance
       .get(`/sets/${id}?page=1&size=4000`)
       .then((res) => {
         //to check if any flashcards are present in the set/set is valid
         setFlashcards(res.data.set.flashcards);
+        document.title = res.data.set.set_name + " | ЗапомниГо";
       })
       .catch((error) => {
         if (error.response.status === 404) {
@@ -164,9 +181,16 @@ const Flip = () => {
       document.removeEventListener("keyup", handleKeyUp);
     };
   }, [isKeyPressed]);
-
+  const shuffleFlashcards = () => {
+    showToast("Флашкартите са разбъркани", 1);
+    setFlashcards((prev) => {
+      return prev.sort(() => Math.random() - 0.5);
+    });
+    setCounter(0);
+  };
   return (
-    <>
+    <div className="flip_mode_container">
+      <BackBtn />
       {flashcards.length > 0 ? (
         <section id="wrapper">
           <h1 className="counter">
@@ -183,7 +207,7 @@ const Flip = () => {
             </div>
             {!isMessageHidden ? (
               <div className="info-message">
-                <p>Натисни картата за да я обърнеш</p>
+                <p>Натисни картата, за да я обърнеш</p>
               </div>
             ) : null}
             {/* <div className="info-message">
@@ -225,6 +249,10 @@ const Flip = () => {
               id="flip-flip-icon"
               onClick={changeTermAndDefintion}
             />
+            <FaShuffle onClick={shuffleFlashcards} />
+          </div>
+          <div className="cookie_width">
+            {!cookieConsent && <CookieComponent pageType={"flip"} />}
           </div>
         </section>
       ) : (
@@ -233,7 +261,7 @@ const Flip = () => {
           <h1 className="loadingBanner">Зареждане...</h1>
         </center>
       )}
-    </>
+    </div>
   );
 };
 

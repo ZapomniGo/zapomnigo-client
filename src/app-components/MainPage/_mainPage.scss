@@ -9,6 +9,7 @@
   margin-top: 1vmax;
 
   .category-title {
+    padding-left: 0;
     display: flex;
     margin-left: 10px;
     margin-bottom: 10px;
@@ -202,6 +203,7 @@
     margin-left: 0 !important;
     margin-right: 0 !important;
     .category-title {
+      padding-top: 4vmax;
       text-align: center;
       margin-left: 1.5vmax !important;
     }
@@ -255,11 +257,18 @@
   box-shadow: none !important;
 }
 
+.padding-remove .category-title {
+  padding-left: 0 !important;
+}
+
 @media screen and (max-width: 1000px) {
   .category-wrapper {
     margin: 0;
   }
   .category-btn-main {
     font-size: 25px !important;
+  }
+  .padding-remove .category-title {
+    padding-top: 0 !important;
   }
 }

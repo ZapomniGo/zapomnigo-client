@@ -18,7 +18,9 @@ import { ProgressBar } from "./utils/ProgressBar";
 import ChooseMode from "./StudyModesViews/ChooseMode";
 import { SP, SN } from "../../app-utils/soundManager";
 import defaultSetup from "./configs/defaultSetup.json";
-
+import { CookieComponent } from "../Dashboard/CookieComponent";
+import { RiArrowGoBackLine } from "react-icons/ri";
+import { BackBtn } from "../BackBtn/BackBtn";
 //TODO: verify image is not an answer/ auto term/definition detection
 
 const StudyComponent = () => {
@@ -43,6 +45,18 @@ const StudyComponent = () => {
   );
   const { id } = useParams<{ id: string }>();
   const [idHolder, setIdHolder] = useState(id);
+
+  const [cookieConsent, setCookieConsent] = useState(false);
+  useEffect(() => {
+    document.title = "ЗапомниГо | Платформата, която ти помага да запомняш";
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
+
+    if (localStorage.getItem("cookieConsent") === "true") {
+      setCookieConsent(true);
+    }
+  }, []);
 
   useEffect(() => {
     setIdHolder(id);
@@ -73,7 +87,9 @@ const StudyComponent = () => {
         const newFlashcards = res.data.flashcards
           ? res.data.flashcards
           : res.data.set.flashcards;
-        setCategory(res.data.category_name ? res.data.category_name : "Английски");
+        setCategory(
+          res.data.category_name ? res.data.category_name : "Английски"
+        );
         if (newFlashcards.length > 0) {
           let tempFlashcards = newFlashcards.map((flashcard) => {
             flashcard.seen = 0;
@@ -206,10 +222,10 @@ const StudyComponent = () => {
     return true;
   };
   const HasFlashcardBeenSeenTooManyTime = (flashcard) => {
-    let allFlashcards = [...flashcards];
+    const allFlashcards = [...flashcards];
     //make sure that not all flashcards have been studied
     let allFlashcardsHaveBeenStudied = true;
-    if (allFlashcards.length === 0) {
+    if (!allFlashcards.length) {
       //this means react hasn't updated the flashcards yet
       return false;
     }
@@ -266,12 +282,12 @@ const StudyComponent = () => {
     }
     if (
       flashcard.confidence <= averageConfidence ||
-      flashcard.definition.length > 100 ||
-      flashcard.term.length > 100
+      flashcard.definition.length > 250 ||
+      flashcard.term.length > 250
     ) {
       chosenStudyMode = 1;
     } else {
-      if (Math.random() > 0.2) {
+      if (Math.random() > 0.3) {
         chosenStudyMode = 2;
       } else {
         if (Math.random() > 0.3) {
@@ -296,12 +312,12 @@ const StudyComponent = () => {
           ((flashcard.definition.includes("<img") ||
             flashcard.definition.includes("<video") ||
             flashcard.definition.includes("ql-formula") ||
-            convert(flashcard.term).length > 100 ||
+            convert(flashcard.term).length > 250 ||
             flashcard.term.includes("<iframe")) &&
             (flashcard.term.includes("<img>") ||
               flashcard.term.includes("<video>") ||
               flashcard.term.includes("ql-formula"))) ||
-          convert(flashcard.term).length > 100 ||
+          convert(flashcard.term).length > 250 ||
           flashcard.term.includes("<iframe")
         ) {
           return 3;
@@ -311,7 +327,7 @@ const StudyComponent = () => {
           flashcard.definition.includes("<video") ||
           flashcard.definition.includes("ql-formula") ||
           flashcard.term.includes("<iframe") ||
-          convert(flashcard.term).length > 100
+          convert(flashcard.term).length > 250
         ) {
           return 2;
         }
@@ -585,10 +601,14 @@ const StudyComponent = () => {
   };
 
   return (
-    <>
+    <div className="study_wrapper">
       {/* <Dashboard> */}
       <div className="study-component">
         {/* <ChooseMode setAllowedModes={setAllowedStudyModes} /> */}
+        <div className="back-btn" onClick={() => window.history.back()}>
+          {/* <RiArrowGoBackLine /> */}
+        </div>
+        <BackBtn />
 
         <ProgressBar
           flashcards={flashcards}
@@ -650,8 +670,10 @@ const StudyComponent = () => {
           />
         )}
       </div>
+      {!cookieConsent && <CookieComponent pageType={"study"} />}
+
       {/* </Dashboard> */}
-    </>
+    </div>
   );
 };
 

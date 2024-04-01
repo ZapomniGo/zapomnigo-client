@@ -8,6 +8,7 @@
     display: none;
   }
   h2 {
+    margin-left: 30px !important;
     font-size: 2vmax;
     font-weight: bold;
     background-color: white;
@@ -50,7 +51,7 @@
     border-radius: 5px;
     font-size: 1.4vmax;
   }
- 
+
   #vertical-flex {
     display: flex;
     flex-direction: column;
@@ -61,10 +62,14 @@
   @media screen and (max-width: 600px) {
     & {
       padding: 1vmax;
+      padding-top: 5vmax;
     }
 
     h2 {
       //center horiuzontally
+      margin-top: 100px;
+      margin-left: 0px !important;
+
       font-size: 3vmax;
       width: 99%;
       text-align: center;
@@ -84,7 +89,7 @@
     }
     button {
       font-size: 2.2vmax;
-      width:97% !important;
+      width: 97% !important;
     }
     input {
       font-size: 2.2vmax;

@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-export const CookieComponent: React.FC = () => {
+export const CookieComponent: React.FC = (props) => {
+  console.log(props.pageType);
   const [hide, setHide] = useState("");
   const verify = () => {
     localStorage.setItem("cookieConsent", "true");
@@ -24,16 +25,16 @@ export const CookieComponent: React.FC = () => {
   };
 
   return (
-    <div className={`cookie-component ${hide}`}>
+    <div className={`cookie-component ${hide} ${props.pageType}`}>
       <div className="test">
         <div className="cookieComponent__content">
-          <p>
+          <p style={{color:"gray"}}>
             Използваме бисквитки за функционирането и подобряването на
-            платформата. С продължаването на използването на сайта, вие се
-            съгласявате с използването на бисквитки. Научи повече:{" "}
-            <a href="/app/legal/privacy-policy">Политика за поверителност</a>
+            платформата. С продължаването на използването на сайта, се
+            съгласяваш с използването на бисквитки. Научи повече:{" "}
+            <a style={{color:"gray"}} href="/app/legal/privacy-policy">Политика за поверителност</a>
             {"  "}
-            <a href="/app/legal/terms-of-service">Общи условия</a>.
+            <a style={{color:"gray"}} href="/app/legal/terms-of-service">Общи условия</a>.
           </p>
         </div>
         <div className="cookieComponent__button">

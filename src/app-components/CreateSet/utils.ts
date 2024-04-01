@@ -40,10 +40,12 @@ const useFlashcards = () => {
   };
 
   const handleAddFlashcard = () => {
+    let newFlashcardId = uuidv4();
     setFlashcards([
       ...flashcards,
-      { term: "", definition: "", flashcard_id: uuidv4() },
+      { term: "", definition: "", flashcard_id: newFlashcardId },
     ]);
+    scrollUserToFlashcard(newFlashcardId);
   };
 
   const handleDeleteFlashcard = (flashcard_id: string) => {
