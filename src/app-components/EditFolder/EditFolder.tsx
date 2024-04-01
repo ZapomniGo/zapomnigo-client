@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
+import { jwtDecode } from "jwt-decode";
 export const EditFolder = () => {
   interface Set {
     id: number;
@@ -65,19 +66,23 @@ export const EditFolder = () => {
           window.location.href = "/app/not-found";
         }
       });
+    if (localStorage.getItem("access_token")) {
+      const decodedToken = jwtDecode(localStorage.getItem("access_token"));
+      const userID = decodedToken.sub;
+      instance
+        .get(
+          `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
+        )
+        .then((response) => {
+          setAllSets(response.data.sets);
+          setTotalSetPages(response.data.total_pages);
+        });
 
-    instance
-      .get(
-        "/sets?page=1&size=2000&sort_by_date=false&ascending=true&category_id="
-      )
-      .then((response) => {
-        setAllSets(response.data.sets);
-        setTotalSetPages(response.data.total_pages);
+      instance.get("/categories").then((response) => {
+        setAllCategories(response.data.categories);
       });
+    }
 
-    instance.get("/categories").then((response) => {
-      setAllCategories(response.data.categories);
-    });
     // instance.get("/organizations")
     // .then((response) =>{
     //     setAllInstitutions(response.data.organizations);
@@ -226,7 +231,7 @@ export const EditFolder = () => {
     setPageSet(newPageSet);
     instance
       .get(
-        `/sets?page=${newPageSet}&size=2000&sort_by_date=false&ascending=true&category_id=`
+        `/sets?page=1&size=2000&sort_by_date=false&ascending=true&category_id=`
       )
       .then((response) => {
         setTotalSetPages(response.data.total_pages);
@@ -363,7 +368,7 @@ export const EditFolder = () => {
               />
             ))}
           </div>
-          {pageSet < totalSetPages && setCards.length > 0 && (
+          {pageSet < totalSetPages + 1 && setCards.length > 0 && (
             <MoreBtn onClick={() => handleLoadRecentSet()} />
           )}
         </div>

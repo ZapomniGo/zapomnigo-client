@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { SelectSet } from "./SelectSet";
 import { useNavigate } from "react-router-dom";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
+import { jwtDecode } from "jwt-decode";
 
 export const CreateFolder = () => {
   const navigate = useNavigate();
@@ -46,14 +47,18 @@ export const CreateFolder = () => {
     document.title = "Създай папка | ЗапомниГо";
   }, []);
   useEffect(() => {
-    instance
-      .get(
-        "/sets?page=1&size=2000&sort_by_date=false&ascending=true&category_id="
-      )
-      .then((response) => {
-        setSetCards(response.data.sets);
-        setTotalSetPages(response.data.total_pages);
-      });
+    if (localStorage.getItem("access_token")) {
+      const decodedToken = jwtDecode(localStorage.getItem("access_token"));
+      const userID = decodedToken.sub;
+      instance
+        .get(
+          `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
+        )
+        .then((response) => {
+          setSetCards(response.data.sets);
+          setTotalSetPages(response.data.total_pages);
+        });
+    }
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
     });
@@ -146,7 +151,7 @@ export const CreateFolder = () => {
     setPageSet(newPageSet);
     instance
       .get(
-        `/sets?page=${newPageSet}&size=2000&sort_by_date=false&ascending=true&category_id=`
+        `/sets?page=1&size=2000&sort_by_date=false&ascending=true&category_id=`
       )
       .then((response) => {
         setTotalSetPages(response.data.total_pages);
@@ -262,7 +267,7 @@ export const CreateFolder = () => {
                 />
               ))}
           </div>
-          {pageSet < totalSetPages && setCards.length > 0 && (
+          {pageSet < totalSetPages + 1 && setCards.length > 0 && (
             <MoreBtn onClick={() => handleLoadRecentSet()} />
           )}
         </div>
