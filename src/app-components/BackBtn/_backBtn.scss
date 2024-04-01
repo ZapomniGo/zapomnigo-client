@@ -1,13 +1,18 @@
 .back-btn {
   position: absolute;
   top: 1.9vmax;
-  left: 7.5vmax;
+  left: 7vmax;
   cursor: pointer;
   z-index: 999;
   svg {
     width: 2rem;
     color: gray;
     height: auto;
+    transition: 0.3s;
+    &:hover {
+      color: orange;
+      transform: scale(1.1);
+    }
   }
 }
 
@@ -16,7 +21,7 @@
     top: 10vmax;
     left: 2vmax;
     svg {
-      width: 1.6rem;
+      width: 2rem;
     }
   }
 }
