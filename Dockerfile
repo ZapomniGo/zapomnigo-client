@@ -17,6 +17,8 @@ COPY .htpasswd /etc/nginx/.htpasswd
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./data/certs/zapomnigo.crt /etc/nginx/certs/zapomnigo.crt
 COPY ./data/certs/zapomnigo.key /etc/nginx/certs/zapomnigo.key
+COPY ./data/certs/www.zapomnigo.crt /etc/nginx/certs/www.zapomnigo.crt
+COPY ./data/certs/www.zapomnigo.key /etc/nginx/certs/www.zapomnigo.key
 
 EXPOSE 80 443
 
