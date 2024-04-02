@@ -27,6 +27,7 @@ export const CreateFolder = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [allSubcategories, setAllSubcategories] = useState([]);
   const [subcategory, setSubcategory] = useState({ name: "", id: "" });
+  const [user, setUser] = useState("");
 
   const [folder, setFolder] = useState<{
     folder_title: string;
@@ -42,6 +43,8 @@ export const CreateFolder = () => {
     category_id: "",
   });
   const [setCards, setSetCards] = useState([]);
+  const [createdSets, setCreatedSets] = useState([]);
+
   const [availableSets, setAvailableSets] = useState({});
   useEffect(() => {
     document.title = "Създай папка | ЗапомниГо";
@@ -50,15 +53,25 @@ export const CreateFolder = () => {
     if (localStorage.getItem("access_token")) {
       const decodedToken = jwtDecode(localStorage.getItem("access_token"));
       const userID = decodedToken.sub;
+      setUser(userID);
       instance
         .get(
-          `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
+          `/users/${userID}/sets?page=1&size=2&sort_by_date=true&ascending=false`
         )
         .then((response) => {
-          setSetCards(response.data.sets);
-          setTotalSetPages(response.data.total_pages);
+          setCreatedSets(response.data.sets);
+          setTotalCeatedSetPages(response.data.total_pages);
         });
     }
+    instance
+      .get(
+        `/sets?page=1&size=20&sort_by_date=false&ascending=true&category_id=`
+      )
+      .then((response) => {
+        setSetCards(response.data.sets);
+        setTotalAllSetPages(response.data.total_pages);
+      });
+
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
     });
@@ -143,21 +156,38 @@ export const CreateFolder = () => {
         setSubcategories(response.data.subcategories);
       });
   };
-  const [pageSet, setPageSet] = useState(1);
-  const [totalSetPages, setTotalSetPages] = useState(1);
+  const [pageSetAll, setPageSetAll] = useState(1);
+  const [totalAllSetPages, setTotalAllSetPages] = useState(1);
+  const [pageSetCreated, setPageSetCreated] = useState(1);
+  const [totalCreatedSetPages, setTotalCeatedSetPages] = useState(1);
 
-  const handleLoadRecentSet = () => {
-    const newPageSet = pageSet + 1;
-    setPageSet(newPageSet);
+  const handleLoadAllSets = () => {
+    const newPageSet = pageSetAll + 1;
+    setPageSetAll(newPageSet);
     instance
       .get(
-        `/sets?page=1&size=2000&sort_by_date=false&ascending=true&category_id=`
+        `/sets?page=${newPageSet}&size=20&sort_by_date=false&ascending=true&category_id=`
       )
       .then((response) => {
-        setTotalSetPages(response.data.total_pages);
+        setTotalAllSetPages(response.data.total_pages);
         const newCards = [...setCards];
         response.data.sets.forEach((card) => newCards.push(card));
         setSetCards(newCards);
+      });
+  };
+
+  const handleLoadCreatedSets = () => {
+    const newPageSet = pageSetCreated + 1;
+    setPageSetCreated(newPageSet);
+    instance
+      .get(
+        `/users/${user}/sets?page=${newPageSet}&size=2&sort_by_date=true&ascending=false`
+      )
+      .then((response) => {
+        setTotalCeatedSetPages(response.data.total_pages);
+        const newCards = [...createdSets];
+        response.data.sets.forEach((card) => newCards.push(card));
+        setCreatedSets(newCards);
       });
   };
 
@@ -248,7 +278,30 @@ export const CreateFolder = () => {
             </div>
           </div>
 
-          <h1>Избери тестета</h1>
+          <h1>Мой тестета</h1>
+          <div className="sets-wrapper">
+            {createdSets
+              .filter((card) => availableSets[card.set_id] !== false)
+              .map((card: any) => (
+                <SelectSet
+                  key={card.set_id}
+                  id={card.set_id}
+                  title={card.set_name}
+                  description={card.set_description}
+                  institution={card.organization_name}
+                  image={"/logo.jpg"}
+                  creator_name={card.username}
+                  isAvb={availableSets[card.set_id] !== false}
+                  onSelectSet={() => handleSelectSet(card)}
+                  onDeselectSet={() => handleDeselectSet(card)}
+                />
+              ))}
+          </div>
+          {pageSetCreated < totalCreatedSetPages && setCards.length > 0 && (
+            <MoreBtn onClick={() => handleLoadCreatedSets()} />
+          )}
+
+          <h1>Още тестета</h1>
           <div className="sets-wrapper">
             {setCards
               .filter((card) => availableSets[card.set_id] !== false)
@@ -267,8 +320,8 @@ export const CreateFolder = () => {
                 />
               ))}
           </div>
-          {pageSet < totalSetPages + 1 && setCards.length > 0 && (
-            <MoreBtn onClick={() => handleLoadRecentSet()} />
+          {pageSetAll < totalAllSetPages && setCards.length > 0 && (
+            <MoreBtn onClick={() => handleLoadAllSets()} />
           )}
         </div>
       </div>
