@@ -38,17 +38,29 @@ export const EditFolder = () => {
     subcategory_id: "",
     category_id: "",
   });
+  //selected sets
   const [setCards, setSetCards] = useState([]);
+  //allsets are all from the backend not selected
   const [allSets, setAllSets] = useState([]);
-  const [uniqueSets, setUniqueSets] = useState([]);
+
+  //from all sets we compare and get unique sets
+  const [uniqueAllSets, setAllUniqueSets] = useState([]);
+  const [uniqueCreatedSets, setUniqueCreatedSets] = useState([]);
   const [category, setCategory] = useState({ name: "", id: "" });
   const [institution, setInstitution] = useState({ name: "", id: "" });
   const [subcategory, setSubcategory] = useState({ name: "", id: "" });
   const [allSubcategories, setAllSubcategories] = useState([]);
+  const [user, setUser] = useState("");
 
   const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
+  const [pageAllSet, setPageAllSet] = useState(1);
+  const [totalAllSetPages, setTotalAllSetPages] = useState(1);
+  const [createdSets, setCreatedSets] = useState([]);
+
+  const [pageSetCreated, setPageSetCreated] = useState(1);
+  const [totalCreatedSetPages, setTotalCreatedSetPages] = useState(1);
 
   useEffect(() => {
     instance
@@ -69,19 +81,28 @@ export const EditFolder = () => {
     if (localStorage.getItem("access_token")) {
       const decodedToken = jwtDecode(localStorage.getItem("access_token"));
       const userID = decodedToken.sub;
+      setUser(userID);
+
       instance
         .get(
           `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
         )
         .then((response) => {
-          setAllSets(response.data.sets);
-          setTotalSetPages(response.data.total_pages);
+          setCreatedSets(response.data.sets);
+          setTotalCreatedSetPages(response.data.total_pages);
         });
-
-      instance.get("/categories").then((response) => {
-        setAllCategories(response.data.categories);
-      });
     }
+    instance
+      .get(
+        `/sets?page=1&size=20&sort_by_date=false&ascending=true&category_id=`
+      )
+      .then((response) => {
+        setAllSets(response.data.sets);
+        setTotalAllSetPages(response.data.total_pages);
+      });
+    instance.get("/categories").then((response) => {
+      setAllCategories(response.data.categories);
+    });
 
     // instance.get("/organizations")
     // .then((response) =>{
@@ -164,34 +185,50 @@ export const EditFolder = () => {
   };
 
   const handleSelectSet = (selectedSet) => {
-    const newUniqueSets = uniqueSets.filter(
+    const newUniqueAllSets = uniqueAllSets.filter(
       (set) => set.set_id !== selectedSet.set_id
     );
+    setAllUniqueSets(newUniqueAllSets);
+
+    const newUniqueCreatedSets = uniqueCreatedSets.filter(
+      (set) => set.set_id !== selectedSet.set_id
+    );
+    setUniqueCreatedSets(newUniqueCreatedSets);
 
     const newSetCards = [...setCards, selectedSet];
-
-    setUniqueSets(newUniqueSets);
     setSetCards(newSetCards);
   };
 
   const handleDeselectSet = (deselectedSet) => {
+    localStorage.getItem("access_token");
+    const decodedtoken = jwtDecode(localStorage.getItem("access_token"));
+    if (decodedtoken.username == deselectedSet.username) {
+      const newUniqueCreatedSets = [...uniqueCreatedSets, deselectedSet];
+      setUniqueCreatedSets(newUniqueCreatedSets);
+    } else {
+      const newUniqueAllSets = [...uniqueAllSets, deselectedSet];
+      setAllUniqueSets(newUniqueAllSets);
+    }
+
     const newSetCards = setCards.filter(
       (set) => set.set_id !== deselectedSet.set_id
     );
-
-    const newUniqueSets = [...uniqueSets, deselectedSet];
-
-    // Update the state
     setSetCards(newSetCards);
-    setUniqueSets(newUniqueSets);
+    // Update the state
   };
 
   useEffect(() => {
     const unique = allSets.filter(
       (set1) => !setCards.some((set2) => set2.set_id === set1.set_id)
     );
-    setUniqueSets(unique);
-  }, [allSets, setCards]);
+    setAllUniqueSets(unique);
+
+    const uniqueCreated = createdSets.filter(
+      (set1) => !setCards.some((set2) => set2.set_id === set1.set_id)
+    );
+    setUniqueCreatedSets(uniqueCreated);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allSets, createdSets]);
 
   const categoryIdRef = useRef(null);
   const subcategoryIdRef = useRef(null);
@@ -223,21 +260,33 @@ export const EditFolder = () => {
     }
   }, [allCategories, allSubcategories, subcategory]);
 
-  const [pageSet, setPageSet] = useState(1);
-  const [totalSetPages, setTotalSetPages] = useState(1);
-
-  const handleLoadRecentSet = () => {
-    const newPageSet = pageSet + 1;
-    setPageSet(newPageSet);
+  const handleLoadAllRecentSet = () => {
+    const newPageSet = pageAllSet + 1;
+    setPageAllSet(newPageSet);
     instance
       .get(
-        `/sets?page=1&size=2000&sort_by_date=false&ascending=true&category_id=`
+        `/sets?page=${newPageSet}&size=20&sort_by_date=false&ascending=true&category_id=`
       )
       .then((response) => {
-        setTotalSetPages(response.data.total_pages);
-        const newCards = [...uniqueSets];
+        setTotalAllSetPages(response.data.total_pages);
+        const newCards = [...uniqueAllSets];
         response.data.sets.forEach((card) => newCards.push(card));
-        setUniqueSets(newCards);
+        setAllUniqueSets(newCards);
+      });
+  };
+
+  const handleLoadCreatedRecentSet = () => {
+    const newPageSet = pageSetCreated + 1;
+    setPageSetCreated(newPageSet);
+    instance
+      .get(
+        `/users/${user}/sets?page=${newPageSet}&size=20&sort_by_date=true&ascending=false`
+      )
+      .then((response) => {
+        setTotalCreatedSetPages(response.data.total_pages);
+        const newCards = [...uniqueCreatedSets];
+        response.data.sets.forEach((card) => newCards.push(card));
+        setUniqueCreatedSets(newCards);
       });
   };
 
@@ -351,9 +400,9 @@ export const EditFolder = () => {
             )}
           </div>
 
-          <h1>Избери тестета</h1>
+          {uniqueCreatedSets.length >= 1 && <h1>Мой тестета</h1>}
           <div className="sets-wrapper">
-            {uniqueSets.map((card) => (
+            {uniqueCreatedSets.map((card) => (
               <SelectSet
                 key={card.set_id}
                 id={card.set_id}
@@ -368,8 +417,29 @@ export const EditFolder = () => {
               />
             ))}
           </div>
-          {pageSet < totalSetPages + 1 && setCards.length > 0 && (
-            <MoreBtn onClick={() => handleLoadRecentSet()} />
+          {pageSetCreated < totalCreatedSetPages && createdSets.length > 0 && (
+            <MoreBtn onClick={() => handleLoadCreatedRecentSet()} />
+          )}
+
+          {uniqueAllSets.length >= 1 && <h1>Други тестета</h1>}
+          <div className="sets-wrapper">
+            {uniqueAllSets.map((card) => (
+              <SelectSet
+                key={card.set_id}
+                id={card.set_id}
+                title={card.set_name}
+                description={card.set_description}
+                institution={card.subcategory_name}
+                image={"/logo.jpg"}
+                creator_name={card.username}
+                isAvb={true}
+                onSelectSet={() => handleSelectSet(card)}
+                onDeselectSet={() => handleDeselectSet(card)}
+              />
+            ))}
+          </div>
+          {pageAllSet < totalAllSetPages && setCards.length > 0 && (
+            <MoreBtn onClick={() => handleLoadAllRecentSet()} />
           )}
         </div>
       </div>

@@ -583,7 +583,7 @@ export const MainPage: React.FC = (props) => {
                   className="category-btn-main"
                   onClick={handleAccordionClick}
                 >
-                  Категории <IoIosArrowDown />
+                  Избери категория <IoIosArrowDown />
                 </button>
               </center>
             </div>
@@ -596,7 +596,7 @@ export const MainPage: React.FC = (props) => {
                     className="category-btn-main"
                     onClick={handleAccordionClick}
                   >
-                    Категории <IoIosArrowUp />
+                    Избери категория <IoIosArrowUp />
                   </button>
                 </center>
               </div>

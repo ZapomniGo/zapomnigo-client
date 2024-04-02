@@ -715,7 +715,7 @@ export const Registration = () => {
             ""
           )}
           <div id="buttonWrapper">
-            <a className="link" onClick={() => navigate("/login")}>
+            <a className="link" onClick={() => navigate("/app/login")}>
               Имам акаунт
             </a>
             <div style={{ display: "flex" }}>

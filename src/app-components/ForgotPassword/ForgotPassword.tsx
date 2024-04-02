@@ -113,8 +113,8 @@ const ForgetPassword = () => {
           <div className="verifyContainer">
             <h1>Забравена парола</h1>
             <p>
-              Въведи имейл адреса, с който сте се регистрирал и ние ще ти изпратим
-              линк
+              Въведи имейл адреса, с който сте се регистрирал и ние ще ти
+              изпратим линк
             </p>
             <input
               onChange={(e) => setEmail(e.target.value)}

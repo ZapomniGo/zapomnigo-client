@@ -20,7 +20,7 @@ const MultipleChoice = (props) => {
       let randomFlashcard = props.flashcards[randomIndex];
       if (!answerOptionsSet.includes(randomFlashcard.definition)) {
         answerOptionsSet.push(randomFlashcard.definition);
-      }else{
+      } else {
         numAnswers--;
       }
     }
@@ -53,6 +53,13 @@ const MultipleChoice = (props) => {
     setSelectedAnswer(answerOption);
     setShowResults(true);
   };
+  const showCorrectAnswer = () => {
+    let correctAnswer = props.currentFlashcardDefinition;
+    setSelectedAnswer(correctAnswer);
+    setShowResults(true);
+    setSelectedAnswer(props.currentFlashcardDefinition);
+  };
+
   return (
     <div>
       <div id="flashcard" className={"no-image-flashcard"}>
@@ -86,29 +93,25 @@ const MultipleChoice = (props) => {
             </div>
           );
         })}
-
       </div>
       <div className="btn donkno">
-          {!selectedAnswer ? (
-            <button onClick={() => props.VerifyCorrectness(false, 1)}>
-              {" "}
-              Не знам{" "}
-            </button>
-          ) : null}
-        </div>
-        <div className="btn gonext">
-          {selectedAnswer ? (
-            <button
-              onClick={() => {
-                props.VerifyCorrectness(selectedAnswer, 1);
-                setSelectedAnswer();
-                setShowResults(false);
-              }}
-            >
-              Следваща
-            </button>
-          ) : null}
-        </div>
+        {!selectedAnswer ? (
+          <button onClick={showCorrectAnswer}> Не знам </button>
+        ) : null}
+      </div>
+      <div className="btn gonext">
+        {selectedAnswer ? (
+          <button
+            onClick={() => {
+              props.VerifyCorrectness(selectedAnswer, 1);
+              setSelectedAnswer();
+              setShowResults(false);
+            }}
+          >
+            Следваща
+          </button>
+        ) : null}
+      </div>
     </div>
   );
 };

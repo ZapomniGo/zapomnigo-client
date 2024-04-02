@@ -1,4 +1,4 @@
-import { RiArrowGoBackLine } from "react-icons/ri";
+import { MdArrowBack } from "react-icons/md";
 import { useState, useEffect } from "react";
 
 export const BackBtn = () => {
@@ -14,7 +14,7 @@ export const BackBtn = () => {
       className={"back-btn " + disabled}
       onClick={() => window.history.back()}
     >
-      <RiArrowGoBackLine />
+      <MdArrowBack />{" "}
     </div>
   );
 };

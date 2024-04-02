@@ -14,7 +14,7 @@ export const SelectSet = ({
   chosen,
 }) => {
   return (
-    <div className={chosen ? "select-set selected" : "select-set"}>
+    <div  className={chosen ? "select-set selected" : "select-set"}>
       <div className="select-set-wrapper">
         <div className="select-set-title">
           {title.length > 56 ? title.substring(0, 56) + "..." : title}

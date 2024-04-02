@@ -126,6 +126,7 @@
     transition: 0.3s;
     background-color: $secondary-color;
     color: #fff;
+    border: 2px solid orange !important;
   }
   .reset-btn {
     display: flex;
@@ -172,7 +173,6 @@
   // padding: 18px;
   width: 100%;
   text-align: left;
-  border: none;
   outline: none;
   transition: 0.4s;
 }
@@ -217,7 +217,6 @@
   // padding: 18px;
   width: 100%;
   text-align: left;
-  border: none;
   outline: none;
   transition: 0.4s;
 }
@@ -245,7 +244,9 @@
   background: transparent !important;
   color: rgb(113, 113, 113) !important;
   font-weight: 700;
-  font-size: 35px !important;
+  font-size: 30px !important;
+  color: orange !important;
+  border: 2px solid orange !important;
   display: flex;
   align-items: center;
   word-break: break-word;
@@ -253,7 +254,6 @@
 .category-btn-main:hover,
 .category-btn-main:focus {
   outline: none !important;
-  border: none !important;
   box-shadow: none !important;
 }
 
@@ -266,7 +266,8 @@
     margin: 0;
   }
   .category-btn-main {
-    font-size: 25px !important;
+    font-size: 20px !important;
+    border: 2px solid orange !important;
   }
   .padding-remove .category-title {
     padding-top: 0 !important;

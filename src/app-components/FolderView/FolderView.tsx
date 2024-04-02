@@ -170,7 +170,7 @@ export const FolderView: React.FC = () => {
     <Dashboard>
       <div className="set-wrapper folder-wrapper">
         <h2 className="folder-title">
-          <h1 style={{ fontWeight: 900 }}>
+          <h1 style={{ marginLeft: "2vmax", fontWeight: 900 }}>
             {title}{" "}
             {isAdmin ? (
               <MdOutlineVerifiedUser
