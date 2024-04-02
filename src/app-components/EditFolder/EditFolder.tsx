@@ -85,7 +85,7 @@ export const EditFolder = () => {
 
       instance
         .get(
-          `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
+          `/users/${userID}/sets?page=1&size=2000&sort_by_date=true&ascending=false`
         )
         .then((response) => {
           setCreatedSets(response.data.sets);
