@@ -51,7 +51,7 @@ export const FolderView: React.FC = () => {
   }, []);
   useEffect(() => {
     instance
-      .get(`/folders/${id}/sets`)
+      .get(`/folders/${id}/sets?page=1&size=200`)
       .then((response) => {
         console.log(response.data.folder.verified);
         setSetCards(response.data.sets);

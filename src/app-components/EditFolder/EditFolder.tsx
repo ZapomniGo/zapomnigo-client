@@ -64,7 +64,7 @@ export const EditFolder = () => {
 
   useEffect(() => {
     instance
-      .get(`/folders/${id}/sets`)
+      .get(`/folders/${id}/sets?page=1&size=200`)
       .then((response) => {
         setSetCards(response.data.sets);
         folder.folder_title = response.data.folder.folder_title;
