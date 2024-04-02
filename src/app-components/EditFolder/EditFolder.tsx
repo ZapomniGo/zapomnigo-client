@@ -85,7 +85,7 @@ export const EditFolder = () => {
 
       instance
         .get(
-          `/users/${userID}/sets?page=1&size=2&sort_by_date=true&ascending=false`
+          `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
         )
         .then((response) => {
           setCreatedSets(response.data.sets);
@@ -93,7 +93,9 @@ export const EditFolder = () => {
         });
     }
     instance
-      .get(`/sets?page=1&size=2&sort_by_date=false&ascending=true&category_id=`)
+      .get(
+        `/sets?page=1&size=20&sort_by_date=false&ascending=true&category_id=`
+      )
       .then((response) => {
         setAllSets(response.data.sets);
         setTotalAllSetPages(response.data.total_pages);
@@ -198,15 +200,21 @@ export const EditFolder = () => {
   };
 
   const handleDeselectSet = (deselectedSet) => {
+    localStorage.getItem("access_token");
+    const decodedtoken = jwtDecode(localStorage.getItem("access_token"));
+    if (decodedtoken.username == deselectedSet.username) {
+      const newUniqueCreatedSets = [...uniqueCreatedSets, deselectedSet];
+      setUniqueCreatedSets(newUniqueCreatedSets);
+    } else {
+      const newUniqueAllSets = [...uniqueAllSets, deselectedSet];
+      setAllUniqueSets(newUniqueAllSets);
+    }
+
     const newSetCards = setCards.filter(
       (set) => set.set_id !== deselectedSet.set_id
     );
-
-    const newUniqueSets = [...uniqueAllSets, deselectedSet];
-
-    // Update the state
     setSetCards(newSetCards);
-    setAllUniqueSets(newUniqueSets);
+    // Update the state
   };
 
   useEffect(() => {
@@ -219,7 +227,8 @@ export const EditFolder = () => {
       (set1) => !setCards.some((set2) => set2.set_id === set1.set_id)
     );
     setUniqueCreatedSets(uniqueCreated);
-  }, [allSets, setCards, createdSets]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allSets, createdSets]);
 
   const categoryIdRef = useRef(null);
   const subcategoryIdRef = useRef(null);
@@ -256,7 +265,7 @@ export const EditFolder = () => {
     setPageAllSet(newPageSet);
     instance
       .get(
-        `/sets?page=${newPageSet}&size=2&sort_by_date=false&ascending=true&category_id=`
+        `/sets?page=${newPageSet}&size=20&sort_by_date=false&ascending=true&category_id=`
       )
       .then((response) => {
         setTotalAllSetPages(response.data.total_pages);
@@ -271,7 +280,7 @@ export const EditFolder = () => {
     setPageSetCreated(newPageSet);
     instance
       .get(
-        `/users/${user}/sets?page=${newPageSet}&size=2&sort_by_date=true&ascending=false`
+        `/users/${user}/sets?page=${newPageSet}&size=20&sort_by_date=true&ascending=false`
       )
       .then((response) => {
         setTotalCreatedSetPages(response.data.total_pages);
@@ -280,9 +289,6 @@ export const EditFolder = () => {
         setUniqueCreatedSets(newCards);
       });
   };
-  useEffect(() => {
-    console.log(pageAllSet);
-  }, [pageAllSet]);
 
   return (
     <Dashboard>
