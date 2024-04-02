@@ -56,7 +56,7 @@ export const CreateFolder = () => {
       setUser(userID);
       instance
         .get(
-          `/users/${userID}/sets?page=1&size=2&sort_by_date=true&ascending=false`
+          `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
         )
         .then((response) => {
           setCreatedSets(response.data.sets);
@@ -75,9 +75,6 @@ export const CreateFolder = () => {
     instance.get("/categories").then((response) => {
       setAllCategories(response.data.categories);
     });
-    // instance.get("/organizations").then((response) => {
-    //   setAllInstitutions(response.data.organizations);
-    // });
   }, []);
 
   const handleChangeFolder = (key: string, value: string) => {
@@ -145,9 +142,17 @@ export const CreateFolder = () => {
   const unavailableSetIds = Object.keys(availableSets).filter(
     (id) => availableSets[id] === false
   );
-  const unavailableSets = setCards.filter((set) =>
-    unavailableSetIds.includes(set.set_id.toString())
-  );
+  // const unavailableSets = setCards.filter((set) =>
+  //   unavailableSetIds.includes(set.set_id.toString())
+  // );
+  const unavailableSets = [
+    ...createdSets.filter((set) =>
+      unavailableSetIds.includes(set.set_id.toString())
+    ),
+    ...setCards.filter((set) =>
+      unavailableSetIds.includes(set.set_id.toString())
+    ),
+  ];
 
   const changeSubcategories = (category_id: string) => {
     instance
@@ -181,7 +186,7 @@ export const CreateFolder = () => {
     setPageSetCreated(newPageSet);
     instance
       .get(
-        `/users/${user}/sets?page=${newPageSet}&size=2&sort_by_date=true&ascending=false`
+        `/users/${user}/sets?page=${newPageSet}&size=20&sort_by_date=true&ascending=false`
       )
       .then((response) => {
         setTotalCeatedSetPages(response.data.total_pages);
@@ -194,7 +199,9 @@ export const CreateFolder = () => {
   const resetSubcategory = () => {
     setSubcategories([]);
   };
-
+  useEffect(() => {
+    console.log(unavailableSets);
+  }, [unavailableSets]);
   return (
     <Dashboard>
       <div className="create-set-wrapper">
