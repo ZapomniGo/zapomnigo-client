@@ -66,22 +66,30 @@ export const EditFolder = () => {
           window.location.href = "/app/not-found";
         }
       });
-    if (localStorage.getItem("access_token")) {
-      const decodedToken = jwtDecode(localStorage.getItem("access_token"));
-      const userID = decodedToken.sub;
-      instance
-        .get(
-          `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
-        )
-        .then((response) => {
-          setAllSets(response.data.sets);
-          setTotalSetPages(response.data.total_pages);
-        });
-
-      instance.get("/categories").then((response) => {
-        setAllCategories(response.data.categories);
+    // if (localStorage.getItem("access_token")) {
+    //   const decodedToken = jwtDecode(localStorage.getItem("access_token"));
+    //   const userID = decodedToken.sub;
+    //   instance
+    //     .get(
+    //       `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
+    //     )
+    //     .then((response) => {
+    //       setAllSets(response.data.sets);
+    //       setTotalAllSetPages(response.data.total_pages);
+    //     });
+    // }
+    instance
+      .get(
+        // `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
+        `/sets?page=1&size=20&sort_by_date=false&ascending=true&category_id=`
+      )
+      .then((response) => {
+        setAllSets(response.data.sets);
+        setTotalAllSetPages(response.data.total_pages);
       });
-    }
+    instance.get("/categories").then((response) => {
+      setAllCategories(response.data.categories);
+    });
 
     // instance.get("/organizations")
     // .then((response) =>{
@@ -223,18 +231,18 @@ export const EditFolder = () => {
     }
   }, [allCategories, allSubcategories, subcategory]);
 
-  const [pageSet, setPageSet] = useState(1);
-  const [totalSetPages, setTotalSetPages] = useState(1);
+  const [pageAllSet, setPageAllSet] = useState(1);
+  const [totalAllSetPages, setTotalAllSetPages] = useState(1);
 
   const handleLoadRecentSet = () => {
-    const newPageSet = pageSet + 1;
-    setPageSet(newPageSet);
+    const newPageSet = pageAllSet + 1;
+    setPageAllSet(newPageSet);
     instance
       .get(
-        `/sets?page=1&size=2000&sort_by_date=false&ascending=true&category_id=`
+        `/sets?page=1&size=20&sort_by_date=false&ascending=true&category_id=`
       )
       .then((response) => {
-        setTotalSetPages(response.data.total_pages);
+        setTotalAllSetPages(response.data.total_pages);
         const newCards = [...uniqueSets];
         response.data.sets.forEach((card) => newCards.push(card));
         setUniqueSets(newCards);
@@ -368,7 +376,7 @@ export const EditFolder = () => {
               />
             ))}
           </div>
-          {pageSet < totalSetPages + 1 && setCards.length > 0 && (
+          {pageAllSet < totalAllSetPages && setCards.length > 0 && (
             <MoreBtn onClick={() => handleLoadRecentSet()} />
           )}
         </div>
