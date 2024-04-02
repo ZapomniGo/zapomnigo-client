@@ -38,17 +38,29 @@ export const EditFolder = () => {
     subcategory_id: "",
     category_id: "",
   });
+  //selected sets
   const [setCards, setSetCards] = useState([]);
+  //allsets are all from the backend not selected
   const [allSets, setAllSets] = useState([]);
-  const [uniqueSets, setUniqueSets] = useState([]);
+
+  //from all sets we compare and get unique sets
+  const [uniqueAllSets, setAllUniqueSets] = useState([]);
+  const [uniqueCreatedSets, setUniqueCreatedSets] = useState([]);
   const [category, setCategory] = useState({ name: "", id: "" });
   const [institution, setInstitution] = useState({ name: "", id: "" });
   const [subcategory, setSubcategory] = useState({ name: "", id: "" });
   const [allSubcategories, setAllSubcategories] = useState([]);
+  const [user, setUser] = useState("");
 
   const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
+  const [pageAllSet, setPageAllSet] = useState(1);
+  const [totalAllSetPages, setTotalAllSetPages] = useState(1);
+  const [createdSets, setCreatedSets] = useState([]);
+
+  const [pageSetCreated, setPageSetCreated] = useState(1);
+  const [totalCreatedSetPages, setTotalCreatedSetPages] = useState(1);
 
   useEffect(() => {
     instance
@@ -66,23 +78,22 @@ export const EditFolder = () => {
           window.location.href = "/app/not-found";
         }
       });
-    // if (localStorage.getItem("access_token")) {
-    //   const decodedToken = jwtDecode(localStorage.getItem("access_token"));
-    //   const userID = decodedToken.sub;
-    //   instance
-    //     .get(
-    //       `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
-    //     )
-    //     .then((response) => {
-    //       setAllSets(response.data.sets);
-    //       setTotalAllSetPages(response.data.total_pages);
-    //     });
-    // }
+    if (localStorage.getItem("access_token")) {
+      const decodedToken = jwtDecode(localStorage.getItem("access_token"));
+      const userID = decodedToken.sub;
+      setUser(userID);
+
+      instance
+        .get(
+          `/users/${userID}/sets?page=1&size=2&sort_by_date=true&ascending=false`
+        )
+        .then((response) => {
+          setCreatedSets(response.data.sets);
+          setTotalCreatedSetPages(response.data.total_pages);
+        });
+    }
     instance
-      .get(
-        // `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
-        `/sets?page=1&size=20&sort_by_date=false&ascending=true&category_id=`
-      )
+      .get(`/sets?page=1&size=2&sort_by_date=false&ascending=true&category_id=`)
       .then((response) => {
         setAllSets(response.data.sets);
         setTotalAllSetPages(response.data.total_pages);
@@ -172,13 +183,17 @@ export const EditFolder = () => {
   };
 
   const handleSelectSet = (selectedSet) => {
-    const newUniqueSets = uniqueSets.filter(
+    const newUniqueAllSets = uniqueAllSets.filter(
       (set) => set.set_id !== selectedSet.set_id
     );
+    setAllUniqueSets(newUniqueAllSets);
+
+    const newUniqueCreatedSets = uniqueCreatedSets.filter(
+      (set) => set.set_id !== selectedSet.set_id
+    );
+    setUniqueCreatedSets(newUniqueCreatedSets);
 
     const newSetCards = [...setCards, selectedSet];
-
-    setUniqueSets(newUniqueSets);
     setSetCards(newSetCards);
   };
 
@@ -187,19 +202,24 @@ export const EditFolder = () => {
       (set) => set.set_id !== deselectedSet.set_id
     );
 
-    const newUniqueSets = [...uniqueSets, deselectedSet];
+    const newUniqueSets = [...uniqueAllSets, deselectedSet];
 
     // Update the state
     setSetCards(newSetCards);
-    setUniqueSets(newUniqueSets);
+    setAllUniqueSets(newUniqueSets);
   };
 
   useEffect(() => {
     const unique = allSets.filter(
       (set1) => !setCards.some((set2) => set2.set_id === set1.set_id)
     );
-    setUniqueSets(unique);
-  }, [allSets, setCards]);
+    setAllUniqueSets(unique);
+
+    const uniqueCreated = createdSets.filter(
+      (set1) => !setCards.some((set2) => set2.set_id === set1.set_id)
+    );
+    setUniqueCreatedSets(uniqueCreated);
+  }, [allSets, setCards, createdSets]);
 
   const categoryIdRef = useRef(null);
   const subcategoryIdRef = useRef(null);
@@ -231,23 +251,38 @@ export const EditFolder = () => {
     }
   }, [allCategories, allSubcategories, subcategory]);
 
-  const [pageAllSet, setPageAllSet] = useState(1);
-  const [totalAllSetPages, setTotalAllSetPages] = useState(1);
-
-  const handleLoadRecentSet = () => {
+  const handleLoadAllRecentSet = () => {
     const newPageSet = pageAllSet + 1;
     setPageAllSet(newPageSet);
     instance
       .get(
-        `/sets?page=1&size=20&sort_by_date=false&ascending=true&category_id=`
+        `/sets?page=${newPageSet}&size=2&sort_by_date=false&ascending=true&category_id=`
       )
       .then((response) => {
         setTotalAllSetPages(response.data.total_pages);
-        const newCards = [...uniqueSets];
+        const newCards = [...uniqueAllSets];
         response.data.sets.forEach((card) => newCards.push(card));
-        setUniqueSets(newCards);
+        setAllUniqueSets(newCards);
       });
   };
+
+  const handleLoadCreatedRecentSet = () => {
+    const newPageSet = pageSetCreated + 1;
+    setPageSetCreated(newPageSet);
+    instance
+      .get(
+        `/users/${user}/sets?page=${newPageSet}&size=2&sort_by_date=true&ascending=false`
+      )
+      .then((response) => {
+        setTotalCreatedSetPages(response.data.total_pages);
+        const newCards = [...uniqueCreatedSets];
+        response.data.sets.forEach((card) => newCards.push(card));
+        setUniqueCreatedSets(newCards);
+      });
+  };
+  useEffect(() => {
+    console.log(pageAllSet);
+  }, [pageAllSet]);
 
   return (
     <Dashboard>
@@ -358,10 +393,30 @@ export const EditFolder = () => {
               </div>
             )}
           </div>
+          <h1>Избери тестета</h1>
+          <div className="sets-wrapper">
+            {uniqueCreatedSets.map((card) => (
+              <SelectSet
+                key={card.set_id}
+                id={card.set_id}
+                title={card.set_name}
+                description={card.set_description}
+                institution={card.subcategory_name}
+                image={"/logo.jpg"}
+                creator_name={card.username}
+                isAvb={true}
+                onSelectSet={() => handleSelectSet(card)}
+                onDeselectSet={() => handleDeselectSet(card)}
+              />
+            ))}
+          </div>
+          {pageSetCreated < totalCreatedSetPages && createdSets.length > 0 && (
+            <MoreBtn onClick={() => handleLoadCreatedRecentSet()} />
+          )}
 
           <h1>Избери тестета</h1>
           <div className="sets-wrapper">
-            {uniqueSets.map((card) => (
+            {uniqueAllSets.map((card) => (
               <SelectSet
                 key={card.set_id}
                 id={card.set_id}
@@ -377,7 +432,7 @@ export const EditFolder = () => {
             ))}
           </div>
           {pageAllSet < totalAllSetPages && setCards.length > 0 && (
-            <MoreBtn onClick={() => handleLoadRecentSet()} />
+            <MoreBtn onClick={() => handleLoadAllRecentSet()} />
           )}
         </div>
       </div>
