@@ -399,7 +399,8 @@ export const EditFolder = () => {
               </div>
             )}
           </div>
-          <h1>Избери тестета</h1>
+
+          {uniqueCreatedSets.length >= 1 && <h1>Мой тестета</h1>}
           <div className="sets-wrapper">
             {uniqueCreatedSets.map((card) => (
               <SelectSet
@@ -420,7 +421,7 @@ export const EditFolder = () => {
             <MoreBtn onClick={() => handleLoadCreatedRecentSet()} />
           )}
 
-          <h1>Избери тестета</h1>
+          {uniqueAllSets.length >= 1 && <h1>Други тестета</h1>}
           <div className="sets-wrapper">
             {uniqueAllSets.map((card) => (
               <SelectSet

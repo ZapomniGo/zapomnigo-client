@@ -200,8 +200,9 @@ export const CreateFolder = () => {
     setSubcategories([]);
   };
   useEffect(() => {
-    console.log(unavailableSets);
-  }, [unavailableSets]);
+    console.log(createdSets);
+  }, [createdSets]);
+
   return (
     <Dashboard>
       <div className="create-set-wrapper">
@@ -285,7 +286,7 @@ export const CreateFolder = () => {
             </div>
           </div>
 
-          <h1>Мой тестета</h1>
+          {createdSets.length >= 1 && <h1>Мой тестета</h1>}
           <div className="sets-wrapper">
             {createdSets
               .filter((card) => availableSets[card.set_id] !== false)
@@ -308,7 +309,7 @@ export const CreateFolder = () => {
             <MoreBtn onClick={() => handleLoadCreatedSets()} />
           )}
 
-          <h1>Още тестета</h1>
+          {setCards.length >= 1 && <h1>Други тестета</h1>}
           <div className="sets-wrapper">
             {setCards
               .filter((card) => availableSets[card.set_id] !== false)
