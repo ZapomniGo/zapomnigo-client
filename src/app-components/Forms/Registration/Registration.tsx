@@ -536,7 +536,7 @@ export const Registration = () => {
                 value={selectedValue}
                 onChange={handleGenderChange}
                 required
-                className={selectedValue === "" ? "disabled" : ""}
+                // className={selectedValue === "" ? "disabled" : ""}
                 name="gender"
               >
                 <option value="" disabled>
@@ -550,7 +550,7 @@ export const Registration = () => {
                 value={selectedUserValue}
                 onChange={handleTypeChange}
                 required
-                className={selectedUserValue === "" ? "disabled" : ""}
+                // className={selectedUserValue === "" ? "disabled" : ""}
                 name="role"
               >
                 <option value="" disabled>
