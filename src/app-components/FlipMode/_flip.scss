@@ -50,8 +50,11 @@
   #card {
     margin-bottom: 4vmax;
     margin-top: 20px;
-    width: 40%;
+    width: 55%;
     cursor: pointer;
+    p {
+      font-size: 2rem;
+    }
     .info-message {
       box-shadow:
         0 3px 6px rgba(0, 0, 0, 0.16),
