@@ -25,21 +25,18 @@ const Match = ({
   useEffect(() => {
     if (selectedItems.length === 2) {
       const selectedFlashcards = selectedItems.map(
-        (selectedItem) => randomFlashcards[selectedItem]
+        (selectedItem) => randomFlashcards[selectedItem],
       );
-      console.log(selectedFlashcards);
       let element1Definition = flashcards.find(
         (flashcard) =>
           flashcard.term === selectedFlashcards[0] ||
-          flashcard.definition === selectedFlashcards[0]
+          flashcard.definition === selectedFlashcards[0],
       )?.definition;
       let element2Definition = flashcards.find(
         (flashcard) =>
           flashcard.term === selectedFlashcards[1] ||
-          flashcard.definition === selectedFlashcards[1]
+          flashcard.definition === selectedFlashcards[1],
       )?.definition;
-      console.log(element1Definition, selectedFlashcards[1]);
-      console.log(element2Definition, selectedFlashcards[0]);
 
       setSelectedItems([]);
     }
@@ -53,7 +50,7 @@ const Match = ({
   const handleItemClick = (item) => {
     if (selectedItems.includes(item)) {
       setSelectedItems(
-        selectedItems.filter((selectedItem) => selectedItem !== item)
+        selectedItems.filter((selectedItem) => selectedItem !== item),
       );
     } else {
       setSelectedItems([...selectedItems, item]);

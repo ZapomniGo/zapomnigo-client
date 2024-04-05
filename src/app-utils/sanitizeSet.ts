@@ -20,7 +20,6 @@ const verifyIframeUrl = (data: string) => {
     youtubeUrls.length === 0 ||
     youtubeUrls.length === data.match(iframeRegex).length;
   // Return true if no iframes exist or all iframes are from YouTube
-  console.log(data, isOk);
   return isOk;
 };
 
@@ -32,7 +31,6 @@ const ProcessData = (data: any) => {
       );
       data.splice(data.indexOf(item), 1);
     } else {
-      console.log(item);
       item.title = sanitizeHtml(item.term, {
         allowedTags: [],
         allowedAttributes: {},

@@ -28,7 +28,6 @@ const HomePage = () => {
 
     instance.get("/sets?size=8").then((res) => {
       setSets(res.data.sets);
-      console.log(res.data.sets);
     });
 
     // Clean up the event listener when the component unmounts

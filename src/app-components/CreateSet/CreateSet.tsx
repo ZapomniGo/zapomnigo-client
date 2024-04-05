@@ -226,13 +226,11 @@ export const CreateSet = () => {
         showToast("Търсенето не е възможно", 13);
         return;
       } else {
-        console.log("searching for 1", otherText);
         const url = "http://www.google.com/search?q=" + convert(otherText);
         window.open(url, "_blank");
         return;
       }
     } else {
-      console.log("searching for 2", shorterText);
       const url = "http://www.google.com/search?q=" + convert(shorterText);
       window.open(url, "_blank");
     }

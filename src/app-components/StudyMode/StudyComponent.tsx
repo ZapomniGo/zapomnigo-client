@@ -510,7 +510,6 @@ const StudyComponent = () => {
         if (positives.length === 1 || positives.length === 0) {
           let rnd = Math.floor(Math.random() * defaultSetup.positives.length);
           toast.success(defaultSetup.positives[rnd]); // Fix: Use defaultSetup.positives instead of positives
-          console.log(rnd);
           setPositives((prev) => [...prev, rnd]);
         } else if (positives.length > 1) {
           let rnd = Math.floor(Math.random() * defaultSetup.positives.length);

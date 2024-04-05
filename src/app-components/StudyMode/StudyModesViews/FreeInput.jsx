@@ -39,11 +39,9 @@ const FreeInput = (props) => {
     setShowResults(true);
     if (!answerObject.isCorrect) {
       setCorrectlyAnswered(false);
-      console.log("not correct");
       setShowCorrectAnswer(false);
     } else {
       setCorrectlyAnswered(true);
-      console.log("correct");
     }
   };
 

@@ -199,9 +199,6 @@ export const CreateFolder = () => {
   const resetSubcategory = () => {
     setSubcategories([]);
   };
-  useEffect(() => {
-    console.log(createdSets);
-  }, [createdSets]);
 
   return (
     <Dashboard>

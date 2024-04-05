@@ -8,7 +8,6 @@ const IsItCorrect = (props) => {
   const [isCorrect, setIsCorrect] = useState(null);
   const [isAnswered, setIsAnswered] = useState(false);
   useEffect(() => {
-    console.log(parse(props.currentFlashcardDefinition));
     if (props.currentFlashcardTerm && props.currentFlashcardDefinition) {
       setSelectedTerm(props.currentFlashcardTerm);
       setCorrectAnswer(props.currentFlashcardDefinition);
@@ -20,7 +19,7 @@ const IsItCorrect = (props) => {
     } else {
       setSelectedDefinition(
         props.flashcards[Math.floor(Math.random() * props.flashcards.length)]
-          .definition
+          .definition,
       );
     }
   }, [props.pastFlascardIndexes, props.currentFlashcardTerm]);
@@ -66,14 +65,12 @@ const IsItCorrect = (props) => {
       {isAnswered && (
         <>
           <div className="flashcard-answer">
-            {isCorrect
-              ? "Правилно!"
-              : "Правилната дефиниция е: " }
+            {isCorrect ? "Правилно!" : "Правилната дефиниция е: "}
             {parse(correctAnswer)}
           </div>
           <div className="flashcard-buttons">
             <button
-            // className="next-button"
+              // className="next-button"
               onClick={() => {
                 if (isCorrect) {
                   props.VerifyCorrectness("", 4, true, true);
