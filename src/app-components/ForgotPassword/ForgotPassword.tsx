@@ -6,6 +6,7 @@ import { emailPattern } from "../Forms/Registration/utils";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Background } from "../Forms/FormsBackground/Background";
+import { toast } from "react-toastify";
 
 const ForgetPassword = () => {
   const [message, setMessage] = useState("");
@@ -16,34 +17,41 @@ const ForgetPassword = () => {
   const navigate = useNavigate();
   const query = new URLSearchParams(useLocation().search);
   const token = query.get("token");
+  const showToast = (message, id) => {
+    if (!toast.isActive(id)) {
+      toast(message, {
+        toastId: id,
+      });
+    }
+  };
   React.useEffect(() => {
     //if the user is already logged in, redirect to home page
     if (localStorage.getItem("access_token")) {
       navigate("/app/");
     }
   }, []);
-  const handleSubmit = () => {
-    if (Date.now() - lastSent2 < 60000) {
-      setMessage("Изчакай 1 минута преди да поискаш нов код");
+
+  const requestEmail = () => {
+    if (lastSent2 && Date.now() - lastSent2 < 600000) {
+      showToast("Изчакай 10 минути преди да поискаш нов код", 1);
       return;
     }
-    if (!token) {
-      if (!emailPattern.test(email)) {
-        setMessage("Хм, имейлът не е валиден");
-        return;
-      }
-      instance
-        .post("/send-email?verification=false", { email: email })
-        .then(() => {
-          setMessage("Изпратихме ти имейл с линк за промяна на паролата");
-          setLastSent2(Date.now());
-          localStorage.setItem("lastSent2", Date.now());
-        })
-        .catch((err) => {
-          setMessage("Такъв потребител не съществува :(");
-        });
+    if (!emailPattern.test(email)) {
+      setMessage("Хм, имейлът не е валиден");
       return;
     }
+    instance
+      .post("/send-email?verification=false", { email: email })
+      .then(() => {
+        setMessage("Изпратихме ти имейл с линк за промяна на паролата");
+        setLastSent2(Date.now());
+        localStorage.setItem("lastSent2", Date.now());
+      })
+      .catch((err) => {
+        console.log("Такъв потребител не съществува :(");
+      });
+  };
+  const handleResetPassword = () => {
     if (password1 !== password2) {
       setMessage("Паролите не съвпадат");
       return;
@@ -67,13 +75,9 @@ const ForgetPassword = () => {
       setMessage("Паролата трябва да съдържа поне една цифра");
       return false;
     }
-    if (!/[\W_]/.test(password1)) {
-      setMessage("Паролата трябва да съдържа поне един специален символ");
-      return false;
-    }
     instance
       .post("/forgot-password", { new_password: password1, token: token })
-      .then((res) => {
+      .then(() => {
         setMessage("Паролата е променена");
         setTimeout(() => {
           navigate("/app/login");
@@ -87,6 +91,7 @@ const ForgetPassword = () => {
         }
       });
   };
+
   return (
     <div id="backgroundForm">
       <Background />
@@ -104,7 +109,7 @@ const ForgetPassword = () => {
               type="password"
               placeholder="Повтори новата парола"
             />
-            <button onClick={handleSubmit} className="button">
+            <button onClick={handleResetPassword} className="button">
               Промени паролата
             </button>
             {message.length ? <p className="msg">{message}</p> : ""}
@@ -121,12 +126,7 @@ const ForgetPassword = () => {
               type="text"
               placeholder="Имейл"
             />
-            <button
-              onClick={handleSubmit}
-              className={
-                "button " + (Date.now() - lastSent2 < 60000) && "disabled"
-              }
-            >
+            <button type="submit" onClick={requestEmail} className={"button"}>
               Изпрати
             </button>
             {message.length ? <p className="msg">{message}</p> : ""}

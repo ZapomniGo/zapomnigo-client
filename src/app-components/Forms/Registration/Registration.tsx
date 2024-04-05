@@ -182,22 +182,22 @@ export const Registration = () => {
           };
         }
         break;
-      case "age":
-        if (typeof value === "number" && (value < 5 || value > 99)) {
-          errorInfo = {
-            hasError: true,
-            message: "Възрастта може да е между 5-99 години",
-          };
-        }
-        break;
-      case "gender":
-        if (typeof value === "string" && value.length === 0) {
-          errorInfo = {
-            hasError: true,
-            message: "Please select gender",
-          };
-        }
-        break;
+      // case "age":
+      //   if (typeof value === "number" && (value < 5 || value > 99)) {
+      //     errorInfo = {
+      //       hasError: true,
+      //       message: "Възрастта може да е между 5-99 години",
+      //     };
+      //   }
+      //   break;
+      // case "gender":
+      //   if (typeof value === "string" && value.length === 0) {
+      //     errorInfo = {
+      //       hasError: true,
+      //       message: "Please select gender",
+      //     };
+      //   }
+      //   break;
       case "role":
         if (typeof value === "string" && value.length === 0) {
           errorInfo = {
@@ -330,25 +330,25 @@ export const Registration = () => {
         newErrors.name = { hasError: false, message: "" };
       }
 
-      if (userData.age == null || userData.age < 5 || userData.age > 99) {
-        newErrors.age = {
-          hasError: true,
-          message: "Полето за възраст трябва да е между 5-99 години",
-        };
-        errorsExist = true;
-      } else {
-        newErrors.age = { hasError: false, message: "" };
-      }
+      // if (userData.age == null || userData.age < 5 || userData.age > 99) {
+      //   newErrors.age = {
+      //     hasError: true,
+      //     message: "Полето за възраст трябва да е между 5-99 години",
+      //   };
+      //   errorsExist = true;
+      // } else {
+      //   newErrors.age = { hasError: false, message: "" };
+      // }
     }
-    if (userData.gender.length === 0) {
-      newErrors.gender = {
-        hasError: true,
-        message: "Please enter gender",
-      };
-      errorsExist = true;
-    } else {
-      newErrors.gender = { hasError: false, message: "" };
-    }
+    // if (userData.gender.length === 0) {
+    //   newErrors.gender = {
+    //     hasError: true,
+    //     message: "Please enter gender",
+    //   };
+    //   errorsExist = true;
+    // } else {
+    //   newErrors.gender = { hasError: false, message: "" };
+    // }
     if (userData.role.length === 0) {
       newErrors.role = {
         hasError: true,
@@ -465,13 +465,13 @@ export const Registration = () => {
     setScreenIndex((prev) => prev - 1);
   };
 
-  const [selectedValue, setSelectedValue] = useState("");
+  // const [selectedValue, setSelectedValue] = useState("");
 
-  const handleGenderChange = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setSelectedValue(event.target.value);
-  };
+  // const handleGenderChange = (event: {
+  //   target: { value: SetStateAction<string> };
+  // }) => {
+  //   setSelectedValue(event.target.value);
+  // };
 
   const [selectedUserValue, setSelectedUserValue] = useState("");
 
@@ -519,7 +519,7 @@ export const Registration = () => {
               <p className="errorText">
                 {errors.name.hasError ? errors.name.message : ""}
               </p>
-              <input
+              {/* <input
                 type="number"
                 name="age"
                 min={5}
@@ -528,11 +528,11 @@ export const Registration = () => {
                 value={userData.age !== null ? userData.age : ""}
                 className={errors.age.hasError ? "error" : ""}
                 onChange={(e) => validateField("age", e.target.value)}
-              />
-              <p className="errorText">
+              /> */}
+              {/* <p className="errorText">
                 {errors.age.hasError ? errors.age.message : ""}
-              </p>
-              <select
+              </p> */}
+              {/* <select
                 value={selectedValue}
                 onChange={handleGenderChange}
                 required
@@ -545,7 +545,7 @@ export const Registration = () => {
                 <option value="M">Мъж</option>
                 <option value="F">Жена</option>
                 <option value="O">Предпочитам да не споделям</option>
-              </select>
+              </select> */}
               <select
                 value={selectedUserValue}
                 onChange={handleTypeChange}

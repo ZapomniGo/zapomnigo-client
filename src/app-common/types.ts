@@ -9,7 +9,7 @@ type UserData = {
   password: string;
   repeatPassword: string;
   organization: string;
-  gender: string;
+  // gender: null;
   age: number | null;
   email: string;
   privacy_policy: boolean;
