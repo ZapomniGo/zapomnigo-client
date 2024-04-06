@@ -17,12 +17,8 @@ COPY .htpasswd /etc/nginx/.htpasswd
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./data/certs/zapomnigo.crt /etc/nginx/certs/zapomnigo.crt
 COPY ./data/certs/zapomnigo.key /etc/nginx/certs/zapomnigo.key
-<<<<<<< Updated upstream
 COPY ./data/certs/www.zapomnigo.crt /etc/nginx/certs/www.zapomnigo.crt
 COPY ./data/certs/www.zapomnigo.key /etc/nginx/certs/www.zapomnigo.key
-=======
-COPY health_check.sh /health_check.sh
->>>>>>> Stashed changes
 
 EXPOSE 80 443
 
