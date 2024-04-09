@@ -83,13 +83,13 @@ export const EditFolder = (props) => {
     isLoading: isLoadingSelectedSets,
   } = useQuery("selectedSets", fetchSelectedSets);
 
+  //convert fetched data to states
   useEffect(() => {
     if (typeof filteredAllSets === "undefined") {
       setFilteredAllSets(allSets?.sets);
     } else {
       setFilteredAllSets((prevSets) => [...prevSets, ...(allSets?.sets ?? [])]);
     }
-
     if (typeof filteredMySets === "undefined") {
       setFilteredMySets(mySets?.sets);
     } else {
@@ -147,7 +147,8 @@ export const EditFolder = (props) => {
     if (setType === "mySet") {
       setCurrentPageMySets((prevPage) => prevPage + 1);
       refetchMySets();
-    } else {
+    }
+    if (setType === "allSet") {
       setCurrentPageAllSets((prevPage) => prevPage + 1);
       refetchAllSets();
     }
