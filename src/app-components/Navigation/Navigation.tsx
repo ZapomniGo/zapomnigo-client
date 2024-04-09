@@ -47,6 +47,7 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
         jwtDecode(token);
       setUsername(decodedToken.username);
       setInstitution(decodedToken.institution);
+      // props.Token(decodedToken);
     }
 
     const searchToken = localStorage.getItem("searchToken");
@@ -54,13 +55,6 @@ export const Navigation: React.FC<NavigationProps> = (props) => {
       document.querySelector("input[name=search]").value = searchToken;
     }
   }, []);
-
-  //cookie method leave for future cookie implementation
-  // const handleLogout = async () => {
-  //   localStorage.removeItem("access_token");
-  //   localStorage.removeItem("refresh_token");
-  //   window.location.reload();
-  // };
 
   const handleLogout = async () => {
     localStorage.removeItem("access_token");

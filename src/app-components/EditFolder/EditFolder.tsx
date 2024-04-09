@@ -9,291 +9,34 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
 import { jwtDecode } from "jwt-decode";
-export const EditFolder = () => {
-  interface Set {
-    id: number;
-  }
-
-  const showToast = (message, id) => {
-    if (!toast.isActive(id)) {
-      toast(message, {
-        toastId: id,
-      });
-    }
-  };
-
-  const [allCategories, setAllCategories] = useState([]);
-  // const [allInstitutions, setAllInstitutions] = useState([]);
-  //change ids to names after backend is fixed also change the select in option
-  const [folder, setFolder] = useState<{
-    folder_title: string;
-    folder_description: string;
-    sets: Set[];
-    subcategory_id: string;
-    category_id: string;
-  }>({
-    folder_title: "",
-    folder_description: "",
-    sets: [],
-    subcategory_id: "",
-    category_id: "",
-  });
-  //selected sets
-  const [setCards, setSetCards] = useState([]);
-  //allsets are all from the backend not selected
-  const [allSets, setAllSets] = useState([]);
-
-  //from all sets we compare and get unique sets
-  const [uniqueAllSets, setAllUniqueSets] = useState([]);
-  const [uniqueCreatedSets, setUniqueCreatedSets] = useState([]);
-  const [category, setCategory] = useState({ name: "", id: "" });
-  const [institution, setInstitution] = useState({ name: "", id: "" });
-  const [subcategory, setSubcategory] = useState({ name: "", id: "" });
-  const [allSubcategories, setAllSubcategories] = useState([]);
-  const [user, setUser] = useState("");
-
+export const EditFolder = (props) => {
   const navigate = useNavigate();
+  const [myFolders, setMyFolders] = useState([]);
 
-  const { id } = useParams<{ id: string }>();
-  const [pageAllSet, setPageAllSet] = useState(1);
-  const [totalAllSetPages, setTotalAllSetPages] = useState(1);
-  const [createdSets, setCreatedSets] = useState([]);
-
-  const [pageSetCreated, setPageSetCreated] = useState(1);
-  const [totalCreatedSetPages, setTotalCreatedSetPages] = useState(1);
+  //getting the token from main and checking if its null
+  useEffect(() => {
+    console.log(props.token);
+    if (props.token === null) {
+      navigate("/app/login");
+    }
+  }, [props.token]);
 
   useEffect(() => {
     instance
-      .get(`/folders/${id}/sets?page=1&size=200`)
-      .then((response) => {
-        setSetCards(response.data.sets);
-        folder.folder_title = response.data.folder.folder_title;
-        folder.folder_description = response.data.folder.folder_description;
-        // setInstitution({name: response.data.folder.organization_name, id: ""});
-        setCategory({ name: response.data.folder.category_name, id: "" });
-        setSubcategory({ name: response.data.folder.subcategory_name, id: "" });
-      })
-      .catch((error) => {
-        if (error.response.status === 404) {
-          window.location.href = "/app/not-found";
-        }
-      });
-    if (localStorage.getItem("access_token")) {
-      const decodedToken = jwtDecode(localStorage.getItem("access_token"));
-      const userID = decodedToken.sub;
-      setUser(userID);
-
-      instance
-        .get(
-          `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
-        )
-        .then((response) => {
-          setCreatedSets(response.data.sets);
-          setTotalCreatedSetPages(response.data.total_pages);
-        });
-    }
-    instance
       .get(
-        `/sets?page=1&size=20&sort_by_date=false&ascending=true&category_id=`
+        `/users/${props.token.sub}/sets?page=1&size=20&sort_by_date=true&ascending=false`
       )
-      .then((response) => {
-        setAllSets(response.data.sets);
-        setTotalAllSetPages(response.data.total_pages);
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    instance.get("/categories").then((response) => {
-      setAllCategories(response.data.categories);
-    });
-
-    // instance.get("/organizations")
-    // .then((response) =>{
-    //     setAllInstitutions(response.data.organizations);
-    //   })
   }, []);
-
-  const handleChangeFolder = (key: string, value: string) => {
-    setFolder((prevState) => ({ ...prevState, [key]: value }));
-  };
-
-  const handleSubmitFolder = () => {
-    // Map over sets and return only the set_id
-    const selectedSetIds = setCards.map((set) => set.set_id.toString());
-    // Use selectedSetIds when making your request
-    const folderToSubmit = {
-      ...folder,
-      sets: selectedSetIds,
-      category_id: category.id ? category.id : categoryIdRef.current,
-      subcategory_id: subcategoryIdRef.current,
-    };
-
-    if (folderToSubmit.folder_title.length === 0) {
-      showToast("Оп, май пропусна заглавие", 1);
-      return;
-    }
-    if (folderToSubmit.folder_title.length > 100) {
-      showToast("Заглавието трябва да е под 100 символа", 2);
-      return;
-    }
-    if (folderToSubmit.folder_title.length > 1000) {
-      showToast("Описанието трябва да е под 1000 символа", 3);
-      return;
-    }
-    //check if the flashcards are not empty
-    //check if the flashcards are not empty
-
-    //check if each flashcard has a term and a description using isEmpty function
-
-    instance
-      .put(`/folders/${id}`, folderToSubmit)
-      .then((response) => {
-        showToast("Добре дошъл в новата си папка", 4);
-        navigate("/app/folder/" + id);
-      })
-      .catch((error) => {
-        showToast("Възникна грешка", 5);
-      });
-  };
-
-  const getSubcategories = (category_id) => {
-    instance
-      .get(`/categories/${category_id}/subcategories`)
-      .then((response) => {
-        setAllSubcategories(response.data.subcategories);
-      });
-  };
-
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-
-  useEffect(() => {
-    if (category.name && allCategories.length > 0) {
-      const matchingCategory = allCategories.find(
-        (cat) => cat.category_name === category.name
-      );
-      if (matchingCategory) {
-        setSelectedCategoryId(matchingCategory.category_id);
-      }
-    }
-  }, [category, allCategories]);
-
-  useEffect(() => {
-    if (selectedCategoryId) {
-      getSubcategories(selectedCategoryId);
-    }
-  }, [selectedCategoryId]);
-
-  const resetSubcategory = () => {
-    setAllSubcategories([]);
-  };
-
-  const handleSelectSet = (selectedSet) => {
-    const newUniqueAllSets = uniqueAllSets.filter(
-      (set) => set.set_id !== selectedSet.set_id
-    );
-    setAllUniqueSets(newUniqueAllSets);
-
-    const newUniqueCreatedSets = uniqueCreatedSets.filter(
-      (set) => set.set_id !== selectedSet.set_id
-    );
-    setUniqueCreatedSets(newUniqueCreatedSets);
-
-    const newSetCards = [...setCards, selectedSet];
-    setSetCards(newSetCards);
-  };
-
-  const handleDeselectSet = (deselectedSet) => {
-    localStorage.getItem("access_token");
-    const decodedtoken = jwtDecode(localStorage.getItem("access_token"));
-    if (decodedtoken.username == deselectedSet.username) {
-      const newUniqueCreatedSets = [...uniqueCreatedSets, deselectedSet];
-      setUniqueCreatedSets(newUniqueCreatedSets);
-    } else {
-      const newUniqueAllSets = [...uniqueAllSets, deselectedSet];
-      setAllUniqueSets(newUniqueAllSets);
-    }
-
-    const newSetCards = setCards.filter(
-      (set) => set.set_id !== deselectedSet.set_id
-    );
-    setSetCards(newSetCards);
-    // Update the state
-  };
-
-  useEffect(() => {
-    const unique = allSets.filter(
-      (set1) => !setCards.some((set2) => set2.set_id === set1.set_id)
-    );
-    setAllUniqueSets(unique);
-
-    const uniqueCreated = createdSets.filter(
-      (set1) => !setCards.some((set2) => set2.set_id === set1.set_id)
-    );
-    setUniqueCreatedSets(uniqueCreated);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allSets, createdSets]);
-
-  const categoryIdRef = useRef(null);
-  const subcategoryIdRef = useRef(null);
-
-  useEffect(() => {
-    // if (category && category.name && allCategories.length > 0) {
-    //   const selectedCategory = allCategories.find((cat) => cat.category_name === category.name);
-    //   if (selectedCategory) {
-    //     categoryIdRef.current = selectedCategory.category_id;
-    //   }
-    // }
-
-    const selectedCategory = allCategories.find(
-      (inst) => inst.category_name === category.name
-    );
-    if (selectedCategory === undefined) {
-      categoryIdRef.current = "";
-    } else {
-      categoryIdRef.current = selectedCategory.category_id;
-    }
-
-    const selectedSubcategory = allSubcategories.find(
-      (inst) => inst.subcategory_name === subcategory.name
-    );
-    if (selectedSubcategory === undefined) {
-      subcategoryIdRef.current = "";
-    } else {
-      subcategoryIdRef.current = selectedSubcategory.subcategory_id;
-    }
-  }, [allCategories, allSubcategories, subcategory]);
-
-  const handleLoadAllRecentSet = () => {
-    const newPageSet = pageAllSet + 1;
-    setPageAllSet(newPageSet);
-    instance
-      .get(
-        `/sets?page=${newPageSet}&size=20&sort_by_date=false&ascending=true&category_id=`
-      )
-      .then((response) => {
-        setTotalAllSetPages(response.data.total_pages);
-        const newCards = [...uniqueAllSets];
-        response.data.sets.forEach((card) => newCards.push(card));
-        setAllUniqueSets(newCards);
-      });
-  };
-
-  const handleLoadCreatedRecentSet = () => {
-    const newPageSet = pageSetCreated + 1;
-    setPageSetCreated(newPageSet);
-    instance
-      .get(
-        `/users/${user}/sets?page=${newPageSet}&size=20&sort_by_date=true&ascending=false`
-      )
-      .then((response) => {
-        setTotalCreatedSetPages(response.data.total_pages);
-        const newCards = [...uniqueCreatedSets];
-        response.data.sets.forEach((card) => newCards.push(card));
-        setUniqueCreatedSets(newCards);
-      });
-  };
 
   return (
     <Dashboard>
-      <div></div>
-      <div className="create-set-wrapper">
+      {/* <div className="create-set-wrapper">
         <div className="create-set">
           <h1>Редактирай папка</h1>
           <input
@@ -442,7 +185,7 @@ export const EditFolder = () => {
             <MoreBtn onClick={() => handleLoadAllRecentSet()} />
           )}
         </div>
-      </div>
+      </div> */}
     </Dashboard>
   );
 };
