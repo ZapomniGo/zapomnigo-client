@@ -29,10 +29,6 @@ export const EditFolder = (props) => {
     }
   }, [props.token]);
 
-  useEffect(() => {
-    console.log(currentFolder);
-  }, [currentFolder]);
-
   //funcs for fetching sets
   const fetchMySets = async ({ currentPage = 1 }) => {
     const res = await instance.get(
@@ -51,9 +47,7 @@ export const EditFolder = (props) => {
   };
 
   const fetchSelectedSets = async () => {
-    const res = await instance.get(`/folders/${id}/sets?page=1&size=20`);
-    console.log(res.data);
-
+    const res = await instance.get(`/folders/${id}/sets?page=1&size=2000`);
     return res.data;
   };
 
@@ -62,12 +56,8 @@ export const EditFolder = (props) => {
     error: errorMySets,
     isLoading: isLoadingMySets,
     refetch: refetchMySets,
-  } = useQuery(
-    ["mySets", currentPageMySets],
-    () => fetchMySets({ currentPage: currentPageMySets }),
-    {
-      keepPreviousData: true,
-    }
+  } = useQuery(["mySets", currentPageMySets], () =>
+    fetchMySets({ currentPage: currentPageMySets })
   );
 
   const {
@@ -75,12 +65,8 @@ export const EditFolder = (props) => {
     error: errorAllSets,
     isLoading: isLoadingAllSets,
     refetch: refetchAllSets,
-  } = useQuery(
-    ["allSets", currentPageAllSets],
-    () => fetchAllSets({ currentPage: currentPageAllSets }),
-    {
-      keepPreviousData: true,
-    }
+  } = useQuery(["allSets", currentPageAllSets], () =>
+    fetchAllSets({ currentPage: currentPageAllSets })
   );
 
   const {
@@ -128,14 +114,13 @@ export const EditFolder = (props) => {
   }, [filteredAllSets, filteredMySets, filteredSelectedSets]);
 
   const handleSelectSet = async (set, setType) => {
+    console.log(set.set_id);
     if (setType === "mySet") {
-      setFilteredSelectedSets((prevState) => [...prevState, set]);
       setFilteredMySets((prev) => prev.filter((s) => s.set_id !== set.set_id));
-    }
-    if (setType === "allSet") {
-      setFilteredSelectedSets((prevState) => [...prevState, set]);
+    } else if (setType === "allSet") {
       setFilteredAllSets((prev) => prev.filter((s) => s.set_id !== set.set_id));
     }
+    setFilteredSelectedSets((prevState) => [...prevState, set]);
   };
 
   const handleDeselectSet = async (set) => {
@@ -154,8 +139,7 @@ export const EditFolder = (props) => {
     if (setType === "mySet") {
       setCurrentPageMySets((prevPage) => prevPage + 1);
       refetchMySets();
-    }
-    if (setType === "allSet") {
+    } else if (setType === "allSet") {
       setCurrentPageAllSets((prevPage) => prevPage + 1);
       refetchAllSets();
     }
@@ -178,18 +162,14 @@ export const EditFolder = (props) => {
 
     instance
       .put(`/folders/${id}`, folderToSubmit)
-      .then((response) => {
+      .then(() => {
         console.log("Добре дошъл в новата си папка", 4);
         // navigate("/app/folder/" + id);
       })
-      .catch((error) => {
+      .catch(() => {
         console.log("Възникна грешка", 5);
       });
   };
-
-  useEffect(() => {
-    console.log(currentPageMySets, totalMySetsPages);
-  }, [currentPageMySets, totalMySetsPages]);
 
   return (
     <Dashboard>
