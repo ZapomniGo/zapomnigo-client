@@ -21,6 +21,8 @@ export const EditFolder = (props) => {
   const [totalAllSetsPages, setTotalAllSetsPages] = useState(1);
   const [currentPageMySets, setCurrentPageMySets] = useState(1);
   const [currentPageAllSets, setCurrentPageAllSets] = useState(1);
+  const [mySetsLoadMoreFlag, setMySetsLoadMoreFlag] = useState(false);
+  const [allSetsLoadMoreFlag, setAllSetsLoadMoreFlag] = useState(false);
 
   //getting the token from main and checking if its null
   useEffect(() => {
@@ -32,17 +34,19 @@ export const EditFolder = (props) => {
   //funcs for fetching sets
   const fetchMySets = async ({ currentPage = 1 }) => {
     const res = await instance.get(
-      `/users/${props.token.sub}/sets?page=${currentPage}&size=5&sort_by_date=true&ascending=false`
+      `/users/${props.token.sub}/sets?page=${currentPage}&size=2&sort_by_date=true&ascending=false`
     );
     setTotalMySetsPages(res.data.total_pages);
+    console.log("my");
     return res.data;
   };
 
   const fetchAllSets = async ({ currentPage = 1 }) => {
     const res = await instance.get(
-      `/sets?page=${currentPage}&size=40&sort_by_date=true&ascending=false`
+      `/sets?page=${currentPage}&size=2&sort_by_date=true&ascending=false`
     );
     setTotalAllSetsPages(res.data.total_pages);
+    console.log("all");
     return res.data;
   };
 
@@ -77,16 +81,20 @@ export const EditFolder = (props) => {
 
   //convert fetched data to states
   useEffect(() => {
-    if (typeof filteredAllSets === "undefined") {
+    if (!allSetsLoadMoreFlag) {
       setFilteredAllSets(allSets?.sets);
     } else {
       setFilteredAllSets((prevSets) => [...prevSets, ...(allSets?.sets ?? [])]);
     }
-    if (typeof filteredMySets === "undefined") {
+    if (!mySetsLoadMoreFlag) {
       setFilteredMySets(mySets?.sets);
+      console.log("undef");
     } else {
       setFilteredMySets((prevSets) => [...prevSets, ...(mySets?.sets ?? [])]);
+      console.log("def");
     }
+    // setFilteredAllSets(allSets?.sets);
+    // setFilteredMySets(mySets?.sets);
     setFilteredSelectedSets(selectedSets?.sets);
     setCurrentFolder(selectedSets?.folder);
   }, [selectedSets, mySets, allSets]);
@@ -103,13 +111,14 @@ export const EditFolder = (props) => {
       let newAllSets = filteredAllSets.filter(
         (set) => !selectedSetIds.includes(set.set_id)
       );
-
-      newAllSets = newAllSets.filter(
-        (set) => !newMySets.map((set) => set.set_id).includes(set.set_id)
-      );
+      console.log(props.token.username);
+      newAllSets.filter((set) => set.username !== props.token.username);
+      console.log(newAllSets);
 
       setShownMySets(newMySets);
-      setShownAllSets(newAllSets);
+      setShownAllSets(
+        newAllSets.filter((set) => set.username !== props.token.username)
+      );
     }
   }, [filteredAllSets, filteredMySets, filteredSelectedSets]);
 
@@ -138,9 +147,11 @@ export const EditFolder = (props) => {
   const handleLoadMore = async (setType) => {
     if (setType === "mySet") {
       setCurrentPageMySets((prevPage) => prevPage + 1);
+      setMySetsLoadMoreFlag(true);
       refetchMySets();
     } else if (setType === "allSet") {
       setCurrentPageAllSets((prevPage) => prevPage + 1);
+      setAllSetsLoadMoreFlag(true);
       refetchAllSets();
     }
   };
