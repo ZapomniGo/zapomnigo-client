@@ -38,6 +38,7 @@ export const EditFolder = (props) => {
     const res = await instance.get(
       `/users/${props.token.sub}/sets?page=${currentPage}&size=5&sort_by_date=true&ascending=false`
     );
+    setTotalMySetsPages(res.data.total_pages);
     return res.data;
   };
 
@@ -51,7 +52,6 @@ export const EditFolder = (props) => {
 
   const fetchSelectedSets = async () => {
     const res = await instance.get(`/folders/${id}/sets?page=1&size=20`);
-    setTotalMySetsPages(res.data.total_pages);
     console.log(res.data);
 
     return res.data;
@@ -186,6 +186,10 @@ export const EditFolder = (props) => {
         console.log("Възникна грешка", 5);
       });
   };
+
+  useEffect(() => {
+    console.log(currentPageMySets, totalMySetsPages);
+  }, [currentPageMySets, totalMySetsPages]);
 
   return (
     <Dashboard>
