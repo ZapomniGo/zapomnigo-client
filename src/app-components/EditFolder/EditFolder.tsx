@@ -76,6 +76,7 @@ export const EditFolder = (props) => {
 
   //convert fetched data to states
   useEffect(() => {
+    //flag check is required because of rerenders when page loads and starts duplicating sets
     if (!allSetsLoadMoreFlag) {
       setFilteredAllSets(allSets?.sets);
     }
@@ -87,6 +88,7 @@ export const EditFolder = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSets, mySets, allSets]);
 
+  //used for copying old sets with the new ones when load more is clicked
   useEffect(() => {
     if (mySetsLoadMoreFlag) {
       setFilteredMySets((prevSets) => [...prevSets, ...(mySets?.sets ?? [])]);
@@ -94,6 +96,7 @@ export const EditFolder = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mySets]);
 
+  //used for copying old sets with the new ones when load more is clicked
   useEffect(() => {
     if (allSetsLoadMoreFlag) {
       setFilteredAllSets((prevSets) => [...prevSets, ...(allSets?.sets ?? [])]);
@@ -110,22 +113,19 @@ export const EditFolder = (props) => {
         (set) => !selectedSetIds.includes(set.set_id)
       );
 
-      const newAllSets = filteredAllSets.filter(
+      let newAllSets = filteredAllSets.filter(
         (set) => !selectedSetIds.includes(set.set_id)
       );
-      newAllSets.filter((set) => set.username !== props.token.username);
+      newAllSets = newAllSets.filter(
+        (set) => set.username !== props.token.username
+      );
 
       setShownMySets(newMySets);
-      setShownAllSets(
-        newAllSets.filter((set) => set.username !== props.token.username)
-      );
+      setShownAllSets(newAllSets);
     }
-  }, [
-    filteredAllSets,
-    filteredMySets,
-    filteredSelectedSets,
-    props.token.username,
-  ]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filteredAllSets, filteredMySets, filteredSelectedSets]);
 
   const handleSelectSet = async (set, setType) => {
     if (setType === "mySet") {
