@@ -7,6 +7,7 @@ import { MoreBtn } from "../MoreBtn/MoreBtn";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { SelectSet } from "../CreateFolder/SelectSet";
+import { useRef } from "react";
 
 export const EditFolder = (props) => {
   const navigate = useNavigate();
@@ -19,10 +20,10 @@ export const EditFolder = (props) => {
   const [currentFolder, setCurrentFolder] = useState();
   const [totalMySetsPages, setTotalMySetsPages] = useState(1);
   const [totalAllSetsPages, setTotalAllSetsPages] = useState(1);
-  const [currentPageMySets, setCurrentPageMySets] = useState(1);
-  const [currentPageAllSets, setCurrentPageAllSets] = useState(1);
   const [mySetsLoadMoreFlag, setMySetsLoadMoreFlag] = useState(false);
   const [allSetsLoadMoreFlag, setAllSetsLoadMoreFlag] = useState(false);
+  const currentPageMySetsRef = useRef(1);
+  const currentPageAllSetsRef = useRef(1);
 
   //getting the token from main and checking if its null
   useEffect(() => {
@@ -32,21 +33,19 @@ export const EditFolder = (props) => {
   }, [props.token]);
 
   //funcs for fetching sets
-  const fetchMySets = async ({ currentPage = 1 }) => {
+  const fetchMySets = async () => {
     const res = await instance.get(
-      `/users/${props.token.sub}/sets?page=${currentPage}&size=2&sort_by_date=true&ascending=false`
+      `/users/${props.token.sub}/sets?page=${currentPageMySetsRef.current}&size=40&sort_by_date=true&ascending=false`
     );
     setTotalMySetsPages(res.data.total_pages);
-    console.log("my");
     return res.data;
   };
 
-  const fetchAllSets = async ({ currentPage = 1 }) => {
+  const fetchAllSets = async () => {
     const res = await instance.get(
-      `/sets?page=${currentPage}&size=2&sort_by_date=true&ascending=false`
+      `/sets?page=${currentPageAllSetsRef.current}&size=2&sort_by_date=true&ascending=false`
     );
     setTotalAllSetsPages(res.data.total_pages);
-    console.log("all");
     return res.data;
   };
 
@@ -60,18 +59,14 @@ export const EditFolder = (props) => {
     error: errorMySets,
     isLoading: isLoadingMySets,
     refetch: refetchMySets,
-  } = useQuery(["mySets", currentPageMySets], () =>
-    fetchMySets({ currentPage: currentPageMySets })
-  );
+  } = useQuery(["mySets"], () => fetchMySets());
 
   const {
     data: allSets,
     error: errorAllSets,
     isLoading: isLoadingAllSets,
     refetch: refetchAllSets,
-  } = useQuery(["allSets", currentPageAllSets], () =>
-    fetchAllSets({ currentPage: currentPageAllSets })
-  );
+  } = useQuery(["allSets"], () => fetchAllSets());
 
   const {
     data: selectedSets,
@@ -83,21 +78,28 @@ export const EditFolder = (props) => {
   useEffect(() => {
     if (!allSetsLoadMoreFlag) {
       setFilteredAllSets(allSets?.sets);
-    } else {
-      setFilteredAllSets((prevSets) => [...prevSets, ...(allSets?.sets ?? [])]);
     }
     if (!mySetsLoadMoreFlag) {
       setFilteredMySets(mySets?.sets);
-      console.log("undef");
-    } else {
-      setFilteredMySets((prevSets) => [...prevSets, ...(mySets?.sets ?? [])]);
-      console.log("def");
     }
-    // setFilteredAllSets(allSets?.sets);
-    // setFilteredMySets(mySets?.sets);
     setFilteredSelectedSets(selectedSets?.sets);
     setCurrentFolder(selectedSets?.folder);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSets, mySets, allSets]);
+
+  useEffect(() => {
+    if (mySetsLoadMoreFlag) {
+      setFilteredMySets((prevSets) => [...prevSets, ...(mySets?.sets ?? [])]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mySets]);
+
+  useEffect(() => {
+    if (allSetsLoadMoreFlag) {
+      setFilteredAllSets((prevSets) => [...prevSets, ...(allSets?.sets ?? [])]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allSets]);
 
   //remove already selected sets from mySets and allSets
   useEffect(() => {
@@ -108,22 +110,24 @@ export const EditFolder = (props) => {
         (set) => !selectedSetIds.includes(set.set_id)
       );
 
-      let newAllSets = filteredAllSets.filter(
+      const newAllSets = filteredAllSets.filter(
         (set) => !selectedSetIds.includes(set.set_id)
       );
-      console.log(props.token.username);
       newAllSets.filter((set) => set.username !== props.token.username);
-      console.log(newAllSets);
 
       setShownMySets(newMySets);
       setShownAllSets(
         newAllSets.filter((set) => set.username !== props.token.username)
       );
     }
-  }, [filteredAllSets, filteredMySets, filteredSelectedSets]);
+  }, [
+    filteredAllSets,
+    filteredMySets,
+    filteredSelectedSets,
+    props.token.username,
+  ]);
 
   const handleSelectSet = async (set, setType) => {
-    console.log(set.set_id);
     if (setType === "mySet") {
       setFilteredMySets((prev) => prev.filter((s) => s.set_id !== set.set_id));
     } else if (setType === "allSet") {
@@ -146,11 +150,11 @@ export const EditFolder = (props) => {
 
   const handleLoadMore = async (setType) => {
     if (setType === "mySet") {
-      setCurrentPageMySets((prevPage) => prevPage + 1);
+      currentPageMySetsRef.current += 1;
       setMySetsLoadMoreFlag(true);
       refetchMySets();
     } else if (setType === "allSet") {
-      setCurrentPageAllSets((prevPage) => prevPage + 1);
+      currentPageAllSetsRef.current += 1;
       setAllSetsLoadMoreFlag(true);
       refetchAllSets();
     }
@@ -169,7 +173,6 @@ export const EditFolder = (props) => {
       category_id: null,
       sets: selectedSetsIds,
     };
-    console.log(selectedSetsIds);
 
     instance
       .put(`/folders/${id}`, folderToSubmit)
@@ -239,7 +242,7 @@ export const EditFolder = (props) => {
               onSelectSet={() => handleSelectSet(set, "mySet")}
             />
           ))}
-          {currentPageMySets < totalMySetsPages && (
+          {currentPageMySetsRef.current < totalMySetsPages && (
             <MoreBtn onClick={() => handleLoadMore("mySet")} />
           )}
         </div>
@@ -260,7 +263,7 @@ export const EditFolder = (props) => {
               onSelectSet={() => handleSelectSet(set, "allSet")}
             />
           ))}
-          {currentPageAllSets < totalAllSetsPages && (
+          {currentPageAllSetsRef.current < totalAllSetsPages && (
             <MoreBtn onClick={() => handleLoadMore("allSet")} />
           )}
         </div>
