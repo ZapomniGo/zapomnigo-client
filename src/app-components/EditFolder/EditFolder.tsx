@@ -16,6 +16,7 @@ export const EditFolder = (props) => {
   const [filteredSelectedSets, setFilteredSelectedSets] = useState([]);
   const [shownMySets, setShownMySets] = useState([]);
   const [shownAllSets, setShownAllSets] = useState([]);
+  const [currentFolder, setCurrentFolder] = useState();
   const [totalMySetsPages, setTotalMySetsPages] = useState(1);
   const [totalAllSetsPages, setTotalAllSetsPages] = useState(1);
   const [currentPageMySets, setCurrentPageMySets] = useState(1);
@@ -27,6 +28,10 @@ export const EditFolder = (props) => {
       navigate("/app/login");
     }
   }, [props.token]);
+
+  useEffect(() => {
+    console.log(currentFolder);
+  }, [currentFolder]);
 
   //funcs for fetching sets
   const fetchMySets = async ({ currentPage = 1 }) => {
@@ -47,6 +52,7 @@ export const EditFolder = (props) => {
   const fetchSelectedSets = async () => {
     const res = await instance.get(`/folders/${id}/sets?page=1&size=20`);
     setTotalMySetsPages(res.data.total_pages);
+    console.log(res.data);
 
     return res.data;
   };
@@ -96,6 +102,7 @@ export const EditFolder = (props) => {
       setFilteredMySets((prevSets) => [...prevSets, ...(mySets?.sets ?? [])]);
     }
     setFilteredSelectedSets(selectedSets?.sets);
+    setCurrentFolder(selectedSets?.folder);
   }, [selectedSets, mySets, allSets]);
 
   //remove already selected sets from mySets and allSets
@@ -154,8 +161,53 @@ export const EditFolder = (props) => {
     }
   };
 
+  const handleChangeFolder = (key: string, value: string) => {
+    setCurrentFolder((prevState) => ({ ...prevState, [key]: value }));
+  };
+
+  const handleSubmitFolder = async () => {
+    const selectedSetsIds = filteredSelectedSets.map((set) => set.set_id);
+    const folderToSubmit = {
+      folder_title: currentFolder?.folder_title,
+      folder_description: currentFolder?.folder_description,
+      subcategory_id: null,
+      category_id: null,
+      sets: selectedSetsIds,
+    };
+    console.log(selectedSetsIds);
+
+    instance
+      .put(`/folders/${id}`, folderToSubmit)
+      .then((response) => {
+        console.log("Добре дошъл в новата си папка", 4);
+        // navigate("/app/folder/" + id);
+      })
+      .catch((error) => {
+        console.log("Възникна грешка", 5);
+      });
+  };
+
   return (
     <Dashboard>
+      <input
+        type="text"
+        value={currentFolder?.folder_title}
+        onChange={(e) => handleChangeFolder("folder_title", e.target.value)}
+        placeholder="Заглавие"
+        className="title"
+        minLength={1}
+        maxLength={100}
+      />
+      <div className="description">
+        <textarea
+          onChange={(e) =>
+            handleChangeFolder("folder_description", e.target.value)
+          }
+          placeholder="Описание"
+          value={currentFolder?.folder_description}
+        />
+      </div>
+      <button onClick={() => handleSubmitFolder()}> Submit</button>
       {isLoadingMySets && <div>Loading...</div>}
       {isLoadingAllSets && <div>Loading...</div>}
       {isLoadingSelectedSets && <div>Loading...</div>}
