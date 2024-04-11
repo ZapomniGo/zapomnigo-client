@@ -36,6 +36,7 @@
     p {
       display: flex;
       justify-content: center;
+      flex-wrap: nowrap !important;
     }
     h3 {
       text-align: center;
