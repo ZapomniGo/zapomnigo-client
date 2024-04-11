@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 export const BackBtn = () => {
   const [disabled, setDisabled] = useState("");
   useEffect(() => {
-    if (location.pathname === "/app/") {
+    console.log(location.pathname);
+    if (location.pathname === "/app/" || location.pathname === "/app") {
       setDisabled("disabled");
     }
   }, []);

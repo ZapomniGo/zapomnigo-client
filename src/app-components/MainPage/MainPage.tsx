@@ -10,6 +10,7 @@ import { RxCrossCircled } from "react-icons/rx";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
+import { MdArrowBack } from "react-icons/md";
 
 export const MainPage: React.FC = (props) => {
   const [setCards, setSetCards] = useState([]);
@@ -577,8 +578,12 @@ export const MainPage: React.FC = (props) => {
         <>
           {isAccordionVisible ? (
             <div className="accordion">
+              {(categoryID || selectedSubCategory || isSearch) && (
+                <div className="back-btn" onClick={resetSets}>
+                  <MdArrowBack />
+                </div>
+              )}
               <center>
-                {" "}
                 <button
                   className="category-btn-main"
                   onClick={handleAccordionClick}
@@ -590,6 +595,11 @@ export const MainPage: React.FC = (props) => {
           ) : (
             <>
               <div className="accordion">
+                {(categoryID || selectedSubCategory || isSearch) && (
+                  <div className="back-btn" onClick={resetSets}>
+                    <MdArrowBack />
+                  </div>
+                )}
                 <center>
                   {" "}
                   <button
@@ -647,11 +657,6 @@ export const MainPage: React.FC = (props) => {
                         <p>{subCategories.subcategory_name}</p>
                       </div>
                     ))}
-                  {(categoryID || selectedSubCategory || isSearch) && (
-                    <div className="reset-btn" onClick={resetSets}>
-                      <IoMdClose />
-                    </div>
-                  )}
                 </div>
               </div>
             </>

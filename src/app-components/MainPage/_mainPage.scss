@@ -227,6 +227,7 @@
 // }
 
 /* Style the accordion panel. Note: hidden by default */
+
 .panel {
   display: flex;
   box-shadow:
@@ -259,6 +260,39 @@
 
 .padding-remove .category-title {
   padding-left: 0 !important;
+}
+.accordion {
+  .back-btn {
+    // position: absolute;
+    top: 1.4vmax;
+    left: 2vmax;
+    cursor: pointer;
+    z-index: 999;
+    svg {
+      width: 2rem;
+      color: gray;
+      height: auto;
+      transition: 0.3s;
+      &:hover {
+        color: orange;
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .accordion {
+    .back-btn {
+      svg {
+        width: 2rem;
+      }
+    }
+  }
+}
+
+.disabled {
+  display: none;
 }
 
 @media screen and (max-width: 1000px) {
