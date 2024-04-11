@@ -59,7 +59,7 @@ export const EditFolder = (props) => {
   };
 
   const fetchSelectedSets = async () => {
-    const res = await instance.get(`/folders/${id}/sets?page=1&size=2000`);
+    const res = await instance.get(`/folders/${id}?page=1&size=2000`);
     return res.data;
   };
 
