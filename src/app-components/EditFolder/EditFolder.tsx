@@ -400,7 +400,7 @@ export const EditFolder = () => {
             )}
           </div>
 
-          {uniqueCreatedSets.length >= 1 && <h1>Мой тестета</h1>}
+          {uniqueCreatedSets.length >= 1 && <h1>Мои тестета</h1>}
           <div className="sets-wrapper">
             {uniqueCreatedSets.map((card) => (
               <SelectSet

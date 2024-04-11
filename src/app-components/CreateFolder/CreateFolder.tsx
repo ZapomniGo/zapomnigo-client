@@ -283,7 +283,7 @@ export const CreateFolder = () => {
             </div>
           </div>
 
-          {createdSets.length >= 1 && <h1>Мой тестета</h1>}
+          {createdSets.length >= 1 && <h1>Мои тестета</h1>}
           <div className="sets-wrapper">
             {createdSets
               .filter((card) => availableSets[card.set_id] !== false)
