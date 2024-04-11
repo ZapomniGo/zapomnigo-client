@@ -404,6 +404,13 @@ svg.single {
         display: flex;
         align-items: center;
         width: 90%;
+        a {
+          color: #636363;
+          font-size: 18px;
+        }
+        a:hover {
+          color: $secondary-color;
+        }
         justify-content: space-between;
         input[type="checkbox"] {
           accent-color: $secondary-color;
@@ -417,7 +424,7 @@ svg.single {
 
         input {
           width: 5%;
-          transform: scale(1.2);
+          transform: scale(1.4);
         }
 
         label {
@@ -435,6 +442,14 @@ svg.single {
 @media screen and (max-width: 1000px) {
   .errorText {
     font-size: 1.6vmax;
+  }
+  .privacy-policy,
+  .terms-and-conditions,
+  .marketing-consent {
+    input {
+      width: 5%;
+      transform: scale(1.2);
+    }
   }
 }
 
