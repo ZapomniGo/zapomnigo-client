@@ -8,10 +8,11 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { SelectSet } from "../CreateFolder/SelectSet";
 import { useRef } from "react";
+import { toast } from "react-toastify";
 
 export const CreateFolder = (props) => {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  // const { id } = useParams<{ id: string }>();
   const [filteredMySets, setFilteredMySets] = useState([]);
   const [filteredAllSets, setFilteredAllSets] = useState([]);
   const [filteredSelectedSets, setFilteredSelectedSets] = useState([]);
@@ -31,6 +32,14 @@ export const CreateFolder = (props) => {
       navigate("/app/login");
     }
   }, [props.token]);
+
+  const showToast = (message, id) => {
+    if (!toast.isActive(id)) {
+      toast(message, {
+        toastId: id,
+      });
+    }
+  };
 
   //funcs for fetching sets
   const fetchMySets = async () => {
@@ -173,20 +182,35 @@ export const CreateFolder = (props) => {
       sets: selectedSetsIds,
     };
 
+    if (
+      typeof folderToSubmit.folder_title === "undefined" ||
+      folderToSubmit.folder_title.length === 0
+    ) {
+      showToast("Оп, май пропусна заглавие", 1);
+      return;
+    }
+    if (folderToSubmit.folder_title.length > 100) {
+      showToast("Заглавието трябва да е под 100 символа", 2);
+      return;
+    }
+    if (folderToSubmit.folder_description.length > 1000) {
+      showToast("Описанието трябва да е под 1000 символа", 3);
+      return;
+    }
+
     instance
-      .put(`/folders/${id}`, folderToSubmit)
-      .then(() => {
-        console.log("Добре дошъл в новата си папка", 4);
-        // navigate("/app/folder/" + id);
+      .post("/folders", folderToSubmit)
+      .then((response) => {
+        showToast("Добре дошъл в новата си папка", 4);
+        // navigate("/app/folder/" + response.data.folder_id);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 100);
       })
-      .catch(() => {
-        console.log("Възникна грешка", 5);
+      .catch((error) => {
+        showToast("Възникна грешка", 5);
       });
   };
-
-  useEffect(() => {
-    console.log(filteredSelectedSets);
-  }, [filteredSelectedSets]);
 
   return (
     <Dashboard>

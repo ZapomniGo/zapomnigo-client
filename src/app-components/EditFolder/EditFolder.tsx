@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { SelectSet } from "../CreateFolder/SelectSet";
 import { useRef } from "react";
+import { toast } from "react-toastify";
 
 export const EditFolder = (props) => {
   const navigate = useNavigate();
@@ -31,6 +32,14 @@ export const EditFolder = (props) => {
       navigate("/app/login");
     }
   }, [props.token]);
+
+  const showToast = (message, id) => {
+    if (!toast.isActive(id)) {
+      toast(message, {
+        toastId: id,
+      });
+    }
+  };
 
   //funcs for fetching sets
   const fetchMySets = async () => {
@@ -166,6 +175,7 @@ export const EditFolder = (props) => {
 
   const handleSubmitFolder = async () => {
     const selectedSetsIds = filteredSelectedSets.map((set) => set.set_id);
+
     const folderToSubmit = {
       folder_title: currentFolder?.folder_title,
       folder_description: currentFolder?.folder_description,
@@ -174,14 +184,30 @@ export const EditFolder = (props) => {
       sets: selectedSetsIds,
     };
 
+    if (
+      typeof folderToSubmit.folder_title === "undefined" ||
+      folderToSubmit.folder_title.length === 0
+    ) {
+      showToast("Оп, май пропусна заглавие", 1);
+      return;
+    }
+    if (folderToSubmit.folder_title.length > 100) {
+      showToast("Заглавието трябва да е под 100 символа", 2);
+      return;
+    }
+    if (folderToSubmit.folder_description.length > 1000) {
+      showToast("Описанието трябва да е под 1000 символа", 3);
+      return;
+    }
+
     instance
       .put(`/folders/${id}`, folderToSubmit)
       .then(() => {
-        console.log("Добре дошъл в новата си папка", 4);
+        showToast("Добре дошъл в новата си папка", 4);
         // navigate("/app/folder/" + id);
       })
       .catch(() => {
-        console.log("Възникна грешка", 5);
+        showToast("Възникна грешка", 5);
       });
   };
 
