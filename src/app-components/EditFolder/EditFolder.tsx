@@ -44,7 +44,7 @@ export const EditFolder = (props) => {
   //funcs for fetching sets
   const fetchMySets = async () => {
     const res = await instance.get(
-      `/users/${props.token.sub}/sets?page=${currentPageMySetsRef.current}&size=40&sort_by_date=true&ascending=false`
+      `/users/${props.token.sub}/sets?page=${currentPageMySetsRef.current}&size=2&sort_by_date=true&ascending=false`
     );
     setTotalMySetsPages(res.data.total_pages);
     return res.data;
@@ -52,7 +52,7 @@ export const EditFolder = (props) => {
 
   const fetchAllSets = async () => {
     const res = await instance.get(
-      `/sets?page=${currentPageAllSetsRef.current}&size=2&sort_by_date=true&ascending=false`
+      `/sets?page=${currentPageAllSetsRef.current}&size=2&sort_by_date=true&ascending=false&exclude_user_sets=true`
     );
     setTotalAllSetsPages(res.data.total_pages);
     return res.data;
@@ -117,19 +117,28 @@ export const EditFolder = (props) => {
   useEffect(() => {
     if (filteredSelectedSets && filteredMySets && filteredAllSets) {
       const selectedSetIds = filteredSelectedSets.map((set) => set.set_id);
+      //filteredmysets contains all loaded sets and when i deselect a set it is still not deleted from filteredmysets and when filter is executed it shows it shows it
+      console.log(filteredSelectedSets);
+      console.log(filteredMySets);
 
-      const newMySets = filteredMySets.filter(
+      if (shownMySets.length < 1) {
+        const newMySets = filteredMySets.filter(
+          (set) => !selectedSetIds.includes(set.set_id)
+        );
+        setShownMySets(newMySets);
+      } else {
+        const uniqueFilteredMySets = Array.from(
+          new Set(filteredMySets.map((set) => set.set_id))
+        ).map((setId) => {
+          return filteredMySets.find((set) => set.set_id === setId);
+        });
+        setShownMySets(uniqueFilteredMySets);
+      }
+
+      const newAllSets = filteredAllSets.filter(
         (set) => !selectedSetIds.includes(set.set_id)
       );
 
-      let newAllSets = filteredAllSets.filter(
-        (set) => !selectedSetIds.includes(set.set_id)
-      );
-      newAllSets = newAllSets.filter(
-        (set) => set.username !== props.token.username
-      );
-
-      setShownMySets(newMySets);
       setShownAllSets(newAllSets);
     }
 
@@ -146,15 +155,16 @@ export const EditFolder = (props) => {
   };
 
   const handleDeselectSet = async (set) => {
+    const newSelectedSets = filteredSelectedSets.filter(
+      (s) => s.set_id !== set.set_id
+    );
+    setFilteredSelectedSets(newSelectedSets);
+
     if (props.token.username === set.username) {
       setFilteredMySets((prevState) => [set, ...prevState]);
     } else {
       setFilteredAllSets((prevState) => [set, ...prevState]);
     }
-    const newSelectedSets = filteredSelectedSets.filter(
-      (s) => s.set_id !== set.set_id
-    );
-    setFilteredSelectedSets(newSelectedSets);
   };
 
   const handleLoadMore = async (setType) => {
@@ -184,21 +194,21 @@ export const EditFolder = (props) => {
       sets: selectedSetsIds,
     };
 
-    if (
-      typeof folderToSubmit.folder_title === "undefined" ||
-      folderToSubmit.folder_title.length === 0
-    ) {
-      showToast("Оп, май пропусна заглавие", 1);
-      return;
-    }
-    if (folderToSubmit.folder_title.length > 100) {
-      showToast("Заглавието трябва да е под 100 символа", 2);
-      return;
-    }
-    if (folderToSubmit.folder_description.length > 1000) {
-      showToast("Описанието трябва да е под 1000 символа", 3);
-      return;
-    }
+    // if (
+    //   typeof folderToSubmit.folder_title === "undefined" ||
+    //   folderToSubmit.folder_title.length === 0
+    // ) {
+    //   showToast("Оп, май пропусна заглавие", 1);
+    //   return;
+    // }
+    // if (folderToSubmit.folder_title.length > 100) {
+    //   showToast("Заглавието трябва да е под 100 символа", 2);
+    //   return;
+    // }
+    // if (folderToSubmit.folder_description.length > 1000) {
+    //   showToast("Описанието трябва да е под 1000 символа", 3);
+    //   return;
+    // }
 
     instance
       .put(`/folders/${id}`, folderToSubmit)
@@ -210,6 +220,10 @@ export const EditFolder = (props) => {
         showToast("Възникна грешка", 5);
       });
   };
+
+  useEffect(() => {
+    console.log(shownMySets);
+  }, [shownMySets]);
 
   return (
     <Dashboard>
@@ -297,28 +311,32 @@ export const EditFolder = (props) => {
               </select>
             </div> */}
           </div>
-          {filteredSelectedSets.length >= 1 && <h1>Избрани тестета</h1>}
-          <div className="sets-wrapper">
-            {filteredSelectedSets.map((set) => (
-              <SelectSet
-                key={set.set_id}
-                id={set.set_id}
-                title={set.set_name}
-                description={set.set_description}
-                institution={set.subcategory_name}
-                image={"/logo.jpg"}
-                creator_name={set.username}
-                isAvb={false}
-                onDeselectSet={() => handleDeselectSet(set)}
-                chosen={true}
-              />
-            ))}
-            {filteredSelectedSets.length >= 1 && (
-              <div className="submition">
-                <button onClick={handleSubmitFolder}>Редактирай папка</button>
-              </div>
-            )}
-          </div>
+          {filteredSelectedSets && filteredSelectedSets.length >= 1 && (
+            <h1>Избрани тестета</h1>
+          )}
+          {filteredSelectedSets && (
+            <div className="sets-wrapper">
+              {filteredSelectedSets.map((set) => (
+                <SelectSet
+                  key={set.set_id}
+                  id={set.set_id}
+                  title={set.set_name}
+                  description={set.set_description}
+                  institution={set.subcategory_name}
+                  image={"/logo.jpg"}
+                  creator_name={set.username}
+                  isAvb={false}
+                  onDeselectSet={() => handleDeselectSet(set)}
+                  chosen={true}
+                />
+              ))}
+              {filteredSelectedSets.length >= 1 && (
+                <div className="submition">
+                  <button onClick={handleSubmitFolder}>Редактирай папка</button>
+                </div>
+              )}
+            </div>
+          )}
 
           {shownMySets.length >= 1 && <h1>Мой тестета</h1>}
           <div className="sets-wrapper">
