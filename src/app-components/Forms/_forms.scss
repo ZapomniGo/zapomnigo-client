@@ -4,7 +4,7 @@
   background-color: #f1f1f1;
   position: relative;
   overflow-x: hidden;
-  z-index:-1 !important;
+  z-index: -1 !important;
 
   .spacer {
     position: absolute;
@@ -78,38 +78,36 @@
   }
 }
 
-
-.footer-form-fix{
+.footer-form-fix {
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  #footer{
+  #footer {
     width: calc(100vw - 102px);
     // margin-left: 5.1vmax;
   }
 }
-
 
 // .form-footer{
 //   width: 94.88% !important;
 //   margin-left: 5.1vmax;
 // }
 
-input:-webkit-autofill{
+input:-webkit-autofill {
   -webkit-text-fill-color: #000 !important;
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-.password-test{
+.password-test {
   display: flex;
   align-items: center;
-  .password-svg{
+  .password-svg {
     height: 3vmax;
     display: flex;
     justify-content: center;
@@ -118,9 +116,7 @@ input:-webkit-autofill:active{
     cursor: pointer;
     border-bottom: 1px solid $secondary-color;
 
-
-
-    svg{
+    svg {
       color: gray;
       height: 2vh;
       width: 3.5vh;
@@ -130,55 +126,57 @@ input:-webkit-autofill:active{
       // right: 0;
       margin-right: 100px;
       position: relative;
-  
+
       margin-right: 10px;
     }
   }
 }
 
-@media screen and (max-width: 750px){
-  .password-test{
-    .password-svg{
+@media screen and (max-width: 750px) {
+  .password-test {
+    .password-svg {
       height: 7vh;
-      svg{
+      svg {
         margin-right: 10px;
       }
     }
   }
 }
 
-.pass-errors{
-  div{
+.pass-errors {
+  div {
     border-bottom: none !important;
-    p{
+    p {
       padding: 2.5px 0;
       padding-left: 2px;
-      font-size: 13px;  
+      font-size: 13px;
       font-weight: 300;
     }
   }
-  .success{
+  .success {
     color: $secondary-color !important;
   }
-  
-  .none{
+
+  .none {
     color: gray !important;
   }
 
-  .error{
+  .error {
     color: red !important;
   }
-
 }
 
+.role-select {
+  color: red !important;
+  background-color: yellow !important;
+}
 
-@media screen and (max-width: 1000px){
-  .pass-errors{
-    div{
-      p{
+@media screen and (max-width: 1000px) {
+  .pass-errors {
+    div {
+      p {
         font-size: 1.6vmax;
       }
     }
   }
-  
 }

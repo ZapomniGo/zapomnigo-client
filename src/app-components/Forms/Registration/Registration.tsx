@@ -474,10 +474,14 @@ export const Registration = () => {
   // };
 
   const [selectedUserValue, setSelectedUserValue] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
 
   const handleTypeChange = (event: {
     target: { value: SetStateAction<string> };
   }) => {
+    if (event.target.name === "role") {
+      setSelectedRole(event.target.value);
+    }
     setSelectedUserValue(event.target.value);
   };
 
@@ -552,8 +556,9 @@ export const Registration = () => {
                 required
                 // className={selectedUserValue === "" ? "disabled" : ""}
                 name="role"
+                style={{ color: selectedRole === "" ? "gray" : "black" }}
               >
-                <option value="" disabled>
+                <option value="" disabled className="default-opt">
                   Тип потребител
                 </option>
                 <option value="Student">Ученик</option>
