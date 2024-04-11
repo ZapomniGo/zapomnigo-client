@@ -187,87 +187,154 @@ export const EditFolder = (props) => {
 
   return (
     <Dashboard>
-      <input
-        type="text"
-        value={currentFolder?.folder_title}
-        onChange={(e) => handleChangeFolder("folder_title", e.target.value)}
-        placeholder="Заглавие"
-        className="title"
-        minLength={1}
-        maxLength={100}
-      />
-      <div className="description">
-        <textarea
-          onChange={(e) =>
-            handleChangeFolder("folder_description", e.target.value)
-          }
-          placeholder="Описание"
-          value={currentFolder?.folder_description}
-        />
-      </div>
-      <button onClick={() => handleSubmitFolder()}> Submit</button>
-      {isLoadingMySets && <div>Loading...</div>}
-      {isLoadingAllSets && <div>Loading...</div>}
-      {isLoadingSelectedSets && <div>Loading...</div>}
-      {filteredSelectedSets && (
-        <div className="sets-wrapper">
-          {filteredSelectedSets.map((set) => (
-            <SelectSet
-              key={set.set_id}
-              id={set.set_id}
-              title={set.set_name}
-              description={set.set_description}
-              institution={set.subcategory_name}
-              image={"/logo.jpg"}
-              creator_name={set.username}
-              isAvb={false}
-              onDeselectSet={() => handleDeselectSet(set)}
-            />
-          ))}
-        </div>
-      )}
-      <h1>My sets</h1>
-      {shownMySets && (
-        <div className="sets-wrapper">
-          {shownMySets.map((set) => (
-            <SelectSet
-              key={set.set_id}
-              id={set.set_id}
-              title={set.set_name}
-              description={set.set_description}
-              institution={set.subcategory_name}
-              image={"/logo.jpg"}
-              creator_name={set.username}
-              isAvb={true}
-              onSelectSet={() => handleSelectSet(set, "mySet")}
-            />
-          ))}
+      <div></div>
+      <div className="create-set-wrapper">
+        <div className="create-set">
+          <h1>Редактирай папка</h1>
+          <input
+            type="text"
+            value={currentFolder?.folder_title}
+            onChange={(e) => handleChangeFolder("folder_title", e.target.value)}
+            placeholder="Заглавие"
+            className="title"
+            minLength={1}
+            maxLength={100}
+          />
+          <div className="other-info">
+            <div className="description">
+              <textarea
+                onChange={(e) =>
+                  handleChangeFolder("folder_description", e.target.value)
+                }
+                placeholder="Описание"
+                value={currentFolder?.folder_description}
+              />
+            </div>
+            {/* <div className="tags">
+              <select
+                onChange={(e) => {
+                  const selectedCategory = allCategories.find(
+                    (cat) => cat.category_id === e.target.value
+                  );
+                  setCategory({
+                    name: selectedCategory
+                      ? selectedCategory.category_name
+                      : "",
+                    id: selectedCategory ? selectedCategory.category_id : "",
+                  });
+                  resetSubcategory();
+                  getSubcategories(selectedCategory.category_id);
+                }}
+              >
+                <option value="">Без категория</option>
+                {allCategories.map((allCat, index) => (
+                  <option
+                    key={index}
+                    value={allCat.category_id}
+                    selected={
+                      category && category.name === allCat.category_name
+                    }
+                  >
+                    {allCat.category_name}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                onChange={(e) => {
+                  const selectedSubcategory = allSubcategories.find(
+                    (cat) => cat.subcategory_id === e.target.value
+                  );
+                  setSubcategory({
+                    name: selectedSubcategory
+                      ? selectedSubcategory.subcategory_name
+                      : "",
+                    id: selectedSubcategory
+                      ? selectedSubcategory.subcategory_id
+                      : "",
+                  });
+                }}
+              >
+                <option value="">Без подкатекогия</option>
+                {allSubcategories.map((allSubc, index) => (
+                  <option
+                    key={index}
+                    value={allSubc.subcategory_id}
+                    selected={
+                      subcategory &&
+                      subcategory.name === allSubc.subcategory_name
+                    }
+                  >
+                    {allSubc.subcategory_name}
+                  </option>
+                ))}
+              </select>
+            </div> */}
+          </div>
+          {shownMySets.length >= 1 && <h1>Избрани тестета</h1>}
+          <div className="sets-wrapper">
+            {shownMySets.map((set) => (
+              <SelectSet
+                key={set.set_id}
+                id={set.set_id}
+                title={set.set_name}
+                description={set.set_description}
+                institution={set.subcategory_name}
+                image={"/logo.jpg"}
+                creator_name={set.username}
+                isAvb={false}
+                onDeselectSet={() => handleDeselectSet(set)}
+                chosen={true}
+              />
+            ))}
+            {shownMySets.length >= 1 && (
+              <div className="submition">
+                <button onClick={handleSubmitFolder}>Редактирай папка</button>
+              </div>
+            )}
+          </div>
+
+          {shownMySets.length >= 1 && <h1>Мой тестета</h1>}
+          <div className="sets-wrapper">
+            {shownMySets.map((set) => (
+              <SelectSet
+                key={set.set_id}
+                id={set.set_id}
+                title={set.set_name}
+                description={set.set_description}
+                institution={set.subcategory_name}
+                image={"/logo.jpg"}
+                creator_name={set.username}
+                isAvb={true}
+                onSelectSet={() => handleSelectSet(set, "mySet")}
+              />
+            ))}
+          </div>
           {currentPageMySetsRef.current < totalMySetsPages && (
             <MoreBtn onClick={() => handleLoadMore("mySet")} />
           )}
-        </div>
-      )}
-      <h1>All sets</h1>
-      {shownAllSets && (
-        <div className="sets-wrapper">
-          {shownAllSets.map((set) => (
-            <SelectSet
-              key={set.set_id}
-              id={set.set_id}
-              title={set.set_name}
-              description={set.set_description}
-              institution={set.subcategory_name}
-              image={"/logo.jpg"}
-              creator_name={set.username}
-              isAvb={true}
-              onSelectSet={() => handleSelectSet(set, "allSet")}
-            />
-          ))}
+
+          {shownAllSets.length >= 1 && <h1>Други тестета</h1>}
+          <div className="sets-wrapper">
+            {shownAllSets.map((set) => (
+              <SelectSet
+                key={set.set_id}
+                id={set.set_id}
+                title={set.set_name}
+                description={set.set_description}
+                institution={set.subcategory_name}
+                image={"/logo.jpg"}
+                creator_name={set.username}
+                isAvb={true}
+                onSelectSet={() => handleSelectSet(set, "allSet")}
+              />
+            ))}
+          </div>
           {currentPageAllSetsRef.current < totalAllSetsPages && (
             <MoreBtn onClick={() => handleLoadMore("allSet")} />
           )}
         </div>
-      )}
+      </div>
     </Dashboard>
   );
 };
