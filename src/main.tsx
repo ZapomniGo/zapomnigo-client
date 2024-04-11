@@ -217,7 +217,7 @@ export const App = () => {
         },
         {
           path: folderCreate,
-          element: <CreateFolder />,
+          element: <CreateFolder token={token} />,
         },
         {
           path: folderView,

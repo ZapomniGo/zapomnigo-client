@@ -2,211 +2,201 @@
 import Dashboard from "../Dashboard/Dashboard";
 import instance from "../../app-utils/axios";
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import { SelectSet } from "./SelectSet";
 import { useNavigate } from "react-router-dom";
 import { MoreBtn } from "../MoreBtn/MoreBtn";
-import { jwtDecode } from "jwt-decode";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+import { SelectSet } from "../CreateFolder/SelectSet";
+import { useRef } from "react";
 
-export const CreateFolder = () => {
+export const CreateFolder = (props) => {
   const navigate = useNavigate();
-  const showToast = (message, id) => {
-    if (!toast.isActive(id)) {
-      toast(message, {
-        toastId: id,
-      });
+  const { id } = useParams<{ id: string }>();
+  const [filteredMySets, setFilteredMySets] = useState([]);
+  const [filteredAllSets, setFilteredAllSets] = useState([]);
+  const [filteredSelectedSets, setFilteredSelectedSets] = useState([]);
+  const [shownMySets, setShownMySets] = useState([]);
+  const [shownAllSets, setShownAllSets] = useState([]);
+  const [currentFolder, setCurrentFolder] = useState();
+  const [totalMySetsPages, setTotalMySetsPages] = useState(1);
+  const [totalAllSetsPages, setTotalAllSetsPages] = useState(1);
+  const [mySetsLoadMoreFlag, setMySetsLoadMoreFlag] = useState(false);
+  const [allSetsLoadMoreFlag, setAllSetsLoadMoreFlag] = useState(false);
+  const currentPageMySetsRef = useRef(1);
+  const currentPageAllSetsRef = useRef(1);
+
+  //getting the token from main and checking if its null
+  useEffect(() => {
+    if (props.token === null) {
+      navigate("/app/login");
     }
+  }, [props.token]);
+
+  //funcs for fetching sets
+  const fetchMySets = async () => {
+    const res = await instance.get(
+      `/users/${props.token.sub}/sets?page=${currentPageMySetsRef.current}&size=40&sort_by_date=true&ascending=false`
+    );
+    setTotalMySetsPages(res.data.total_pages);
+    return res.data;
   };
 
-  interface Set {
-    id: number;
-  }
+  const fetchAllSets = async () => {
+    const res = await instance.get(
+      `/sets?page=${currentPageAllSetsRef.current}&size=2&sort_by_date=true&ascending=false`
+    );
+    setTotalAllSetsPages(res.data.total_pages);
+    return res.data;
+  };
 
-  const [allCategories, setAllCategories] = useState([]);
-  // const [allInstitutions, setAllInstitutions] = useState([]);
-  const [subcategories, setSubcategories] = useState([]);
-  const [allSubcategories, setAllSubcategories] = useState([]);
-  const [subcategory, setSubcategory] = useState({ name: "", id: "" });
-  const [user, setUser] = useState("");
+  // const fetchSelectedSets = async () => {
+  //   const res = await instance.get(`/folders/${id}/sets?page=1&size=2000`);
+  //   return res.data;
+  // };
 
-  const [folder, setFolder] = useState<{
-    folder_title: string;
-    folder_description: string;
-    sets: Set[];
-    subcategory_id: string;
-    category_id: string;
-  }>({
-    folder_title: "",
-    folder_description: "",
-    sets: [],
-    subcategory_id: "",
-    category_id: "",
-  });
-  const [setCards, setSetCards] = useState([]);
-  const [createdSets, setCreatedSets] = useState([]);
+  const {
+    data: mySets,
+    error: errorMySets,
+    isLoading: isLoadingMySets,
+    refetch: refetchMySets,
+  } = useQuery(["mySets"], () => fetchMySets());
 
-  const [availableSets, setAvailableSets] = useState({});
+  const {
+    data: allSets,
+    error: errorAllSets,
+    isLoading: isLoadingAllSets,
+    refetch: refetchAllSets,
+  } = useQuery(["allSets"], () => fetchAllSets());
+
+  // const {
+  //   data: selectedSets,
+  //   error: errorSelectedSets,
+  //   isLoading: isLoadingSelectedSets,
+  // } = useQuery("selectedSets", fetchSelectedSets);
+
+  //convert fetched data to states
   useEffect(() => {
-    document.title = "Създай папка | ЗапомниГо";
-  }, []);
-  useEffect(() => {
-    if (localStorage.getItem("access_token")) {
-      const decodedToken = jwtDecode(localStorage.getItem("access_token"));
-      const userID = decodedToken.sub;
-      setUser(userID);
-      instance
-        .get(
-          `/users/${userID}/sets?page=1&size=20&sort_by_date=true&ascending=false`
-        )
-        .then((response) => {
-          setCreatedSets(response.data.sets);
-          setTotalCeatedSetPages(response.data.total_pages);
-        });
+    //flag check is required because of rerenders when page loads and starts duplicating sets
+    if (!allSetsLoadMoreFlag) {
+      setFilteredAllSets(allSets?.sets);
     }
-    instance
-      .get(
-        `/sets?page=1&size=20&sort_by_date=false&ascending=true&category_id=`
-      )
-      .then((response) => {
-        setSetCards(response.data.sets);
-        setTotalAllSetPages(response.data.total_pages);
-      });
+    if (!mySetsLoadMoreFlag) {
+      setFilteredMySets(mySets?.sets);
+    }
 
-    instance.get("/categories").then((response) => {
-      setAllCategories(response.data.categories);
-    });
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mySets, allSets]);
+
+  //used for copying old sets with the new ones when load more is clicked
+  useEffect(() => {
+    if (mySetsLoadMoreFlag) {
+      setFilteredMySets((prevSets) => [...prevSets, ...(mySets?.sets ?? [])]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mySets]);
+
+  //used for copying old sets with the new ones when load more is clicked
+  useEffect(() => {
+    if (allSetsLoadMoreFlag) {
+      setFilteredAllSets((prevSets) => [...prevSets, ...(allSets?.sets ?? [])]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allSets]);
+
+  //remove already selected sets from mySets and allSets
+  useEffect(() => {
+    if (filteredSelectedSets && filteredMySets && filteredAllSets) {
+      const selectedSetIds = filteredSelectedSets.map((set) => set.set_id);
+
+      const newMySets = filteredMySets.filter(
+        (set) => !selectedSetIds.includes(set.set_id)
+      );
+
+      let newAllSets = filteredAllSets.filter(
+        (set) => !selectedSetIds.includes(set.set_id)
+      );
+      newAllSets = newAllSets.filter(
+        (set) => set.username !== props.token.username
+      );
+
+      setShownMySets(newMySets);
+      setShownAllSets(newAllSets);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filteredAllSets, filteredMySets, filteredSelectedSets]);
+
+  const handleSelectSet = async (set, setType) => {
+    if (setType === "mySet") {
+      setFilteredMySets((prev) => prev.filter((s) => s.set_id !== set.set_id));
+    } else if (setType === "allSet") {
+      setFilteredAllSets((prev) => prev.filter((s) => s.set_id !== set.set_id));
+    }
+    setFilteredSelectedSets((prevState) => [...prevState, set]);
+  };
+
+  const handleDeselectSet = async (set) => {
+    if (props.token.username === set.username) {
+      setFilteredMySets((prevState) => [set, ...prevState]);
+    } else {
+      setFilteredAllSets((prevState) => [set, ...prevState]);
+    }
+    const newSelectedSets = filteredSelectedSets.filter(
+      (s) => s.set_id !== set.set_id
+    );
+    setFilteredSelectedSets(newSelectedSets);
+  };
+
+  const handleLoadMore = async (setType) => {
+    if (setType === "mySet") {
+      currentPageMySetsRef.current += 1;
+      setMySetsLoadMoreFlag(true);
+      refetchMySets();
+    } else if (setType === "allSet") {
+      currentPageAllSetsRef.current += 1;
+      setAllSetsLoadMoreFlag(true);
+      refetchAllSets();
+    }
+  };
 
   const handleChangeFolder = (key: string, value: string) => {
-    setFolder((prevState) => ({ ...prevState, [key]: value }));
+    setCurrentFolder((prevState) => ({ ...prevState, [key]: value }));
   };
 
-  const handleSubmitFolder = () => {
-    // Map over sets and return only the set_id
-    const selectedSetIds = folder.sets.map((set) => set.set_id.toString());
-    // Use selectedSetIds when making your request
-    const folderToSubmit = { ...folder, sets: selectedSetIds };
-
-    if (folderToSubmit.folder_title.length === 0) {
-      showToast("Оп, май пропусна заглавие", 1);
-      return;
-    }
-    if (folderToSubmit.folder_title.length > 100) {
-      showToast("Заглавието трябва да е под 100 символа", 2);
-      return;
-    }
-    if (folderToSubmit.folder_title.length > 1000) {
-      showToast("Описанието трябва да е под 1000 символа", 3);
-      return;
-    }
+  const handleSubmitFolder = async () => {
+    const selectedSetsIds = filteredSelectedSets.map((set) => set.set_id);
+    const folderToSubmit = {
+      folder_title: currentFolder?.folder_title,
+      folder_description: currentFolder?.folder_description,
+      subcategory_id: null,
+      category_id: null,
+      sets: selectedSetsIds,
+    };
 
     instance
-      .post("/folders", folderToSubmit)
-      .then((response) => {
-        showToast("Добре дошъл в новата си папка", 4);
-        navigate("/app/folder/" + response.data.folder_id);
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-        }, 100);
+      .put(`/folders/${id}`, folderToSubmit)
+      .then(() => {
+        console.log("Добре дошъл в новата си папка", 4);
+        // navigate("/app/folder/" + id);
       })
-      .catch((error) => {
-        showToast("Възникна грешка", 5);
+      .catch(() => {
+        console.log("Възникна грешка", 5);
       });
   };
 
-  const handleSelectSet = (set) => {
-    setAvailableSets((prevSets) => ({
-      ...prevSets,
-      [set.set_id]: false, // Set the availability of the selected set to false
-    }));
-
-    setFolder((prevFolder) => ({
-      ...prevFolder,
-      sets: [...prevFolder.sets, set],
-    }));
-  };
-
-  // When a set is deselected
-  const handleDeselectSet = (set) => {
-    setAvailableSets((prevSets) => ({
-      ...prevSets,
-      [set.set_id]: true, // Set the availability of the deselected set to true
-    }));
-
-    setFolder((prevFolder) => ({
-      ...prevFolder,
-      sets: prevFolder.sets.filter((set) => set.set_id !== set.set_id),
-    }));
-  };
-
-  const unavailableSetIds = Object.keys(availableSets).filter(
-    (id) => availableSets[id] === false
-  );
-  // const unavailableSets = setCards.filter((set) =>
-  //   unavailableSetIds.includes(set.set_id.toString())
-  // );
-  const unavailableSets = [
-    ...createdSets.filter((set) =>
-      unavailableSetIds.includes(set.set_id.toString())
-    ),
-    ...setCards.filter((set) =>
-      unavailableSetIds.includes(set.set_id.toString())
-    ),
-  ];
-
-  const changeSubcategories = (category_id: string) => {
-    instance
-      .get(`/categories/${category_id}/subcategories`)
-      .then((response) => {
-        setSubcategories(response.data.subcategories);
-      });
-  };
-  const [pageSetAll, setPageSetAll] = useState(1);
-  const [totalAllSetPages, setTotalAllSetPages] = useState(1);
-  const [pageSetCreated, setPageSetCreated] = useState(1);
-  const [totalCreatedSetPages, setTotalCeatedSetPages] = useState(1);
-
-  const handleLoadAllSets = () => {
-    const newPageSet = pageSetAll + 1;
-    setPageSetAll(newPageSet);
-    instance
-      .get(
-        `/sets?page=${newPageSet}&size=20&sort_by_date=false&ascending=true&category_id=`
-      )
-      .then((response) => {
-        setTotalAllSetPages(response.data.total_pages);
-        const newCards = [...setCards];
-        response.data.sets.forEach((card) => newCards.push(card));
-        setSetCards(newCards);
-      });
-  };
-
-  const handleLoadCreatedSets = () => {
-    const newPageSet = pageSetCreated + 1;
-    setPageSetCreated(newPageSet);
-    instance
-      .get(
-        `/users/${user}/sets?page=${newPageSet}&size=20&sort_by_date=true&ascending=false`
-      )
-      .then((response) => {
-        setTotalCeatedSetPages(response.data.total_pages);
-        const newCards = [...createdSets];
-        response.data.sets.forEach((card) => newCards.push(card));
-        setCreatedSets(newCards);
-      });
-  };
-
-  const resetSubcategory = () => {
-    setSubcategories([]);
-  };
+  useEffect(() => {
+    console.log(filteredSelectedSets);
+  }, [filteredSelectedSets]);
 
   return (
     <Dashboard>
+      <div></div>
       <div className="create-set-wrapper">
         <div className="create-set">
-          <h1>Създай папка</h1>
+          <h1>Редактирай папка</h1>
           <input
             type="text"
+            value={currentFolder?.folder_title}
             onChange={(e) => handleChangeFolder("folder_title", e.target.value)}
             placeholder="Заглавие"
             className="title"
@@ -220,113 +210,131 @@ export const CreateFolder = () => {
                   handleChangeFolder("folder_description", e.target.value)
                 }
                 placeholder="Описание"
+                value={currentFolder?.folder_description}
               />
             </div>
-            <div className="tags">
+            {/* <div className="tags">
               <select
                 onChange={(e) => {
-                  handleChangeFolder("category_id", e.target.value);
-                  changeSubcategories(e.target.value);
+                  const selectedCategory = allCategories.find(
+                    (cat) => cat.category_id === e.target.value
+                  );
+                  setCategory({
+                    name: selectedCategory
+                      ? selectedCategory.category_name
+                      : "",
+                    id: selectedCategory ? selectedCategory.category_id : "",
+                  });
                   resetSubcategory();
+                  getSubcategories(selectedCategory.category_id);
                 }}
-                defaultValue={""}
-                id="categories"
-                name="categories"
               >
                 <option value="">Без категория</option>
-                {allCategories.map((category, index) => (
-                  <option key={index} value={category.category_id}>
-                    {category.category_name}
+                {allCategories.map((allCat, index) => (
+                  <option
+                    key={index}
+                    value={allCat.category_id}
+                    selected={
+                      category && category.name === allCat.category_name
+                    }
+                  >
+                    {allCat.category_name}
                   </option>
                 ))}
               </select>
+
               <select
                 onChange={(e) => {
-                  handleChangeFolder("subcategory_id", e.target.value);
+                  const selectedSubcategory = allSubcategories.find(
+                    (cat) => cat.subcategory_id === e.target.value
+                  );
+                  setSubcategory({
+                    name: selectedSubcategory
+                      ? selectedSubcategory.subcategory_name
+                      : "",
+                    id: selectedSubcategory
+                      ? selectedSubcategory.subcategory_id
+                      : "",
+                  });
                 }}
-                defaultValue=""
-                id="subcategory"
-                name="subcategory"
               >
-                <option value="">Без подкатегория</option>
-                {subcategories.map((subcategory, index) => (
-                  <option key={index} value={subcategory.subcategory_id}>
-                    {subcategory.subcategory_name}
+                <option value="">Без подкатекогия</option>
+                {allSubcategories.map((allSubc, index) => (
+                  <option
+                    key={index}
+                    value={allSubc.subcategory_id}
+                    selected={
+                      subcategory &&
+                      subcategory.name === allSubc.subcategory_name
+                    }
+                  >
+                    {allSubc.subcategory_name}
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
           </div>
-          {unavailableSets.length > 0 && <h1>Избрани тестета</h1>}
-          <div className="test">
-            <div className="sets-wrapper">
-              {unavailableSets.map((card) => (
-                <SelectSet
-                  key={card.set_id}
-                  id={card.set_id}
-                  title={card.set_name}
-                  description={card.set_description}
-                  institution={card.organization_name}
-                  image={"/logo.jpg"}
-                  creator_name={card.username}
-                  isAvb={availableSets[card.set_id] !== false}
-                  onSelectSet={() => handleSelectSet(card)}
-                  onDeselectSet={() => handleDeselectSet(card)}
-                  chosen={true}
-                />
-              ))}
-              {unavailableSets.length >= 1 && (
-                <div className="submition">
-                  <button onClick={handleSubmitFolder}>Създай папка</button>
-                </div>
-              )}
-            </div>
+          {filteredSelectedSets.length >= 1 && <h1>Избрани тестета</h1>}
+          <div className="sets-wrapper">
+            {filteredSelectedSets.map((set) => (
+              <SelectSet
+                key={set.set_id}
+                id={set.set_id}
+                title={set.set_name}
+                description={set.set_description}
+                institution={set.subcategory_name}
+                image={"/logo.jpg"}
+                creator_name={set.username}
+                isAvb={false}
+                onDeselectSet={() => handleDeselectSet(set)}
+                chosen={true}
+              />
+            ))}
+            {filteredSelectedSets.length >= 1 && (
+              <div className="submition">
+                <button onClick={handleSubmitFolder}>Създай папка</button>
+              </div>
+            )}
           </div>
 
-          {createdSets.length >= 1 && <h1>Мой тестета</h1>}
+          {shownMySets.length >= 1 && <h1>Мой тестета</h1>}
           <div className="sets-wrapper">
-            {createdSets
-              .filter((card) => availableSets[card.set_id] !== false)
-              .map((card: any) => (
-                <SelectSet
-                  key={card.set_id}
-                  id={card.set_id}
-                  title={card.set_name}
-                  description={card.set_description}
-                  institution={card.organization_name}
-                  image={"/logo.jpg"}
-                  creator_name={card.username}
-                  isAvb={availableSets[card.set_id] !== false}
-                  onSelectSet={() => handleSelectSet(card)}
-                  onDeselectSet={() => handleDeselectSet(card)}
-                />
-              ))}
+            {shownMySets.map((set) => (
+              <SelectSet
+                key={set.set_id}
+                id={set.set_id}
+                title={set.set_name}
+                description={set.set_description}
+                institution={set.subcategory_name}
+                image={"/logo.jpg"}
+                creator_name={set.username}
+                isAvb={true}
+                onSelectSet={() => handleSelectSet(set, "mySet")}
+              />
+            ))}
           </div>
-          {pageSetCreated < totalCreatedSetPages && setCards.length > 0 && (
-            <MoreBtn onClick={() => handleLoadCreatedSets()} />
+          {currentPageMySetsRef.current < totalMySetsPages && (
+            <MoreBtn onClick={() => handleLoadMore("mySet")} />
           )}
 
-          {setCards.length >= 1 && <h1>Други тестета</h1>}
+          {shownAllSets.length >= 1 && <h1>Други тестета</h1>}
           <div className="sets-wrapper">
-            {setCards
-              .filter((card) => availableSets[card.set_id] !== false)
-              .map((card: any) => (
-                <SelectSet
-                  key={card.set_id}
-                  id={card.set_id}
-                  title={card.set_name}
-                  description={card.set_description}
-                  institution={card.organization_name}
-                  image={"/logo.jpg"}
-                  creator_name={card.username}
-                  isAvb={availableSets[card.set_id] !== false}
-                  onSelectSet={() => handleSelectSet(card)}
-                  onDeselectSet={() => handleDeselectSet(card)}
-                />
-              ))}
+            {shownAllSets.map((set) => (
+              <SelectSet
+                key={set.set_id}
+                id={set.set_id}
+                title={set.set_name}
+                description={set.set_description}
+                institution={set.subcategory_name}
+                image={"/logo.jpg"}
+                creator_name={set.username}
+                isAvb={true}
+                onSelectSet={() => handleSelectSet(set, "allSet")}
+              />
+            ))}
           </div>
-          {pageSetAll < totalAllSetPages && setCards.length > 0 && (
-            <MoreBtn onClick={() => handleLoadAllSets()} />
+          {currentPageAllSetsRef.current < totalAllSetsPages && (
+            <MoreBtn onClick={() => handleLoadMore("allSet")} />
           )}
         </div>
       </div>

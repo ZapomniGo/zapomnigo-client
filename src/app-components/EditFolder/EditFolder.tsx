@@ -271,9 +271,9 @@ export const EditFolder = (props) => {
               </select>
             </div> */}
           </div>
-          {shownMySets.length >= 1 && <h1>Избрани тестета</h1>}
+          {filteredSelectedSets.length >= 1 && <h1>Избрани тестета</h1>}
           <div className="sets-wrapper">
-            {shownMySets.map((set) => (
+            {filteredSelectedSets.map((set) => (
               <SelectSet
                 key={set.set_id}
                 id={set.set_id}
@@ -287,7 +287,7 @@ export const EditFolder = (props) => {
                 chosen={true}
               />
             ))}
-            {shownMySets.length >= 1 && (
+            {filteredSelectedSets.length >= 1 && (
               <div className="submition">
                 <button onClick={handleSubmitFolder}>Редактирай папка</button>
               </div>
