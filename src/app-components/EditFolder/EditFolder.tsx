@@ -100,7 +100,8 @@ export const EditFolder = (props) => {
   //used for copying old sets with the new ones when load more is clicked
   useEffect(() => {
     if (mySetsLoadMoreFlag) {
-      setFilteredMySets((prevSets) => [...prevSets, ...(mySets?.sets ?? [])]);
+      setFilteredSelectedSets(filteredSelectedSets);
+      setFilteredMySets(() => [...shownMySets, ...(mySets?.sets ?? [])]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mySets]);
@@ -108,7 +109,8 @@ export const EditFolder = (props) => {
   //used for copying old sets with the new ones when load more is clicked
   useEffect(() => {
     if (allSetsLoadMoreFlag) {
-      setFilteredAllSets((prevSets) => [...prevSets, ...(allSets?.sets ?? [])]);
+      setFilteredSelectedSets(filteredSelectedSets);
+      setFilteredAllSets(() => [...shownAllSets, ...(allSets?.sets ?? [])]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allSets]);
@@ -117,23 +119,11 @@ export const EditFolder = (props) => {
   useEffect(() => {
     if (filteredSelectedSets && filteredMySets && filteredAllSets) {
       const selectedSetIds = filteredSelectedSets.map((set) => set.set_id);
-      //filteredmysets contains all loaded sets and when i deselect a set it is still not deleted from filteredmysets and when filter is executed it shows it shows it
-      console.log(filteredSelectedSets);
-      console.log(filteredMySets);
 
-      if (shownMySets.length < 1) {
-        const newMySets = filteredMySets.filter(
-          (set) => !selectedSetIds.includes(set.set_id)
-        );
-        setShownMySets(newMySets);
-      } else {
-        const uniqueFilteredMySets = Array.from(
-          new Set(filteredMySets.map((set) => set.set_id))
-        ).map((setId) => {
-          return filteredMySets.find((set) => set.set_id === setId);
-        });
-        setShownMySets(uniqueFilteredMySets);
-      }
+      const newMySets = filteredMySets.filter(
+        (set) => !selectedSetIds.includes(set.set_id)
+      );
+      setShownMySets(newMySets);
 
       const newAllSets = filteredAllSets.filter(
         (set) => !selectedSetIds.includes(set.set_id)
@@ -161,9 +151,9 @@ export const EditFolder = (props) => {
     setFilteredSelectedSets(newSelectedSets);
 
     if (props.token.username === set.username) {
-      setFilteredMySets((prevState) => [set, ...prevState]);
+      setFilteredMySets(() => [set, ...shownMySets]);
     } else {
-      setFilteredAllSets((prevState) => [set, ...prevState]);
+      setFilteredAllSets(() => [set, ...shownAllSets]);
     }
   };
 
@@ -194,21 +184,21 @@ export const EditFolder = (props) => {
       sets: selectedSetsIds,
     };
 
-    // if (
-    //   typeof folderToSubmit.folder_title === "undefined" ||
-    //   folderToSubmit.folder_title.length === 0
-    // ) {
-    //   showToast("Оп, май пропусна заглавие", 1);
-    //   return;
-    // }
-    // if (folderToSubmit.folder_title.length > 100) {
-    //   showToast("Заглавието трябва да е под 100 символа", 2);
-    //   return;
-    // }
-    // if (folderToSubmit.folder_description.length > 1000) {
-    //   showToast("Описанието трябва да е под 1000 символа", 3);
-    //   return;
-    // }
+    if (
+      typeof folderToSubmit.folder_title === "undefined" ||
+      folderToSubmit.folder_title.length === 0
+    ) {
+      showToast("Оп, май пропусна заглавие", 1);
+      return;
+    }
+    if (folderToSubmit.folder_title.length > 100) {
+      showToast("Заглавието трябва да е под 100 символа", 2);
+      return;
+    }
+    if (folderToSubmit.folder_description.length > 1000) {
+      showToast("Описанието трябва да е под 1000 символа", 3);
+      return;
+    }
 
     instance
       .put(`/folders/${id}`, folderToSubmit)
@@ -220,10 +210,6 @@ export const EditFolder = (props) => {
         showToast("Възникна грешка", 5);
       });
   };
-
-  useEffect(() => {
-    console.log(shownMySets);
-  }, [shownMySets]);
 
   return (
     <Dashboard>
