@@ -25,6 +25,12 @@ export const EditFolder = (props) => {
   const [allSetsLoadMoreFlag, setAllSetsLoadMoreFlag] = useState(false);
   const currentPageMySetsRef = useRef(1);
   const currentPageAllSetsRef = useRef(1);
+  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedSubcategory, setSelectedSubcategory] = useState();
+
+  // useEffect(() => {
+  //   console.log(selectedSubcategory);
+  // }, [selectedSubcategory]);
 
   //getting the token from main and checking if its null
   useEffect(() => {
@@ -63,6 +69,21 @@ export const EditFolder = (props) => {
     return res.data;
   };
 
+  const fetchCategories = async () => {
+    const res = await instance.get("/categories");
+    return res.data;
+  };
+
+  const fetchSubcategories = async () => {
+    if (selectedCategory) {
+      console.log(selectedCategory);
+      const res = await instance.get(
+        `/categories/${selectedCategory}/subcategories`
+      );
+      return res.data;
+    }
+  };
+
   const {
     data: mySets,
     error: errorMySets,
@@ -83,6 +104,24 @@ export const EditFolder = (props) => {
     isLoading: isLoadingSelectedSets,
   } = useQuery("selectedSets", fetchSelectedSets);
 
+  const {
+    data: allCategories,
+    error: errorCategories,
+    isLoading: isLoadingCategories,
+  } = useQuery("allCategories", fetchCategories);
+
+  const {
+    data: Subcategories,
+    error: errorSubcategories,
+    isLoading: isLoadingSubcategories,
+    refetch: refetchSubcategories,
+  } = useQuery("Subcategories", fetchSubcategories);
+
+  //used for getting subcategories when category is selected
+  useEffect(() => {
+    refetchSubcategories();
+  }, [selectedCategory]);
+
   //convert fetched data to states
   useEffect(() => {
     //flag check is required because of rerenders when page loads and starts duplicating sets
@@ -94,6 +133,7 @@ export const EditFolder = (props) => {
     }
     setFilteredSelectedSets(selectedSets?.sets);
     setCurrentFolder(selectedSets?.folder);
+    setSelectedCategory(selectedSets?.folder?.category_id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSets, mySets, allSets]);
 
@@ -179,26 +219,27 @@ export const EditFolder = (props) => {
     const folderToSubmit = {
       folder_title: currentFolder?.folder_title,
       folder_description: currentFolder?.folder_description,
-      subcategory_id: null,
-      category_id: null,
+      subcategory_id: selectedSubcategory,
+      category_id: selectedCategory,
       sets: selectedSetsIds,
     };
 
-    if (
-      typeof folderToSubmit.folder_title === "undefined" ||
-      folderToSubmit.folder_title.length === 0
-    ) {
-      showToast("Оп, май пропусна заглавие", 1);
-      return;
-    }
-    if (folderToSubmit.folder_title.length > 100) {
-      showToast("Заглавието трябва да е под 100 символа", 2);
-      return;
-    }
-    if (folderToSubmit.folder_description.length > 1000) {
-      showToast("Описанието трябва да е под 1000 символа", 3);
-      return;
-    }
+    //fix input validation
+    // if (
+    //   typeof folderToSubmit.folder_title === "undefined" ||
+    //   folderToSubmit.folder_title.length === 0
+    // ) {
+    //   showToast("Оп, май пропусна заглавие", 1);
+    //   return;
+    // }
+    // if (folderToSubmit.folder_title.length > 100) {
+    //   showToast("Заглавието трябва да е под 100 символа", 2);
+    //   return;
+    // }
+    // if (folderToSubmit.folder_description.length > 1000) {
+    //   showToast("Описанието трябва да е под 1000 символа", 3);
+    //   return;
+    // }
 
     instance
       .put(`/folders/${id}`, folderToSubmit)
@@ -236,66 +277,45 @@ export const EditFolder = (props) => {
                 value={currentFolder?.folder_description}
               />
             </div>
-            {/* <div className="tags">
+            {/* //category and subcategory */}
+            <div className="tags">
               <select
+                value={selectedCategory}
                 onChange={(e) => {
-                  const selectedCategory = allCategories.find(
-                    (cat) => cat.category_id === e.target.value
-                  );
-                  setCategory({
-                    name: selectedCategory
-                      ? selectedCategory.category_name
-                      : "",
-                    id: selectedCategory ? selectedCategory.category_id : "",
-                  });
-                  resetSubcategory();
-                  getSubcategories(selectedCategory.category_id);
+                  setSelectedCategory(e.target.value);
+                  setSelectedSubcategory("");
                 }}
               >
                 <option value="">Без категория</option>
-                {allCategories.map((allCat, index) => (
+                {allCategories?.categories.map((category) => (
                   <option
-                    key={index}
-                    value={allCat.category_id}
+                    value={category.category_id}
                     selected={
-                      category && category.name === allCat.category_name
+                      currentFolder?.category_id === category.category_id
                     }
                   >
-                    {allCat.category_name}
+                    {category.category_name}
                   </option>
                 ))}
               </select>
-
               <select
-                onChange={(e) => {
-                  const selectedSubcategory = allSubcategories.find(
-                    (cat) => cat.subcategory_id === e.target.value
-                  );
-                  setSubcategory({
-                    name: selectedSubcategory
-                      ? selectedSubcategory.subcategory_name
-                      : "",
-                    id: selectedSubcategory
-                      ? selectedSubcategory.subcategory_id
-                      : "",
-                  });
-                }}
+                value={selectedSubcategory}
+                onChange={(e) => setSelectedSubcategory(e.target.value)}
               >
-                <option value="">Без подкатекогия</option>
-                {allSubcategories.map((allSubc, index) => (
+                <option value="">Без подкатегория</option>
+                {Subcategories?.subcategories.map((subcategory) => (
                   <option
-                    key={index}
-                    value={allSubc.subcategory_id}
+                    value={subcategory.subcategory_id}
                     selected={
-                      subcategory &&
-                      subcategory.name === allSubc.subcategory_name
+                      currentFolder?.subcategory_id ===
+                      subcategory.subcategory_id
                     }
                   >
-                    {allSubc.subcategory_name}
+                    {subcategory.subcategory_name}
                   </option>
                 ))}
               </select>
-            </div> */}
+            </div>
           </div>
           {filteredSelectedSets && filteredSelectedSets.length >= 1 && (
             <h1>Избрани тестета</h1>
