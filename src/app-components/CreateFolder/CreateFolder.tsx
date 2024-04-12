@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 
 export const CreateFolder = (props) => {
   const navigate = useNavigate();
-  // const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
   const [filteredMySets, setFilteredMySets] = useState([]);
   const [filteredAllSets, setFilteredAllSets] = useState([]);
   const [filteredSelectedSets, setFilteredSelectedSets] = useState([]);
@@ -25,6 +25,12 @@ export const CreateFolder = (props) => {
   const [allSetsLoadMoreFlag, setAllSetsLoadMoreFlag] = useState(false);
   const currentPageMySetsRef = useRef(1);
   const currentPageAllSetsRef = useRef(1);
+  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedSubcategory, setSelectedSubcategory] = useState();
+
+  // useEffect(() => {
+  //   console.log(selectedSubcategory);
+  // }, [selectedSubcategory]);
 
   //getting the token from main and checking if its null
   useEffect(() => {
@@ -44,7 +50,7 @@ export const CreateFolder = (props) => {
   //funcs for fetching sets
   const fetchMySets = async () => {
     const res = await instance.get(
-      `/users/${props.token.sub}/sets?page=${currentPageMySetsRef.current}&size=40&sort_by_date=true&ascending=false`
+      `/users/${props.token.sub}/sets?page=${currentPageMySetsRef.current}&size=2&sort_by_date=true&ascending=false`
     );
     setTotalMySetsPages(res.data.total_pages);
     return res.data;
@@ -52,16 +58,31 @@ export const CreateFolder = (props) => {
 
   const fetchAllSets = async () => {
     const res = await instance.get(
-      `/sets?page=${currentPageAllSetsRef.current}&size=2&sort_by_date=true&ascending=false`
+      `/sets?page=${currentPageAllSetsRef.current}&size=2&sort_by_date=true&ascending=false&exclude_user_sets=true`
     );
     setTotalAllSetsPages(res.data.total_pages);
     return res.data;
   };
 
   // const fetchSelectedSets = async () => {
-  //   const res = await instance.get(`/folders/${id}/sets?page=1&size=2000`);
+  //   const res = await instance.get(`/folders/${id}?page=1&size=2000`);
   //   return res.data;
   // };
+
+  const fetchCategories = async () => {
+    const res = await instance.get("/categories");
+    return res.data;
+  };
+
+  const fetchSubcategories = async () => {
+    if (selectedCategory) {
+      console.log(selectedCategory);
+      const res = await instance.get(
+        `/categories/${selectedCategory}/subcategories`
+      );
+      return res.data;
+    }
+  };
 
   const {
     data: mySets,
@@ -83,6 +104,24 @@ export const CreateFolder = (props) => {
   //   isLoading: isLoadingSelectedSets,
   // } = useQuery("selectedSets", fetchSelectedSets);
 
+  const {
+    data: allCategories,
+    error: errorCategories,
+    isLoading: isLoadingCategories,
+  } = useQuery("allCategories", fetchCategories);
+
+  const {
+    data: Subcategories,
+    error: errorSubcategories,
+    isLoading: isLoadingSubcategories,
+    refetch: refetchSubcategories,
+  } = useQuery("Subcategories", fetchSubcategories);
+
+  //used for getting subcategories when category is selected
+  useEffect(() => {
+    refetchSubcategories();
+  }, [selectedCategory]);
+
   //convert fetched data to states
   useEffect(() => {
     //flag check is required because of rerenders when page loads and starts duplicating sets
@@ -92,14 +131,17 @@ export const CreateFolder = (props) => {
     if (!mySetsLoadMoreFlag) {
       setFilteredMySets(mySets?.sets);
     }
-
+    // setFilteredSelectedSets(selectedSets?.sets);
+    // setCurrentFolder(selectedSets?.folder);
+    // setSelectedCategory(selectedSets?.folder?.category_id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mySets, allSets]);
 
   //used for copying old sets with the new ones when load more is clicked
   useEffect(() => {
     if (mySetsLoadMoreFlag) {
-      setFilteredMySets((prevSets) => [...prevSets, ...(mySets?.sets ?? [])]);
+      setFilteredSelectedSets(filteredSelectedSets);
+      setFilteredMySets(() => [...shownMySets, ...(mySets?.sets ?? [])]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mySets]);
@@ -107,7 +149,8 @@ export const CreateFolder = (props) => {
   //used for copying old sets with the new ones when load more is clicked
   useEffect(() => {
     if (allSetsLoadMoreFlag) {
-      setFilteredAllSets((prevSets) => [...prevSets, ...(allSets?.sets ?? [])]);
+      setFilteredSelectedSets(filteredSelectedSets);
+      setFilteredAllSets(() => [...shownAllSets, ...(allSets?.sets ?? [])]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allSets]);
@@ -120,15 +163,12 @@ export const CreateFolder = (props) => {
       const newMySets = filteredMySets.filter(
         (set) => !selectedSetIds.includes(set.set_id)
       );
+      setShownMySets(newMySets);
 
-      let newAllSets = filteredAllSets.filter(
+      const newAllSets = filteredAllSets.filter(
         (set) => !selectedSetIds.includes(set.set_id)
       );
-      newAllSets = newAllSets.filter(
-        (set) => set.username !== props.token.username
-      );
 
-      setShownMySets(newMySets);
       setShownAllSets(newAllSets);
     }
 
@@ -145,15 +185,16 @@ export const CreateFolder = (props) => {
   };
 
   const handleDeselectSet = async (set) => {
-    if (props.token.username === set.username) {
-      setFilteredMySets((prevState) => [set, ...prevState]);
-    } else {
-      setFilteredAllSets((prevState) => [set, ...prevState]);
-    }
     const newSelectedSets = filteredSelectedSets.filter(
       (s) => s.set_id !== set.set_id
     );
     setFilteredSelectedSets(newSelectedSets);
+
+    if (props.token.username === set.username) {
+      setFilteredMySets(() => [set, ...shownMySets]);
+    } else {
+      setFilteredAllSets(() => [set, ...shownAllSets]);
+    }
   };
 
   const handleLoadMore = async (setType) => {
@@ -174,40 +215,43 @@ export const CreateFolder = (props) => {
 
   const handleSubmitFolder = async () => {
     const selectedSetsIds = filteredSelectedSets.map((set) => set.set_id);
+
     const folderToSubmit = {
       folder_title: currentFolder?.folder_title,
       folder_description: currentFolder?.folder_description,
-      subcategory_id: null,
-      category_id: null,
+      subcategory_id: selectedSubcategory,
+      category_id: selectedCategory,
       sets: selectedSetsIds,
     };
-
+    //fix input validation
     if (
       typeof folderToSubmit.folder_title === "undefined" ||
-      folderToSubmit.folder_title.length === 0
+      (typeof folderToSubmit !== "undefined" &&
+        folderToSubmit.folder_title.length === 0)
     ) {
       showToast("Оп, май пропусна заглавие", 1);
       return;
     }
+
     if (folderToSubmit.folder_title.length > 100) {
       showToast("Заглавието трябва да е под 100 символа", 2);
       return;
     }
-    if (folderToSubmit.folder_description.length > 1000) {
+    if (
+      typeof folderToSubmit.folder_description !== "undefined" &&
+      folderToSubmit.folder_description.length > 1000
+    ) {
       showToast("Описанието трябва да е под 1000 символа", 3);
       return;
     }
 
     instance
-      .post("/folders", folderToSubmit)
-      .then((response) => {
+      .post(`/folders`, folderToSubmit)
+      .then(() => {
         showToast("Добре дошъл в новата си папка", 4);
-        // navigate("/app/folder/" + response.data.folder_id);
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-        }, 100);
+        navigate("/app/folder/" + id);
       })
-      .catch((error) => {
+      .catch(() => {
         showToast("Възникна грешка", 5);
       });
   };
@@ -237,89 +281,72 @@ export const CreateFolder = (props) => {
                 value={currentFolder?.folder_description}
               />
             </div>
-            {/* <div className="tags">
+            {/* //category and subcategory */}
+            <div className="tags">
               <select
+                value={selectedCategory}
                 onChange={(e) => {
-                  const selectedCategory = allCategories.find(
-                    (cat) => cat.category_id === e.target.value
-                  );
-                  setCategory({
-                    name: selectedCategory
-                      ? selectedCategory.category_name
-                      : "",
-                    id: selectedCategory ? selectedCategory.category_id : "",
-                  });
-                  resetSubcategory();
-                  getSubcategories(selectedCategory.category_id);
+                  setSelectedCategory(e.target.value);
+                  setSelectedSubcategory("");
                 }}
               >
                 <option value="">Без категория</option>
-                {allCategories.map((allCat, index) => (
+                {allCategories?.categories.map((category) => (
                   <option
-                    key={index}
-                    value={allCat.category_id}
+                    value={category.category_id}
                     selected={
-                      category && category.name === allCat.category_name
+                      currentFolder?.category_id === category.category_id
                     }
                   >
-                    {allCat.category_name}
+                    {category.category_name}
                   </option>
                 ))}
               </select>
-
               <select
-                onChange={(e) => {
-                  const selectedSubcategory = allSubcategories.find(
-                    (cat) => cat.subcategory_id === e.target.value
-                  );
-                  setSubcategory({
-                    name: selectedSubcategory
-                      ? selectedSubcategory.subcategory_name
-                      : "",
-                    id: selectedSubcategory
-                      ? selectedSubcategory.subcategory_id
-                      : "",
-                  });
-                }}
+                value={selectedSubcategory}
+                onChange={(e) => setSelectedSubcategory(e.target.value)}
               >
-                <option value="">Без подкатекогия</option>
-                {allSubcategories.map((allSubc, index) => (
+                <option value="">Без подкатегория</option>
+                {Subcategories?.subcategories.map((subcategory) => (
                   <option
-                    key={index}
-                    value={allSubc.subcategory_id}
+                    value={subcategory.subcategory_id}
                     selected={
-                      subcategory &&
-                      subcategory.name === allSubc.subcategory_name
+                      currentFolder?.subcategory_id ===
+                      subcategory.subcategory_id
                     }
                   >
-                    {allSubc.subcategory_name}
+                    {subcategory.subcategory_name}
                   </option>
                 ))}
               </select>
-            </div> */}
+            </div>
           </div>
-          {filteredSelectedSets.length >= 1 && <h1>Избрани тестета</h1>}
-          <div className="sets-wrapper">
-            {filteredSelectedSets.map((set) => (
-              <SelectSet
-                key={set.set_id}
-                id={set.set_id}
-                title={set.set_name}
-                description={set.set_description}
-                institution={set.subcategory_name}
-                image={"/logo.jpg"}
-                creator_name={set.username}
-                isAvb={false}
-                onDeselectSet={() => handleDeselectSet(set)}
-                chosen={true}
-              />
-            ))}
-            {filteredSelectedSets.length >= 1 && (
-              <div className="submition">
-                <button onClick={handleSubmitFolder}>Създай папка</button>
-              </div>
-            )}
-          </div>
+          {filteredSelectedSets && filteredSelectedSets.length >= 1 && (
+            <h1>Избрани тестета</h1>
+          )}
+          {filteredSelectedSets && (
+            <div className="sets-wrapper">
+              {filteredSelectedSets.map((set) => (
+                <SelectSet
+                  key={set.set_id}
+                  id={set.set_id}
+                  title={set.set_name}
+                  description={set.set_description}
+                  institution={set.subcategory_name}
+                  image={"/logo.jpg"}
+                  creator_name={set.username}
+                  isAvb={false}
+                  onDeselectSet={() => handleDeselectSet(set)}
+                  chosen={true}
+                />
+              ))}
+              {filteredSelectedSets.length >= 1 && (
+                <div className="submition">
+                  <button onClick={handleSubmitFolder}>Редактирай папка</button>
+                </div>
+              )}
+            </div>
+          )}
 
           {shownMySets.length >= 1 && <h1>Мой тестета</h1>}
           <div className="sets-wrapper">
