@@ -28,10 +28,6 @@ export const EditFolder = (props) => {
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedSubcategory, setSelectedSubcategory] = useState();
 
-  // useEffect(() => {
-  //   console.log(selectedSubcategory);
-  // }, [selectedSubcategory]);
-
   //getting the token from main and checking if its null
   useEffect(() => {
     if (props.token === null) {
@@ -50,7 +46,7 @@ export const EditFolder = (props) => {
   //funcs for fetching sets
   const fetchMySets = async () => {
     const res = await instance.get(
-      `/users/${props.token.sub}/sets?page=${currentPageMySetsRef.current}&size=2&sort_by_date=true&ascending=false`
+      `/users/${props.token.sub}/sets?page=${currentPageMySetsRef.current}&size=12&sort_by_date=true&ascending=false`
     );
     setTotalMySetsPages(res.data.total_pages);
     return res.data;
@@ -58,7 +54,7 @@ export const EditFolder = (props) => {
 
   const fetchAllSets = async () => {
     const res = await instance.get(
-      `/sets?page=${currentPageAllSetsRef.current}&size=2&sort_by_date=true&ascending=false&exclude_user_sets=true`
+      `/sets?page=${currentPageAllSetsRef.current}&size=12&sort_by_date=true&ascending=false&exclude_user_sets=true`
     );
     setTotalAllSetsPages(res.data.total_pages);
     return res.data;
@@ -76,7 +72,6 @@ export const EditFolder = (props) => {
 
   const fetchSubcategories = async () => {
     if (selectedCategory) {
-      console.log(selectedCategory);
       const res = await instance.get(
         `/categories/${selectedCategory}/subcategories`
       );
@@ -120,6 +115,7 @@ export const EditFolder = (props) => {
   //used for getting subcategories when category is selected
   useEffect(() => {
     refetchSubcategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategory]);
 
   //convert fetched data to states
@@ -224,28 +220,33 @@ export const EditFolder = (props) => {
       sets: selectedSetsIds,
     };
 
-    //fix input validation
-    // if (
-    //   typeof folderToSubmit.folder_title === "undefined" ||
-    //   folderToSubmit.folder_title.length === 0
-    // ) {
-    //   showToast("Оп, май пропусна заглавие", 1);
-    //   return;
-    // }
-    // if (folderToSubmit.folder_title.length > 100) {
-    //   showToast("Заглавието трябва да е под 100 символа", 2);
-    //   return;
-    // }
-    // if (folderToSubmit.folder_description.length > 1000) {
-    //   showToast("Описанието трябва да е под 1000 символа", 3);
-    //   return;
-    // }
+    if (
+      typeof folderToSubmit.folder_title === "undefined" ||
+      (typeof folderToSubmit !== "undefined" &&
+        folderToSubmit.folder_title.length === 0)
+    ) {
+      showToast("Оп, май пропусна заглавие", 1);
+      return;
+    }
+
+    if (folderToSubmit.folder_title.length > 100) {
+      showToast("Заглавието трябва да е под 100 символа", 2);
+      return;
+    }
+    if (
+      (folderToSubmit.folder_description !== null ||
+        typeof folderToSubmit.folder_description !== "undefined") &&
+      folderToSubmit.folder_description.length > 1000
+    ) {
+      showToast("Описанието трябва да е под 1000 символа", 3);
+      return;
+    }
 
     instance
       .put(`/folders/${id}`, folderToSubmit)
       .then(() => {
         showToast("Добре дошъл в новата си папка", 4);
-        // navigate("/app/folder/" + id);
+        navigate("/app/folder/" + id);
       })
       .catch(() => {
         showToast("Възникна грешка", 5);
@@ -274,7 +275,11 @@ export const EditFolder = (props) => {
                   handleChangeFolder("folder_description", e.target.value)
                 }
                 placeholder="Описание"
-                value={currentFolder?.folder_description}
+                value={
+                  currentFolder?.folder_description
+                    ? currentFolder?.folder_description
+                    : undefined
+                }
               />
             </div>
             {/* //category and subcategory */}
@@ -289,6 +294,7 @@ export const EditFolder = (props) => {
                 <option value="">Без категория</option>
                 {allCategories?.categories.map((category) => (
                   <option
+                    key={category.category_id}
                     value={category.category_id}
                     selected={
                       currentFolder?.category_id === category.category_id
@@ -305,6 +311,7 @@ export const EditFolder = (props) => {
                 <option value="">Без подкатегория</option>
                 {Subcategories?.subcategories.map((subcategory) => (
                   <option
+                    key={subcategory.subcategory_id}
                     value={subcategory.subcategory_id}
                     selected={
                       currentFolder?.subcategory_id ===
@@ -344,7 +351,7 @@ export const EditFolder = (props) => {
             </div>
           )}
 
-          {shownMySets.length >= 1 && <h1>Мой тестета</h1>}
+          {shownMySets.length >= 1 && <h1>Мои тестета</h1>}
           <div className="sets-wrapper">
             {shownMySets.map((set) => (
               <SelectSet

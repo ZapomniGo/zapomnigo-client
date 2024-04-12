@@ -28,10 +28,6 @@ export const CreateFolder = (props) => {
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedSubcategory, setSelectedSubcategory] = useState();
 
-  // useEffect(() => {
-  //   console.log(selectedSubcategory);
-  // }, [selectedSubcategory]);
-
   //getting the token from main and checking if its null
   useEffect(() => {
     if (props.token === null) {
@@ -50,7 +46,7 @@ export const CreateFolder = (props) => {
   //funcs for fetching sets
   const fetchMySets = async () => {
     const res = await instance.get(
-      `/users/${props.token.sub}/sets?page=${currentPageMySetsRef.current}&size=2&sort_by_date=true&ascending=false`
+      `/users/${props.token.sub}/sets?page=${currentPageMySetsRef.current}&size=12&sort_by_date=true&ascending=false`
     );
     setTotalMySetsPages(res.data.total_pages);
     return res.data;
@@ -58,16 +54,11 @@ export const CreateFolder = (props) => {
 
   const fetchAllSets = async () => {
     const res = await instance.get(
-      `/sets?page=${currentPageAllSetsRef.current}&size=2&sort_by_date=true&ascending=false&exclude_user_sets=true`
+      `/sets?page=${currentPageAllSetsRef.current}&size=12&sort_by_date=true&ascending=false&exclude_user_sets=true`
     );
     setTotalAllSetsPages(res.data.total_pages);
     return res.data;
   };
-
-  // const fetchSelectedSets = async () => {
-  //   const res = await instance.get(`/folders/${id}?page=1&size=2000`);
-  //   return res.data;
-  // };
 
   const fetchCategories = async () => {
     const res = await instance.get("/categories");
@@ -76,7 +67,6 @@ export const CreateFolder = (props) => {
 
   const fetchSubcategories = async () => {
     if (selectedCategory) {
-      console.log(selectedCategory);
       const res = await instance.get(
         `/categories/${selectedCategory}/subcategories`
       );
@@ -223,7 +213,7 @@ export const CreateFolder = (props) => {
       category_id: selectedCategory,
       sets: selectedSetsIds,
     };
-    //fix input validation
+
     if (
       typeof folderToSubmit.folder_title === "undefined" ||
       (typeof folderToSubmit !== "undefined" &&
@@ -293,6 +283,7 @@ export const CreateFolder = (props) => {
                 <option value="">Без категория</option>
                 {allCategories?.categories.map((category) => (
                   <option
+                    key={category.category_id}
                     value={category.category_id}
                     selected={
                       currentFolder?.category_id === category.category_id
@@ -309,6 +300,7 @@ export const CreateFolder = (props) => {
                 <option value="">Без подкатегория</option>
                 {Subcategories?.subcategories.map((subcategory) => (
                   <option
+                    key={subcategory.subcategory_id}
                     value={subcategory.subcategory_id}
                     selected={
                       currentFolder?.subcategory_id ===
@@ -348,7 +340,7 @@ export const CreateFolder = (props) => {
             </div>
           )}
 
-          {shownMySets.length >= 1 && <h1>Мой тестета</h1>}
+          {shownMySets.length >= 1 && <h1>Мои тестета</h1>}
           <div className="sets-wrapper">
             {shownMySets.map((set) => (
               <SelectSet
