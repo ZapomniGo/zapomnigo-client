@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { jwtDecode } from "jwt-decode";
 import {
   homeRoute,
   registerRoute,
@@ -62,6 +63,7 @@ import { useState } from "react";
 
 export const App = () => {
   const [searchValue, setSearchValue] = useState("");
+  // const [token, setToken] = useState<string | null>(null);
 
   // Parent component
   const handleSearchValue = (value: string) => {
@@ -75,6 +77,40 @@ export const App = () => {
       }
     }
   };
+
+  // const handleToken = (token: string) => {
+  //   setToken(token);
+  // };
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("access_token");
+  //   setToken(token || null);
+
+  //   if (token) {
+  //     const decodedToken: { username: string; institution: string } =
+  //       jwtDecode(token);
+  //     setToken(decodedToken);
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log(token);
+  // }, [token]);
+  const getToken = () => {
+    const token = localStorage.getItem("access_token");
+
+    if (token) {
+      const decodedToken: { username: string; institution: string } =
+        jwtDecode(token);
+      return decodedToken;
+    }
+
+    return null;
+  };
+
+  // ...
+
+  const token = getToken();
 
   const queryClient = new QueryClient();
   const router = createBrowserRouter([
@@ -181,7 +217,7 @@ export const App = () => {
         },
         {
           path: folderCreate,
-          element: <CreateFolder />,
+          element: <CreateFolder token={token} />,
         },
         {
           path: folderView,
@@ -198,7 +234,7 @@ export const App = () => {
 
         {
           path: folderEdit,
-          element: <EditFolder />,
+          element: <EditFolder token={token} />,
         },
         {
           path: manual,
