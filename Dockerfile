@@ -19,8 +19,8 @@ COPY ./data/certs/zapomnigo.crt /etc/nginx/certs/zapomnigo.crt
 COPY ./data/certs/zapomnigo.key /etc/nginx/certs/zapomnigo.key
 COPY ./data/certs/www.zapomnigo.crt /etc/nginx/certs/www.zapomnigo.crt
 COPY ./data/certs/www.zapomnigo.key /etc/nginx/certs/www.zapomnigo.key
-COPY ./data/certs/www.zapomnigo.crt /etc/nginx/certs/app.zapomnigo.crt
-COPY ./data/certs/www.zapomnigo.key /etc/nginx/certs/app.zapomnigo.key
+COPY ./data/certs/app.zapomnigo.crt /etc/nginx/certs/app.zapomnigo.crt
+COPY ./data/certs/app.zapomnigo.key /etc/nginx/certs/app.zapomnigo.key
 COPY health_check.sh /health_check.sh
 
 EXPOSE 80 443
