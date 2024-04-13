@@ -233,20 +233,18 @@ export const EditFolder = (props) => {
       showToast("Заглавието трябва да е под 100 символа", 2);
       return;
     }
-    if (
-      (folderToSubmit.folder_description !== null ||
-        typeof folderToSubmit.folder_description !== "undefined") &&
-      folderToSubmit.folder_description.length > 1000
-    ) {
-      showToast("Описанието трябва да е под 1000 символа", 3);
-      return;
+    if (folderToSubmit.folder_description !== null) {
+      if (folderToSubmit.folder_description.length > 1000) {
+        showToast("Описанието трябва да е под 1000 символа", 3);
+        return;
+      }
     }
 
     instance
       .put(`/folders/${id}`, folderToSubmit)
       .then(() => {
         showToast("Добре дошъл в новата си папка", 4);
-        navigate("/app/folder/" + id);
+        // navigate("/app/folder/" + id);
       })
       .catch(() => {
         showToast("Възникна грешка", 5);

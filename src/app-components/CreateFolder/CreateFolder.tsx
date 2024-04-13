@@ -237,9 +237,9 @@ export const CreateFolder = (props) => {
 
     instance
       .post(`/folders`, folderToSubmit)
-      .then(() => {
+      .then((response) => {
         showToast("Добре дошъл в новата си папка", 4);
-        navigate("/app/folder/" + id);
+        navigate("/app/folder/" + response.data.folder_id);
       })
       .catch(() => {
         showToast("Възникна грешка", 5);
@@ -251,7 +251,7 @@ export const CreateFolder = (props) => {
       <div></div>
       <div className="create-set-wrapper">
         <div className="create-set">
-          <h1>Редактирай папка</h1>
+          <h1>Създай папка</h1>
           <input
             type="text"
             value={currentFolder?.folder_title}
@@ -334,7 +334,7 @@ export const CreateFolder = (props) => {
               ))}
               {filteredSelectedSets.length >= 1 && (
                 <div className="submition">
-                  <button onClick={handleSubmitFolder}>Редактирай папка</button>
+                  <button onClick={handleSubmitFolder}>Създай папка</button>
                 </div>
               )}
             </div>
