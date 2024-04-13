@@ -244,7 +244,7 @@ export const EditFolder = (props) => {
       .put(`/folders/${id}`, folderToSubmit)
       .then(() => {
         showToast("Добре дошъл в новата си папка", 4);
-        // navigate("/app/folder/" + id);
+        navigate("/app/folder/" + id);
       })
       .catch(() => {
         showToast("Възникна грешка", 5);
