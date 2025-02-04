@@ -1,4 +1,4 @@
-Component directories are be contained here. Project structure should be as follow:
+Component directories are contained here. Project structure should be as follow:
 
 SomeComponent-dir
 
