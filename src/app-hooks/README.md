@@ -1,1 +1,1 @@
-# This will include the custom app hooks (if any)
+This includes custom app hooks (if any)
